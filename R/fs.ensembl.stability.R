@@ -1,7 +1,69 @@
 
-##################################
-### Ensemble Feature Selection ###
-##################################
+#' @title Ensemble Classification & Feature Selection
+#' @description Applies ensembles of models to high-dimensional data to both classify and determine important
+#' features for classification.  The function bootstraps a user-specified number of times to facilitate
+#' stability metrics of features selected thereby providing an important metric for biomarker investigations,
+#' namely whether the important variables can be identified if the models are refit on 'different' data.
+#' @param X A matrix containing numeric values of each feature
+#' @param Y A factor vector containing group membership of samples
+#' @param method A vector listing models to be fit
+#' @param k Number of bootstrapped interations
+#' @param p Percent of data to by 'trained'
+#' @param f Number of features desired.  Default is top 10% 
+#' \code{"f = ceiling(ncol(variables)/10)"}.
+#' If rank correlation is desired, set \code{"f = NULL"}
+#' @param bags Number of iterations for ensemble bagging.  Default \code{"bags = 40"}
+#' @param aggregation.metric String indicating which aggregation metric for features selected during bagging.
+#' #' Avialable options are \code{"CLA"} (Complete Linear),
+#'  \code{"EM"} (Ensemble Mean), \code{"ES"} (Ensemble Stability), and
+#'  \code{"EE"} (Ensemble Exponential)
+#' @param stability.metric string indicating the type of stability metric.
+#' Avialable options are \code{"jaccard"} (Jaccard Index/Tanimoto Distance),
+#'  \code{"sorensen"} (Dice-Sorensen's Index), \code{"ochiai"} (Ochiai's Index),
+#'  \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"} (Kuncheva's Stability Measures),
+#'  \code{"spearman"} (Spearman Rank Correlation), and \code{"canberra"} (Canberra Distance)
+#' @param optimize Logical argument determining if each model should be optimized.
+#' Default \code{"optimize = TRUE"}
+#' @param optimize.resample Logical argument determining if each resample should be re-optimized.
+#' Default \code{"optimize.resample = FALSE"} - Only one optimization run, subsequent models use initially
+#' determined parameters
+#' @param tuning.grid Optional list of grids containing parameters to optimize for each algorithm.  
+#' Default \code{"tuning.grid = NULL"} lets function create grid determined by \code{"res"}
+#' @param k.folds Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}
+#' @param repeats Number of times cross-validation repeated.  Default \code{"repeats = 3"}
+#' @param res Optional - Resolution of model optimization grid.  Default \code{"res = 3"}
+#' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
+#' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
+#' @param model.features Logical argument if should have number of features selected to be determined
+#' by the individual model runs.  Default \code{"model.features = FALSE"}
+#' @param verbose Logical argument if should output progress
+#'
+#' @return \item{Methods}{Vector of models fit to data}
+#' @return \item{performance}{Performance metrics of each model and bootstrap iteration}
+#' @return \item{features}{List concerning features determined via each algorithms feature selection criteria.}
+#' @return \itemize{
+#'  \item{metric: Stability metric applied}
+#'  \item{features: Matrix of selected features}
+#'  \item{stability: Matrix of pairwise comparions and average stability}
+#'  }
+#' @return \item{stability.models}{Function perturbation metric - i.e. how similar are the features selected
+#' by each model.}
+#' @return \item{all.tunes}{If \code{"optimize.resample = TRUE"} then returns list of 
+#' optimized parameters for each bagging and bootstrap interation.}
+#' @return \item{final.best.tunes}{If \code{"optimize.resample = TRUE"} then returns list of
+#' optimized parameters for each bootstrap of the bagged models refit to aggregated selected features.}
+#' @return \item{specs}{List with the
+#' following elements:}
+#' @return \itemize{
+#'  \item{total.samples: Number of samples in original dataset}
+#'  \item{number.features: Number of features in orginal dataset}
+#'  \item{number.groups: Number of groups}
+#'  \item{group.levels: The specific levels of the groups}
+#'  \item{number.observations.group: Number of observations in each group}}
+#' @author Charles Determan Jr
+#' @references Saeys, Y., Abeel, T. & Van de Peer, Y. "Machine Learning and Knowledge 
+#' Discovery in Databases" (Daelemans, W., Goethals, B. & Morik, K.) 313–325 
+#' (Springer Berlin Heidelberg, 2008). at <http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21>
 
 fs.ensembl.stability <- 
   function(variables,                          # scaled matrix or dataframe of explanatory variables
@@ -330,14 +392,13 @@ fs.ensembl.stability <-
                  number.observations.group=num.obs.group)
     
     ## add remainder of data
-    overall <- structure(list(methods = method,                      # algorithms run
-                              performance = performance,
-                              features = results.stability,          # list of each algorithms results
-                              stability.models = stability.models,   # stability amongst algorithms
-                              all.tunes = bagged.tunes,              # if optimize.resample returns the best tunes for each iteration
-                              final.best.tunes = if(optimize.resample) all.model.perfs else NULL,   # if optimize.resample, provide parameter with performance statistics
-                              specs = specs                          # general specs of the input data
-    ),
-                         class = "ensemble.stability")
+    overall <- list(methods = method,                      # algorithms run
+                    performance = performance,
+                    features = results.stability,          # list of each algorithms results
+                    stability.models = stability.models,   # stability amongst algorithms
+                    all.tunes = bagged.tunes,              # if optimize.resample returns the best tunes for each iteration
+                    final.best.tunes = if(optimize.resample) all.model.perfs else NULL,   # if optimize.resample, provide parameter with performance statistics
+                    specs = specs                          # general specs of the input data
+    )
     return(overall)
 }

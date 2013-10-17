@@ -81,8 +81,8 @@
   \item{performance}{Performance metrics of each model and
   bootstrap iteration}
 
-  \item{features}{Features determined via each algorithms
-  feature selection criteria.}
+  \item{features}{List concerning features determined via
+  each algorithms feature selection criteria.}
 
   \itemize{ \item{metric: Stability metric applied}
   \item{features: Matrix of selected features}
