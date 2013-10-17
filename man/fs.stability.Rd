@@ -1,0 +1,133 @@
+\name{fs.stability}
+\alias{fs.stability}
+\title{Classification & Feature Selection}
+\usage{
+  fs.stability(X, Y, method, k = 10, p = 0.9,
+    f = ceiling(ncol(variables)/10),
+    stability.metric = "jaccard", optimize = TRUE,
+    optimize.resample = FALSE, tuning.grid = NULL,
+    k.folds = if (optimize) 10 else NULL,
+    repeats = if (optimize) 3 else NULL,
+    resolution = if (optimize) 3 else NULL,
+    metric = "Accuracy", model.features = FALSE,
+    verbose = FALSE, ...)
+}
+\arguments{
+  \item{X}{A matrix containing numeric values of each
+  feature}
+
+  \item{Y}{A factor vector containing group membership of
+  samples}
+
+  \item{method}{A vector listing models to be fit}
+
+  \item{k}{Number of bootstrapped interations}
+
+  \item{p}{Percent of data to by 'trained'}
+
+  \item{f}{Number of features desired.  Default is top 10%
+  \code{"f = ceiling(ncol(variables)/10)"}. If rank
+  correlation is desired, set \code{"f = NULL"}}
+
+  \item{stability.metric}{string indicating the type of
+  stability metric. Avialable options are \code{"jaccard"}
+  (Jaccard Index/Tanimoto Distance), \code{"sorensen"}
+  (Dice-Sorensen's Index), \code{"ochiai"} (Ochiai's
+  Index), \code{"pof"} (Percent of Overlapping Features),
+  \code{"kuncheva"} (Kuncheva's Stability Measures),
+  \code{"spearman"} (Spearman Rank Correlation), and
+  \code{"canberra"} (Canberra Distance)}
+
+  \item{optimize}{Logical argument determining if each
+  model should be optimized. Default \code{"optimize =
+  TRUE"}}
+
+  \item{optimize.resample}{Logical argument determining if
+  each resample should be re-optimized. Default
+  \code{"optimize.resample = FALSE"} - Only one
+  optimization run, subsequent models use initially
+  determined parameters}
+
+  \item{tuning.grid}{Optional list of grids containing
+  parameters to optimize for each algorithm. Default
+  \code{"tuning.grid = NULL"} lets function create grid
+  determined by \code{"res"}}
+
+  \item{k.folds}{Number of folds generated during
+  cross-validation.  Default \code{"k.folds = 10"}}
+
+  \item{repeats}{Number of times cross-validation repeated.
+  Default \code{"repeats = 3"}}
+
+  \item{res}{Optional - Resolution of model optimization
+  grid.  Default \code{"res = 3"}}
+
+  \item{metric}{Criteria for model optimization.  Available
+  options are \code{"Accuracy"} (Predication Accuracy),
+  \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"}
+  (Area Under the Curve - Receiver Operator Curve)}
+
+  \item{model.features}{Logical argument if should have
+  number of features selected to be determined by the
+  individual model runs.  Default \code{"model.features =
+  FALSE"}}
+
+  \item{verbose}{Logical argument if should output
+  progress}
+}
+\value{
+  \item{Methods}{Vector of models fit to data}
+
+  \item{performance}{Performance metrics of each model and
+  bootstrap iteration}
+
+  \item{features}{Features determined via each algorithms
+  feature selection criteria.}
+
+  \itemize{ \item{metric: Stability metric applied}
+  \item{features: Matrix of selected features}
+  \item{stability: Matrix of pairwise comparions and
+  average stability} }
+
+  \item{stability.models}{Function perturbation metric -
+  i.e. how similar are the features selected by each
+  model.}
+
+  \item{original.best.tunes}{If \code{"optimize.resample =
+  TRUE"} then returns list of optimized parameters for each
+  bootstrap.}
+
+  \item{final.best.tunes}{If \code{"optimize.resample =
+  TRUE"} then returns list of optimized parameters for each
+  bootstrap of models refit to selected features.}
+
+  \item{specs}{List with the following elements:}
+
+  \itemize{ \item{total.samples: Number of samples in
+  original dataset} \item{number.features: Number of
+  features in orginal dataset} \item{number.groups: Number
+  of groups} \item{group.levels: The specific levels of the
+  groups} \item{number.observations.group: Number of
+  observations in each group}}
+}
+\description{
+  Applies models to high-dimensional data to both classify
+  and determine important features for classification.  The
+  function bootstraps a user-specified number of times to
+  facilitate stability metrics of features selected thereby
+  providing an important metric for biomarker
+  investigations, namely whether the important variables
+  can be identified if the models are refit on 'different'
+  data.
+}
+\author{
+  Charles Determan Jr
+}
+\references{
+  Saeys, Y., Abeel, T. & Van de Peer, Y. "Machine Learning
+  and Knowledge Discovery in Databases" (Daelemans, W.,
+  Goethals, B. & Morik, K.) 313–325 (Springer Berlin
+  Heidelberg, 2008). at
+  <http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21>
+}
+

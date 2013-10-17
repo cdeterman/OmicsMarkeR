@@ -1,0 +1,126 @@
+
+# Function to provide directions for which parameters to loop over during tuning
+
+tune.instructions <- function(method, grid)
+{
+  modelInfo <- params(method)
+  
+  ### Not Necessary?!?!?!?
+  ## a little hack here to change when this goes into production:
+  #if(all(is.na(grid)) & !is.null(grid$.parameter)) grid <- data.frame(.parameter = "none")
+  
+  ## In a very similar fashion to the caret package, some models have parameters where 
+  ## several different models can be derived from one R object. For example, in plsDA models 
+  ## you can fit a model with 15 components and get predictions for any mode with <= 15 components 
+  ## from the same object.
+  
+  ## if we don't have any of these types of parameters we can use a typical looping strategy
+  ## i.e. scheme = "basic"
+  
+  for(i in 1:length(modelInfo)){
+    if(!any(modelInfo[[i]]$full)){
+      modelInfo[[i]] <- 
+        list( 
+          scheme = "basic",
+          loop = grid[[i]], 
+          seqParam = NULL, 
+          model = modelInfo[[i]], 
+          constant = names(grid[[i]]), 
+          vary = NULL)
+    }
+  }
+  
+  for(i in 1:length(grid)){
+    if(any(modelInfo[[i]]$full)){
+      paramVary <- unlist(lapply(grid[[i]], function(u) length(unique(u)) > 1))
+      paramVary <- data.frame(
+        parameter = substring(names(paramVary), 2),
+        column = names(paramVary),
+        varies = paramVary)
+      
+      modelInfo[[i]] <- merge(modelInfo[[i]], paramVary)
+      modelInfo[[i]]$varyingSeq <- modelInfo[[i]]$varies & modelInfo[[i]]$full
+      
+      scheme <- if(any(modelInfo[[i]]$varyingSeq)) "full" else "basic" 
+      
+      if(scheme == "full")
+      {
+        constant <- as.character(modelInfo[[i]]$column)[!modelInfo[[i]]$varyingSeq]
+        vary <- as.character(modelInfo[[i]]$column)[modelInfo[[i]]$varyingSeq] 
+        
+        ## The data frame loop is the combination(s) of tuning parameters that we will
+        ## be looping over. For each combination in loop, the list seqParam will provide the
+        ## value(s) of the sequential parameter that should be evaluated for the same R model
+        ## object      
+        #mode(grid[[1]][, 1])
+        
+        switch(tolower(method[[i]]),
+               plsda = 
+                 {
+                   grid[[i]] <- grid[[i]][order(grid[[i]]$.ncomp, decreasing = TRUE),, drop = FALSE]
+                   loop <- grid[[i]][1,,drop = FALSE]
+                   seqParam <- list(grid[[i]][-1,,drop = FALSE])
+                 },
+               gbm =
+                 { 
+                   loop <- aggregate(
+                     grid[[i]]$.n.trees, 
+                     list(
+                       .interaction.depth = grid[[i]]$.interaction.depth, 
+                       .shrinkage = grid[[i]]$.shrinkage), max)
+                   #loop
+                   #loop <- decoerce(loop, grid[[i]], TRUE)                 
+                   #loop
+                   names(loop)[3] <- ".n.trees"
+                   seqParam <- vector(mode = "list", length = nrow(loop))
+                   for(k in seq(along = loop$.n.trees))
+                   {
+                     index <- which(
+                       grid[[i]]$.interaction.depth == loop$.interaction.depth[k] & 
+                         grid[[i]]$.shrinkage == loop$.shrinkage[k])
+                     subTrees <- grid[[i]][index, ".n.trees"] 
+                     seqParam[[k]] <- data.frame(.n.trees = subTrees[subTrees != loop$.n.trees[k]])
+                   }         
+                 },
+               pam = 
+                 {
+                   grid[[i]] <- grid[[i]][order(grid[[i]]$.threshold, decreasing = TRUE),, drop = FALSE]
+                   loop <- grid[[i]][1,,drop = FALSE]
+                   seqParam <- list(grid[[i]][-1,,drop = FALSE])
+                 },
+               glmnet =
+                 {  
+                   uniqueAlpha <- unique(grid[[i]]$.alpha)
+                   
+                   loop <- data.frame(.alpha = uniqueAlpha)
+                   loop$.lambda <- NA
+                   
+                   seqParam <- vector(mode = "list", length = length(uniqueAlpha))
+                   
+                   for(k in seq(along = uniqueAlpha))
+                   {
+                     seqParam[[k]] <- data.frame(.lambda = subset(grid[[i]], subset = .alpha == uniqueAlpha[k])$.lambda)
+                   } 
+                 }
+        )
+        
+        modelInfo[[i]] <- list(scheme = "full", 
+                               loop = loop, 
+                               seqParam = seqParam, 
+                               model = modelInfo[[i]], 
+                               constant = constant, 
+                               vary = vary)
+      } else {
+        modelInfo[[i]] <- list(scheme = "basic", 
+                               loop = grid[[i]], 
+                               seqParam = NULL, 
+                               model = modelInfo[[i]], 
+                               constant = names(grid[[i]]), 
+                               vary = NULL)
+      }
+    }else{
+      next
+    }
+  }
+  modelInfo
+}

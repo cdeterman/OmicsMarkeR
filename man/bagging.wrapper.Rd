@@ -1,0 +1,88 @@
+\name{bagging.wrapper}
+\alias{bagging.wrapper}
+\title{Bagging Wrapper for Ensemble Features Selection}
+\usage{
+  bagging.wrapper(X, Y, method, bags, f,
+    aggregation.metric, k.folds, repeats, res, tuning.grid,
+    optimize, optimize.resample, metric, model.features,
+    verbose, theDots)
+}
+\arguments{
+  \item{X}{A matrix containing numeric values of each
+  feature}
+
+  \item{Y}{A factor vector containing group membership of
+  samples}
+
+  \item{method}{A vector listing models to be fit}
+
+  \item{bags}{Number of bags to be run}
+
+  \item{f}{Number of features desired}
+
+  \item{aggregation.metric}{string indicating the type of
+  ensemble aggregation. Avialable options are \code{"CLA"}
+  (Complete Linear), \code{"EM"} (Ensemble Mean),
+  \code{"ES"} (Ensemble Stability), and \code{"EE"}
+  (Ensemble Exponential)}
+
+  \item{k.folds}{Number of folds generated during
+  cross-validation}
+
+  \item{repeats}{Number of times cross-validation repeated}
+
+  \item{res}{Optional - Resolution of model optimization
+  grid}
+
+  \item{tuning.grid}{Optional list of grids containing
+  parameters to optimize for each algorithm. Default
+  \code{"tuning.grid = NULL"} lets function create grid
+  determined by \code{"res"}}
+
+  \item{optimize}{Logical argument determining if each
+  model should be optimized. Default \code{"optimize =
+  TRUE"}}
+
+  \item{optimize.resample}{Logical argument determining if
+  each resample should be re-optimized. Default
+  \code{"optimize.resample = FALSE"} - Only one
+  optimization run, subsequent models use initially
+  determined parameters}
+
+  \item{metric}{Criteria for model optimization.  Available
+  options are \code{"Accuracy"} (Predication Accuracy),
+  \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"}
+  (Area Under the Curve - Receiver Operator Curve)}
+
+  \item{model.features}{Logical argument if should have
+  number of features selected to be determined by the
+  individual model runs.  Default \code{"model.features =
+  FALSE"}}
+
+  \item{verbose}{Logical argument if should output
+  progress}
+
+  \item{theDots}{Optional arguments provided for specific
+  models or user defined parameters if \code{"optimize =
+  FALSE"}.}
+}
+\value{
+  \item{results}{List with the following elements:}
+
+  \itemize{ \item{Methods: Vector of models fit to data}
+  \item{ensemble.results: List of length = length(method)
+  containing aggregated features} \item{Number.bags: Number
+  of bagging iterations} \item{Agg.metric: Aggregation
+  method applied} \item{Number.features: Number of
+  user-defined features}}
+
+  \item{bestTunes}{If \code{"optimize.resample = TRUE"}
+  then returns list of best parameters for each iteration}
+}
+\description{
+  Compiles results of ensemble feature selection
+}
+\author{
+  Charles Determan Jr
+}
+

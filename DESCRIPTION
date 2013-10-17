@@ -1,0 +1,36 @@
+Package: BiomarkeR
+Title: Classification and Feature Selection for 'Omics' Datasets
+Description: Tools for classification and feature selection for 'omics' datasets
+Version: 0.1
+Authors: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
+Maintainer: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
+Depends:
+    R (>= 3.0.2)
+Imports:
+    caret(>= 5.17.7),
+    plyr(>= 1.8),
+    tcltk(>= 3.0.2)
+License: # getOptions('devtools.desc.license')
+LazyData: true
+Collate:
+    'bagging.wrapper.v2.R'
+    'denovo.grid.R.R'
+    'extract.features.v2.R'
+    'fs.ensembl.stability.R'
+    'fs.stability.v2.R'
+    'misc.R'
+    'modelparams.R'
+    'modelTuner.R'
+    'my_plsDA.R'
+    'my_tdc.R'
+    'plsDA.R'
+    'predicting.R'
+    'prediction.metrics.R'
+    'sequester.R'
+    'training.R'
+    'tune.instructions.R'
+    'tune.R'
+    'verify.R'
+    'aggregation.R'
+    'stability.R'
+    'svm.functions.R'
