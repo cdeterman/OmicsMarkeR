@@ -1,3 +1,17 @@
+#' @title Feature Extraction
+#' @description Extracts features from models that have been previously fit.
+#' @param x Previously fitted model
+#' @param dat Numeric variable data used for fitted models (In appropriate format)
+#' @param method String indicating the INDIVIDUAL model being extracted from
+#' @param model.features Logical argument dictating if features selected determined by models instead of
+#' user determined number of features.
+#' @param bestTune If \code{model.features = TRUE}, must provide the parameter at which to extract
+#' features from the model.
+#' @param comp.catch An internal check for plsda models.  If the optimal model contains only 1 component,
+#' the ncomp paramter must be set to 2 for the model.  However, features are still extracted only from the first component.
+#' @return Returns list of the features selected from the fitted model.
+#' @export
+
 extract.features <-
   function(x,                       # fitted model
            dat = NULL,              # training variable data or pam format

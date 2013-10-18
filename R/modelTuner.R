@@ -1,65 +1,30 @@
-# createModel
-# predictionFunction
 
-getOper <- function(x) if(x)  `%dopar%` else  `%do%`
+#' @title Model Tuner
+#' @description Optimizes each model based upon the parameters provided either by the internal \code{\link{denovo.grid}}
+#' function or by the user.
+#' @param trainData Data used to fit the model
+#' @param guide Output from \code{\link{tune.instructions}}.  Facilitates the optimization by avoiding redundant model fitting.
+#' @param inTrain Indicies for cross-validated training models
+#' @param outTrain Indicies for cross-validated testing models
+#' @param lev Group levels
+#' @param savePredictions Logical argument dictating if should save the prediction data.  Default \code{savePredictions = FALSE}
+#' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package
+#' @param theDots List of additional arguments provided in the initial classification and features selection function
+#' @return Returns list of fitted models
 
-progress <- function(x, names, iter, start = TRUE)
-{
-  text <- paste(ifelse(start, "+ ", "- "),
-                names[iter], ": ",
-                paste(colnames(x), x, sep = "=", collapse = ", "),
-                sep = "")
-  cat(text, "\n")
-}
-
-
-MeanSD <- function(x, exclude = NULL)
-{
-  if(!is.null(exclude)) x <- x[, !(colnames(x) %in% exclude), drop = FALSE]
-  out <- c(colMeans(x, na.rm = TRUE), sapply(x, sd, na.rm = TRUE))
-  names(out)[-(1:ncol(x))] <- paste(names(out)[-(1:ncol(x))], "SD", sep = "")
-  out
-}
-
-# is there another/better way to do this function?
-combineParameters <- function(fixed, full)
-{
-  if(is.null(seq)) return(fixed)
-  
-  isFull <- names(fixed) %in% names(full)
-  out <- fixed
-  for(i in 1:nrow(full))
-  {
-    tmp <- fixed
-    tmp[,isFull] <- full[i,]
-    out <- rbind(out, tmp)
-  }
-  out
-}
-
-#verboseIter <- FALSE
-#verbose <- FALSE
-
-#method <- c("plsda", "gbm")
-#grid <- denovo.grid(trainData, method, res = 3)
-#guide <- tune.instructions(method, grid)
-
-
-#nominalTrainWorkflow <- function(dat, info, method, ppOpts, ctrl, lev, testing = FALSE, ...)
 modelTuner <- function(trainData,   # training subset data
                        guide,       # dataframe with parameter values
                        method,      # which algorithm running
                        inTrain,     # indicies for training models
                        outTrain,    # indicies for testing fitted models
                        lev, 
-                       savePredications = FALSE,
+                       savePredictions = FALSE,
                        allowParallel = FALSE,
                        verbose = FALSE,
                        theDots = NULL
-                       #...
                        )
 {
-  suppressPackageStartupMessages(require(foreach))
+  suppressPackageStartupMessages(library(foreach))
   #library(caret)
   #loadNamespace("caret")
   
@@ -93,9 +58,7 @@ modelTuner <- function(trainData,   # training subset data
       #      .verbose = FALSE, 
        #     .packages = c("methods", "caret"), 
         #    .errorhandling = "stop")  %op%
-  #  algo = 1
-  #iter = 1
-  #parms = 1
+
   tmp.list <- foreach(algo = seq(along = method),
           .combine = "c",
           .verbose = FALSE,
@@ -111,36 +74,25 @@ modelTuner <- function(trainData,   # training subset data
                 .verbose = FALSE, 
                 .errorhandling = "stop")  %op%
         {        
-          ## Remove '.' from start of each parameter
+          ## Removes '.' from start of each parameter
           ## create 'printed' for verbose printing
           printed <- format(guide[[algo]]$loop, digits = 4)
           colnames(printed) <- gsub("^\\.", "", colnames(printed))
           
           # show progress through interations
-          if(verbose) progress(printed[parms,,drop = FALSE],
+          if(verbose) caret:::progress(printed[parms,,drop = FALSE],
                                names(inTrain), iter)
-          
-          # modelIndex <- resampleIndex[[iter]]
-          #length(inTrain[[1]])
-          #length(outTrain[[1]])
-          
           index <- inTrain[[iter]]
-          #holdoutIndex <- ctrl$indexOut[[iter]]
           outIndex <- outTrain[[iter]]
-          
-          #if(testing) cat("pre-model\n")
           
           # create models
           if(tolower(method[algo]) != "plsda"){
             mod <- try(
-              #caret:::createModel
-              # remember to put ... back in when finished
               training(data = trainData[index,,drop = FALSE ],
                        method = method[algo],
                        tuneValue = guide[[algo]]$loop[parms,,drop = FALSE],
                        obsLevels = lev,
                        theDots = theDots
-                       #...
                        ),
               silent = TRUE)
             
@@ -187,15 +139,8 @@ modelTuner <- function(trainData,   # training subset data
                     cv ="none",
                     retain.model=TRUE)$classification,
               silent = TRUE)
-            
-            #length(index)
-            #length(outIndex)
-            
+             
             predicted <- lapply(predicted, as.character)
-            #print(dim(trainX))
-            #print(length(trainY))
-            #print(length(index))
-            #print(length(outIndex))
             
             # what should do if DiscriMiner:::plsDA fails?
             if(class(predicted[1]) == "try-error"){
@@ -203,20 +148,12 @@ modelTuner <- function(trainData,   # training subset data
             }
           }
           
-          
-          #if(testing) print(head(predicted))
-          
-          ##################################
-          #guide <- tune.guide
-          #parms <- 1:nrow(guide[[1]]$loop)
-          
           # If the model was built with parameters that 'submodels' can be extracted
           # this section will combine them together
           if(!is.null(guide[[algo]]$seq))
           {
             ## merge the fixed and seq parameter values together
-            #caret:::expandParameters(guide[[1]]$loop[parms,,drop = FALSE], guide[[1]]$seqParam[[parms]]))
-            allParam <- combineParameters(guide[[algo]]$loop[parms,,drop = FALSE], guide[[algo]]$seqParam[[parms]])
+            allParam <- caret:::expandParameters(guide[[algo]]$loop[parms,,drop = FALSE], guide[[algo]]$seqParam[[parms]])
             
             ## For glmnet, we fit all the lambdas but x$fixed has an NA
             if(method[algo] == "glmnet") allParam <- allParam[complete.cases(allParam),, drop = FALSE]
@@ -231,38 +168,18 @@ modelTuner <- function(trainData,   # training subset data
                                 y = trainData$.classes[outIndex],
                                 lv = lev)
             
-            #factor(as.character(predicted[[1]]), levels = lev)
-            #predicted[[1]]
-            
-            ## if should save the predictions???
-            #if(ctrl$savePredictions)
-            #{
-            #  tmpPred <- predicted
-            #  for(modIndex in seq(along = tmpPred))
-            #  {
-            #    tmpPred[[modIndex]]$rowIndex <- holdoutIndex
-            #    tmpPred[[modIndex]] <- cbind(tmpPred[[modIndex]], allParam[modIndex,,drop = FALSE])
-            #  }
-            #  tmpPred <- rbind.fill(tmpPred)
-            #  tmpPred$Resample <- names(resampleIndex)[iter]
-            #} else tmpPred <- NULL
-            
-            #data <- predicted[[1]]
-            #perf.calc(predicted[[1]], lev = lev, model = "pam")
-            
             ## get the performance for this resample for each sub-model
             perf.metrics <- lapply(predicted,
                                    perf.calc,
                                    lev = lev,
                                    model = method[algo])
-            #if(testing) print(head(thisResample))
             
             ## for classification, add the cell counts
             require(plyr)
             if(length(lev) > 1)
             {
               cells <- lapply(predicted,
-                              function(x) conf.matrix(x$pred, x$obs))
+                              function(x) caret:::flatTable(x$pred, x$obs))
               for(ind in seq(along = cells)){
                 perf.metrics[[ind]] <- c(perf.metrics[[ind]], cells[[ind]])
               } 
@@ -308,9 +225,8 @@ modelTuner <- function(trainData,   # training subset data
           perf.metrics$sampleIndex <- names(inTrain)[iter]
           
           # was verboseIter
-          if(verbose) progress(printed[parms,,drop = FALSE],
-                                   names(inTrain), iter, FALSE)
-          #list(resamples = perf.metrics, pred = tmpPred)
+          if(verbose) caret:::progress(printed[parms,,drop = FALSE],
+                                       names(inTrain), iter, FALSE)
           list(tunes=perf.metrics)
         }
       
@@ -334,20 +250,9 @@ modelTuner <- function(trainData,   # training subset data
       ## caret:::MeanSD
       metrics <- ddply(tunes[,!grepl("^cell|sampleIndex", colnames(tunes)),drop = FALSE],
                        guide[[algo]]$model$parameter,
-                       MeanSD, exclude = guide[[algo]]$model$parameter)
+                       caret:::MeanSD, exclude = guide[[algo]]$model$parameter)
       
       print(paste(method[algo], "complete"))
-
-      #list(performance = out, tunes = tunes, predictions = if(savePredictions) pred else NULL)
-      
-      ### Attempts at getting foreach loop to create nice list output of all models
-      #if(algo == 1){
-      #  out <- vector("list", length(method))
-      #  names(out) <- method
-      #  out[[1]] <- list(performance = metrics, tunes = tunes)
-      #}else{
-      #  out[[algo]] <- list(performance = metrics, tunes=tunes)
-      #}
       
       out <- list(performance = metrics, tunes = tunes)
       out
@@ -371,6 +276,6 @@ modelTuner <- function(trainData,   # training subset data
   }
   
   out
-# end of modeltuner function
-}
+} # end of modeltuner function
+
 

@@ -1,0 +1,19 @@
+\name{spearman}
+\alias{spearman}
+\title{Spearman Rank Correlation Coefficient}
+\usage{
+  spearman(x, y)
+}
+\arguments{
+  \item{x}{numeric vector of ranks}
+
+  \item{y}{numeric vector of ranks with compatible length
+  to x}
+}
+\value{
+  Returns the spearman rank coefficient for the two vectors
+}
+\description{
+  Calculates spearman rank correlation between two vectors
+}
+

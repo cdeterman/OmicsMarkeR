@@ -2,17 +2,6 @@
 ### Tuning Algorithms ###
 #########################
 
-### Optimization - draw much from caret
-# 1. parameters to be optimized
-# 2. Workflow for repeatedcv analysis of each parameter for each model
-# 3. Function to select the best parameters
-# 4. Return parameters and build optimized model
-
-
-# only one optimization run for PLSDA (no loop), RF, GBM (some looping not needed), PAM, glmnet
-# SVM will need repeated optimization
-
-
 ## Shortcomings of caret
 # No stability metrics!!!
 #   W/in or b/w algorithms
@@ -20,16 +9,6 @@
 # Relatively involved, somewhat steep learning curve
 # No 'formal' paper!!!
 
-## Parameters that don't require loops
-# PLSDA - ncomps
-# GBM - n.trees
-
-## Parameters that need loops
-# GBM - interaction.depth???, shrinkage
-# glmnet - alpha, lambda
-# RF - mtry
-# PAM - threshold
-# SVM - C
 
 tune <- function(
   trainVars,                        # variables from initial subset in fs.stability or ensemble.fs.stability
@@ -44,26 +23,19 @@ tune <- function(
   verbose = FALSE,
   theDots = NULL)
 {
-  # for(i in 1:length(method)){
-    # loop through each method
-  #}
   classLevels <- levels(trainGroup)
-  #classLevels <- levels(subgroup)
   nr <- nrow(trainVars)
   
   # for repeated cross-validation
   # creates a list of samples used for models
-  #inTrain <- vector("list", repeats*k.folds)
   repeat.index <- paste("Rep", seq(repeats), sep = "")
   for(j in 1:repeats){
-    #tmp <- kfolds(k=k.folds, total.samples=nr)
     tmp <- createFolds(trainGroup, k = k.folds, list = TRUE, returnTrain = TRUE)
     names(tmp) <- paste("Fold",
                         gsub(" ", "0", format(seq(tmp))),
                         ".",
                         repeat.index[j],
                         sep = "")
-    #inTrain[[j]] <- tmp
     if(j == 1){
       inTrain <- tmp
       }else{
@@ -105,10 +77,6 @@ tune <- function(
   names(perfNames) <- method
   
   # tune each model  
-  #verbose = TRUE
-  #options(error = NULL)
-  
-  # remember to put ... back at the end of function when done
   tmp <- modelTuner(trainData = trainData, 
                     guide = tune.guide, 
                     method = method,
@@ -119,9 +87,6 @@ tune <- function(
                     allowParallel = FALSE,
                     theDots = theDots)
 
-  #print("success")
-  #performance <- tmp$performance
-  #resampleResults <- tmp$resample
   performance <- vector("list", length(method))
   tune.results <- vector("list", length(method))
   for(i in seq(along = method)){
@@ -129,17 +94,12 @@ tune <- function(
     tune.results[[i]] <- tmp[[i]]$tunes
   }
   
-  #performance <- sapply(tmp, "[[", 1)
-  #tune.results <- sapply(tmp, "[[", 2)
-  
-  ## TODO we used to give resampled results for LOO
   tune.cm <- vector("list", length(method))
   for(i in seq(along = tune.results)){
     if(length(grep("^\\cell", colnames(tune.results[[i]]))) > 0)
     {
       tune.cm[[i]] <- tune.results[[i]][, !(names(tune.results[[i]]) %in% perfNames[[i]])]
       tune.results[[i]] <- tune.results[[i]][, -grep("^\\cell", colnames(tune.results[[i]]))]
-      #colnames(resampledCM) <- gsub("^\\.", "", colnames(resampledCM))
     } else tune.cm <- NULL
     if(!is.null(tune.cm)){
       names(tune.cm) <- method
@@ -147,7 +107,6 @@ tune <- function(
   }
     
   # all possible parameter names
-  #paramNames <- trainInfo$model$param
   paramNames <- levels(tune.guide[[1]]$model$parameter)
   
   #if(trControl$verboseIter)
@@ -156,12 +115,7 @@ tune <- function(
     cat("Aggregating results\n")
     flush.console()
   }
-  
-  #perfCols <- names(performance)
-  #perfCols <- perfCols[!(perfCols %in% paramNames)]
-  
-  #mapply(rep, list(times=1), list(x=4))
-  
+    
   perfCols <- sapply(performance, names)
   perfCols <- lapply(perfCols, paramNames, FUN = function(x,y) x[!(x %in% y)])
   
@@ -268,19 +222,6 @@ tune <- function(
     flush.console()
   }
   
-  ## Make the final models based on their respective tuning results  
-  
-  #finalModel <- createModel(data = trainData, 
-  #                            method = method, 
-  #                            tuneValue = bestTune, 
-  #                            obsLevels = classLevels,
-  #                            pp = ppOpt,
-  #                            last = TRUE,
-  #                            custom = trControl$custom$model,
-  #                            classProbs = trControl$classProbs,
-  #                            ...)
-  #print(bestTune)
-  
   # a check for plsda models - if ncomp = 1 we need to retain it to use later during feature selection as a warning
   if(any(method == "plsda")){
     catch <- which(method == "plsda")
@@ -315,34 +256,25 @@ tune <- function(
   #times <- list(everything = endTime - startTime,
   #              final = finalTime)
   
-  out <- structure(
-    list(
-      methods = method,
-      #modelType = modelType,
-      performance = performance,
-      #pred = tmp$predictions,
-      bestTune = bestTune,
-      #dots = list(...),
-      dots = theDots,
-      metric = metric,
-      finalModels = finalModel,
-      #trainingData = outData,
-      #resample = perfMetrics,
-      performance.metrics = perfMetrics,
-      tune.metrics = tune.cm,
-      perfNames = perfNames,
-      yLimits = if(is.numeric(trainGroup)) range(trainGroup) else NULL,
-      comp.catch = plsda.comp.catch
-      #times = times - if want time took for tuning
-    ), 
-    class = "train")
-  
-  #if(trControl$timingSamps > 0)
-  #{
-  #  pData <- lapply(x, function(x, n) sample(x, n, replace = TRUE), n = trControl$timingSamps)
-  #  pData <- as.data.frame(pData)
-  #  out$times$prediction <- system.time(predict(out, pData))
-  #} else  out$times$prediction <- rep(NA, 3)
+  out <-list(
+    methods = method,
+    #modelType = modelType,
+    performance = performance,
+    #pred = tmp$predictions,
+    bestTune = bestTune,
+    #dots = list(...),
+    dots = theDots,
+    metric = metric,
+    finalModels = finalModel,
+    #trainingData = outData,
+    #resample = perfMetrics,
+    performance.metrics = perfMetrics,
+    tune.metrics = tune.cm,
+    perfNames = perfNames,
+    yLimits = if(is.numeric(trainGroup)) range(trainGroup) else NULL,
+    comp.catch = plsda.comp.catch
+    #times = times - if want time took for tuning
+  )
   
   out  
 }

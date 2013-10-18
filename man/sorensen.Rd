@@ -1,0 +1,46 @@
+\name{sorensen}
+\alias{sorensen}
+\title{Dice-Sorensen's Index}
+\usage{
+  sorensen(x, y)
+}
+\arguments{
+  \item{x}{vector of feature names}
+
+  \item{y}{vector of feature names}
+}
+\value{
+  Returns the Dice-Sorensen's Index for the two vectors. It
+  takes values in [0,1], with 0 meaning no overlap between
+  two sets and 1 meaning two sets are identical.
+}
+\description{
+  Calculates Dice-Sorensen's index between two vectors of
+  features.  In brief, the closer to 1 the more similar the
+  vectors.  The two vectors may have an arbitrary
+  cardinality (i.e. don't need same length).  Very similar
+  to the Jaccard Index \code{\link{jaccard}} but
+  Dice-Sorensen is the harmonic mean of the ratio.
+}
+\references{
+  Sorensen T. (1957) \emph{A method of establishing roups
+  of equal amplitude in plant sociology based on similarity
+  of species and its application to analyses of the
+  vegetation on Danish commons}. Kongelige Danske
+  Videnskabernes Selskab. 5(4): 1-34.
+
+  Dice, Lee R. (1945) \emph{Measures of the Amount of
+  Ecologic Association Between Species}. Ecology 26 (3):
+  297-302. doi:10.2307/1932409
+
+  He. Z. & Weichuan Y. (2010) \emph{Stable feature
+  selection for biomarker discovery}. Computational Biology
+  and Chemistry 34 215-225.
+}
+\seealso{
+  \code{\link{kuncheva}}, \code{\link{sorensen}},
+  \code{\link{ochiai}}, \code{\link{pof}},
+  \code{\link{pairwise.stability}},
+  \code{\link{pairwise.model.stability}}
+}
+

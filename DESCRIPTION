@@ -34,3 +34,4 @@ Collate:
     'aggregation.R'
     'stability.R'
     'svm.functions.R'
+    'performance.R'

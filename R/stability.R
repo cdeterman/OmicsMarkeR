@@ -3,7 +3,13 @@
 ### Stability/Similarity Measures ###
 #####################################
 
-# Spearman Rank Correlation Coefficient
+#' @title Spearman Rank Correlation Coefficient
+#' @description Calculates spearman rank correlation between two vectors
+#' @param x numeric vector of ranks
+#' @param y numeric vector of ranks with compatible length to x
+#' @return Returns the spearman rank coefficient for the two vectors
+#' @export
+
 spearman <- function(x,y){
   x <- as.vector(as.numeric(as.character(x)))
   y <- as.vector(as.numeric(as.character(y)))
@@ -16,17 +22,49 @@ spearman <- function(x,y){
   return(out)
 }
   
-## Canberra Distance
-# formula from He 2010 (MR2) Jurman 2008
-# higher value = greater distance apart (i.e. less similar)
+#' @title Canberra Distance
+#' @description Calculates canberra distance between two vectors.  In brief, 
+#' the higher the canberra distance the greater the 'distance' between the 
+#' two vectors (i.e. they are less similar).
+#' @param x numeric vector of ranks
+#' @param y numeric vector of ranks with compatible length to x
+#' @return Returns the canberra distance for the two vectors
+#' @references Jurman G., Merler S., Barla A., Paoli S., Galea A., & Furlanello C.
+#' (2008) \emph{Algebraic stability indicators for ranked lists in molecular
+#' profiling}. Bioinformatics 24(2): 258-264.
+#' 
+#' He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
+#' Computational Biology and Chemistry 34 215-225.
+#' @export
+
 canberra <- function(x,y){
   x <- as.vector(as.numeric(as.character(x)))
   y <- as.vector(as.numeric(as.character(y)))
-  sum(abs(x-y)/(x+y))
+  out <- sum(abs(x-y)/(x+y))
+  out
 }
 
-## Jaccard Index
-# formula in He 2010 (MS2) 
+#' @title Jaccard Index
+#' @description Calculates jaccard index between two vectors of features.  In brief, 
+#' the closer to 1 the more similar the vectors.  The two vectors may have
+#' an arbitrary cardinality (i.e. don't need same length).  Also known as 
+#' the Tanimoto distance metric.  Defined as the size of the vectors' intersection
+#' divided by the size of the union of the vectors.
+#' @param x vector of feature names
+#' @param y vector of feature names
+#' @return Returns the jaccard index for the two vectors. It takes values in [0,1], 
+#' with 0 meaning no overlap between two sets and 1 meaning two sets are identical.
+#' @references Jaccard P. (1908) \emph{Nouvelles recherches sur la distribution florale}. 
+#' Bull. Soc. Vaudoise Sci. Nat. 44: 223-270.
+#' 
+#' Real R. & Vargas J.M. (1996) \emph{The Probabilistic Basis of Jaccard's Index of Similarity}
+#' Systematic Biology 45(3): 380-385.
+#' 
+#' He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
+#' Computational Biology and Chemistry 34 215-225.
+#' @seealso \code{\link{kuncheva}}, \code{\link{sorensen}}, \code{\link{ochiai}},
+#' \code{\link{pof}}, \code{\link{pairwise.stability}}, \code{\link{pairwise.model.stability}}
+#' @export
 jaccard <- function(x,y){
   x <- as.vector(x)
   y <- as.vector(y)
@@ -34,8 +72,30 @@ jaccard <- function(x,y){
   return(index)
 }
 
-## Dice-Sorensen's Index
-# formula from He 2010 (MS3)
+#' @title Dice-Sorensen's Index
+#' @description Calculates Dice-Sorensen's index between two vectors of features.  In brief, 
+#' the closer to 1 the more similar the vectors.  The two vectors may have
+#' an arbitrary cardinality (i.e. don't need same length).  Very similar to the
+#' Jaccard Index \code{\link{jaccard}} but Dice-Sorensen is the harmonic mean of
+#' the ratio.
+#' @param x vector of feature names
+#' @param y vector of feature names
+#' @return Returns the Dice-Sorensen's Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
+#' between two sets and 1 meaning two sets are identical.
+#' @references Sorensen T. (1957) \emph{A method of establishing roups of equal amplitude
+#' in plant sociology based on similarity of species and its application to analyses of
+#' the vegetation on Danish commons}. 
+#' Kongelige Danske Videnskabernes Selskab. 5(4): 1-34.
+#' 
+#' Dice, Lee R. (1945) \emph{Measures of the Amount of Ecologic Association
+#' Between Species}. Ecology 26 (3): 297-302. doi:10.2307/1932409
+#' 
+#' He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
+#' Computational Biology and Chemistry 34 215-225.
+#' @seealso \code{\link{kuncheva}}, \code{\link{sorensen}}, \code{\link{ochiai}},
+#' \code{\link{pof}}, \code{\link{pairwise.stability}}, \code{\link{pairwise.model.stability}}
+#' @export
+
 sorensen <- function(x,y){
   x <- as.vector(x)
   y <- as.vector(y)
@@ -43,8 +103,30 @@ sorensen <- function(x,y){
   return(index)
 }
 
-## Ochiai's Index
-# formula from He 2010 (MS4)
+#' @title Ochiai's Index
+#' @description Calculates Ochiai's index between two vectors of features.  In brief, 
+#' the closer to 1 the more similar the vectors.  The two vectors may have
+#' an arbitrary cardinality (i.e. don't need same length).  Very similar to the
+#' Jaccard Index \code{\link{jaccard}} but Ochiai is a geometric means of the
+#' ratio.  
+#' @param x vector of feature names
+#' @param y vector of feature names
+#' @return Returns the Ochiai Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
+#' between two sets and 1 meaning two sets are identical.
+#' @references Ochiai A. (1957) \emph{Zoogeographical studies on the soleoid 
+#' fishes found in Japan and its neigbouring regions}. 
+#' Bulletin of the Japanese Society of Scientific Fisheries. 22: 526-530.
+#' 
+#' Zucknick M., Richardson S., & Stronach E.A. (2008) \emph{Comparing the characteristics of gene expression 
+#' profiles derived by univariate and multivariate classification methods}. 
+#' Statistical Applications in Genetics and Molecular Biology. 7(1): Article 7. doi:10.2202/1544-6115.1307
+#' 
+#' He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
+#' Computational Biology and Chemistry 34 215-225.
+#' @seealso \code{\link{kuncheva}}, \code{\link{sorensen}}, \code{\link{ochiai}},
+#' \code{\link{pof}}, \code{\link{pairwise.stability}}, \code{\link{pairwise.model.stability}}
+#' @export
+
 ochiai <- function(x,y){
   x <- as.vector(x)
   y <- as.vector(y)
@@ -52,8 +134,24 @@ ochiai <- function(x,y){
   return(index)
 }
 
-## Percentage overlapping features
-# formula from He 2010 (MS5)
+#' @title Percentage of Overlapping Features
+#' @description Calculates percent of overlapping features between two vectors of features.  In brief, 
+#' the closer to 1 the more similar the vectors.  The two vectors may have
+#' an arbitrary cardinality (i.e. don't need same length).
+#' @param x vector of feature names
+#' @param y vector of feature names
+#' @return Returns the percent of overlapping features for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
+#' between two sets and 1 meaning two sets are identical.
+#' @references Shi L., et al. (2005) \emph{Cross-platform comparability of microarray
+#' technology: intra-platform consistency and appropriate data analysis procedures are essential}. 
+#' BMC Bioinformatics. 6 (Suppl. 2) S12.
+
+#' He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
+#' Computational Biology and Chemistry 34 215-225.
+#' @seealso \code{\link{kuncheva}}, \code{\link{sorensen}}, \code{\link{ochiai}},
+#' \code{\link{pof}}, \code{\link{pairwise.stability}}, \code{\link{pairwise.model.stability}}
+#' @export
+
 pof <- function(x,y){
   x <- as.vector(x)
   y <- as.vector(y)
@@ -61,18 +159,34 @@ pof <- function(x,y){
   return(index)
 }
 
-## Kuncheva Index
-# formula from He 2010 (MS7)
-# better description in Han 2012 - formula used below
-# m/N = total number of features
-# s/c = length of features - assumes equal length of x and y
-# r = number of common elements in both signatures
-# (r*N - s^2)/s*(N-s)
+#' @title Kuncheva's Index
+#' @description Calculates Kuncheva's index between two vectors of features.  In brief, 
+#' the closer to 1 the more similar the vectors.  The two vectors must have the same 
+#' cardinality (i.e. same length).
+#' @param x vector of feature names
+#' @param y vector of feature names
+#' @return Returns the Kuncheva Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
+#' between two sets and 1 meaning two sets are identical.
+#' @references Kuncheva L. (2007) \emph{A stability index for feature selection}. 
+#' Proceedings of the 25th IASTED International Multi-Conference: Artificial Intelligence and 
+#' Applications. pp. 390-395.
+#' 
+#' He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
+#' Computational Biology and Chemistry 34 215-225.
+#' @seealso \code{\link{kuncheva}}, \code{\link{sorensen}}, \code{\link{ochiai}},
+#' \code{\link{pof}}, \code{\link{pairwise.stability}}, \code{\link{pairwise.model.stability}}
+#' @export
+
 kuncheva <- function(x,             # list of features in first run
                      y,             # list of features in second run
                      num.features   # total number of features in entire dataset
                      )
   {
+  # m/N = total number of features
+  # s/c = length of features - assumes equal length of x and y
+  # r = number of common elements in both signatures
+  # (r*N - s^2)/s*(N-s)
+  
   x <- as.vector(x)
   y <- as.vector(y)
   if(length(x) != length(y)){
@@ -176,12 +290,8 @@ pairwise.model.stability <-
     
     a <- vector("list", k)
     b <- vector("list", k)
-    
-    # Retest this with fs.stability()
     for(i in 1:(m-1)){
       for(g in 1:k){
-        #a[[g]] <- features[[i]]$features.selected[,g]
-        #b[[g]] <- features[[i+1]]$features.selected[,g]
         a[[g]] <- features[[i]][,g]
         b[[g]] <- features[[i+1]][,g]
       }

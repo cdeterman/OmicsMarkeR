@@ -6,7 +6,11 @@
 #' namely whether the important variables can be identified if the models are refit on 'different' data.
 #' @param X A matrix containing numeric values of each feature
 #' @param Y A factor vector containing group membership of samples
-#' @param method A vector listing models to be fit
+#' @param method A vector listing models to be fit.
+#' Available options are \code{"plsda"} (Partial Least Squares Discriminant Analysis),
+#'  \code{"rf"} (Random Forest), \code{"gbm"} (Gradient Boosting Machine),
+#'  \code{"svm"} (Support Vector Machines), \code{"glmnet"} (Elastic-net Generalized Linear Model),
+#'  and \code{"pam"} (Prediction Analysis of Microarrays)
 #' @param k Number of bootstrapped interations
 #' @param p Percent of data to by 'trained'
 #' @param f Number of features desired.  Default is top 10% 
@@ -64,6 +68,7 @@
 #' @references Saeys, Y., Abeel, T. & Van de Peer, Y. "Machine Learning and Knowledge 
 #' Discovery in Databases" (Daelemans, W., Goethals, B. & Morik, K.) 313–325 
 #' (Springer Berlin Heidelberg, 2008). at <http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21>
+#' @export
 
 fs.ensembl.stability <- 
   function(variables,                          # scaled matrix or dataframe of explanatory variables

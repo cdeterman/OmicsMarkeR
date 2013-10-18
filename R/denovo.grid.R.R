@@ -1,4 +1,63 @@
-### create grids
+
+#' @title Denovo Grid Generation
+#' @description Greates grid for optimizing selected models
+#' 
+#' @param data data of method to be tuned
+#' @param method vector indicating the models to generate grids.
+#' Available options are \code{"plsda"} (Partial Least Squares Discriminant Analysis),
+#'  \code{"rf"} (Random Forest), \code{"gbm"} (Gradient Boosting Machine),
+#'  \code{"svm"} (Support Vector Machines), \code{"glmnet"} (Elastic-net Generalized Linear Model),
+#'  and \code{"pam"} (Prediction Analysis of Microarrays)
+#' @param res Resolution of model optimization grid.
+#' @return A list containing dataframes of all combinations of parameters for each model:
+#' @author Charles Determan Jr
+#' @seealso \code{"expand.grid"} for generating grids of specific parameters desired.  However,
+#' NOTE that you must still convert the generated grid to a list.
+
+denovo.grid <- function(data,       # training data of method being tuned
+                        method,     # which algorithm to create grid
+                        res         # resolution (i.e. how many/fine divisions of parameters)
+                        
+)
+{
+  for(i in 1:length(method)){
+    algo <- tolower(method[i])
+    tmp <- switch(algo,
+                  # .ncomp doesn't need to be looped, can access any lesser components that max
+                  plsda = expand.grid(
+                    .ncomp = seq(1,res)),
+                  
+                  # alpha always tuned
+                  # lambda tuning depends on user decision
+                  #   if defined number of features (f), cannot be tuned
+                  #   if doing full rank correlations (i.e. f = nc), cannot be tuned
+                  #   if letting glmnet decide optimal features, then tune
+                  glmnet = expand.grid(
+                    .alpha = seq(0.1, 1, length = res),
+                    .lambda = seq(.1, 3, length = 3 * res)),
+                  
+                  # n.trees doesn't need to be looped because can access any prior number from max
+                  # modified .shrinkage from just '.1' to sequence of values
+                  gbm = expand.grid(
+                    .interaction.depth = seq(1, res),
+                    .n.trees = floor((1:res) * 50),
+                    .shrinkage = c(.1/seq(res))),
+                  
+                  rf = rfTune(data, res),
+                  
+                  pam = pamTune(data, res),
+                  
+                  svm = data.frame(.C = 2 ^((1:res) - 3)))
+    
+    if(i == 1){
+      out <- list(tmp)
+    }else{
+      out <- append(out, list(tmp))
+    }
+  }
+  names(out) <- tolower(method)
+  out
+}
 
 rfTune <- function(
   data,    # training data subset
@@ -52,50 +111,4 @@ pamTune <- function(data,   # training data subset
   ## pamr.train prints out cv iterations without a line break
   #cat("\n")         
   threshSeq
-}
-
-# original caret function createGrid.R
-denovo.grid <- function(data,       # training data of method being tuned
-                        method,     # which algorithm to create grid
-                        res         # resolution (i.e. how many/fine divisions of parameters)
-                        
-)
-{
-  for(i in 1:length(method)){
-    algo <- tolower(method[i])
-    tmp <- switch(algo,
-                  # .ncomp doesn't need to be looped, can access any lesser components that max
-                  plsda = expand.grid(
-                    .ncomp = seq(1,res)),
-                  
-                  # alpha always tuned
-                  # lambda tuning depends on user decision
-                  #   if defined number of features (f), cannot be tuned
-                  #   if doing full rank correlations (i.e. f = nc), cannot be tuned
-                  #   if letting glmnet decide optimal features, then tune
-                  glmnet = expand.grid(
-                    .alpha = seq(0.1, 1, length = res),
-                    .lambda = seq(.1, 3, length = 3 * res)),
-                  
-                  # n.trees doesn't need to be looped because can access any prior number from max
-                  # modified .shrinkage from just '.1' to sequence of values
-                  gbm = expand.grid(
-                    .interaction.depth = seq(1, res),
-                    .n.trees = floor((1:res) * 50),
-                    .shrinkage = c(.1/seq(res))),
-                  
-                  rf = rfTune(data, res),
-                  
-                  pam = pamTune(data, res),
-                  
-                  svm = data.frame(.C = 2 ^((1:res) - 3)))
-    
-    if(i == 1){
-      out <- list(tmp)
-    }else{
-      out <- append(out, list(tmp))
-    }
-  }
-  names(out) <- tolower(method)
-  out
 }

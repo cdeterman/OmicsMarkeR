@@ -1,0 +1,45 @@
+\name{jaccard}
+\alias{jaccard}
+\title{Jaccard Index}
+\usage{
+  jaccard(x, y)
+}
+\arguments{
+  \item{x}{vector of feature names}
+
+  \item{y}{vector of feature names}
+}
+\value{
+  Returns the jaccard index for the two vectors. It takes
+  values in [0,1], with 0 meaning no overlap between two
+  sets and 1 meaning two sets are identical.
+}
+\description{
+  Calculates jaccard index between two vectors of features.
+  In brief, the closer to 1 the more similar the vectors.
+  The two vectors may have an arbitrary cardinality (i.e.
+  don't need same length).  Also known as the Tanimoto
+  distance metric.  Defined as the size of the vectors'
+  intersection divided by the size of the union of the
+  vectors.
+}
+\references{
+  Jaccard P. (1908) \emph{Nouvelles recherches sur la
+  distribution florale}. Bull. Soc. Vaudoise Sci. Nat. 44:
+  223-270.
+
+  Real R. & Vargas J.M. (1996) \emph{The Probabilistic
+  Basis of Jaccard's Index of Similarity} Systematic
+  Biology 45(3): 380-385.
+
+  He. Z. & Weichuan Y. (2010) \emph{Stable feature
+  selection for biomarker discovery}. Computational Biology
+  and Chemistry 34 215-225.
+}
+\seealso{
+  \code{\link{kuncheva}}, \code{\link{sorensen}},
+  \code{\link{ochiai}}, \code{\link{pof}},
+  \code{\link{pairwise.stability}},
+  \code{\link{pairwise.model.stability}}
+}
+

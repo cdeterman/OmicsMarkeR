@@ -20,7 +20,13 @@
   \item{Y}{A factor vector containing group membership of
   samples}
 
-  \item{method}{A vector listing models to be fit}
+  \item{method}{A vector listing models to be fit.
+  Available options are \code{"plsda"} (Partial Least
+  Squares Discriminant Analysis), \code{"rf"} (Random
+  Forest), \code{"gbm"} (Gradient Boosting Machine),
+  \code{"svm"} (Support Vector Machines), \code{"glmnet"}
+  (Elastic-net Generalized Linear Model), and \code{"pam"}
+  (Prediction Analysis of Microarrays)}
 
   \item{k}{Number of bootstrapped interations}
 
