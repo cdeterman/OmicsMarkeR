@@ -1,3 +1,15 @@
+
+#' @title Model Group Prediction
+#' @description This function evaluates a single fitted model and returns the predicted group memberships.
+#' @param method String of the model to be evaluated
+#' @param modelFit The fitted model being evaluated
+#' @param orig.data The orginal data before subsetting training sets.  Required to have the 'observed' group membership
+#' @param indicies The indicies for the training subsets
+#' @param newdata The testing data to predict group membership
+#' @param param The parameters being fit to the model (Determined by model optimization).
+#' @return Returns a list of predicted group membership
+
+
 predicting <- function(method, modelFit, orig.data, indicies, newdata, param = NULL)
 {
   if(any(colnames(newdata) == ".classes")) newdata$.classes <- NULL
@@ -6,17 +18,10 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
     as.data.frame(lapply(x, as.character), stringsAsFactors = FALSE)
   }  
   
-  #if(!is.null(preProc)) newdata <- predict(preProc, newdata)
-  
-  predictedValue <- switch(tolower(method),
-                           ### plsda removed because DiscriMiner fits model and prediction simultaneously
-                           
+  predictedValue <- switch(tolower(method),                           
                            plsda =
                            {
                              # require(DiscriMiner)
-                             # retain.models omitted because when this is used, the final model is only using the best component
-                             # may switch to retain all models but this omits more processing that is likely superfluous
-                             
                              # check for number of components provided.  This is important following selection of the best model
                              if(param$.ncomp == 1){
                                warning("PLSDA model contained only 1 component. PLSDA requires at least 2 components.\nModel fit with 2 components")
@@ -26,11 +31,9 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                              tmp <- plsDA(orig.data[,-which(names(orig.data) %in% c(".classes"))], 
                                           orig.data[,c(".classes")],
                                           autosel=F,
-                                          #learn = orig.data[,-which(names(orig.data) %in% c(".classes"))][inTrain,, drop = F],
                                           learn = indicies,
                                           test = seq(nrow(orig.data))[-unique(indicies)],
                                           validation = "learntest",
-                                          #comps = 2,
                                           comps = param$.ncomp,
                                           cv ="none",
                                           retain.model = TRUE)$classification
@@ -86,7 +89,6 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                              require(randomForest)
                              out <-  as.character(predict(modelFit, newdata))
                              out
-                             #print(out)
                            },
                            
                            svm =                           

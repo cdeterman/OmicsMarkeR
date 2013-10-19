@@ -147,15 +147,15 @@ fs.stability <-
       resample.tunes <- NULL
     }
 
-    #i <- 1
+    inTrain <- rlply(k, sample(nr, round(p*nr)))
+    outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
+                       total = seq(nr))
+    
     # loop through k bootstraps for stability metrics
-    for(i in seq(k)){    
-      inTrain <- sample(nr, round(p*(nr)))
-      outTrain <- seq(nr)[-unique(inTrain)]
-      
-      trainVars <- X[inTrain,, drop=F]
+    for(i in seq(k)){          
+      trainVars <- X[inTrain[[i]],, drop=F]
       trainVars.list[[i]] <- trainVars
-      trainGroup <- Y[inTrain, drop=F]
+      trainGroup <- Y[inTrain[[i]], drop=F]
       trainGroup.list[[i]] <- trainGroup
       
       trainData <- as.data.frame(trainVars)

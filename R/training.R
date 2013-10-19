@@ -1,53 +1,50 @@
+
+#' @title Model Training
+#' @description This fits each model with the defined parameters
+#' @param data Dataframe consisting of both numeric feature values and a single column
+#' named '.classes' to denoted group membership.
+#' @param method String dictating which model to fit
+#' @param tuneValue List of parameters to be applied to the specific model
+#' @param obsLevels Observed group levels
+#' @param theDots List of additional parameters to be applied to the specific model
+#' @return \item{fit}{Fitted model with list with the following elements:}
+#' @return \itemize{
+#'  \item{xNames: Names of the features}
+#'  \item{tuneValue: Parameters applied to the fitted model}
+#'  \item{obsLevels: Observed levels of the groups}}
+#' @author Charles Determan Jr
+
 training <-
   function(data, method, tuneValue, obsLevels, theDots = NULL)
     {
     
-    #function(variables, classes, method, tuneValue, obsLevels, pp = NULL, last = FALSE, custom = NULL, classProbs, ...)
     data <- as.data.frame(data)
 
-  # make sure '.classes' is set as factor
-    
-  ## pam and will crash if there is a resample with <2 observations
-  ## in a class. We will detect this and remove those classes.
-  if(method == "pam")
+    ## pam and will crash if there is a resample with <2 observations
+    ## in a class. We will detect this and remove those classes.
+    if(method == "pam")
     {
       yDist <- table(data$.classes)
       if(any(yDist < 2))
-        {
-          smallClasses <- names(yDist[yDist < 2])
-          data <- data[!(data$.classes %in% smallClasses),]
-        }
+      {
+        smallClasses <- names(yDist[yDist < 2])
+        data <- data[!(data$.classes %in% smallClasses),]
+      }
     }
-
-  ## the outcome data better be a factor!!!
-  #type <- if(is.factor(data$.outcome)) "Classification"
-  
-  ## We refactor the class labels. Some methods bark/crash when there are
-  ## factor levels that do not have values represented in the data (nnet produces
-  ## a warning and randomForest throws an error). 
-  #if(type == "Classification") data$.outcome <- factor(as.character(data$.outcome), levels = obsLevels)
-  data$.classes <- factor(as.character(data$.classes), levels = obsLevels)
-
-  xNames <- names(data)[!(names(data) %in% ".classes")]
-  
-  ## Later, when we assign predictions, we will convert predictions to 
-  ## character and then create factors from them with levels originally
-  ## found in the object obsLevels.
-
-  trainX <- data[,!(names(data) %in% ".classes"), drop = FALSE]
-  trainY <- data[,".classes"]
-  
-  if(tolower(method) == "gbm" & length(obsLevels) == 2)  numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
-  
-  #numClasses <- ifelse(trainData$.classes == obsLevels[1], 1, 0)
-  
+    
+    ## Factor the class labels
+    data$.classes <- factor(as.character(data$.classes), levels = obsLevels)
+    xNames <- names(data)[!(names(data) %in% ".classes")]
+    
+    trainX <- data[,!(names(data) %in% ".classes"), drop = FALSE]
+    trainY <- data[,".classes"]
+    
+    if(tolower(method) == "gbm" & length(obsLevels) == 2)  numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
+    
   modelFit <- switch(tolower(method),
-                     
-                     ### DiscriMiner:::plsDA fits model and predictions simultaneously
-                     # it is skipped during training but used during final model fitting
                      plsda =
                        {
-                         #require(DiscriMiner)
+                         #library(DiscriMiner)
                          # retain.models omitted because when this is used, the final model is only using the best component
                          # may switch to retain all models but this omits more processing that is likely superfluous
                          
@@ -66,29 +63,13 @@ training <-
                        },
                      gbm =  
                      {
-                       require(gbm)
-                       ## train will figure out whether we are doing classification or reggression
-                       ## from the class of the outcome and automatically specify the value of
-                       ## 'distribution' in the control file. If the user wants to over-ride this,
-                       ## this next bit will allow this.
-                       
-                       
+                       library(gbm)
                        # need to make sure only extract arguments that pertain to gbm
                        gbm.args <- c("w", "var.monotone", "n.minobsinnode", 
                                      "bag.fraction", "var.names", "response.name", "group") 
                        theDots <- theDots[names(theDots) %in% gbm.args]
                        
-                       #theDots <- list(...)
-                       #if(any(names(theDots) == "distribution"))
-                         #{
-                         #  modDist <- theDots$distribution
-                          # theDots$distribution <- NULL
-                         #} else #{
-                        #   if(type == "Regression")
-                         #    {
-                          #     modDist <- "gaussian"
-                           #  } else modDist <- if(length(obsLevels) == 2)  "bernoulli" else "multinomial"
-                         #}
+                       # determine if binary or multiclass
                        gbmdist <- if(length(unique(trainY)) == 2){
                          "bernoulli"}else{
                            "multinomial"
@@ -99,15 +80,12 @@ training <-
                        
                        if(gbmdist != "multinomial"){
                          modY <- numClasses
-                         #gbm.dat <- data.frame(trainX, modY)
                        }else{
                          modY <- trainY
-                         #gbm.dat <- data.frame(trainX, modY)
                        }
                        
                        modArgs <- list(x = trainX,
                                        y = modY,
-                                       #data = gbm.dat,
                                        interaction.depth = tuneValue$.interaction.depth,
                                        n.trees = tuneValue$.n.trees,
                                        shrinkage = tuneValue$.shrinkage, 
@@ -122,7 +100,7 @@ training <-
                      
                      rf =
                      {
-                       require(randomForest)
+                       library(randomForest)
                        
                        rf.args <- c("maxnodes", "keep.forest", "keep.inbag")
                        theDots <- theDots[names(theDots) %in% rf.args]
@@ -137,24 +115,14 @@ training <-
                        if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
                        
                        do.call("randomForest", modArgs)
-                       
-                      # randomForest(trainX, 
-                      #              trainY, 
-                      #              mtry = tuneValue$.mtry, 
-                      #              ntree=round.multiple(sqrt(ncol(trainX))),
-                      #              ...)
                      },                  
                     
-                     # SVM will have it's tuining internal
-                     # Therefore it should be removed from this loop???
-                     # Is this feasible or should it just be initially optimized?
                      svm =   
                        { 
-                         require(e1071)
+                         library(e1071)
                          out <- svm(trainX, 
                                     trainY,
-                                    cost = 10,
-                                    #cost = tuneValue$.C, 
+                                    cost = tuneValue$.C, 
                                     cachesize=500,
                                     scale=F, 
                                     type="C-classification", 
@@ -164,7 +132,7 @@ training <-
   
                      pam = 
                      {
-                       require(pamr)    
+                       library(pamr)    
                        
                        pamr.args <- c("n.threshold", "threshold.scale", "scale.sd", "se.scale")
                        theDots <- theDots[names(theDots) %in% pamr.args]
@@ -176,11 +144,6 @@ training <-
                        if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
                        
                        do.call("pamr.train", modArgs)
-                       
-                      # out <- pamr.train(list(x = t(trainX), y = trainY),
-                      #                   threshold = tuneValue$.threshold, 
-                      #                   ...)
-                      # out
                      },         
                       
                      # need to address glmnet still
@@ -218,29 +181,10 @@ training <-
                        out 
                      }
                      )
-  
-  
-  ##save a few items so we have a self contained set of information in the model. this will
-  ## also carry over to the finalModel if returnData = TRUE in train call
-
-  
-  ###### May not need to deal with S4 classes ############3
-  
-  ## for models using S4 classes, you can't easily append data, so 
-  ## exclude these and we'll use other methods to get this information
-  if(!(tolower(method) %in% tolower(c("svmLinear"))))
-    {
-      modelFit$xNames <- xNames
-    #  modelFit$problemType <- type
-      modelFit$tuneValue <- tuneValue
-      modelFit$obsLevels <- obsLevels
-    }
-  #if(!is.null(modelFit) && 
-  #   any(names(modelFit) == "call" & 
-  #   !(method %in% c("rpart", "rpart2", "earth", "fda")))) 
-  #     modelFit$call <- scrubCall(modelFit$call)
-  #require(methods)
-  #if(length(slotNames(modelFit)) > 0 && any(slotNames(modelFit) == "call")) modelFit@call <- scrubCall(modelFit@call)
-
-  list(fit = modelFit)
+    
+    modelFit$xNames <- xNames
+    modelFit$tuneValue <- tuneValue
+    modelFit$obsLevels <- obsLevels
+    
+    list(fit = modelFit)
 }

@@ -1,25 +1,23 @@
-#################################################
-### Support Vector Machines Feature Selection ###
-#################################################
 
-# working on facilitating remove 10%, currently just provides the last rank 300 times
-#x <- subsample
-#y <- subgroup
-#rm(x,y)
+#' @title SVM Recursive Feature Extraction (Binary)
+#' @description This conducts feature selection for Support Vector Machines models via recursive 
+#' feature extraction.  This returns a vector of the features in x ordered by relevance.
+#' The first item of the vector has the index of the feature which is more relevant to perform the
+#' classification and the last item of the vector has the feature which is less relevant.
+#' This function is specific to Binary classification problems,
+#' @param x A matrix where each column represents a feature and each row represents a sample
+#' @param y A vector of labels corresponding to each sample's group membership
+#' @param c A numeric value corresponding to the 'cost' applied during the svm model fitting.
+#' This can be selected by the user if using this function directly or is done internally.
+#' @param perc.rem A numeric value indicating the percent of features removed during each iteration.
+#' Default \code{perc.rem = 10}.
+#' @return Vector of features ranked from most important to least important.
+#' @references Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002) \emph{Gene Selection for Cancer 
+#' Classification using Support Vector Machines}. Machine Learning 46, 389–422.
+#' @seealso \code{\link{svmrfeFeatureRankingForMultiClass}}
+#' @export
 
-## SVM Recursive feature extraction algorithms
-## Based upon "Gene Selection for Cancer Classification using Support Vector Machines" by Isabelle Guyon 2002
-
-##  The function has two inputs:
-#   x : a matrix where each column represents a feature and each row represents a sample
-#   y : a vector of the labels corresponding to each sample
-
-#   The function returns a vector of the features in x ordered by relevance. The first item of
-#   the vector has the index of the feature which is more relevant to perform the
-#   classification and the last item of the vector has the feature which is less relevant.
-
-
-svmrfeFeatureRanking = function(x, y, c)
+svmrfeFeatureRanking = function(x, y, c, perc.rem=10)
   {
   n = ncol(x)
   survivingFeaturesIndexes = seq(1:n)
@@ -38,7 +36,7 @@ svmrfeFeatureRanking = function(x, y, c)
 
     ## New to determine 10% of remaining features
     #round to make sure a defined number of features to remove (ceiling rounds up)
-    r <- ceiling(length(survivingFeaturesIndexes)/10)
+    r <- ceiling(length(survivingFeaturesIndexes)/perc.rem)
     s <- length(survivingFeaturesIndexes)
     
     ## Old update feature ranked list
@@ -60,9 +58,13 @@ svmrfeFeatureRanking = function(x, y, c)
   return (featureRankedList)
 }
 
+#' @title SVM Multiclass Weights Ranking
+#' @description This calculates feature weights for multiclass Support Vector Machine (SVM) problems
+#' @param model A fitted SVM model of multiclass
+#' @return Vector of feature weights
+#' @references Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002) \emph{Gene Selection for Cancer 
+#' Classification using Support Vector Machines}. Machine Learning 46, 389–422.
 
-
-## SVM Recursive Feature Extraction Algorithm (multiclass)
 svm.weights<-function(model){
   w=0
   if(model$nclasses==2){
@@ -94,7 +96,25 @@ svm.weights<-function(model){
   return(w)
 }
 
-svmrfeFeatureRankingForMulticlass = function(x,y,c){
+#' @title SVM Recursive Feature Extraction (Multiclass)
+#' @description This conducts feature selection for Support Vector Machines models via recursive 
+#' feature extraction.  This returns a vector of the features in x ordered by relevance.
+#' The first item of the vector has the index of the feature which is more relevant to perform the
+#' classification and the last item of the vector has the feature which is less relevant.
+#' This function is specific to Binary classification problems,
+#' @param x A matrix where each column represents a feature and each row represents a sample
+#' @param y A vector of labels corresponding to each sample's group membership
+#' @param c A numeric value corresponding to the 'cost' applied during the svm model fitting.
+#' This can be selected by the user if using this function directly or is done internally.
+#' @param perc.rem A numeric value indicating the percent of features removed during each iteration.
+#' Default \code{perc.rem = 10}.
+#' @return Vector of features ranked from most important to least important.
+#' @references Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002) \emph{Gene Selection for Cancer 
+#' Classification using Support Vector Machines}. Machine Learning 46, 389–422.
+#' @seealso \code{\link{svmrfeFeatureRanking}}
+#' @export
+
+svmrfeFeatureRankingForMulticlass = function(x,y,c, perc.rem = 10){
   n = ncol(x)
   survivingFeaturesIndexes = seq(1:n)
   featureRankedList = vector(length=n)
@@ -112,11 +132,26 @@ svmrfeFeatureRankingForMulticlass = function(x,y,c){
       mean(multiclassWeights[,i])
     #rank the features
     (ranking = sort(rankingCriteria, index.return = TRUE)$ix)
+    
+    ## New to determine prec.rem of remaining features
+    #round to make sure a defined number of features to remove (ceiling rounds up)
+    r <- ceiling(length(survivingFeaturesIndexes)/perc.rem)
+    s <- length(survivingFeaturesIndexes)
+    
     #update feature ranked list
-    (featureRankedList[rankedFeatureIndex] = survivingFeaturesIndexes[ranking[1]])
-    rankedFeatureIndex = rankedFeatureIndex - 1
+    #(featureRankedList[rankedFeatureIndex] = survivingFeaturesIndexes[ranking[1]])
+    ## New update feature ranked list
+    featureRankedList[rev((s-r+1):s)] <- survivingFeaturesIndexes[ranking[1:r]]
+    
+    ## Old to remove just 1
+    #rankedFeatureIndex = rankedFeatureIndex - 1
+    
+    ## New to remove perc.rem
+    rankedFeatureIndex <- rankedFeatureIndex - r
+    
     #eliminate the feature with smallest ranking criterion
-    (survivingFeaturesIndexes = survivingFeaturesIndexes[-ranking[1]])
+    survivingFeaturesIndexes = survivingFeaturesIndexes[-ranking[1:r]]
     cat(length(survivingFeaturesIndexes),"\n")
   }
 }
+

@@ -11,13 +11,14 @@
 #' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
 #' @return Returns list of fitted models
+#' @author Charles E. Determan Jr.
 
-modelTuner <- function(trainData,   # training subset data
-                       guide,       # dataframe with parameter values
-                       method,      # which algorithm running
-                       inTrain,     # indicies for training models
-                       outTrain,    # indicies for testing fitted models
-                       lev, 
+modelTuner <- function(trainData,
+                       guide,
+                       method,
+                       inTrain,
+                       outTrain,
+                       lev,
                        savePredictions = FALSE,
                        allowParallel = FALSE,
                        verbose = FALSE,
@@ -25,8 +26,6 @@ modelTuner <- function(trainData,   # training subset data
                        )
 {
   suppressPackageStartupMessages(library(foreach))
-  #library(caret)
-  #loadNamespace("caret")
   
   ### Parallel Programming for Windows
   #`%op%` <- getOper(ctrl$allowParallel)

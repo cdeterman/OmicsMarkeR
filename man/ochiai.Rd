@@ -22,6 +22,9 @@
   to the Jaccard Index \code{\link{jaccard}} but Ochiai is
   a geometric means of the ratio.
 }
+\author{
+  Charles E. Determan Jr.
+}
 \references{
   Ochiai A. (1957) \emph{Zoogeographical studies on the
   soleoid fishes found in Japan and its neigbouring

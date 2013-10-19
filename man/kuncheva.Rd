@@ -20,6 +20,9 @@
   vectors.  The two vectors must have the same cardinality
   (i.e. same length).
 }
+\author{
+  Charles E. Determan Jr.
+}
 \references{
   Kuncheva L. (2007) \emph{A stability index for feature
   selection}. Proceedings of the 25th IASTED International

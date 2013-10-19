@@ -1,6 +1,6 @@
 \name{performance.stats}
 \alias{performance.stats}
-\title{Performance Statistics}
+\title{Performance Statistics (Internal for \code{perf.calc})}
 \usage{
   performance.stats(pred, obs)
 }

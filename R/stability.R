@@ -29,6 +29,7 @@ spearman <- function(x,y){
 #' @param x numeric vector of ranks
 #' @param y numeric vector of ranks with compatible length to x
 #' @return Returns the canberra distance for the two vectors
+#' @author Charles E. Determan Jr.
 #' @references Jurman G., Merler S., Barla A., Paoli S., Galea A., & Furlanello C.
 #' (2008) \emph{Algebraic stability indicators for ranked lists in molecular
 #' profiling}. Bioinformatics 24(2): 258-264.
@@ -54,6 +55,7 @@ canberra <- function(x,y){
 #' @param y vector of feature names
 #' @return Returns the jaccard index for the two vectors. It takes values in [0,1], 
 #' with 0 meaning no overlap between two sets and 1 meaning two sets are identical.
+#' @author Charles E. Determan Jr.
 #' @references Jaccard P. (1908) \emph{Nouvelles recherches sur la distribution florale}. 
 #' Bull. Soc. Vaudoise Sci. Nat. 44: 223-270.
 #' 
@@ -82,6 +84,7 @@ jaccard <- function(x,y){
 #' @param y vector of feature names
 #' @return Returns the Dice-Sorensen's Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
 #' between two sets and 1 meaning two sets are identical.
+#' @author Charles E. Determan Jr.
 #' @references Sorensen T. (1957) \emph{A method of establishing roups of equal amplitude
 #' in plant sociology based on similarity of species and its application to analyses of
 #' the vegetation on Danish commons}. 
@@ -113,6 +116,7 @@ sorensen <- function(x,y){
 #' @param y vector of feature names
 #' @return Returns the Ochiai Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
 #' between two sets and 1 meaning two sets are identical.
+#' @author Charles E. Determan Jr.
 #' @references Ochiai A. (1957) \emph{Zoogeographical studies on the soleoid 
 #' fishes found in Japan and its neigbouring regions}. 
 #' Bulletin of the Japanese Society of Scientific Fisheries. 22: 526-530.
@@ -142,6 +146,7 @@ ochiai <- function(x,y){
 #' @param y vector of feature names
 #' @return Returns the percent of overlapping features for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
 #' between two sets and 1 meaning two sets are identical.
+#' @author Charles E. Determan Jr.
 #' @references Shi L., et al. (2005) \emph{Cross-platform comparability of microarray
 #' technology: intra-platform consistency and appropriate data analysis procedures are essential}. 
 #' BMC Bioinformatics. 6 (Suppl. 2) S12.
@@ -167,6 +172,7 @@ pof <- function(x,y){
 #' @param y vector of feature names
 #' @return Returns the Kuncheva Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
 #' between two sets and 1 meaning two sets are identical.
+#' @author Charles E. Determan Jr.
 #' @references Kuncheva L. (2007) \emph{A stability index for feature selection}. 
 #' Proceedings of the 25th IASTED International Multi-Conference: Artificial Intelligence and 
 #' Applications. pp. 390-395.

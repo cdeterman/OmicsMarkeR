@@ -1,4 +1,13 @@
-# sequester appropriate parameters
+
+#' @title Sequester Additional Parameters
+#' @description When the user provides additional arguments to either \code{fs.stability} or 
+#' \code{fs.ensembl.stability} this function will extract the parameters to be fit if optimization 
+#' is not used i.e. \code{optimize = FALSE}.
+#' @param theDots List of additional arguments
+#' @param method Vector of strings listing models to be fit
+#' @return Returns a list of the following elements
+#' @return \item{parameters}{The parameters that will be fit to models}
+#' @return \item{pnames}{The names of the specific parameters}
 
 sequester <- function(theDots, method){
 

@@ -1,6 +1,6 @@
 \name{perf.calc}
 \alias{perf.calc}
-\title{Performance Statistics}
+\title{Performance Statistics Calculations}
 \usage{
   perf.calc(data, lev = NULL, model = NULL)
 }

@@ -22,6 +22,9 @@
   to the Jaccard Index \code{\link{jaccard}} but
   Dice-Sorensen is the harmonic mean of the ratio.
 }
+\author{
+  Charles E. Determan Jr.
+}
 \references{
   Sorensen T. (1957) \emph{A method of establishing roups
   of equal amplitude in plant sociology based on similarity

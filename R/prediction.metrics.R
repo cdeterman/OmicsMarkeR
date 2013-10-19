@@ -1,5 +1,17 @@
 
-### Prediction Metric Calculations
+#' @title Prediction Metric Calculations
+#' @description Performance evaluation of all fitted models.  This function concisely provides
+#' model performance metrics, including confusion matrix and ROC.
+#' @param finalModel List of fitted models
+#' @param method Vector of strings dictating the models that were fit
+#' @param raw.data Original dataset prior to any training subset
+#' @param inTrain List of training indicies for each feature selection run
+#' @param outTrain List of testing data indicies for each feature selection run
+#' @param bestTune List of parameters that have been optimized for the each respective model
+#' @param grp.levs Vector of group levels
+#' @return Returns a dataframe consisting of each feature selection runs evaluated Accuracy, Kappa, 
+#' ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value.
+#' @seealso \code{\link{performance.stats}}, \code{\link{perf.calc}} caret function \code{\link{confusionMatrix}}
 
 prediction.metrics <- 
   function(finalModel,
@@ -63,11 +75,6 @@ prediction.metrics <-
                            FUN = function(x, y) perf.calc(x, lev = grp.levs, model = y),
                            y = method.vector, SIMPLIFY = FALSE)                 
     
-    ## for classification, add the cell counts
-    #require(plyr)
-    
-    #cells <- lapply(predicted,
-    #                function(x) conf.matrix(x$pred, x$obs))
     cells <- lapply(predicted,
                     function(x) flatTable(x$pred, x$obs))
     for(ind in seq(along = cells)){

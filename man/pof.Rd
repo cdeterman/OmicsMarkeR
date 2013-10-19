@@ -21,6 +21,9 @@
   similar the vectors.  The two vectors may have an
   arbitrary cardinality (i.e. don't need same length).
 }
+\author{
+  Charles E. Determan Jr.
+}
 \references{
   Shi L., et al. (2005) \emph{Cross-platform comparability
   of microarray technology: intra-platform consistency and

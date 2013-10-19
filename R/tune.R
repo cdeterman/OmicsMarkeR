@@ -1,14 +1,35 @@
-#########################
-### Tuning Algorithms ###
-#########################
 
-## Shortcomings of caret
-# No stability metrics!!!
-#   W/in or b/w algorithms
-# No ensemble approaches, separate package 'FuseBox'
-# Relatively involved, somewhat steep learning curve
-# No 'formal' paper!!!
-
+#' @title Model Tuning and Metrics
+#' @description Optimizes each model based upon the parameters provided either by the internal \code{\link{denovo.grid}}
+#' function or by the user.
+#' @param trainVars Data used to fit the model
+#' @param trainGroup Group identifiers for the training data
+#' @param method A vector of strings listing models to be optimized 
+#' @param k.folds Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}
+#' @param repeats Number of times cross-validation repeated.  Default \code{"repeats = 3"}
+#' @param res Resolution of model optimization grid.  Default \code{"res = 3"}
+#' @param grid Optional list of grids containing parameters to optimize for each algorithm.  
+#' Default \code{"grid = NULL"} lets function create grid determined by \code{"res"}
+#' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
+#' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
+#' @param savePredictions Logical argument dictating if should save the prediction data.  Default \code{savePredictions = FALSE}
+#' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package
+#' @param verbose Logical argument if should output progress
+#' @param theDots List of additional arguments provided in the initial classification and features selection function
+#' @return Basically a list with the following elements:
+#' @return method Vector of strings listing models that were optimized
+#' @return performance Performance generated internally to optimize model
+#' @return bestTune List of paramaters chosen for each model
+#' @return dots List of extra arguments initially provided
+#' @return metric Criteria that was used for model optimization.
+#' @return finalModels The fitted models with the 'optimum' parameters
+#' @return performance.metrics The performance metrics calculated internally for each resulting prediction
+#' @return tune.metrics - The results from each tune
+#' @return perfNames - The names of the performance metrics
+#' @return comp.catch - If the optimal PLSDA model contains only 1 component, the model must be refit with 
+#' 2 components.  This catches the 1 component parameter so feature selection and further performance
+#' analysis can be conducted on the 1 component.
+#' @author Charles E. Determan Jr.
 
 tune <- function(
   trainVars,                        # variables from initial subset in fs.stability or ensemble.fs.stability
@@ -19,7 +40,8 @@ tune <- function(
   res = 3,                          # resolution of tuning grids
   grid = NULL,                      # grid of parameters to be tuned
   metric = "Accuracy",              # Metric used to determine optimal model
-  savePerformanceMetrics = NULL,   
+  savePerformanceMetrics = NULL,
+  allowParallel = FALSE,
   verbose = FALSE,
   theDots = NULL)
 {
@@ -62,7 +84,6 @@ tune <- function(
   
   ## run some data thru the summary function and see what we get  
   ## get phoney performance to obtain the names of the outputs
-  
   testOutput <- vector("list", length(method))
   for(i in seq(along = method)){
     tmp <- data.frame(pred = sample(trainGroup, min(10, length(trainGroup))),
@@ -84,7 +105,7 @@ tune <- function(
                     outTrain = outTrain, 
                     lev = classLevels, 
                     verbose = verbose,
-                    allowParallel = FALSE,
+                    allowParallel = allowParallel,
                     theDots = theDots)
 
   performance <- vector("list", length(method))
@@ -109,7 +130,6 @@ tune <- function(
   # all possible parameter names
   paramNames <- levels(tune.guide[[1]]$model$parameter)
   
-  #if(trControl$verboseIter)
   if(verbose)
   {
     cat("Aggregating results\n")
@@ -152,13 +172,9 @@ tune <- function(
   for(i in seq(along=performance)){
     bestIter[[i]] <- best(performance[[i]], metric)
   }
-  #print(bestIter)
   
   # make sure a model was chosen for each method and that it is only one option
   if(any(unlist(lapply(bestIter, is.na))) || any(unlist(lapply(bestIter, length)) != 1)) stop("final tuning parameters could not be determined")
-  
-  ## Based on the optimality criterion, select the tuning parameter(s)
-  #bestTune <- performance[bestIter, tune.guide$model$parameter, drop = FALSE]
   
   # extract the tune parameters for each model
   # added unlist to tuning parameters after modifying first lapply to choose parameter specifically
@@ -167,7 +183,6 @@ tune <- function(
   for(i in seq(along = method)){
     bestTune[[i]] <- performance[[i]][bestIter[[i]], as.character(unlist(tune.parameters[[i]])), drop = FALSE]
   }
-  #as.character(unlist(tune.parameters[[1]]))
   
   ## Save some or all of the resampling summary metrics
   # byResample <- 
@@ -271,7 +286,7 @@ tune <- function(
     performance.metrics = perfMetrics,
     tune.metrics = tune.cm,
     perfNames = perfNames,
-    yLimits = if(is.numeric(trainGroup)) range(trainGroup) else NULL,
+    #yLimits = if(is.numeric(trainGroup)) range(trainGroup) else NULL,
     comp.catch = plsda.comp.catch
     #times = times - if want time took for tuning
   )

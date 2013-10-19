@@ -40,4 +40,7 @@
   either by the internal \code{\link{denovo.grid}} function
   or by the user.
 }
+\author{
+  Charles E. Determan Jr.
+}
 

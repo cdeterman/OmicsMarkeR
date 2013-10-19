@@ -19,7 +19,6 @@ Collate:
     'fs.ensembl.stability.R'
     'fs.stability.v2.R'
     'misc.R'
-    'modelparams.R'
     'modelTuner.R'
     'my_plsDA.R'
     'my_tdc.R'
@@ -35,3 +34,4 @@ Collate:
     'stability.R'
     'svm.functions.R'
     'performance.R'
+    'params.R'

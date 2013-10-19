@@ -1,0 +1,26 @@
+\name{sequester}
+\alias{sequester}
+\title{Sequester Additional Parameters}
+\usage{
+  sequester(theDots, method)
+}
+\arguments{
+  \item{theDots}{List of additional arguments}
+
+  \item{method}{Vector of strings listing models to be fit}
+}
+\value{
+  Returns a list of the following elements
+
+  \item{parameters}{The parameters that will be fit to
+  models}
+
+  \item{pnames}{The names of the specific parameters}
+}
+\description{
+  When the user provides additional arguments to either
+  \code{fs.stability} or \code{fs.ensembl.stability} this
+  function will extract the parameters to be fit if
+  optimization is not used i.e. \code{optimize = FALSE}.
+}
+

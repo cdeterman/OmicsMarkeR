@@ -19,6 +19,9 @@
   'distance' between the two vectors (i.e. they are less
   similar).
 }
+\author{
+  Charles E. Determan Jr.
+}
 \references{
   Jurman G., Merler S., Barla A., Paoli S., Galea A., &
   Furlanello C. (2008) \emph{Algebraic stability indicators

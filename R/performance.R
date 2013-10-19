@@ -1,5 +1,5 @@
 
-#' @title Performance Statistics
+#' @title Performance Statistics (Internal for \code{perf.calc})
 #' @description Calculates confusion matrix and ROC statistics comparing the results of the fitted models
 #' to the observed groups.
 #' @param pred vector of groups predicted by a fitted classification model
@@ -39,7 +39,7 @@ performance.stats <- function(pred, obs)
   out
 }
 
-#' @title Performance Statistics
+#' @title Performance Statistics Calculations
 #' @description Calculates confusion matrix and ROC statistics comparing the results of the fitted models
 #' to the observed groups.
 #' @param data dataframe of predicted (pred) and observed (obs) groups

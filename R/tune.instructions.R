@@ -1,13 +1,21 @@
 
-# Function to provide directions for which parameters to loop over during tuning
+#' @title Model Optimization Instructions
+#' @description Provides directions for which parameters to loop over during tuning.  This becomes
+#' important when certain models can access 'lower' parameters without running them independently.
+#' @param method Vector of strings indicating which models will be fit
+#' @param grid A list of parameters grids to be applied to the models
+#' @return \item{modelInfo}{List of the following components}.
+#' @return \itemize{
+#'  \item{scheme: String dictating which looping scheme to apply}
+#'  \item{loop: Dataframe of parameters to loop through for each model}
+#'  \item{model: Information regarding parameters of specific model}
+#'  \item{constant: Names of the 'loop' dataframe components}
+#'  \item{vary: Indication of parameters that vary and can access recursively}}
+#'  @author Charles E. Determan Jr.
 
 tune.instructions <- function(method, grid)
 {
   modelInfo <- params(method)
-  
-  ### Not Necessary?!?!?!?
-  ## a little hack here to change when this goes into production:
-  #if(all(is.na(grid)) & !is.null(grid$.parameter)) grid <- data.frame(.parameter = "none")
   
   ## In a very similar fashion to the caret package, some models have parameters where 
   ## several different models can be derived from one R object. For example, in plsDA models 
@@ -18,7 +26,7 @@ tune.instructions <- function(method, grid)
   ## i.e. scheme = "basic"
   
   for(i in 1:length(modelInfo)){
-    if(!any(modelInfo[[i]]$full)){
+    if(!any(modelInfo[[i]]$seq)){
       modelInfo[[i]] <- 
         list( 
           scheme = "basic",
@@ -31,7 +39,7 @@ tune.instructions <- function(method, grid)
   }
   
   for(i in 1:length(grid)){
-    if(any(modelInfo[[i]]$full)){
+    if(any(modelInfo[[i]]$seq)){
       paramVary <- unlist(lapply(grid[[i]], function(u) length(unique(u)) > 1))
       paramVary <- data.frame(
         parameter = substring(names(paramVary), 2),
@@ -39,11 +47,11 @@ tune.instructions <- function(method, grid)
         varies = paramVary)
       
       modelInfo[[i]] <- merge(modelInfo[[i]], paramVary)
-      modelInfo[[i]]$varyingSeq <- modelInfo[[i]]$varies & modelInfo[[i]]$full
+      modelInfo[[i]]$varyingSeq <- modelInfo[[i]]$varies & modelInfo[[i]]$seq
       
-      scheme <- if(any(modelInfo[[i]]$varyingSeq)) "full" else "basic" 
+      scheme <- if(any(modelInfo[[i]]$varyingSeq)) "seq" else "basic" 
       
-      if(scheme == "full")
+      if(scheme == "seq")
       {
         constant <- as.character(modelInfo[[i]]$column)[!modelInfo[[i]]$varyingSeq]
         vary <- as.character(modelInfo[[i]]$column)[modelInfo[[i]]$varyingSeq] 
@@ -52,7 +60,6 @@ tune.instructions <- function(method, grid)
         ## be looping over. For each combination in loop, the list seqParam will provide the
         ## value(s) of the sequential parameter that should be evaluated for the same R model
         ## object      
-        #mode(grid[[1]][, 1])
         
         switch(tolower(method[[i]]),
                plsda = 
@@ -68,9 +75,7 @@ tune.instructions <- function(method, grid)
                      list(
                        .interaction.depth = grid[[i]]$.interaction.depth, 
                        .shrinkage = grid[[i]]$.shrinkage), max)
-                   #loop
-                   #loop <- decoerce(loop, grid[[i]], TRUE)                 
-                   #loop
+                   
                    names(loop)[3] <- ".n.trees"
                    seqParam <- vector(mode = "list", length = nrow(loop))
                    for(k in seq(along = loop$.n.trees))
@@ -104,7 +109,7 @@ tune.instructions <- function(method, grid)
                  }
         )
         
-        modelInfo[[i]] <- list(scheme = "full", 
+        modelInfo[[i]] <- list(scheme = "seq", 
                                loop = loop, 
                                seqParam = seqParam, 
                                model = modelInfo[[i]], 

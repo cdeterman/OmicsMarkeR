@@ -23,6 +23,9 @@
   intersection divided by the size of the union of the
   vectors.
 }
+\author{
+  Charles E. Determan Jr.
+}
 \references{
   Jaccard P. (1908) \emph{Nouvelles recherches sur la
   distribution florale}. Bull. Soc. Vaudoise Sci. Nat. 44:
