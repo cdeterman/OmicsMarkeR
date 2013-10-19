@@ -146,13 +146,15 @@ training <-
                        do.call("pamr.train", modArgs)
                      },         
                       
-                     # need to address glmnet still
                      glmnet =
                      {
-                       require(glmnet)
+                       library(glmnet)
                        numLev <- if(is.character(trainY) | is.factor(trainY)) length(levels(trainY)) else NA
 
-                       #theDots <- list(...)
+                       glmnet.args <- c("offset", "nlambda", "weights", "standardize","intecept", 
+                                        "dfmax", "pmax","exclude","penalty.factor","lower.limits",
+                                        "upper.limits","maxit","standardize.response","type.multinomial")
+                       theDots <- theDots[names(theDots) %in% glmnet.args]
                        
                        if(!is.null(theDots)){
                          if(all(names(theDots) != "family"))
