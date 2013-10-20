@@ -36,6 +36,8 @@
   \code{"LKO"} (Leave-K fold-Out)}
 
   \item{k}{fold left out if using LKO (usually 7 or 10)}
+
+  \item{retain.models}{Retain all fitted 'lower' models}
 }
 \value{
   An object of class \code{"plsda"}, basically a list with
@@ -117,9 +119,5 @@ my_pls3$error_rate
   clinical outcome with microarray data: a partial least
   squares discriminant analysis (PLS-DA) approach}. Human
   Genetics 112: 581-592.
-}
-\seealso{
-  \code{\link{classify}}, \code{\link{geoDA}},
-  \code{\link{linDA}}, \code{\link{quaDA}}
 }
 

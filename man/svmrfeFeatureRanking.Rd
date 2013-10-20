@@ -40,6 +40,6 @@
   Support Vector Machines}. Machine Learning 46, 389–422.
 }
 \seealso{
-  \code{\link{svmrfeFeatureRankingForMultiClass}}
+  \code{\link{svmrfeFeatureRankingForMulticlass}}
 }
 

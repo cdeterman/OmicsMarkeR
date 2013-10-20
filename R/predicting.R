@@ -36,7 +36,7 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                                           validation = "learntest",
                                           comps = param$.ncomp,
                                           cv ="none",
-                                          retain.model = TRUE)$classification
+                                          retain.models = TRUE)$classification
                              
                              if(param$.ncomp < 2){
                                out <- lapply(tmp, as.character)[[1]]

@@ -9,6 +9,7 @@
 #' @param lev Group levels
 #' @param savePredictions Logical argument dictating if should save the prediction data.  Default \code{savePredictions = FALSE}
 #' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package
+#' @param verbose Logical argument dictating if should print progress
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
 #' @return Returns list of fitted models
 #' @author Charles E. Determan Jr.
@@ -136,7 +137,7 @@ modelTuner <- function(trainData,
                     validation = "learntest",
                     comps = tuneValue$.ncomp,
                     cv ="none",
-                    retain.model=TRUE)$classification,
+                    retain.models=TRUE)$classification,
               silent = TRUE)
              
             predicted <- lapply(predicted, as.character)

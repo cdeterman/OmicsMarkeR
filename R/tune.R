@@ -12,7 +12,7 @@
 #' Default \code{"grid = NULL"} lets function create grid determined by \code{"res"}
 #' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
-#' @param savePredictions Logical argument dictating if should save the prediction data.  Default \code{savePredictions = FALSE}
+#' @param savePerformanceMetrics Logical argument dictating if should save the prediction data.  Default \code{savePerformanceMetrics = FALSE}
 #' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package
 #' @param verbose Logical argument if should output progress
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
@@ -32,14 +32,14 @@
 #' @author Charles E. Determan Jr.
 
 tune <- function(
-  trainVars,                        # variables from initial subset in fs.stability or ensemble.fs.stability
-  trainGroup,                       # group identifiers from initial subset in fs.stability or ensemble.fs.stability
-  method,                           # which algorithm is being tuned
-  k.folds = 10,                     # number of fold for CV
-  repeats = 3,                      # number of repeated CV validation runs
-  res = 3,                          # resolution of tuning grids
-  grid = NULL,                      # grid of parameters to be tuned
-  metric = "Accuracy",              # Metric used to determine optimal model
+  trainVars,
+  trainGroup,
+  method,
+  k.folds = 10,
+  repeats = 3,
+  res = 3, 
+  grid = NULL,
+  metric = "Accuracy",
   savePerformanceMetrics = NULL,
   allowParallel = FALSE,
   verbose = FALSE,

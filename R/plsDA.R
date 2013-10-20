@@ -23,6 +23,7 @@
 #' Avialable options are \code{"LOO"} (Leave-One-Out)
 #' and \code{"LKO"} (Leave-K fold-Out)
 #' @param k fold left out if using LKO (usually 7 or 10)
+#' @param retain.models Retain all fitted 'lower' models
 #' @return An object of class \code{"plsda"}, basically a list with the
 #' following elements:
 #' @return \item{functions}{table with discriminant functions}
@@ -39,8 +40,6 @@
 #' @return \item{comp_vars}{correlations between components and variables}
 #' @return \item{comp_group}{correlations between components and groups}
 #' @author Charles Determan Jr, Gaston Sanchez
-#' @seealso \code{\link{classify}}, \code{\link{geoDA}}, \code{\link{linDA}},
-#' \code{\link{quaDA}}
 #' @references Tenenhaus M. (1998) \emph{La Regression PLS}. Editions Technip,
 #' Paris.
 #'
@@ -80,7 +79,7 @@ plsDA <-
            learn = NULL, test = NULL, cv = "LOO", k = NULL, retain.models = FALSE)
   {
     # check inputs
-    verify_Xy = my_verify(variables, group, na.rm=FALSE)
+    verify_Xy = verify(variables, group, na.rm=FALSE)
     X = verify_Xy$X
     y = verify_Xy$Y
     # autosel

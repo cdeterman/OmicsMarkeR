@@ -35,7 +35,7 @@
 #' Default \code{"tuning.grid = NULL"} lets function create grid determined by \code{"res"}
 #' @param k.folds Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}
 #' @param repeats Number of times cross-validation repeated.  Default \code{"repeats = 3"}
-#' @param res Optional - Resolution of model optimization grid.  Default \code{"res = 3"}
+#' @param resolution Optional - Resolution of model optimization grid.  Default \code{"res = 3"}
 #' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
 #' @param model.features Logical argument if should have number of features selected to be determined
@@ -71,8 +71,8 @@
 #' @export
 
 fs.ensembl.stability <- 
-  function(variables,                          # scaled matrix or dataframe of explanatory variables
-           groups,                             # vector or factor with group memberships
+  function(X,                          # scaled matrix or dataframe of explanatory variables
+           Y,                             # vector or factor with group memberships
            method,                             # "PLSDA", "glmnet","SVM", "RF", "GBM","PAM"
            k = 10,                             # number of subsamples
            p = 0.9,                            # percentage data subsampled
@@ -100,7 +100,7 @@ fs.ensembl.stability <-
     #if("GBM" %in% method) require(gbm)
     #if("SVM" %in% method) require(e1071) # or require(kernlab)
     
-    verify_data <- verify(x = variables, y = groups, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
+    verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
     #verify_data <- my_verify(variables, groups, na.rm = FALSE)
     X <- verify_data$X
     Y <- verify_data$Y
@@ -146,7 +146,7 @@ fs.ensembl.stability <-
       
       trainX <- X[inTrain[[i]],, drop=F]
       trainY <- Y[inTrain[[i]], drop=F]
-      trainData <- as.data.frame(trainVars)
+      trainData <- as.data.frame(trainX)
       trainData$.classes <- trainY
       
       ## Bagging loop
@@ -159,7 +159,7 @@ fs.ensembl.stability <-
                                          #inTrain = inTrain[[i]],
                                          k.folds = k.folds,
                                          repeats = repeats,
-                                         res = res,
+                                         res = resolution,
                                          tuning.grid = tuning.grid,
                                          optimize = optimize,
                                          optimize.resample = optimize.resample,
@@ -211,7 +211,6 @@ fs.ensembl.stability <-
           # end of full optimize loop
         }else{
           if(i == 1){
-            #m <- 1
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
               tunedModel.new[[m]] <- tune(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
@@ -236,10 +235,6 @@ fs.ensembl.stability <-
                                    tuneValue = data.frame(t(unlist(tunedModel.new[[d]]$bestTune))),
                                    obsLevels = grp.levs,
                                    theDots = theDots)$fit
-              #tunedModel.new[d]
-            #length(tunedModel.new)
-            #  data.frame(t(unlist(tunedModel.new[[1]]$bestTune)))$.ncomp
-            #  str(tunedModel.new)
             }
           }
           
@@ -253,6 +248,18 @@ fs.ensembl.stability <-
         } # end of single optimize loop
         # end of optimize loop
       }else{
+        names(theDots) <- paste(".", names(theDots), sep="")
+        
+        # sequester appropriate parameters to fit models
+        args.seq <- sequester(theDots, method)
+        
+        # remove arguments used from theDots - also remove '.' from each
+        names(theDots) <- sub(".", "", names(theDots))
+        moreDots <- theDots[!names(theDots) %in% args.seq$pnames]
+        if(length(moreDots) == 0){
+          moreDots <- NULL
+        }
+        
         tunedModel.new <- vector("list", length(method))
         for(q in seq(along = method)){
           tunedModel.new[[q]] <- training(data = trainData.new[[q]],
@@ -377,7 +384,7 @@ fs.ensembl.stability <-
     
     # stability across algorithms (i.e. 'function perturbation' ensemble analysis)
     if(length(method) > 1){
-      stability.models <- pairwise.model.stability(ranked_features = results.stability,
+      stability.models <- pairwise.model.stability(features = results.stability,
                                                    stability.metric = stability.metric,
                                                    m = length(method),
                                                    k = k)

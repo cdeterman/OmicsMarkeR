@@ -12,6 +12,8 @@
   \item{dat}{Numeric variable data used for fitted models
   (In appropriate format)}
 
+  \item{grp}{Vector of training classes}
+
   \item{method}{String indicating the INDIVIDUAL model
   being extracted from}
 
@@ -22,6 +24,8 @@
   \item{bestTune}{If \code{model.features = TRUE}, must
   provide the parameter at which to extract features from
   the model.}
+
+  \item{f}{Number of features to subset}
 
   \item{comp.catch}{An internal check for plsda models.  If
   the optimal model contains only 1 component, the ncomp

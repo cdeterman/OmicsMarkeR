@@ -28,6 +28,9 @@
   \item{allowParallel}{Logical argument dictating if
   parallel processing is allowed via foreach package}
 
+  \item{verbose}{Logical argument dictating if should print
+  progress}
+
   \item{theDots}{List of additional arguments provided in
   the initial classification and features selection
   function}

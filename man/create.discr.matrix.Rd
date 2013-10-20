@@ -2,10 +2,11 @@
 \alias{create.discr.matrix}
 \title{Discriminatory Multivariate Data Generator}
 \usage{
-  create.discr.matrix(V, D = 20, l = 1.5, num.groups = 2)
+  create.discr.matrix(V, D = 20, l = 1.5, num.groups = 2,
+    k = 4)
 }
 \arguments{
-  \item{V}{Numeric matrix}
+  \item{V}{Numeric matrix of class "matrix.corr"}
 
   \item{D}{Number of discriminatory variables induced.
   Default \code{D = 20}}
@@ -14,6 +15,9 @@
   separation.  Default \code{l = 1.5}}
 
   \item{num.groups}{Number of groups in the dataset}
+
+  \item{k}{Correlation Perturbation - The higher k, the
+  more the data is perturbed. Default \code{k = 4}}
 }
 \value{
   Matrix of dimension \code{dim(V)+1} with discriminatory

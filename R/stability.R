@@ -217,7 +217,7 @@ kuncheva <- function(x,             # list of features in first run
 #'  \code{"sorensen"} (Dice-Sorensen's Index), \code{"ochiai"} (Ochiai's Index),
 #'  \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"} (Kuncheva's Stability Measures),
 #'  \code{"spearman"} (Spearman Rank Correlation), and \code{"canberra"} (Canberra Distance)
-#' @param orig.nc Original number of variables (Only applicable when using \code{"Kuncheva"})
+#'  @param nc Number of variables in original dataset
 #' @return A list is returned containing:
 #' \item{comparisons}{Matrix of pairwise comparisons}
 #' \item{overall}{The average of all pairwise comparisons}
@@ -237,7 +237,7 @@ pairwise.stability <-
         
         comp[i,j] <- switch(stability.metric,
                             jaccard = {jaccard(features[,i], features[,j])},
-                            sorenson = {sorenson(features[,i], features[,j])},
+                            sorensen = {sorensen(features[,i], features[,j])},
                             kuncheva = {kuncheva(features[,i], features[,j], nc)},
                             ochiai = {ochiai(features[,i], features[,j])},
                             pof = {pof(features[,i], features[,j])},

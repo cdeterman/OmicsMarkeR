@@ -35,9 +35,9 @@
   \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"}
   (Area Under the Curve - Receiver Operator Curve)}
 
-  \item{savePredictions}{Logical argument dictating if
-  should save the prediction data.  Default
-  \code{savePredictions = FALSE}}
+  \item{savePerformanceMetrics}{Logical argument dictating
+  if should save the prediction data.  Default
+  \code{savePerformanceMetrics = FALSE}}
 
   \item{allowParallel}{Logical argument dictating if
   parallel processing is allowed via foreach package}

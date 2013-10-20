@@ -3,9 +3,9 @@
 \title{Classification & Feature Selection}
 \usage{
   fs.stability(X, Y, method, k = 10, p = 0.9,
-    f = ceiling(ncol(variables)/10),
-    stability.metric = "jaccard", optimize = TRUE,
-    optimize.resample = FALSE, tuning.grid = NULL,
+    f = ceiling(ncol(X)/10), stability.metric = "jaccard",
+    optimize = TRUE, optimize.resample = FALSE,
+    tuning.grid = NULL,
     k.folds = if (optimize) 10 else NULL,
     repeats = if (optimize) 3 else NULL,
     resolution = if (optimize) 3 else NULL,
@@ -32,8 +32,8 @@
   \item{p}{Percent of data to by 'trained'}
 
   \item{f}{Number of features desired.  Default is top 10%
-  \code{"f = ceiling(ncol(variables)/10)"}. If rank
-  correlation is desired, set \code{"f = NULL"}}
+  \code{"f = ceiling(ncol(X)/10)"}. If rank correlation is
+  desired, set \code{"f = NULL"}}
 
   \item{stability.metric}{string indicating the type of
   stability metric. Avialable options are \code{"jaccard"}
@@ -65,7 +65,7 @@
   \item{repeats}{Number of times cross-validation repeated.
   Default \code{"repeats = 3"}}
 
-  \item{res}{Resolution of model optimization grid.
+  \item{resolution}{Resolution of model optimization grid.
   Default \code{"res = 3"}}
 
   \item{metric}{Criteria for model optimization.  Available

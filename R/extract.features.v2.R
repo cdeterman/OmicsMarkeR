@@ -2,11 +2,13 @@
 #' @description Extracts features from models that have been previously fit.
 #' @param x Previously fitted model
 #' @param dat Numeric variable data used for fitted models (In appropriate format)
+#' @param grp Vector of training classes
 #' @param method String indicating the INDIVIDUAL model being extracted from
 #' @param model.features Logical argument dictating if features selected determined by models instead of
 #' user determined number of features.
 #' @param bestTune If \code{model.features = TRUE}, must provide the parameter at which to extract
 #' features from the model.
+#' @param f Number of features to subset
 #' @param comp.catch An internal check for plsda models.  If the optimal model contains only 1 component,
 #' the ncomp paramter must be set to 2 for the model.  However, features are still extracted only from the first component.
 #' @return Returns list of the features selected from the fitted model.
@@ -134,7 +136,7 @@ extract.features <-
                              }
                              svm.index <- mapply(dat, FUN = function(x,y,z) svmrfeFeatureRanking(x, y, z), y = grp, z = best.C)
                            }else{
-                             svm.index <- mapply(dat, FUN = function(x,y,z) svmrfeFeatureRankingMulticlass(x, y, z), y = grp, z = best.C)
+                             svm.index <- mapply(dat, FUN = function(x,y,z) svmrfeFeatureRankingForMulticlass(x, y, z), y = grp, z = best.C)
                            }
                            
                            if(model.features){
@@ -160,16 +162,7 @@ extract.features <-
                          },
                        
                        pamrtrained = 
-                         {               
-                           #best.threshold <- vector("list", length(dat))
-                           #for(i in seq(along = best.C)){
-                          #   best.threshold[[i]] <- bestTune$.threshold
-                          # }
-                          
-                           
-                           #data.frame(pamr.listgenes(x[[2]], dat[[2]], threshold = best.threshold[[2]]))
-                           #x <- finalModel
-                           
+                         { 
                            if(model.features){
                              mod.features <- vector("list", length(x))
                              for(i in seq(along = x)){
@@ -189,7 +182,7 @@ extract.features <-
                                }
                              
                              if(is.null(f)){
-                               
+                               nc <- length(dat[[1]]$x)
                                ranks <- rep(list(ranks = 1:nc), length(x))
                                for(i in seq(along = ranks)){
                                  names(ranks[[i]]) <- as.character(mod.features[[i]][,1])
@@ -219,9 +212,6 @@ extract.features <-
                        
                        glmnet = 
                         {
-                          
-                          x <- finalModel
-                          
                           # extract coefficients and remove intercept
                           if(nlevels(dat$.classes) > 2){
                             if(model.features){

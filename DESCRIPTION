@@ -2,7 +2,7 @@ Package: BiomarkeR
 Title: Classification and Feature Selection for 'Omics' Datasets
 Description: Tools for classification and feature selection for 'omics' datasets
 Version: 0.1
-Authors: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
+Author: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Depends:
     R (>= 3.0.2)
@@ -10,7 +10,14 @@ Imports:
     caret(>= 5.17.7),
     plyr(>= 1.8),
     tcltk(>= 3.0.2),
-    data.table(>= 1.8.10)
+    data.table(>= 1.8.10),
+    e1071(>= 1.6-1),
+    randomForest(>= 4.6-7),
+    gbm(>= 2.1),
+    pamr(>= 1.54.1),
+    glmnet(>= 1.9-5),
+    caTools(>= 1.14),
+    foreach(>= 1.4.1)
 License: # getOptions('devtools.desc.license')
 LazyData: true
 Collate:

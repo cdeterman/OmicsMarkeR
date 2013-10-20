@@ -16,8 +16,7 @@
   \code{"spearman"} (Spearman Rank Correlation), and
   \code{"canberra"} (Canberra Distance)}
 
-  \item{orig.nc}{Original number of variables (Only
-  applicable when using \code{"Kuncheva"})}
+  \item{nc}{Number of variables in original dataset}
 }
 \value{
   A list is returned containing: \item{comparisons}{Matrix

@@ -14,7 +14,7 @@
 #' @return Vector of features ranked from most important to least important.
 #' @references Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002) \emph{Gene Selection for Cancer 
 #' Classification using Support Vector Machines}. Machine Learning 46, 389–422.
-#' @seealso \code{\link{svmrfeFeatureRankingForMultiClass}}
+#' @seealso \code{\link{svmrfeFeatureRankingForMulticlass}}
 #' @export
 
 svmrfeFeatureRanking = function(x, y, c, perc.rem=10)

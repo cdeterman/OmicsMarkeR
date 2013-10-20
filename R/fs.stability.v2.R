@@ -14,7 +14,7 @@
 #' @param k Number of bootstrapped interations
 #' @param p Percent of data to by 'trained'
 #' @param f Number of features desired.  Default is top 10% 
-#' \code{"f = ceiling(ncol(variables)/10)"}.
+#' \code{"f = ceiling(ncol(X)/10)"}.
 #' If rank correlation is desired, set \code{"f = NULL"}
 #' @param stability.metric string indicating the type of stability metric.
 #' Avialable options are \code{"jaccard"} (Jaccard Index/Tanimoto Distance),
@@ -30,7 +30,7 @@
 #' Default \code{"tuning.grid = NULL"} lets function create grid determined by \code{"res"}
 #' @param k.folds Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}
 #' @param repeats Number of times cross-validation repeated.  Default \code{"repeats = 3"}
-#' @param res Resolution of model optimization grid.  Default \code{"res = 3"}
+#' @param resolution Resolution of model optimization grid.  Default \code{"res = 3"}
 #' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
 #' @param model.features Logical argument if should have number of features selected to be determined
@@ -71,7 +71,7 @@ fs.stability <-
            method,                                # "PLSDA", "glmnet","SVM", "RF", "GBM","PAM"
            k = 10,                                # number of subsamples
            p = 0.9,                               # percentage data subsampled
-           f = ceiling(ncol(variables)/10),       # number of top features subset (default = top 10%)
+           f = ceiling(ncol(X)/10),       # number of top features subset (default = top 10%)
            stability.metric = "jaccard",          # similarity metric
            optimize = TRUE,                       # optional choice to optimize each chosen algorithm
            optimize.resample = FALSE,             # optional choice to optimize each resample of during the optimization process otherwise uses first best model on all
@@ -594,7 +594,7 @@ fs.stability <-
     
     # stability across algorithms (i.e. 'function perturbation' ensemble analysis)
     if(length(method) > 1){
-      stability.models <- pairwise.model.stability(ranked_features = results.stability,
+      stability.models <- pairwise.model.stability(features = results.stability,
                                                    stability.metric = stability.metric,
                                                    m = length(method),
                                                    k = k)

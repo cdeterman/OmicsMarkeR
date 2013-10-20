@@ -2,8 +2,8 @@
 \alias{fs.ensembl.stability}
 \title{Ensemble Classification & Feature Selection}
 \usage{
-  fs.ensembl.stability(variables, groups, method, k = 10,
-    p = 0.9, f = ceiling(ncol(variables)/10), bags = 40,
+  fs.ensembl.stability(X, Y, method, k = 10, p = 0.9,
+    f = ceiling(ncol(variables)/10), bags = 40,
     aggregation.metric = "CLA",
     stability.metric = "jaccard", optimize = TRUE,
     optimize.resample = FALSE, tuning.grid = NULL,
@@ -75,8 +75,8 @@
   \item{repeats}{Number of times cross-validation repeated.
   Default \code{"repeats = 3"}}
 
-  \item{res}{Optional - Resolution of model optimization
-  grid.  Default \code{"res = 3"}}
+  \item{resolution}{Optional - Resolution of model
+  optimization grid.  Default \code{"res = 3"}}
 
   \item{metric}{Criteria for model optimization.  Available
   options are \code{"Accuracy"} (Predication Accuracy),
