@@ -9,7 +9,8 @@ Depends:
 Imports:
     caret(>= 5.17.7),
     plyr(>= 1.8),
-    tcltk(>= 3.0.2)
+    tcltk(>= 3.0.2),
+    data.table(>= 1.8.10)
 License: # getOptions('devtools.desc.license')
 LazyData: true
 Collate:
@@ -35,3 +36,4 @@ Collate:
     'svm.functions.R'
     'performance.R'
     'params.R'
+    'data.generation.R'

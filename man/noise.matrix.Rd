@@ -1,0 +1,25 @@
+\name{noise.matrix}
+\alias{noise.matrix}
+\title{Noise Matrix Generator}
+\usage{
+  noise.matrix(matrix, k)
+}
+\arguments{
+  \item{matrix}{A matrix of simulated data with dimensions
+  comparable to 'real' datasets}
+
+  \item{k}{Correlation Perturbation - The higher k, the
+  more the data is perturbed.}
+}
+\value{
+  Returns a matrix of the same dimensions as \code{matrix}
+  that can add to perturb the original simulated data.
+}
+\description{
+  Provides a matrix to perturb randomly generated data to
+  facilitate a more realistic dataset.
+}
+\author{
+  Charles E. Determan Jr.
+}
+

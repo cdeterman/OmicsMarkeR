@@ -17,18 +17,18 @@
 #' @param verbose Logical argument if should output progress
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
 #' @return Basically a list with the following elements:
-#' @return method Vector of strings listing models that were optimized
-#' @return performance Performance generated internally to optimize model
-#' @return bestTune List of paramaters chosen for each model
-#' @return dots List of extra arguments initially provided
-#' @return metric Criteria that was used for model optimization.
-#' @return finalModels The fitted models with the 'optimum' parameters
-#' @return performance.metrics The performance metrics calculated internally for each resulting prediction
-#' @return tune.metrics - The results from each tune
-#' @return perfNames - The names of the performance metrics
-#' @return comp.catch - If the optimal PLSDA model contains only 1 component, the model must be refit with 
+#' @return \item{method}{Vector of strings listing models that were optimized}
+#' @return \item{performance}{Performance generated internally to optimize model}
+#' @return \item{bestTune}{List of paramaters chosen for each model}
+#' @return \item{dots}{List of extra arguments initially provided}
+#' @return \item{metric}{Criteria that was used for model optimization}
+#' @return \item{finalModels}{The fitted models with the 'optimum' parameters}
+#' @return \item{performance.metrics}{The performance metrics calculated internally for each resulting prediction}
+#' @return \item{tune.metrics}{The results from each tune}
+#' @return \item{perfNames}{The names of the performance metrics}
+#' @return \item{comp.catch}{If the optimal PLSDA model contains only 1 component, the model must be refit with 
 #' 2 components.  This catches the 1 component parameter so feature selection and further performance
-#' analysis can be conducted on the 1 component.
+#' analysis can be conducted on the 1 component.}
 #' @author Charles E. Determan Jr.
 
 tune <- function(

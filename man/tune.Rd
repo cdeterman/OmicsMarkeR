@@ -52,33 +52,34 @@
 \value{
   Basically a list with the following elements:
 
-  method Vector of strings listing models that were
-  optimized
+  \item{method}{Vector of strings listing models that were
+  optimized}
 
-  performance Performance generated internally to optimize
-  model
+  \item{performance}{Performance generated internally to
+  optimize model}
 
-  bestTune List of paramaters chosen for each model
+  \item{bestTune}{List of paramaters chosen for each model}
 
-  dots List of extra arguments initially provided
+  \item{dots}{List of extra arguments initially provided}
 
-  metric Criteria that was used for model optimization.
+  \item{metric}{Criteria that was used for model
+  optimization}
 
-  finalModels The fitted models with the 'optimum'
-  parameters
+  \item{finalModels}{The fitted models with the 'optimum'
+  parameters}
 
-  performance.metrics The performance metrics calculated
-  internally for each resulting prediction
+  \item{performance.metrics}{The performance metrics
+  calculated internally for each resulting prediction}
 
-  tune.metrics - The results from each tune
+  \item{tune.metrics}{The results from each tune}
 
-  perfNames - The names of the performance metrics
+  \item{perfNames}{The names of the performance metrics}
 
-  comp.catch - If the optimal PLSDA model contains only 1
-  component, the model must be refit with 2 components.
-  This catches the 1 component parameter so feature
-  selection and further performance analysis can be
-  conducted on the 1 component.
+  \item{comp.catch}{If the optimal PLSDA model contains
+  only 1 component, the model must be refit with 2
+  components.  This catches the 1 component parameter so
+  feature selection and further performance analysis can be
+  conducted on the 1 component.}
 }
 \description{
   Optimizes each model based upon the parameters provided
