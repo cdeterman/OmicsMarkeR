@@ -185,8 +185,6 @@ create.corr.matrix <-
 #' @author Charles E. Determan Jr.
 #' @import data.table
 #' @export
-#dat.corr <- create.corr.matrix(create.random.matrix(50, 100))
-#dat.discr <- create.discr.matrix(dat.corr)
 
 create.discr.matrix <-
   function(V,

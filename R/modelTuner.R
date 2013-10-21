@@ -68,10 +68,10 @@ modelTuner <- function(trainData,
        #     .packages = c("methods", "caret"), 
         #    .errorhandling = "stop")  %op%
 
-  tmp.list <- foreach((algo = seq(along = method)),
-          .combine = "c",
-          .verbose = FALSE,
-          .errorhandling = "stop") %op%
+  tmp.list <- foreach((algo = seq(along = method)), 
+                       .combine = "c", 
+                       .verbose = FALSE, 
+                       .errorhandling = "stop") %op%
     {
       result <- 
         foreach((iter = seq(along = inTrain)), 
