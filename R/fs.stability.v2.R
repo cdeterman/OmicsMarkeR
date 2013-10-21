@@ -119,17 +119,6 @@ fs.stability <-
     num.obs.group <- as.vector(table(Y))
     theDots <- list(...)
     
-    # full rank corrleation doesn't allow for feature subsets
-    if(stability.metric %in% c("spearman", "canberra")){
-      warning("Rank Correlation doesn't allow for feature subsets.\n'f' has been set to NULL")
-      f <- NULL
-    } 
-    
-    if(stability.metric %in% c("jaccard","sorenson","ochiai","pof","kuncheva") & is.null(f)){
-      warning(paste("Stability metric", " '", stability.metric, "' ", "requires 'f' to be set.\nDefault top 10% was used.", sep = ""))
-      f <- ceiling(nc/10)
-    }
-    
     # Create empty list for features identified by each chosen algorithm
     final.features <- vector("list", k)
     names(final.features) <- paste("Resample", seq(k), sep = ".")
@@ -567,7 +556,6 @@ fs.stability <-
       names(performance) <- method
       for(h in seq(along = method)){
         x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
-        #x <- x[, !colnames(x) %in% rownames(final.metrics), drop = FALSE]
         tmp <- subset(x, rownames(x) == method[h])
         performance[[h]] <- c(colMeans(x, na.rm = TRUE), apply(x, 2, sd, na.rm = TRUE))
         names(performance[[h]])[-(1:ncol(tmp))] <- paste(names(performance[[h]])[-(1:ncol(tmp))], "SD", sep = " ")
@@ -599,7 +587,13 @@ fs.stability <-
     }else{
       stability.models <- NULL
     }
-
+    
+    # harmonic mean of stability and performance
+    #stability <- list(.65, .78, .45)
+    #perform <- list(.88, .66, .94)
+    #rpt <- mapply(stability, FUN = function(x) RPT(stability = x, performance = y), y = perform)
+    RPT(stability[[1]], perform[[1]])
+    
     # add stability metrics to features selected
     for(i in seq(along = method)){
       results.stability[[i]] <- list(metric = stability.metric, features = results.stability[[i]], stability = stability[[i]])

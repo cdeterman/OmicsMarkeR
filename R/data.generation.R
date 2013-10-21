@@ -270,9 +270,9 @@ create.discr.matrix <-
     
     ## Create a noise matrix to perturb distributions again
     W <- noise.matrix(S, k)
-    Y <- S + W
-    Y <- cbind(Y, c(classes))
-    colnames(Y) <- c(paste("Var", seq(nc), sep="."), ".classes")
+    Y <- as.data.frame(S + W)
+    Y$.classes <- classes
+    Y[1:nc] <- lapply(Y[1:nc], FUN = function(x) as.numeric(as.character(x)))
     Y
   }
 
