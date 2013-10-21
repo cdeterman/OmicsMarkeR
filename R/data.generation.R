@@ -31,6 +31,7 @@ ind_corr <- function(group_size, start, end){
 #' @return Returns a matrix of the same dimensions as \code{matrix} that can add to perturb the 
 #' original simulated data.
 #' @author Charles E. Determan Jr.
+#' @export
 
 noise.matrix <- function(matrix, k){
   nvar <- ncol(matrix)
@@ -61,6 +62,7 @@ noise.matrix <- function(matrix, k){
 #' @return Matrix of dimension \code{nvar} by \code{nsamp}
 #' @author Charles E. Determan Jr.
 #' @seealso \code{\link{create.corr.matrix}}, \code{\link{create.discr.matrix}}
+#' @export
 
 create.random.matrix <-
   function(nvar,
@@ -93,6 +95,7 @@ create.random.matrix <-
 #' @note Output does not contain classes, may provide externally as classes are irrelevant in this function.
 #' @author Charles E. Determan Jr.
 #' @seealso \code{\link{create.random.matrix}}, \code{\link{create.discr.matrix}}
+#' @export
 
 create.corr.matrix <-
   function(U,
@@ -188,6 +191,7 @@ create.corr.matrix <-
 #' .classes added to the end of the matrix.
 #' @author Charles E. Determan Jr.
 #' @import data.table
+#' @export
 
 create.discr.matrix <-
   function(V,

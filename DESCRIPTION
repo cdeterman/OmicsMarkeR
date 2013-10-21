@@ -1,6 +1,6 @@
 Package: BiomarkeR
 Title: Classification and Feature Selection for 'Omics' Datasets
-Description: Tools for classification and feature selection for 'omics' datasets
+Description: Tools for classification and feature selection for 'omics' level datasets
 Version: 0.1
 Author: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
@@ -17,6 +17,7 @@ Imports:
     glmnet (>= 1.9-5),
     caTools (>= 1.14),
     foreach (>= 1.4.1)
+Suggests: caret, DiscriMiner
 License: GPL-2
 LazyData: true
 Collate:
