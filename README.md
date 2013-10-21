@@ -31,7 +31,7 @@ The interested reader, as well you should be, is highly encouraged to seek out t
 
 ## Installation
 
-# Not currently submitted - may send to Bioconductor instead
+Not currently submitted - may send to Bioconductor instead
 Stable version [CRAN](http://cran.r-project.org/web/packages/BiomarkeR/index.html)
 ```ruby
 # stable version
