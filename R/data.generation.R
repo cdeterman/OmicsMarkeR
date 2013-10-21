@@ -158,7 +158,7 @@ create.corr.matrix <-
     
     # randomize order of columns to make blocks no longer obvious
     rand <- sample(nsamp)
-    V <- structure(B[rand,], class = "matrix.corr")
+    V <- structure(B[rand,], class = c("matrix.corr", "matrix"))
     V
   }
 
@@ -194,14 +194,13 @@ create.discr.matrix <-
            k = 4
            )
   {
-    if(class(V) != "matrix.corr"){
+    if(!"matrix.corr" %in% class(V)){
       warning("Matrix provided was not produced from create.corr.matrix. Assumptions are unknown.  Matrix may assume complete independence and/or normality.  Proceed with caution")
     }
     
     nc <- ncol(V)
     nr <- nrow(V)
     groups <- LETTERS[seq(num.groups)]
-    classes <- rep(groups, each = nr)
     
     # randomly select which variables to be discriminatory
     d <- sample(nc, size = D, replace=F)
@@ -213,6 +212,8 @@ create.discr.matrix <-
     if(num.groups == 2){
       # Binary class induced discrimination
       I <- nr/2
+      classes <- rep(groups, each = I)
+      
       # add di to first group, subtract from second to induce discrimination
       for(i in seq(D)){
         Z[1:I,i] <- Z[1:I,i]+di[i]
@@ -270,12 +271,10 @@ create.discr.matrix <-
     ## Create a noise matrix to perturb distributions again
     W <- noise.matrix(S, k)
     Y <- S + W
-    Y$.classes <- classes
+    Y <- cbind(Y, c(classes))
+    colnames(Y) <- c(paste("Var", seq(nc), sep="."), ".classes")
     Y
   }
-
-
-
 
 # histograms of correlation coefficients
 
