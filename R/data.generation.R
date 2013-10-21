@@ -201,7 +201,7 @@ create.discr.matrix <-
     nc <- ncol(V)
     nr <- nrow(V)
     groups <- LETTERS[seq(num.groups)]
-    classes <- unlist(mapply(groups, FUN = function(x,y) rep(x, nrow(y)), y = Z.list), use.names=FALSE)    
+    classes <- rep(groups, each = nr)
     
     # randomly select which variables to be discriminatory
     d <- sample(nc, size = D, replace=F)
@@ -222,6 +222,8 @@ create.discr.matrix <-
       # Multi-class induced discrimination
       # split Z into n groups
       Z.list <- split(as.data.frame(Z), rep(1:num.groups, each = nrow(Z)/num.groups))
+      classes <- unlist(mapply(groups, FUN = function(x,y) rep(x, nrow(y)), y = Z.list), use.names=FALSE)    
+      
       Z.rows <- lapply(Z.list, rownames)
       
       # Create matrix of instructions for discriminating variables
