@@ -67,7 +67,7 @@ tune.instructions <- function(method, grid)
         ## value(s) of the sequential parameter that should be evaluated for the same R model
         ## object      
         
-        switch(tolower(method[[i]]),
+        switch(method[[i]],
                plsda = 
                  {
                    grid[[i]] <- grid[[i]][order(grid[[i]]$.ncomp, decreasing = TRUE),, drop = FALSE]

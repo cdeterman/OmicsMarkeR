@@ -10,7 +10,7 @@
     repeats = if (optimize) 3 else NULL,
     resolution = if (optimize) 3 else NULL,
     metric = "Accuracy", model.features = FALSE,
-    verbose = FALSE, ...)
+    allowParallel = FALSE, verbose = FALSE, ...)
 }
 \arguments{
   \item{X}{A matrix containing numeric values of each
@@ -77,6 +77,10 @@
   number of features selected to be determined by the
   individual model runs.  Default \code{"model.features =
   FALSE"}}
+
+  \item{allowParallel}{Logical argument dictating if
+  parallel processing is allowed via foreach package.
+  Default \code{allowParallel = FALSE}}
 
   \item{verbose}{Logical argument if should output
   progress}

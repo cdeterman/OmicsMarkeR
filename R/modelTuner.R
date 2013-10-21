@@ -67,18 +67,27 @@ modelTuner <- function(trainData,
       #      .verbose = FALSE, 
        #     .packages = c("methods", "caret"), 
         #    .errorhandling = "stop")  %op%
-
-  tmp.list <- foreach((algo = seq(along = method)), 
+  
+  #algo <- seq(along = method)
+  #print(algo)
+  #stop("finished test")
+  #algo <- 1
+  #iter <- 1
+  #parms <- 1
+  
+  #for(algo in seq(along = method))
+  
+  tmp.list <- foreach(algo = seq(along = method), 
                        .combine = "c", 
                        .verbose = FALSE, 
                        .errorhandling = "stop") %op%
     {
-      result <- 
-        foreach((iter = seq(along = inTrain)), 
+      result <-      
+        foreach(iter = seq(along = inTrain), 
               .combine = "c", 
               .verbose = FALSE, 
               .errorhandling = "stop") %:%
-        foreach((parms = 1:nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
+        foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
                 .combine = "c", 
                 .verbose = FALSE, 
                 .errorhandling = "stop")  %op%
@@ -96,66 +105,36 @@ modelTuner <- function(trainData,
           outIndex <- outTrain[[iter]]
           
           # create models
-          if(tolower(method[algo]) != "plsda"){
-            mod <- try(
-              training(data = trainData[index,,drop = FALSE ],
-                       method = method[algo],
-                       tuneValue = guide[[algo]]$loop[parms,,drop = FALSE],
-                       obsLevels = lev,
-                       theDots = theDots
-                       ),
-              silent = TRUE)
-            
-            # calculate predictions if model fit successfully
-            if(class(mod)[1] != "try-error")
-            {
-              predicted <- try(
-                #caret:::predictionFunction
-                predicting(method = method[algo],
-                           modelFit = mod$fit,
-                           newdata = trainData[outIndex, !(names(trainData) %in% ".classes"), drop = FALSE],
-                           param = guide[[algo]]$seqParam[[parms]]),
-                silent = TRUE)
-              #str(predicted)
-              
-              # what should it do if predictionFunction fails???
-              if(class(predicted)[1] == "try-error")
-              {
-                stop("prediction results failed")
-              }
-              
-              # what should it do if createModel fails???
-            } else {
-              stop("model could not be fit")
-            }
-            
-            # run plsda if in method
-          }else{
-            tuneValue <- guide[[algo]]$loop[parms,,drop = FALSE]
-            #dim(trainData)
-            
-            trainX <- trainData[,!(names(trainData) %in% ".classes"), drop = FALSE]
-            trainY <- trainData[,".classes"]
-            
-            #require(DiscriMiner) - once functions have been updated            
+          mod <- try(
+            training(data = trainData[index,,drop = FALSE ],
+                     method = method[algo],
+                     tuneValue = guide[[algo]]$loop[parms,,drop = FALSE],
+                     obsLevels = lev,
+                     theDots = theDots
+            ),
+            silent = TRUE)
+          
+          # calculate predictions if model fit successfully
+          if(class(mod)[1] != "try-error")
+          {
             predicted <- try(
-              plsDA(trainX, 
-                    trainY,
-                    autosel=F,
-                    learn = index,
-                    test = outIndex,
-                    validation = "learntest",
-                    comps = tuneValue$.ncomp,
-                    cv ="none",
-                    retain.models=TRUE)$classification,
+              predicting(method = method[algo],
+                         modelFit = mod$fit,
+                         orig.data = trainData,
+                         indicies = index,
+                         newdata = trainData[outIndex, !(names(trainData) %in% ".classes"), drop = FALSE],
+                         param = guide[[algo]]$seqParam[[parms]]),
               silent = TRUE)
-             
-            predicted <- lapply(predicted, as.character)
             
-            # what should do if DiscriMiner:::plsDA fails?
-            if(class(predicted[1]) == "try-error"){
+            # what should it do if predictionFunction fails???
+            if(class(predicted)[1] == "try-error")
+            {
               stop("prediction results failed")
             }
+            
+            # what should it do if createModel fails???
+          } else {
+            stop("model could not be fit")
           }
           
           # If the model was built with parameters that 'submodels' can be extracted
@@ -178,6 +157,7 @@ modelTuner <- function(trainData,
                                 },
                                 y = trainData$.classes[outIndex],
                                 lv = lev)
+            #trainData$.classes[index]
             
             ## get the performance for this resample for each sub-model
             perf.metrics <- lapply(predicted,
@@ -289,6 +269,6 @@ modelTuner <- function(trainData,
   }
   
   out
-} # end of modeltuner function
+}
 
 

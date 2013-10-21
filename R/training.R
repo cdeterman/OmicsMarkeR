@@ -45,149 +45,159 @@ training <-
     trainX <- data[,!(names(data) %in% ".classes"), drop = FALSE]
     trainY <- data[,".classes"]
     
-    if(tolower(method) == "gbm" & length(obsLevels) == 2)  numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
+    if(method == "gbm" & length(obsLevels) == 2)  numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
     
-  modelFit <- switch(tolower(method),
-                     plsda =
-                       {
-                         #library(DiscriMiner)
-                         # retain.models omitted because when this is used, the final model is only using the best component
-                         # may switch to retain all models but this omits more processing that is likely superfluous
-                         
-                         # check for number of components provided.  This is important following selection of the best model
-                         if(tuneValue$.ncomp == 1){
-                           warning("PLSDA model contained only 1 component. PLSDA requires at least 2 components.\nModel fit with 2 components")
-                           tuneValue$.ncomp = 2
-                         }
-                         
-                         plsDA(trainX, 
-                               trainY,
-                               autosel=F,
-                               validation = NULL,
-                               comps = tuneValue$.ncomp,
-                               cv ="none")
-                       },
-                     gbm =  
-                     {
-                       #library(gbm)
-                       # need to make sure only extract arguments that pertain to gbm
-                       gbm.args <- c("w", "var.monotone", "n.minobsinnode", 
-                                     "bag.fraction", "var.names", "response.name", "group") 
-                       theDots <- theDots[names(theDots) %in% gbm.args]
+    #print(tolower(method))
+    #switch(method,
+    #       plsda = {
+    #         print("success")
+    #       },
+    #       gbm = {
+    #         print("failure")
+    #       })
                        
-                       # determine if binary or multiclass
-                       gbmdist <- if(length(unique(trainY)) == 2){
-                         "bernoulli"}else{
-                           "multinomial"
-                         }         
-                       
-                       # check gbm setup file to see if this is necessary
-                       modY <- if(gbmdist != "multinomial") numClasses else trainY
-                       
-                       if(gbmdist != "multinomial"){
-                         modY <- numClasses
-                       }else{
-                         modY <- trainY
-                       }
-                       
-                       modArgs <- list(x = trainX,
-                                       y = modY,
-                                       interaction.depth = tuneValue$.interaction.depth,
-                                       n.trees = tuneValue$.n.trees,
-                                       shrinkage = tuneValue$.shrinkage, 
-                                       distribution = gbmdist,
-                                       verbose = FALSE)
-                       
-                       if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
-                       
-                       do.call("gbm.fit", modArgs)
-
-                     },
-                     
-                     rf =
-                     {
-                       #library(randomForest)
-                       
-                       rf.args <- c("maxnodes", "keep.forest", "keep.inbag")
-                       theDots <- theDots[names(theDots) %in% rf.args]
-                       
-                       modArgs <- list(x = trainX,
-                                       y = trainY,
-                                       importance = TRUE,
-                                       mtry = tuneValue$.mtry,
-                                       ntree=round.multiple(sqrt(ncol(trainX)), target = 50)
-                                       )
-                       
-                       if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
-                       
-                       do.call("randomForest", modArgs)
-                     },                  
-                    
-                     svm =   
-                       { 
-                         #library(e1071)
-                         out <- svm(trainX, 
-                                    trainY,
-                                    cost = tuneValue$.C, 
-                                    cachesize=500,
-                                    scale=F, 
-                                    type="C-classification", 
-                                    kernel="linear")                         
-                         out
-                       },
-  
-                     pam = 
-                     {
-                       #library(pamr)    
-                       
-                       pamr.args <- c("n.threshold", "threshold.scale", "scale.sd", "se.scale")
-                       theDots <- theDots[names(theDots) %in% pamr.args]
-                       
-                       modArgs <- list(data = list(x = t(trainX), y = trainY, geneid = as.character(colnames(trainX))),
-                                       threshold = tuneValue$.threshold
-                                       )
-                       
-                       if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
-                       
-                       do.call("pamr.train", modArgs)
-                     },         
-                      
-                     glmnet =
-                     {
-                       #library(glmnet)
-                       numLev <- if(is.character(trainY) | is.factor(trainY)) length(levels(trainY)) else NA
-
-                       glmnet.args <- c("offset", "nlambda", "weights", "standardize","intecept", 
-                                        "dfmax", "pmax","exclude","penalty.factor","lower.limits",
-                                        "upper.limits","maxit","standardize.response","type.multinomial")
-                       theDots <- theDots[names(theDots) %in% glmnet.args]
-                       
-                       if(!is.null(theDots)){
-                         if(all(names(theDots) != "family"))
+    modelFit <- switch(method,
+                       plsda =
                          {
-                           if(!is.na(numLev))
-                           {
-                             fam <- ifelse(numLev > 2, "multinomial", "binomial")
-                           } else stop("Error: levels of classes couldn't be determined for glmnet")
+                           #library(DiscriMiner)
+                           # retain.models omitted because when this is used, the final model is only using the best component
+                           # may switch to retain all models but this omits more processing that is likely superfluous
                            
-                           if(is.null(theDots)){
-                             theDots <- list(family = fam)
-                           }else{
-                             theDots$family <- fam
+                           # check for number of components provided.  This is important following selection of the best model
+                           if(tuneValue$.ncomp == 1){
+                             warning("PLSDA model contained only 1 component. PLSDA requires at least 2 components.\nModel fit with 2 components")
+                             tuneValue$.ncomp = 2
                            }
-                         }
-                       }
+                           
+                           plsDA(trainX, 
+                                 trainY,
+                                 autosel=F,
+                                 validation = NULL,
+                                 comps = tuneValue$.ncomp,
+                                 cv ="none")
+                         },
                        
-                       modelArgs <- c(
-                                      list(
-                                           x = as.matrix(trainX),
+                       gbm =  
+                         {
+                           #library(gbm)
+                           # need to make sure only extract arguments that pertain to gbm
+                           gbm.args <- c("w", "var.monotone", "n.minobsinnode", 
+                                         "bag.fraction", "var.names", "response.name", "group") 
+                           theDots <- theDots[names(theDots) %in% gbm.args]
+                           
+                           # determine if binary or multiclass
+                           gbmdist <- if(length(unique(trainY)) == 2){
+                             "bernoulli"}else{
+                               "multinomial"
+                             }         
+                           
+                           # check gbm setup file to see if this is necessary
+                           modY <- if(gbmdist != "multinomial") numClasses else trainY
+                           
+                           if(gbmdist != "multinomial"){
+                             modY <- numClasses
+                           }else{
+                             modY <- trainY
+                           }
+                           
+                           modArgs <- list(x = trainX,
+                                           y = modY,
+                                           interaction.depth = tuneValue$.interaction.depth,
+                                           n.trees = tuneValue$.n.trees,
+                                           shrinkage = tuneValue$.shrinkage, 
+                                           distribution = gbmdist,
+                                           verbose = FALSE)
+                           
+                           if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
+                           
+                           do.call("gbm.fit", modArgs)
+                           
+                         },
+                       
+                       rf =
+                         {
+                           #library(randomForest)
+                           
+                           rf.args <- c("maxnodes", "keep.forest", "keep.inbag")
+                           theDots <- theDots[names(theDots) %in% rf.args]
+                           
+                           modArgs <- list(x = trainX,
                                            y = trainY,
-                                           alpha = tuneValue$.alpha),
-                                      theDots)
+                                           importance = TRUE,
+                                           mtry = tuneValue$.mtry,
+                                           ntree=round.multiple(sqrt(ncol(trainX)), target = 50)
+                           )
+                           
+                           if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
+                           
+                           do.call("randomForest", modArgs)
+                         },
                        
-                       out <- do.call("glmnet", modelArgs) 
-                       out 
-                     }
+                       svm =
+                         { 
+                           #library(e1071)
+                           out <- svm(trainX, 
+                                      trainY,
+                                      cost = tuneValue$.C, 
+                                      cachesize=500,
+                                      scale=F, 
+                                      type="C-classification", 
+                                      kernel="linear")                         
+                           out
+                         },
+                       
+                       pam = 
+                         {
+                           #library(pamr)    
+                           
+                           pamr.args <- c("n.threshold", "threshold.scale", "scale.sd", "se.scale")
+                           theDots <- theDots[names(theDots) %in% pamr.args]
+                           
+                           modArgs <- list(data = list(x = t(trainX), y = trainY, geneid = as.character(colnames(trainX))),
+                                           threshold = tuneValue$.threshold
+                           )
+                           
+                           if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
+                           
+                           do.call("pamr.train", modArgs)
+                         }, 
+                       
+                       glmnet =
+                         {
+                           #library(glmnet)
+                           numLev <- if(is.character(trainY) | is.factor(trainY)) length(levels(trainY)) else NA
+                           
+                           glmnet.args <- c("offset", "nlambda", "weights", "standardize","intecept", 
+                                            "dfmax", "pmax","exclude","penalty.factor","lower.limits",
+                                            "upper.limits","maxit","standardize.response","type.multinomial")
+                           theDots <- theDots[names(theDots) %in% glmnet.args]
+                           
+                           if(!is.null(theDots)){
+                             if(all(names(theDots) != "family"))
+                             {
+                               if(!is.na(numLev))
+                               {
+                                 fam <- ifelse(numLev > 2, "multinomial", "binomial")
+                               } else stop("Error: levels of classes couldn't be determined for glmnet")
+                               
+                               if(is.null(theDots)){
+                                 theDots <- list(family = fam)
+                               }else{
+                                 theDots$family <- fam
+                               }
+                             }
+                           }
+                           
+                           modelArgs <- c(
+                             list(
+                               x = as.matrix(trainX),
+                               y = trainY,
+                               alpha = tuneValue$.alpha),
+                             theDots)
+                           
+                           out <- do.call("glmnet", modelArgs) 
+                           out 
+                         }
                      )
     
     modelFit$xNames <- xNames

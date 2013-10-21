@@ -79,7 +79,7 @@ plsDA <-
            learn = NULL, test = NULL, cv = "LOO", k = NULL, retain.models = FALSE)
   {
     # check inputs
-    verify_Xy = verify(variables, group, na.rm=FALSE)
+    verify_Xy = my_verify(variables, group, na.rm=FALSE)
     X = verify_Xy$X
     y = verify_Xy$Y
     # autosel

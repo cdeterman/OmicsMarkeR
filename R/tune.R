@@ -152,8 +152,9 @@ tune <- function(
   ## mapply only works if multiple methods being run
   #mapply("byComplexity", performance, method)
   
+  #modified from caret:::byComplexity
   for(i in seq(along=method)){
-    performance[[i]] <- caret:::byComplexity(performance[[i]], method[i])
+    performance[[i]] <- byComplexity2(performance[[i]], method[i])
   }
   
   #if(any(is.na(performance[, metric])))
@@ -176,7 +177,7 @@ tune <- function(
   #bestIter <- mapply("best", performance, metric)
   bestIter <- vector("list", length(performance))
   for(i in seq(along=performance)){
-    bestIter[[i]] <- best(performance[[i]], metric)
+    bestIter[[i]] <- caret:::best(performance[[i]], metric, maximize=TRUE)
   }
   
   # make sure a model was chosen for each method and that it is only one option

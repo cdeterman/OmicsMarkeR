@@ -35,6 +35,8 @@
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
 #' @param model.features Logical argument if should have number of features selected to be determined
 #' by the individual model runs.  Default \code{"model.features = FALSE"}
+#' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package.
+#' Default \code{allowParallel = FALSE}
 #' @param verbose Logical argument if should output progress
 #' @param ... Extra arguments that the user would like to apply to the models
 #'
@@ -71,6 +73,16 @@
 #' @import pamr
 #' @import glmnet
 #' @export
+#X <- dat.discr[,1:50]
+#Y <- dat.discr[,51]
+#method <- "plsda"
+#k = 2
+#p = .9
+#f = 20
+#k.folds = 3
+#stability.metric = "jaccard"
+#optimize = TRUE
+#optimize.resample = FALSE
 
 fs.stability <- 
   function(X,                             # scaled matrix or dataframe of explanatory variables
@@ -88,6 +100,7 @@ fs.stability <-
            resolution = if(optimize) 3 else NULL, # optional & if optimize = TRUE, how fine tuning grid
            metric = "Accuracy",                   # metric to determine best tuned models
            model.features = FALSE,                # optional choice for model defined number of features
+           allowParallel = FALSE,
            verbose = FALSE,                       # optional print progress
            ...
   )
@@ -123,6 +136,10 @@ fs.stability <-
     final.features <- vector("list", k)
     names(final.features) <- paste("Resample", seq(k), sep = ".")
     
+    # empty list for trimmed models
+    finalModel.new <- vector("list", k*length(method))
+    names(finalModel.new) <- rep(method, each = k)
+    
     # need to retain for SVM and PAM feature selection
     trainVars.list <- vector("list", k)
     trainGroup.list <- vector("list", k)  
@@ -137,7 +154,8 @@ fs.stability <-
     inTrain <- rlply(k, sample(nr, round(p*nr)))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))
-    
+    #i <- 1
+    #method <- c("plsda")
     # loop through k bootstraps for stability metrics
     for(i in seq(k)){          
       trainVars <- X[inTrain[[i]],, drop=F]
@@ -147,7 +165,6 @@ fs.stability <-
       
       trainData <- as.data.frame(trainVars)
       trainData$.classes <- trainGroup
-      
       
       if(optimize == TRUE){
         if(optimize.resample == TRUE){
@@ -240,7 +257,7 @@ fs.stability <-
           
           
           if(i == 1){
-            finalModel.new <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
+            finalModel.new[i] <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             new.best.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             names(new.best.tunes) <- method
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
@@ -249,7 +266,7 @@ fs.stability <-
             tmp.model <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             tmp.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             names(tmp.tunes) <- method
-            finalModel.new <- append(finalModel.new, tmp.model)
+            finalModel.new[i] <- tmp.model
             new.best.tunes <- append(new.best.tunes, tmp.tunes)
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
             names(final.features[[i]]) <- method
@@ -268,6 +285,7 @@ fs.stability <-
                                   metric = metric,
                                   savePerformanceMetrics = FALSE,
                                   verbose = verbose,
+                                  allowParallel = allowParallel,
                                   theDots = theDots)
             finalModel <- tuned.methods$finalModel
             finish.Model <- tuned.methods$finalModel
@@ -364,15 +382,13 @@ fs.stability <-
           }
 
           if(i == 1){
-            finalModel.new <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
+            finalModel.new[i] <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             new.best.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
             names(final.features[[i]]) <- method
           }else{
-            tmp.model <- sapply(tmp, FUN = function(x) x)
-            #tmp.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
-            finalModel.new <- append(finalModel.new, tmp.model)
-            #new.best.tunes <- append(new.best.tunes, tmp.tunes)
+            tmp.model <- lapply(tmp, FUN = function(x) x)
+            finalModel.new[i] <- tmp.model
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
             names(final.features[[i]]) <- method
           }  
@@ -466,14 +482,14 @@ fs.stability <-
         }
         
         if(i == 1){
-          finalModel.new <- sapply(tunedModel.new, FUN = function(x) x)
+          finalModel.new <- lapply(tunedModel.new, FUN = function(x) x)
           names(finalModel.new) <- method
           final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
           names(final.features[[i]]) <- method
         }else{
-          tmp.model <- sapply(tunedModel.new, FUN = function(x) x)
+          tmp.model <- lapply(tunedModel.new, FUN = function(x) x)
           names(tmp.model) <- method
-          finalModel.new <- append(finalModel.new, tmp.model)
+          finalModel.new[i] <- tmp.model
           final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
           names(final.features[[i]]) <- method
         }  
@@ -576,7 +592,7 @@ fs.stability <-
     }
     
     # Calculate All Pairwise Stability Measurements for each algorithm's set of features
-    stability <- lapply(results.stability, pairwise.stability, stability.metric = stability.metric, k = k, nc= nc)    
+    stability <- lapply(results.stability, pairwise.stability, stability.metric = stability.metric, nc= nc)    
     
     # stability across algorithms (i.e. 'function perturbation' ensemble analysis)
     if(length(method) > 1){
@@ -592,7 +608,7 @@ fs.stability <-
     #stability <- list(.65, .78, .45)
     #perform <- list(.88, .66, .94)
     #rpt <- mapply(stability, FUN = function(x) RPT(stability = x, performance = y), y = perform)
-    RPT(stability[[1]], perform[[1]])
+    #RPT(stability[[1]], perform[[1]])
     
     # add stability metrics to features selected
     for(i in seq(along = method)){

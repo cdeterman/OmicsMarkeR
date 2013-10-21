@@ -47,3 +47,5 @@ Collate:
     'performance.R'
     'params.R'
     'data.generation.R'
+    'my_verify.R'
+    'print.plsda.R'

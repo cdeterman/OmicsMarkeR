@@ -64,7 +64,6 @@ prediction.metrics <-
       )
     }
     
-    
     ## collate the predicitons across all the models
     for(g in seq(along = finalModel)){
       predicted[[g]] <- factor(as.character(unlist(predicted[[g]])), levels = grp.levs)

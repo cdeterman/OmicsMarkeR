@@ -13,6 +13,7 @@
 #' @author Charles Determan Jr
 #' @seealso \code{"expand.grid"} for generating grids of specific parameters desired.  However,
 #' NOTE that you must still convert the generated grid to a list.
+#' @export
 
 denovo.grid <- function(data,       # training data of method being tuned
                         method,     # which algorithm to create grid

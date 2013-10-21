@@ -24,15 +24,17 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
     as.data.frame(lapply(x, as.character), stringsAsFactors = FALSE)
   }  
   
-  predictedValue <- switch(tolower(method),                           
+  predictedValue <- switch(method,                           
                            plsda =
                            {
                              # require(DiscriMiner)
                              # check for number of components provided.  This is important following selection of the best model
-                             if(param$.ncomp == 1){
+                             
+                             ncomp <- modelFit$tuneValue$.ncomp
+                             if(ncomp == 1){
                                warning("PLSDA model contained only 1 component. PLSDA requires at least 2 components.\nModel fit with 2 components")
-                               param$.ncomp = 2
-                             }                             
+                               ncomp = 2
+                             }                        
                              
                              tmp <- plsDA(orig.data[,-which(names(orig.data) %in% c(".classes"))], 
                                           orig.data[,c(".classes")],
@@ -40,16 +42,18 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                                           learn = indicies,
                                           test = seq(nrow(orig.data))[-unique(indicies)],
                                           validation = "learntest",
-                                          comps = param$.ncomp,
+                                          comps = ncomp,
                                           cv ="none",
                                           retain.models = TRUE)$classification
                              
-                             if(param$.ncomp < 2){
+                             if(ncomp < 2){
                                out <- lapply(tmp, as.character)[[1]]
                              }else{
-                               last <- length(tmp)
-                               out <- lapply(tmp, as.character)[[last]]
+                            #   last <- length(tmp)
+                            #   out <- lapply(tmp, as.character)[[last]]
+                               out <- lapply(tmp, as.character)
                              }
+                             
                              out
                            },
                            
