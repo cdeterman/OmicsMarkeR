@@ -256,10 +256,10 @@ create.discr.matrix <-
         Z.list[[l]] <- sweep(Z.dat, MARGIN = 2, di.sub, '+')
         rownames(Z.list[[l]]) <- Z.rows[[l]]
       }
-      
+      #require(data.table)
+      Z <- rbindlist(Z.list)
     }
-    #require(data.table)
-    Z <- rbindlist(Z.list)
+    
     
     # add newly discriminated variables back to matrix V to make matrix S
     S <- V
