@@ -35,9 +35,9 @@
   to Binary classification problems,
 }
 \references{
-  Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002)
-  \emph{Gene Selection for Cancer Classification using
-  Support Vector Machines}. Machine Learning 46, 389–422.
+  Guyon I. et. al. (2010) \emph{Gene Selection for Cancer
+  Classification using Support Vector Machines}. Machine
+  Learning 46 389-422.
 }
 \seealso{
   \code{\link{svmrfeFeatureRanking}}

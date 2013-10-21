@@ -4,6 +4,7 @@
 #' function or by the user.
 #' @param trainData Data used to fit the model
 #' @param guide Output from \code{\link{tune.instructions}}.  Facilitates the optimization by avoiding redundant model fitting.
+#' @param method Vector of strins listing models to be fit
 #' @param inTrain Indicies for cross-validated training models
 #' @param outTrain Indicies for cross-validated testing models
 #' @param lev Group levels
@@ -12,6 +13,14 @@
 #' @param verbose Logical argument dictating if should print progress
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
 #' @return Returns list of fitted models
+#' @import randomForest
+#' @import plyr
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
+#' @import foreach
 #' @author Charles E. Determan Jr.
 
 modelTuner <- function(trainData,
@@ -26,7 +35,7 @@ modelTuner <- function(trainData,
                        theDots = NULL
                        )
 {
-  suppressPackageStartupMessages(library(foreach))
+  #suppressPackageStartupMessages(library(foreach))
   
   ### Parallel Programming for Windows
   #`%op%` <- getOper(ctrl$allowParallel)
@@ -59,17 +68,17 @@ modelTuner <- function(trainData,
        #     .packages = c("methods", "caret"), 
         #    .errorhandling = "stop")  %op%
 
-  tmp.list <- foreach(algo = seq(along = method),
+  tmp.list <- foreach((algo = seq(along = method)),
           .combine = "c",
           .verbose = FALSE,
           .errorhandling = "stop") %op%
     {
       result <- 
-        foreach(iter = seq(along = inTrain), 
+        foreach((iter = seq(along = inTrain)), 
               .combine = "c", 
               .verbose = FALSE, 
               .errorhandling = "stop") %:%
-        foreach(parms = 1:nrow(guide[[algo]]$loop), # how many combinations of parameters to try in these loops
+        foreach((parms = 1:nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
                 .combine = "c", 
                 .verbose = FALSE, 
                 .errorhandling = "stop")  %op%
@@ -80,7 +89,8 @@ modelTuner <- function(trainData,
           colnames(printed) <- gsub("^\\.", "", colnames(printed))
           
           # show progress through interations
-          if(verbose) caret:::progress(printed[parms,,drop = FALSE],
+          #caret::progress
+          if(verbose) progress(printed[parms,,drop = FALSE],
                                names(inTrain), iter)
           index <- inTrain[[iter]]
           outIndex <- outTrain[[iter]]
@@ -153,6 +163,7 @@ modelTuner <- function(trainData,
           if(!is.null(guide[[algo]]$seq))
           {
             ## merge the fixed and seq parameter values together
+            #caret::expandParameters
             allParam <- caret:::expandParameters(guide[[algo]]$loop[parms,,drop = FALSE], guide[[algo]]$seqParam[[parms]])
             
             ## For glmnet, we fit all the lambdas but x$fixed has an NA
@@ -175,9 +186,10 @@ modelTuner <- function(trainData,
                                    model = method[algo])
             
             ## for classification, add the cell counts
-            require(plyr)
+            #library(plyr)
             if(length(lev) > 1)
             {
+              #caret::flatTable
               cells <- lapply(predicted,
                               function(x) caret:::flatTable(x$pred, x$obs))
               for(ind in seq(along = cells)){
@@ -216,7 +228,7 @@ modelTuner <- function(trainData,
                                       model = method[algo])
             
             ## Generate the confusion matrix
-            perf.metrics <- c(perf.metrics, conf.matrix(tmp$pred, tmp$obs))
+            perf.metrics <- c(perf.metrics, caret:::flatTable(tmp$pred, tmp$obs))
             perf.metrics <- as.data.frame(t(perf.metrics))
             perf.metrics <- cbind(perf.metrics, guide[[algo]]$loop[parms,,drop = FALSE])
             
@@ -225,7 +237,8 @@ modelTuner <- function(trainData,
           perf.metrics$sampleIndex <- names(inTrain)[iter]
           
           # was verboseIter
-          if(verbose) caret:::progress(printed[parms,,drop = FALSE],
+          #caret::progress
+          if(verbose) progress(printed[parms,,drop = FALSE],
                                        names(inTrain), iter, FALSE)
           list(tunes=perf.metrics)
         }

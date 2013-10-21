@@ -11,7 +11,13 @@
 #'  \item{model: Information regarding parameters of specific model}
 #'  \item{constant: Names of the 'loop' dataframe components}
 #'  \item{vary: Indication of parameters that vary and can access recursively}}
-#'  @author Charles E. Determan Jr.
+#' @author Charles E. Determan Jr.
+#' @import randomForest
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
 
 tune.instructions <- function(method, grid)
 {
@@ -104,7 +110,7 @@ tune.instructions <- function(method, grid)
                    
                    for(k in seq(along = uniqueAlpha))
                    {
-                     seqParam[[k]] <- data.frame(.lambda = subset(grid[[i]], subset = .alpha == uniqueAlpha[k])$.lambda)
+                     seqParam[[k]] <- data.frame(.lambda = subset(grid[[i]], subset = loop$.alpha == uniqueAlpha[k])$.lambda)
                    } 
                  }
         )

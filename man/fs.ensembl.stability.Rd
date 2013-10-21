@@ -3,7 +3,7 @@
 \title{Ensemble Classification & Feature Selection}
 \usage{
   fs.ensembl.stability(X, Y, method, k = 10, p = 0.9,
-    f = ceiling(ncol(variables)/10), bags = 40,
+    f = ceiling(ncol(X)/10), bags = 40,
     aggregation.metric = "CLA",
     stability.metric = "jaccard", optimize = TRUE,
     optimize.resample = FALSE, tuning.grid = NULL,
@@ -90,6 +90,9 @@
 
   \item{verbose}{Logical argument if should output
   progress}
+
+  \item{...}{Extra arguments that the user would like to
+  apply to the models}
 }
 \value{
   \item{Methods}{Vector of models fit to data}
@@ -141,10 +144,8 @@
   Charles Determan Jr
 }
 \references{
-  Saeys, Y., Abeel, T. & Van de Peer, Y. "Machine Learning
-  and Knowledge Discovery in Databases" (Daelemans, W.,
-  Goethals, B. & Morik, K.) 313–325 (Springer Berlin
-  Heidelberg, 2008). at
-  <http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21>
+  Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning
+  and Knowledge Discovery in Databases}. 313-325.
+  http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
 }
 

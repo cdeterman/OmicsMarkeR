@@ -7,6 +7,8 @@
 #' @return Returns confusion matrix and ROC performance statistics including
 #' Accuracy, Kappa, ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value
 #' @seealso caret function \code{\link{confusionMatrix}}
+#' @import caTools
+#' @import caret
 
 performance.stats <- function(pred, obs)
 {
@@ -18,7 +20,7 @@ performance.stats <- function(pred, obs)
   {
     out <- rep(NA, 2)
   } else {
-    require(caTools)
+    #library(caTools)
     tmp.auc <- colMeans(colAUC(order(pred), obs, plotROC = FALSE, alg = "ROC"))
     pred <- factor(pred, levels = levels(obs))  
     

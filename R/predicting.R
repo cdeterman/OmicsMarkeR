@@ -8,6 +8,12 @@
 #' @param newdata The testing data to predict group membership
 #' @param param The parameters being fit to the model (Determined by model optimization).
 #' @return Returns a list of predicted group membership
+#' @import randomForest
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
 
 
 predicting <- function(method, modelFit, orig.data, indicies, newdata, param = NULL)
@@ -49,7 +55,7 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                            
                            gbm =
                            {
-                             require(gbm)
+                             #library(gbm)
                              gbmProb <- predict(modelFit, newdata, type = "response",
                                                 n.trees = modelFit$tuneValue$.n.trees)
                              gbmProb[is.nan(gbmProb)] <- NA
@@ -86,21 +92,21 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                            
                            rf =
                            {
-                             require(randomForest)
+                             #library(randomForest)
                              out <-  as.character(predict(modelFit, newdata))
                              out
                            },
                            
                            svm =                           
                            {
-                             require(e1071)
+                             #library(e1071)
                              out <- as.character(predict(modelFit, newdata))
                              out
                            },
                       
                            pam =
                            {
-                             require(pamr)
+                             #library(pamr)
                              out <- as.character(
                                                  pamr.predict(modelFit,
                                                               t(newdata),
@@ -124,7 +130,7 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                                                     
                            glmnet =
                            {                          
-                             require(glmnet)
+                             #library(glmnet)
                              if(!is.matrix(newdata)) newdata <- as.matrix(newdata)
 
                              if(!is.null(param))

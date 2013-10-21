@@ -12,6 +12,7 @@
 #' @return Returns a dataframe consisting of each feature selection runs evaluated Accuracy, Kappa, 
 #' ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value.
 #' @seealso \code{\link{performance.stats}}, \code{\link{perf.calc}} caret function \code{\link{confusionMatrix}}
+#' @import caret
 
 prediction.metrics <- 
   function(finalModel,
@@ -76,7 +77,7 @@ prediction.metrics <-
                            y = method.vector, SIMPLIFY = FALSE)                 
     
     cells <- lapply(predicted,
-                    function(x) flatTable(x$pred, x$obs))
+                    function(x) caret:::flatTable(x$pred, x$obs))
     for(ind in seq(along = cells)){
       perf.metrics[[ind]] <- c(perf.metrics[[ind]], cells[[ind]])
     } 

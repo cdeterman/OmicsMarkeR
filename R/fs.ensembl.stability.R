@@ -41,7 +41,8 @@
 #' @param model.features Logical argument if should have number of features selected to be determined
 #' by the individual model runs.  Default \code{"model.features = FALSE"}
 #' @param verbose Logical argument if should output progress
-#'
+#' @param ... Extra arguments that the user would like to apply to the models
+#' 
 #' @return \item{Methods}{Vector of models fit to data}
 #' @return \item{performance}{Performance metrics of each model and bootstrap iteration}
 #' @return \item{features}{List concerning features determined via each algorithms feature selection criteria.}
@@ -65,21 +66,27 @@
 #'  \item{group.levels: The specific levels of the groups}
 #'  \item{number.observations.group: Number of observations in each group}}
 #' @author Charles Determan Jr
-#' @references Saeys, Y., Abeel, T. & Van de Peer, Y. "Machine Learning and Knowledge 
-#' Discovery in Databases" (Daelemans, W., Goethals, B. & Morik, K.) 313–325 
-#' (Springer Berlin Heidelberg, 2008). at <http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21>
+#' @references Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and Knowledge Discovery in Databases}. 
+#' 313-325. http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
+#' @import randomForest
+#' @import plyr
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
 #' @export
 
 fs.ensembl.stability <- 
-  function(X,                          # scaled matrix or dataframe of explanatory variables
-           Y,                             # vector or factor with group memberships
-           method,                             # "PLSDA", "glmnet","SVM", "RF", "GBM","PAM"
-           k = 10,                             # number of subsamples
-           p = 0.9,                            # percentage data subsampled
-           f = ceiling(ncol(variables)/10),    # number of top features subset
-           bags=40,                            # number of bags for bootstrap aggregation (i.e. bagging)
-           aggregation.metric = "CLA",         # Method to aggregation ensemble results
-           stability.metric = "jaccard",       # stability metric
+  function(X,
+           Y,
+           method,
+           k = 10,
+           p = 0.9,
+           f = ceiling(ncol(X)/10),
+           bags=40,
+           aggregation.metric = "CLA",
+           stability.metric = "jaccard",
            optimize = TRUE,
            optimize.resample = FALSE,
            tuning.grid = NULL,
@@ -91,15 +98,7 @@ fs.ensembl.stability <-
            verbose = FALSE,
            ...
            )
-    {    
-    ### load all libraries
-    #if("PLSDA" %in% method) # require(DiscriMiner) removed until package updated
-    #if("PAM" %in% method) require(pamr)
-    #if("glmnet" %in% method) require(glmnet)
-    #if("RF" %in% method) require(randomForest)
-    #if("GBM" %in% method) require(gbm)
-    #if("SVM" %in% method) require(e1071) # or require(kernlab)
-    
+    {        
     verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
     #verify_data <- my_verify(variables, groups, na.rm = FALSE)
     X <- verify_data$X

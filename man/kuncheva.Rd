@@ -8,6 +8,9 @@
   \item{x}{vector of feature names}
 
   \item{y}{vector of feature names}
+
+  \item{num.features}{total number of features in the
+  original dataset}
 }
 \value{
   Returns the Kuncheva Index for the two vectors. It takes

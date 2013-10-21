@@ -187,6 +187,7 @@ create.corr.matrix <-
 #' @return Matrix of dimension \code{dim(V)+1} with discriminatory variables induced and the 
 #' .classes added to the end of the matrix.
 #' @author Charles E. Determan Jr.
+#' @import data.table
 
 create.discr.matrix <-
   function(V,
@@ -218,7 +219,7 @@ create.discr.matrix <-
       # add di to first group, subtract from second to induce discrimination
       for(i in seq(D)){
         Z[1:I,i] <- Z[1:I,i]+di[i]
-        Z[(1+I):nsamp,i] <- Z[(1+I):nsamp,i]-di[i] 
+        Z[(1+I):nr,i] <- Z[(1+I):nr,i]-di[i] 
       }
     }else{
       # Multi-class induced discrimination

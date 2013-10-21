@@ -12,9 +12,11 @@
 #' @param perc.rem A numeric value indicating the percent of features removed during each iteration.
 #' Default \code{perc.rem = 10}.
 #' @return Vector of features ranked from most important to least important.
-#' @references Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002) \emph{Gene Selection for Cancer 
-#' Classification using Support Vector Machines}. Machine Learning 46, 389–422.
+#' @references Guyon I. et. al. (2010) \emph{Gene Selection for Cancer Classification using Support Vector Machines}. 
+#' Machine Learning 46 389-422. 
+#' 
 #' @seealso \code{\link{svmrfeFeatureRankingForMulticlass}}
+#' @import e1071
 #' @export
 
 svmrfeFeatureRanking = function(x, y, c, perc.rem=10)
@@ -62,8 +64,8 @@ svmrfeFeatureRanking = function(x, y, c, perc.rem=10)
 #' @description This calculates feature weights for multiclass Support Vector Machine (SVM) problems
 #' @param model A fitted SVM model of multiclass
 #' @return Vector of feature weights
-#' @references Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002) \emph{Gene Selection for Cancer 
-#' Classification using Support Vector Machines}. Machine Learning 46, 389–422.
+#' @references Guyon I. et. al. (2010) \emph{Gene Selection for Cancer Classification using Support Vector Machines}. 
+#' Machine Learning 46 389-422. 
 
 svm.weights<-function(model){
   w=0
@@ -109,8 +111,8 @@ svm.weights<-function(model){
 #' @param perc.rem A numeric value indicating the percent of features removed during each iteration.
 #' Default \code{perc.rem = 10}.
 #' @return Vector of features ranked from most important to least important.
-#' @references Guyon, I., Weston, J., Barnhill, S. & Vapnik, V. (2002) \emph{Gene Selection for Cancer 
-#' Classification using Support Vector Machines}. Machine Learning 46, 389–422.
+#' @references Guyon I. et. al. (2010) \emph{Gene Selection for Cancer Classification using Support Vector Machines}. 
+#' Machine Learning 46 389-422. 
 #' @seealso \code{\link{svmrfeFeatureRanking}}
 #' @export
 

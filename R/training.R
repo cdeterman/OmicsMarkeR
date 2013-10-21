@@ -13,6 +13,12 @@
 #'  \item{tuneValue: Parameters applied to the fitted model}
 #'  \item{obsLevels: Observed levels of the groups}}
 #' @author Charles Determan Jr
+#' @import randomForest
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
 
 training <-
   function(data, method, tuneValue, obsLevels, theDots = NULL)
@@ -63,7 +69,7 @@ training <-
                        },
                      gbm =  
                      {
-                       library(gbm)
+                       #library(gbm)
                        # need to make sure only extract arguments that pertain to gbm
                        gbm.args <- c("w", "var.monotone", "n.minobsinnode", 
                                      "bag.fraction", "var.names", "response.name", "group") 
@@ -100,7 +106,7 @@ training <-
                      
                      rf =
                      {
-                       library(randomForest)
+                       #library(randomForest)
                        
                        rf.args <- c("maxnodes", "keep.forest", "keep.inbag")
                        theDots <- theDots[names(theDots) %in% rf.args]
@@ -119,7 +125,7 @@ training <-
                     
                      svm =   
                        { 
-                         library(e1071)
+                         #library(e1071)
                          out <- svm(trainX, 
                                     trainY,
                                     cost = tuneValue$.C, 
@@ -132,7 +138,7 @@ training <-
   
                      pam = 
                      {
-                       library(pamr)    
+                       #library(pamr)    
                        
                        pamr.args <- c("n.threshold", "threshold.scale", "scale.sd", "se.scale")
                        theDots <- theDots[names(theDots) %in% pamr.args]
@@ -148,7 +154,7 @@ training <-
                       
                      glmnet =
                      {
-                       library(glmnet)
+                       #library(glmnet)
                        numLev <- if(is.character(trainY) | is.factor(trainY)) length(levels(trainY)) else NA
 
                        glmnet.args <- c("offset", "nlambda", "weights", "standardize","intecept", 

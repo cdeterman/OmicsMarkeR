@@ -36,6 +36,7 @@
 #' @param model.features Logical argument if should have number of features selected to be determined
 #' by the individual model runs.  Default \code{"model.features = FALSE"}
 #' @param verbose Logical argument if should output progress
+#' @param ... Extra arguments that the user would like to apply to the models
 #'
 #' @return \item{Methods}{Vector of models fit to data}
 #' @return \item{performance}{Performance metrics of each model and bootstrap iteration}
@@ -60,9 +61,15 @@
 #'  \item{group.levels: The specific levels of the groups}
 #'  \item{number.observations.group: Number of observations in each group}}
 #' @author Charles Determan Jr
-#' @references Saeys, Y., Abeel, T. & Van de Peer, Y. "Machine Learning and Knowledge 
-#' Discovery in Databases" (Daelemans, W., Goethals, B. & Morik, K.) 313–325 
-#' (Springer Berlin Heidelberg, 2008). at <http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21>
+#' @references Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and Knowledge Discovery in Databases}. 
+#' 313-325. http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
+#' @import randomForest
+#' @import plyr
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
 #' @export
 
 fs.stability <- 
@@ -86,15 +93,6 @@ fs.stability <-
   )
 {
     verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
-    #verify_data <- my_verify(variables, groups, na.rm = FALSE)
-    
-    ### load all libraries
-    #if("plsda" %in% method) #require(DiscriMiner) removed until updated package
-    #if("pam" %in% method) require(pamr)
-    #if("glmnet" %in% method) require(glmnet)
-    #if("rf" %in% method) require(randomForest)
-    #if("gbm" %in% method) require(gbm)
-    #if("svm" %in% method) require(e1071) # or require(kernlab)
     
     #### Filter Methods???
     ## Bhattacharyya Distance

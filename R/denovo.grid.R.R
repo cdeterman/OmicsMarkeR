@@ -64,7 +64,7 @@ rfTune <- function(
   res
 )
 {
-  require(randomForest)
+  #library(randomForest)
   p <- dim(data)[2] - 1 
   c <- ceiling(p/50)
   
@@ -94,7 +94,7 @@ pamTune <- function(data,   # training data subset
                     res
 )
 {
-  require(pamr)
+  #library(pamr)
   data <- data[complete.cases(data),,drop = FALSE]
   
   train.x <- data[!(names(data) %in% ".classes")]

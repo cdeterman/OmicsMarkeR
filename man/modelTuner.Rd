@@ -13,6 +13,8 @@
   Facilitates the optimization by avoiding redundant model
   fitting.}
 
+  \item{method}{Vector of strins listing models to be fit}
+
   \item{inTrain}{Indicies for cross-validated training
   models}
 

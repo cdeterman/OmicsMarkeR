@@ -170,6 +170,7 @@ pof <- function(x,y){
 #' cardinality (i.e. same length).
 #' @param x vector of feature names
 #' @param y vector of feature names
+#' @param num.features total number of features in the original dataset
 #' @return Returns the Kuncheva Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
 #' between two sets and 1 meaning two sets are identical.
 #' @author Charles E. Determan Jr.

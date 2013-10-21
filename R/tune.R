@@ -30,6 +30,12 @@
 #' 2 components.  This catches the 1 component parameter so feature selection and further performance
 #' analysis can be conducted on the 1 component.}
 #' @author Charles E. Determan Jr.
+#' @import randomForest
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
 
 tune <- function(
   trainVars,
@@ -147,7 +153,7 @@ tune <- function(
   #mapply("byComplexity", performance, method)
   
   for(i in seq(along=method)){
-    performance[[i]] <- byComplexity(performance[[i]], method[i])
+    performance[[i]] <- caret:::byComplexity(performance[[i]], method[i])
   }
   
   #if(any(is.na(performance[, metric])))
