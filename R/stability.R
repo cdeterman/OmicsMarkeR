@@ -225,6 +225,8 @@ kuncheva <- function(x,             # list of features in first run
 #' @author Charles Determan Jr
 #' @references He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
 #' Computational Biology and Chemistry 34 215-225.
+#' @export
+
 pairwise.stability <- 
   function(features, 
            stability.metric, 
@@ -280,6 +282,8 @@ pairwise.stability <-
 #' @author Charles Determan Jr
 #' @references He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}. 
 #' Computational Biology and Chemistry 34 215-225.
+#' @export
+
 pairwise.model.stability <- 
   function(features, stability.metric, m, k)
   {
@@ -316,3 +320,19 @@ pairwise.model.stability <-
     out  
   }
 
+#' @title Robustness-Performance Trade-Off
+#' @description A variation on the F-measure (precision and recall) to
+#' assess robustness versus classification performance.
+#' @param stability Stability metric i.e. result from jaccard, sorensen, etc.
+#' @param performance Model performance e.g. accuracy
+#' @param beta Relative of importance of stability versus performance.
+#' Default \code{beta = 1} treats stability and performance equally.
+#' @return Harmonic mean of robustness and classification performance
+#' @references Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and Knowledge Discovery in Databases}. 
+#' 313-325. http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
+
+RPT <- 
+  function(stability, performance, beta = 1){
+    rpt <- (((beta^2)+1)*stability*performance)/((beta^2)*stability + performance)
+    rpt
+  }
