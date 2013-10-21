@@ -42,6 +42,7 @@
 #'
 #' @return \item{Methods}{Vector of models fit to data}
 #' @return \item{performance}{Performance metrics of each model and bootstrap iteration}
+#' @return \item{RPT}{Robustness-Performance Trade-Off as defined in Saeys 2008}
 #' @return \item{features}{List concerning features determined via each algorithms feature selection criteria.}
 #' @return \itemize{
 #'  \item{metric: Stability metric applied}
@@ -605,10 +606,9 @@ fs.stability <-
     }
     
     # harmonic mean of stability and performance
-    #stability <- list(.65, .78, .45)
-    #perform <- list(.88, .66, .94)
-    #rpt <- mapply(stability, FUN = function(x) RPT(stability = x, performance = y), y = perform)
-    #RPT(stability[[1]], perform[[1]])
+    rpt.stab <- lapply(stability, FUN = function(x) x$overall)
+    rpt.perf <- lapply(performance, FUN = function(x) as.data.frame(x)$Accuracy)
+    rpt <- mapply(rpt.stab, FUN = function(x,y) RPT(stability = x, performance = y), y = rpt.perf)
     
     # add stability metrics to features selected
     for(i in seq(along = method)){
@@ -625,12 +625,13 @@ fs.stability <-
     
     ## add remainder of data
     overall <- list(methods = method,                     # algorithms run
-                              performance = performance,
-                              features = results.stability,         # list of each algorithms results
-                              stability.models = stability.models,  # stability amongst algorithms
-                              original.best.tunes = resample.tunes, # if optimize.resample returns the best tunes for each iteration
-                              final.best.tunes = if(optimize.resample) all.model.perfs else NULL,   # if optimize.resample, provide parameter with performance statistics
-                              specs = specs                         # general specs of the input data
+                    performance = performance,            # performance metrics of each algorithm
+                    RPT = rpt,                             # robustness-performance trade-off
+                    features = results.stability,         # list of each algorithms results
+                    stability.models = stability.models,  # stability amongst algorithms
+                    original.best.tunes = resample.tunes, # if optimize.resample returns the best tunes for each iteration
+                    final.best.tunes = if(optimize.resample) all.model.perfs else NULL,   # if optimize.resample, provide parameter with performance statistics
+                    specs = specs                         # general specs of the input data
     )
     return(overall)
   }
