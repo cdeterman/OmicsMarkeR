@@ -100,6 +100,9 @@
   \item{performance}{Performance metrics of each model and
   bootstrap iteration}
 
+  \item{RPT}{Robustness-Performance Trade-Off as defined in
+  Saeys 2008}
+
   \item{features}{List concerning features determined via
   each algorithms feature selection criteria.}
 

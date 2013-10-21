@@ -45,6 +45,7 @@
 #' 
 #' @return \item{Methods}{Vector of models fit to data}
 #' @return \item{performance}{Performance metrics of each model and bootstrap iteration}
+#' @return \item{RPT}{Robustness-Performance Trade-Off as defined in Saeys 2008}
 #' @return \item{features}{List concerning features determined via each algorithms feature selection criteria.}
 #' @return \itemize{
 #'  \item{metric: Stability metric applied}
@@ -133,10 +134,7 @@ fs.ensembl.stability <-
     
     inTrain <- rlply(k, sample(nr, round(p*nr)))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
-                       total = seq(nr))
-    #i <- 1
-    #optimize.resample = FALSE
-    
+                       total = seq(nr))    
     
     ### Stability Loop
     for (i in 1:k){
@@ -204,7 +202,7 @@ fs.ensembl.stability <-
             tmp.model <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             tmp.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             names(tmp.tunes) <- method
-            finalModel.new <- append(finalModel.new, tmp.model)
+            finalModel.new <- c(finalModel.new, tmp.model)
             new.best.tunes <- append(new.best.tunes, tmp.tunes)
           }  
           # end of full optimize loop
@@ -241,8 +239,8 @@ fs.ensembl.stability <-
             finalModel.new <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             new.best.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
           }else{
-            tmp.model <- sapply(tmp, FUN = function(x) x)
-            finalModel.new <- append(finalModel.new, tmp.model)
+            tmp.model <- lapply(tmp, FUN = function(x) x)
+            finalModel.new <- c(finalModel.new, tmp.model)
           }  
         } # end of single optimize loop
         # end of optimize loop
@@ -271,8 +269,8 @@ fs.ensembl.stability <-
         if(i == 1){
           finalModel.new <- sapply(tunedModel.new, FUN = function(x) x)
         }else{
-          tmp.model <- sapply(tunedModel.new, FUN = function(x) x)
-          finalModel.new <- append(finalModel.new, tmp.model)
+          tmp.model <- lapply(tunedModel.new, FUN = function(x) x)
+          finalModel.new <- c(finalModel.new, tmp.model)
         }
       } # end of non-optimized loop
     } # end stability loop
@@ -391,6 +389,12 @@ fs.ensembl.stability <-
       stability.models <- NULL
     }
     
+    # harmonic mean of stability and performance
+    rpt.stab <- lapply(stability, FUN = function(x) x$overall)
+    rpt.perf <- lapply(performance, FUN = function(x) as.data.frame(x)$Accuracy)
+    rpt <- mapply(rpt.stab, FUN = function(x,y) RPT(stability = x, performance = y), y = rpt.perf)
+    
+    
     # add stability metric to each respective algorithm
     for(i in 1:length(method)){
       results.stability[[i]] <- list(metric = stability.metric, results.stability = results.stability[[i]], stability = stability[[i]])
@@ -405,6 +409,7 @@ fs.ensembl.stability <-
     ## add remainder of data
     overall <- list(methods = method,                      # algorithms run
                     performance = performance,
+                    RPT = rpt,
                     features = results.stability,          # list of each algorithms results
                     stability.models = stability.models,   # stability amongst algorithms
                     all.tunes = bagged.tunes,              # if optimize.resample returns the best tunes for each iteration
