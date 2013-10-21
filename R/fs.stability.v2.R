@@ -137,10 +137,6 @@ fs.stability <-
     final.features <- vector("list", k)
     names(final.features) <- paste("Resample", seq(k), sep = ".")
     
-    # empty list for trimmed models
-    finalModel.new <- vector("list", k*length(method))
-    names(finalModel.new) <- rep(method, each = k)
-    
     # need to retain for SVM and PAM feature selection
     trainVars.list <- vector("list", k)
     trainGroup.list <- vector("list", k)  
@@ -267,7 +263,7 @@ fs.stability <-
             tmp.model <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             tmp.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             names(tmp.tunes) <- method
-            finalModel.new[i] <- tmp.model
+            finalModel.new <- c(finalModel.new, tmp.model)
             new.best.tunes <- append(new.best.tunes, tmp.tunes)
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
             names(final.features[[i]]) <- method
@@ -383,13 +379,13 @@ fs.stability <-
           }
 
           if(i == 1){
-            finalModel.new[i] <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
+            finalModel.new <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             new.best.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
             names(final.features[[i]]) <- method
           }else{
             tmp.model <- lapply(tmp, FUN = function(x) x)
-            finalModel.new[i] <- tmp.model
+            finalModel.new <- c(finalModel.new, tmp.model)
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
             names(final.features[[i]]) <- method
           }  
@@ -490,7 +486,7 @@ fs.stability <-
         }else{
           tmp.model <- lapply(tunedModel.new, FUN = function(x) x)
           names(tmp.model) <- method
-          finalModel.new[i] <- tmp.model
+          finalModel.new <- c(finalModel.new, tmp.model)
           final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
           names(final.features[[i]]) <- method
         }  
@@ -502,7 +498,7 @@ fs.stability <-
     if(verbose){
       cat("\nCalculating Model Performance Statistics\n")
     }
-    
+    length(finalModel.new)
     final.metrics <- prediction.metrics(finalModel = finalModel.new,
                                         method = method,
                                         raw.data = raw.data,
