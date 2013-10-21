@@ -8,18 +8,18 @@ plus_minus <- function(beta){
   return(inv)
 }
 
-ind_corr <- function(group_size, start, end){
+ind_corr <- function(dat, group_size, start, end){
   pm <- plus_minus(group_size-1)
   
   # take first column of block
-  f <- U[,start]
+  f <- dat[,start]
   
   #copy to each subsequent column
-  U[,(start+1):end] <- f
-  U[,(start+1):end]
+  dat[,(start+1):end] <- f
+  dat[,(start+1):end]
 
   #change sign
-  finish <- t(t(U[,(start+1):end])*pm)  
+  finish <- t(t(dat[,(start+1):end])*pm)  
   return(finish)
 }
 
@@ -110,13 +110,11 @@ create.corr.matrix <-
     
     nvar <- ncol(U)
     nsamp <- nrow(U)
-    
+        
     # generate block size (groups of variables to correlate)
     # discrete uniform distribution, 2>beta>5 - original (more appropriate for MS?)
     # set beta -> 1>x>5 to reflect that some variables likely independent with less dimensions in NMR
-    beta <- sample(min.block.size:max.block.size, size=nvar-1, replace=T)
-    #beta
-    
+    beta <- sample(min.block.size:max.block.size, size=nvar-1, replace=T)    
     
     # loop through each block
     for (i in 1:length(beta)){ 
@@ -124,7 +122,7 @@ create.corr.matrix <-
         start <- 1
         end <- start + beta[i] - 1
         
-        U[,(start+1):end] <- ind_corr(beta[i], start, end)
+        U[,(start+1):end] <- ind_corr(U, beta[i], start, end)
       }else{
         start <- end + 1
         
@@ -141,18 +139,13 @@ create.corr.matrix <-
           end <- nvar
           is_group <- end - start
           if (is_group > 1){
-            U[,(start+1):end] <- ind_corr(is_group, start, end)
+            U[,(start+1):end] <- ind_corr(U, is_group, start, end)
           }
-          
-          #print(head(U[,start:end]))
-          #print(end)
-          #print(i)
-          #cat('not enough remaining variables\n')
           break
         }
         
         if (beta[i] != 1){
-          U[,(start+1):end] <- ind_corr(beta[i], start, end)  
+          U[,(start+1):end] <- ind_corr(U, beta[i], start, end)  
         }  
         B <- U
       }
