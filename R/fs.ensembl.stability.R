@@ -384,7 +384,7 @@ fs.ensembl.stability <-
     }
     
     # Calculate All Pairwise Stability Measurements for each algorithm's set of features
-    stability <- lapply(results.stability, pairwise.stability, stability.metric = stability.metric, k = k, nc= nc)
+    stability <- lapply(results.stability, pairwise.stability, stability.metric = stability.metric, nc= nc)
     
     # stability across algorithms (i.e. 'function perturbation' ensemble analysis)
     if(length(method) > 1){
