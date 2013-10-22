@@ -1,4 +1,4 @@
-Package: BiomarkeR
+Package: OmicsMarkeR
 Title: Classification and Feature Selection for 'Omics' Datasets
 Description: Tools for classification and feature selection for 'omics' level
     datasets
