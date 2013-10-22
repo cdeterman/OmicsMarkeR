@@ -24,6 +24,8 @@
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
 #' @param model.features Logical argument if should have number of features selected to be determined
 #' by the individual model runs.  Default \code{"model.features = FALSE"}
+#' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package.
+#' Default \code{allowParallel = FALSE}
 #' @param verbose Logical argument if should output progress
 #' @param theDots Optional arguments provided for specific models or user defined parameters if 
 #' \code{"optimize = FALSE"}.
@@ -55,6 +57,7 @@ bagging.wrapper <- function(X,
                             optimize.resample,
                             metric,
                             model.features,
+                            allowParallel,
                             verbose,
                             theDots)
 {
@@ -114,6 +117,7 @@ bagging.wrapper <- function(X,
                               grid = tuning.grid,
                               metric = metric,
                               savePerformanceMetrics = FALSE,
+                              allowParallel = allowParallel,
                               verbose = verbose,
                               theDots = theDots)
         if(i == 1){
@@ -139,6 +143,7 @@ bagging.wrapper <- function(X,
                                 grid = tuning.grid,
                                 metric = metric,
                                 savePerformanceMetrics = FALSE,
+                                allowParallel = allowParallel,
                                 verbose = verbose,
                                 theDots = theDots)
           finalModel <- tuned.methods$finalModel

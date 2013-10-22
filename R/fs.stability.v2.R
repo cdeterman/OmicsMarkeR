@@ -175,6 +175,7 @@ fs.stability <-
                                 grid = tuning.grid,
                                 metric = metric,
                                 savePerformanceMetrics = FALSE,
+                                allowParallel = allowParallel,
                                 verbose = verbose,
                                 theDots = theDots)
           
@@ -248,6 +249,7 @@ fs.stability <-
                                           grid = tuning.grid,
                                           metric = metric,
                                           savePerformanceMetrics = FALSE,
+                                          allowParallel = allowParallel,
                                           verbose = verbose,
                                           theDots = theDots)  
             }
@@ -361,6 +363,7 @@ fs.stability <-
                                           grid = tuning.grid,
                                           metric = metric,
                                           savePerformanceMetrics = FALSE,
+                                          allowParallel = allowParallel,
                                           verbose = verbose,
                                           theDots = theDots)  
               

@@ -40,6 +40,8 @@
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
 #' @param model.features Logical argument if should have number of features selected to be determined
 #' by the individual model runs.  Default \code{"model.features = FALSE"}
+#' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package.
+#' Default \code{allowParallel = FALSE}
 #' @param verbose Logical argument if should output progress
 #' @param ... Extra arguments that the user would like to apply to the models
 #' 
@@ -96,6 +98,7 @@ fs.ensembl.stability <-
            resolution = if(optimize) 3 else NULL,
            metric = "Accuracy",
            model.features = FALSE,
+           allowParallel = FALSE,
            verbose = FALSE,
            ...
            )
@@ -163,6 +166,7 @@ fs.ensembl.stability <-
                                          metric = metric,
                                          model.features = model.features,
                                          verbose = verbose,
+                                         allowParallel = allowParallel,
                                          theDots = theDots)
       
       # store the best tune parameters for each iteration
@@ -190,6 +194,7 @@ fs.ensembl.stability <-
                                         grid = tuning.grid,
                                         metric = metric,
                                         savePerformanceMetrics = FALSE,
+                                        allowParallel = allowParallel,
                                         verbose = verbose,
                                         theDots = theDots)            
           }
@@ -219,6 +224,7 @@ fs.ensembl.stability <-
                                           grid = tuning.grid,
                                           metric = metric,
                                           savePerformanceMetrics = FALSE,
+                                          allowParallel = allowParallel,
                                           verbose = verbose,
                                           theDots = theDots)  
             

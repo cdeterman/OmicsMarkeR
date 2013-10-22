@@ -205,7 +205,10 @@ create.discr.matrix <-
     # randomly select which variables to be discriminatory
     d <- sample(nc, size = D, replace=F)
     Z <- V[,d]
-        
+    
+    # which variables were sampled?
+    xNames <- colnames(Z)
+    
     # get range of discriminatory ability (as is typical in real data)
     di <- runif(D, min=-l, max=l)
     
