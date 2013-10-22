@@ -1,0 +1,139 @@
+% \VignetteIndexEntry{ A Short Introduction to the OmicMarkeR Package}
+% \VignetteDepends{OmicsMarkeR}
+% \VignettePackage{OmicsMarkeR}
+\documentclass[12pt]{article}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{xspace}
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[boxed, linesnumbered]{algorithm2e}
+\usepackage[
+         colorlinks=true,
+         linkcolor=blue,
+         citecolor=blue,
+         urlcolor=blue]
+         {hyperref}
+
+\usepackage{Sweave}
+\SweaveOpts{keep.source=TRUE}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% define new colors for use
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+\definecolor{darkred}{rgb}{0.6,0.0,0}
+\definecolor{lightbrown}{rgb}{1,0.9,0.8}
+\definecolor{brown}{rgb}{0.6,0.3,0.3}
+\definecolor{darkblue}{rgb}{0,0,0.8}
+\definecolor{darkmagenta}{rgb}{0.5,0,0.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bld}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\shell}[1]{\mbox{$#1$}}
+\renewcommand{\vec}[1]{\mbox{\bf {#1}}}
+ \newcommand{\codeheading}[1]{\mbox{\color{darkblue}\texttt{#1}}}
+\newcommand{\code}[1]{\mbox{\footnotesize\color{darkblue}\texttt{#1}}}
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+\renewcommand{\pkg}[1]{{\textsf{#1}}}
+
+\newcommand{\ReallySmallSpacing}{\renewcommand{\baselinestretch}{.6}\Large\normalsize}
+\newcommand{\SmallSpacing}{\renewcommand{\baselinestretch}{1.1}\Large\normalsize}
+
+\providecommand{\SetAlgoLined}{\SetLine}
+
+\newcommand{\halfs}{\frac{1}{2}}
+
+\setlength{\oddsidemargin}{-.25 truein}
+\setlength{\evensidemargin}{0truein}
+\setlength{\topmargin}{-0.2truein}
+\setlength{\textwidth}{7 truein}
+\setlength{\textheight}{8.5 truein}
+\setlength{\parindent}{0truein}
+\setlength{\parskip}{0.10truein}
+
+
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl,formatcom=\color{darkblue}} 
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+
+\fvset{fontsize=\footnotesize}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\lhead{}
+\chead{The {\tt OmicsMarkeR} Package}
+\rhead{}
+\lfoot{}
+\cfoot{}
+\rfoot{\thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{A Short Introduction to the \pkg{OmicsMarkeR} Package}
+\author{Charles Determan Jr. \\ cdetermanjr@hotmail.com}
+
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+\thispagestyle{empty}
+  
+\vspace{.2in}
+
+\renewcommand{\baselinestretch}{1}
+
+\maketitle
+\section{Introduction}
+The \pkg{OmicsMarkeR} package contains functions to streamline the analysis of
+'omics' level datasets with the objective to classify groups and determine the
+most important features. \pkg{OmicsMarkeR} loads packages as needed and assumes 
+that they are installed.  I will provide a short tutorial using the both synthetic
+datasets created by internal functions as well as the 'Sonar' dataset. 
+Install \pkg{OmicMarkeR} using  
+
+<<install, eval = FALSE>>=
+# currently in development
+# install.packages("OmicsMarkeR", dependencies = c("Imports"))
+@
+to ensure that all the needed packages are installed.
+
+You may also install the developmental version using
+<<install, eval = FALSE>>=
+library(devtools)
+install_github("OmicsMarkeR", username = "cdeterman")
+@
+
+\maketitle
+\section{Example}
+\pkg{OmicsMarkeR} has a few simplified functions that attempt to streamline the classification
+and feature selection process including the addition of stability metrics. We will first generate a synthetic dataset.  This includes three functions that can be used to create multivariate datasets that can mimic specific omics examples.  This can include a null dataset via {\tt nvar = 50} and {\tt nsamp = 100}.  The {\tt create.corr.matrix} function induces correlations to the datasets.  The {\tt create.discr.matrix} function induces variables to be discriminate between groups.  The number of groups can be specified with {\tt num.groups}. 
+
+<<>>=
+library("OmicsMarkeR")
+set.seed(123)
+dat.discr <- create.discr.matrix(create.corr.matrix(create.random.matrix(nvar = 50, nsamp = 100, st.dev = 1, perturb = 0.2)))
+@
+
+To avoid confusion in the coding, one can isolate the variables and classes from the newly created synthetic dataset.  These two objects are then used in the {\tt fs.stability} function.  I can then choose which algorithm(s) to apply e.g. {\tt method = c("plsda", "rf")}, the number of top important features {\tt f = 20}, the number of bootstrap reptititions for stability analysis {\tt k = 3}, the number of k-fold cross-validations {\tt k.folds = 10} and if I would like to see the progress output {\tt verbose = TRUE}.
+
+<<>>=
+vars <- dat.discr[,1:(ncol(dat.discr)-1)]
+groups <- dat.discr[,ncol(dat.discr)]
+results <- fs.stability(vars, groups, method = c("plsda", "rf"), f = 20, k = 3, k.folds = 10, verbose = TRUE)
+@
+
+If I would like to see the performance metrics, I can simply use the {\tt performance.metrics} function.  This will provide a concise data.frame of confusion matrix and ROC statistics.
+
+<<>>=
+performance.metrics(results)
+@
+
+\end{document}
