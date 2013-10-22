@@ -5,7 +5,7 @@
   bagging.wrapper(X, Y, method, bags, f,
     aggregation.metric, k.folds, repeats, res, tuning.grid,
     optimize, optimize.resample, metric, model.features,
-    verbose, theDots)
+    allowParallel, verbose, theDots)
 }
 \arguments{
   \item{X}{A matrix containing numeric values of each
@@ -58,6 +58,10 @@
   number of features selected to be determined by the
   individual model runs.  Default \code{"model.features =
   FALSE"}}
+
+  \item{allowParallel}{Logical argument dictating if
+  parallel processing is allowed via foreach package.
+  Default \code{allowParallel = FALSE}}
 
   \item{verbose}{Logical argument if should output
   progress}
