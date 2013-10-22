@@ -1,6 +1,6 @@
-# `"BiomarkeR"`
+# `"OmicsMarkeR"`
 
-`BiomarkeR` is an R package that provides functions for classification and feature selection of 'omics' level datasets.
+`OmicsMarkeR` is an R package that provides functions for classification and feature selection of 'omics' level datasets.
 
 
 ## Motivation
@@ -32,15 +32,15 @@ The interested reader, as well you should be, is highly encouraged to seek out t
 ## Installation
 
 Not currently submitted - may send to Bioconductor instead
-Stable version [CRAN](http://cran.r-project.org/web/packages/BiomarkeR/index.html)
+Stable version [CRAN](http://cran.r-project.org/web/packages/OmicsMarkeR/index.html)
 ```ruby
 # stable version
-install.packages("BiomarkeR")
+install.packages("OmicsMarkeR")
 ```
 
-Development version on [github](https://github.com/cdeterman/BiomarkeR)
+Development version on [github](https://github.com/cdeterman/OmicsMarkeR)
 ```ruby
 # development version
 library(devtools)
-install_github('BiomarkeR',  username='cdeterman')
+install_github('OmicsMarkeR',  username='cdeterman')
 ```
