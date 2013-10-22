@@ -8,7 +8,7 @@
 #' @param newdata The testing data to predict group membership
 #' @param param The parameters being fit to the model (Determined by model optimization).
 #' @return Returns a list of predicted group membership
-#' @import DiscriMiner
+# @import DiscriMiner
 #' @import randomForest
 #' @import caret
 #' @import e1071

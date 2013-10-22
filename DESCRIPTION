@@ -18,9 +18,6 @@ Imports:
     glmnet (>= 1.9-5),
     caTools (>= 1.14),
     foreach (>= 1.4.1)
-Suggests:
-    caret,
-    DiscriMiner
 License: GPL-2
 LazyData: true
 Collate:
@@ -44,3 +41,8 @@ Collate:
     'performance.R'
     'params.R'
     'data.generation.R'
+    'my_plsDA.R'
+    'my_tdc.R'
+    'my_verify.R'
+    'plsDA.R'
+    'print.plsda.R'

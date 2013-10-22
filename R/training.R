@@ -13,7 +13,7 @@
 #'  \item{tuneValue: Parameters applied to the fitted model}
 #'  \item{obsLevels: Observed levels of the groups}}
 #' @author Charles Determan Jr
-#' @import DiscriMiner
+# @import DiscriMiner
 #' @import randomForest
 #' @import caret
 #' @import e1071
@@ -47,15 +47,6 @@ training <-
     trainY <- data[,".classes"]
     
     if(method == "gbm" & length(obsLevels) == 2)  numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
-    
-    #print(tolower(method))
-    #switch(method,
-    #       plsda = {
-    #         print("success")
-    #       },
-    #       gbm = {
-    #         print("failure")
-    #       })
                        
     modelFit <- switch(method,
                        plsda =

@@ -13,7 +13,7 @@
 #' @param verbose Logical argument dictating if should print progress
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
 #' @return Returns list of fitted models
-#' @import DiscriMiner
+# @import DiscriMiner
 #' @import randomForest
 #' @import plyr
 #' @import caret
@@ -107,7 +107,7 @@ modelTuner <- function(trainData,
           
           # create models
           mod <- try(
-            training(data = trainData[index,,drop = FALSE ],
+            training(data = trainData[index,,drop = FALSE],
                      method = method[algo],
                      tuneValue = guide[[algo]]$loop[parms,,drop = FALSE],
                      obsLevels = lev,
