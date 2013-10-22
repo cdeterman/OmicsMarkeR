@@ -12,6 +12,7 @@
 #'  \item{constant: Names of the 'loop' dataframe components}
 #'  \item{vary: Indication of parameters that vary and can access recursively}}
 #' @author Charles E. Determan Jr.
+#' @import DiscriMiner
 #' @import randomForest
 #' @import caret
 #' @import e1071

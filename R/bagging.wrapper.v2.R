@@ -40,6 +40,14 @@
 #' @return \item{bestTunes}{If \code{"optimize.resample = TRUE"} then returns list of 
 #' best parameters for each iteration}
 #' @author Charles Determan Jr
+#' @import DiscriMiner
+#' @import randomForest
+#' @import plyr
+#' @import caret
+#' @import e1071
+#' @import gbm
+#' @import pamr
+#' @import glmnet
 
 
 

@@ -66,6 +66,7 @@
 #' @author Charles Determan Jr
 #' @references Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and Knowledge Discovery in Databases}. 
 #' 313-325. http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
+#' @import DiscriMiner
 #' @import randomForest
 #' @import plyr
 #' @import caret
@@ -74,16 +75,6 @@
 #' @import pamr
 #' @import glmnet
 #' @export
-#X <- dat.discr[,1:50]
-#Y <- dat.discr[,51]
-#method <- "plsda"
-#k = 2
-#p = .9
-#f = 20
-#k.folds = 3
-#stability.metric = "jaccard"
-#optimize = TRUE
-#optimize.resample = FALSE
 
 fs.stability <- 
   function(X,                             # scaled matrix or dataframe of explanatory variables

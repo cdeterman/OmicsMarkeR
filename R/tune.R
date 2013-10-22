@@ -30,6 +30,7 @@
 #' 2 components.  This catches the 1 component parameter so feature selection and further performance
 #' analysis can be conducted on the 1 component.}
 #' @author Charles E. Determan Jr.
+#' @import DiscriMiner
 #' @import randomForest
 #' @import caret
 #' @import e1071
