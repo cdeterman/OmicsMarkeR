@@ -2,7 +2,7 @@ Package: OmicsMarkeR
 Title: Classification and Feature Selection for 'Omics' Datasets
 Description: Tools for classification and feature selection for 'omics' level
     datasets
-Date: 2013-08-04
+Date: 2013-10-22
 Version: 0.1
 Author: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
@@ -47,6 +47,7 @@ Collate:
     'my_verify.R'
     'plsDA.R'
     'print.plsda.R'
+    'performance.metrics.R'
 Packaged: 2013-08-05 12:50:19 UTC; kuhna03
 NeedsCompilation: yes
 Repository: CRAN

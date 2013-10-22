@@ -137,11 +137,8 @@ tune <- function(
   # all possible parameter names
   paramNames <- levels(tune.guide[[1]]$model$parameter)
   
-  if(verbose)
-  {
-    cat("Aggregating results\n")
-    flush.console()
-  }
+  cat("Aggregating results\n")
+  flush.console()
     
   perfCols <- sapply(performance, names)
   perfCols <- lapply(perfCols, paramNames, FUN = function(x,y) x[!(x %in% y)])
@@ -164,12 +161,9 @@ tune <- function(
   #  print(performance)
   #}
   
-  if(verbose)
-  {
-      cat("Selecting tuning parameters\n")
-      flush.console()
-  }
-  
+  cat("Selecting tuning parameters\n")
+  flush.console()
+    
   ## select the optimal set
   #selectClass <- class(trControl$selectionFunction)[1]
   

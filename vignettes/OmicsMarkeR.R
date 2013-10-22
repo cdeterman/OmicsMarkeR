@@ -46,7 +46,7 @@ results <- fs.stability(vars,
                         ## number of bootstrap iterations
                         k.folds = 10, 
                         ## number of k-folds for cross-validation
-                        verbose = TRUE
+                        verbose = FALSE
                         ## print output progress
                         )
 

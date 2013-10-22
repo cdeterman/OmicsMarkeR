@@ -119,7 +119,12 @@ and feature selection process including the addition of stability metrics. We wi
 <<>>=
 library("OmicsMarkeR")
 set.seed(123)
-dat.discr <- create.discr.matrix(create.corr.matrix(create.random.matrix(nvar = 50, nsamp = 100, st.dev = 1, perturb = 0.2)))
+dat.discr <- create.discr.matrix(
+  create.corr.matrix(
+    create.random.matrix(nvar = 50, 
+                         nsamp = 100, 
+                         st.dev = 1, 
+                         perturb = 0.2)))
 @
 
 To avoid confusion in the coding, one can isolate the variables and classes from the newly created synthetic dataset.  These two objects are then used in the {\tt fs.stability} function.  I can then choose which algorithm(s) to apply e.g. {\tt method = c("plsda", "rf")}, the number of top important features {\tt f = 20}, the number of bootstrap reptititions for stability analysis {\tt k = 3}, the number of k-fold cross-validations {\tt k.folds = 10} and if I would like to see the progress output {\tt verbose = TRUE}.
@@ -127,7 +132,13 @@ To avoid confusion in the coding, one can isolate the variables and classes from
 <<>>=
 vars <- dat.discr[,1:(ncol(dat.discr)-1)]
 groups <- dat.discr[,ncol(dat.discr)]
-results <- fs.stability(vars, groups, method = c("plsda", "rf"), f = 20, k = 3, k.folds = 10, verbose = TRUE)
+results <- fs.stability(vars, 
+                        groups, 
+                        method = c("plsda", "rf"), 
+                        f = 20, 
+                        k = 3, 
+                        k.folds = 10, 
+                        verbose = FALSE)
 @
 
 If I would like to see the performance metrics, I can simply use the {\tt performance.metrics} function.  This will provide a concise data.frame of confusion matrix and ROC statistics.

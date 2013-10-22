@@ -12,7 +12,7 @@
 #' @param comp.catch An internal check for plsda models.  If the optimal model contains only 1 component,
 #' the ncomp paramter must be set to 2 for the model.  However, features are still extracted only from the first component.
 #' @return Returns list of the features selected from the fitted model.
-#' @import DiscriMiner
+# @import DiscriMiner
 #' @import randomForest
 #' @import e1071
 #' @import gbm

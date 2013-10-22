@@ -66,7 +66,7 @@
 #' @author Charles Determan Jr
 #' @references Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and Knowledge Discovery in Databases}. 
 #' 313-325. http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
-#' @import DiscriMiner
+# @import DiscriMiner
 #' @import randomForest
 #' @import plyr
 #' @import caret
@@ -489,9 +489,9 @@ fs.stability <-
         
     
     ### Performance Metrics of Reduced Models
-    if(verbose){
+    #if(verbose){
       cat("\nCalculating Model Performance Statistics\n")
-    }
+    #}
     length(finalModel.new)
     final.metrics <- prediction.metrics(finalModel = finalModel.new,
                                         method = method,
