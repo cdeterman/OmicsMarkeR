@@ -247,7 +247,7 @@ fs.stability <-
           
           
           if(i == 1){
-            finalModel.new[i] <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
+            finalModel.new <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             new.best.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             names(new.best.tunes) <- method
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
