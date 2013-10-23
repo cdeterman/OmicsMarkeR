@@ -3,7 +3,7 @@
 \title{Prediction Metric Calculations}
 \usage{
   prediction.metrics(finalModel, method, raw.data, inTrain,
-    outTrain, bestTune, grp.levs)
+    outTrain, features, bestTune, grp.levs)
 }
 \arguments{
   \item{finalModel}{List of fitted models}

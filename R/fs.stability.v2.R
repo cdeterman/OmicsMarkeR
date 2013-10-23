@@ -143,7 +143,7 @@ fs.stability <-
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))
     #i <- 1
-    #method <- c("gbm")
+    #method <- c("plsda")
     # loop through k bootstraps for stability metrics
     for(i in seq(k)){          
       trainVars <- X[inTrain[[i]],, drop=F]
@@ -297,7 +297,7 @@ fs.stability <-
           
           # Create empty list for features identified by each chosen algorithm
           features <- vector("list", length(method))
-          names(features) <- tolower(method)
+          #names(features) <- tolower(method)
           
           for(j in seq(along = method)){
             ### Extract important features
@@ -313,7 +313,7 @@ fs.stability <-
                 mydata[[t]] <- trainVars.list[[i]]
               }
             }
-            
+          
             features[[j]] <- extract.features(
               x = finalModel[j],
               dat = mydata[[j]],
@@ -341,7 +341,9 @@ fs.stability <-
           }else{
             trainData.new <- lapply(features, FUN = function(x) trainData[,colnames(trainData) %in% c(rownames(x$features.selected), ".classes")])          
           }
-          
+          features
+          length(trainData)
+          length(trainData.new)
           if(i == 1){
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
@@ -376,12 +378,12 @@ fs.stability <-
             finalModel.new <- sapply(tunedModel.new, FUN = function(x) x$finalModels)
             new.best.tunes <- sapply(tunedModel.new, FUN = function(x) x$bestTune)
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
-            names(final.features[[i]]) <- method
+            #names(final.features[[i]]) <- method
           }else{
             tmp.model <- lapply(tmp, FUN = function(x) x)
             finalModel.new <- c(finalModel.new, tmp.model)
             final.features[[i]] <- sapply(features, FUN = function(x) x$features.selected)
-            names(final.features[[i]]) <- method
+            #names(final.features[[i]]) <- method
           }  
           
         } # end of single optimized loop
@@ -498,6 +500,7 @@ fs.stability <-
                                         raw.data = raw.data,
                                         inTrain = inTrain,
                                         outTrain = outTrain,
+                                        features = final.features,
                                         bestTune = if(optimize) new.best.tunes else args.seq$parameters,
                                         grp.levs = grp.levs)
     
@@ -572,11 +575,16 @@ fs.stability <-
       }
     }
     
-    # need to split features into length(method) dataframes for pairwise.stability
+    # need to split features into length(method) dataframes for pairwise.stability    
     results.stability <- vector("list", length(method))
     names(results.stability) <- method
     for(c in seq(along = method)){
-      results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))
+      met <- method[c]
+      if(met == "svm"){
+        results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x))
+      }else{
+        results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))
+      }
       if(is.null(f)){
         rownames(results.stability[[c]]) <- colnames(X)
       }

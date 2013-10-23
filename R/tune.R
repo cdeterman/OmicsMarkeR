@@ -37,6 +37,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
+#' @export
 
 tune <- function(
   trainVars,

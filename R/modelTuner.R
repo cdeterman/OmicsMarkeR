@@ -22,6 +22,7 @@
 #' @import pamr
 #' @import glmnet
 #' @import foreach
+#' @export
 #' @author Charles E. Determan Jr.
 
 modelTuner <- function(trainData,
@@ -84,10 +85,12 @@ modelTuner <- function(trainData,
                        .errorhandling = "stop") %op%
     {
       result <-      
+        #foreach(iter = 1,
         foreach(iter = seq(along = inTrain), 
               .combine = "c", 
               .verbose = FALSE, 
               .errorhandling = "stop") %:%
+        #foreach(parms = 2,
         foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
                 .combine = "c", 
                 .verbose = FALSE, 
@@ -104,7 +107,7 @@ modelTuner <- function(trainData,
                                names(inTrain), iter)
           index <- inTrain[[iter]]
           outIndex <- outTrain[[iter]]
-          
+          #outTrain
           # create models
           mod <- try(
             training(data = trainData[index,,drop = FALSE],
@@ -118,6 +121,8 @@ modelTuner <- function(trainData,
           # calculate predictions if model fit successfully
           if(class(mod)[1] != "try-error")
           {
+            nrow(trainData[outIndex, !(names(trainData) %in% ".classes"), drop = FALSE])
+            
             predicted <- try(
               predicting(method = method[algo],
                          modelFit = mod$fit,

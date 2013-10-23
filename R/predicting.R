@@ -15,6 +15,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
+#' @export
 
 
 predicting <- function(method, modelFit, orig.data, indicies, newdata, param = NULL)
@@ -105,8 +106,14 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                            svm =                           
                            {
                              #library(e1071)
-                             out <- as.character(predict(modelFit, newdata))
+                             #test.dat <- data.frame(newdata)
+                             #levels(test.dat$.classes) <- levels(orig.data$.classes)
+                             #head(newdata)
+                             
+                             out <- as.character(predict(modelFit, newdata = newdata))
                              out
+                             #rownames(newdata)
+                             #predict(modelFit, newdata = newdata)
                            },
                       
                            pam =

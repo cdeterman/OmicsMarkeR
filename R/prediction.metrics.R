@@ -21,6 +21,7 @@ prediction.metrics <-
            raw.data,
            inTrain,
            outTrain,
+           features,
            bestTune,    #tuned.methods$bestTune
            grp.levs)
 {
@@ -50,15 +51,31 @@ prediction.metrics <-
     predicted <- vector("list", length(finalModel))
     names(predicted) <- names(finalModel)
     
+    #str(raw.data.vars[outTrain.list[[1]],, drop = FALSE])
+
+    #finalModel[[1]]
+    #e <- 1
+    #features <- final.features[[1]]
+    
+    
     for(e in seq(along = finalModel)){
+      if(names(finalModel)[e] == "svm"){
+        new.dat <- raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]
+        }else{
+          new.dat <- raw.data.vars[outTrain.list[[e]],,drop = FALSE]          
+      }
+      
       predicted[[e]] <- predicting(method = names(finalModel)[e],
                                    modelFit = finalModel[[e]],
                                    orig.data = raw.data,
                                    indicies = inTrain.list[[e]],
-                                   newdata = raw.data.vars[outTrain.list[[e]],, drop = FALSE],
+                                   newdata = new.dat,
                                    param = bestTune[[e]]
       )
     }
+    #str(raw.data.vars[outTrain.list[[e]],, drop = FALSE])
+    #str(trainData[outIndex, !(names(trainData) %in% ".classes"), drop = FALSE])
+    #raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features), drop = FALSE]
     
     ## collate the predicitons across all the models
     for(g in seq(along = finalModel)){

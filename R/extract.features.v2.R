@@ -30,8 +30,8 @@ extract.features <-
            f,                       # number of features to subset if defined
            comp.catch = NULL        # a check for plsda models that have only 1 component
   )
-{    
-    features <- switch(class(x[[1]]),
+{    #class(x[[1]])
+    features <- switch(method,
                        plsda =
                          {
                            if(!is.null(comp.catch)){
@@ -95,7 +95,7 @@ extract.features <-
                            list(features.selected = out)
                          },
                        
-                       randomForest =
+                       rf =
                          {
                            # Mean Decrease in Accuracy metric (type=1)
                            # Gini Index (type=2)
@@ -130,27 +130,33 @@ extract.features <-
                        
                        svm =   
                          {
-                           best.C <- vector("list", length(dat))
-                           for(i in seq(along = best.C)){
-                             best.C[[i]] <- bestTune$.C
-                           }
+                           #best.C <- vector("list", length(dat))
+                           #for(i in seq(along = best.C)){
+                          #   best.C[[i]] <- bestTune$.C
+                          # }
+                           best.C <- c(bestTune$.C)
                            
                            if(nlevels(grp) == 2){
-                             best.C <- vector("list", length(dat))
-                             for(i in seq(along = best.C)){
-                               best.C[[i]] <- bestTune$.C
-                             }
-                             svm.index <- mapply(dat, FUN = function(x,y,z) svmrfeFeatureRanking(x, y, z), y = grp, z = best.C)
+                             #best.C <- vector("list", length(dat))
+                             #for(i in seq(along = best.C)){
+                            #   best.C[[i]] <- bestTune$.C
+                            # }
+                             
+                             svm.index <- svmrfeFeatureRanking(dat, grp, best.C)
+                             #svm.index <- mapply(list(dat), FUN = function(x,y,z) svmrfeFeatureRanking(x, y, z), y = grp, z = best.C)
                            }else{
-                             svm.index <- mapply(dat, FUN = function(x,y,z) svmrfeFeatureRankingForMulticlass(x, y, z), y = grp, z = best.C)
+                             svm.index <- svmrfeFeatureRankingForMulticlass(dat, grp, best.C)
+                             #svm.index <- mapply(list(dat), FUN = function(x,y,z) svmrfeFeatureRankingForMulticlass(x, y, z), y = grp, z = best.C)
                            }
                            
                            if(model.features){
                              warning("SVM currently doesn't have an internal metric or general criteria for optimal number of features.\nTop 10% features returned instead")
-                             top.10 <- round(nrow(svm.index)/10, 0)
-                             out <- apply(svm.index, 2, FUN = function(x) colnames(dat[[1]][,x])[1:top.10])
+                             top.10 <- round(length(svm.index)/10, 0)
+                             #out <- apply(svm.index, 2, FUN = function(x) colnames(dat[[1]][,x])[1:top.10])
+                             out <- colnames(dat[,svm.index])[1:top.10]
                            }else{
-                             mod.features <- apply(svm.index, 2, FUN = function(x) colnames(dat[[1]][,x]))
+                             #mod.features <- apply(svm.index, 2, FUN = function(x) colnames(dat[[1]][,x]))
+                             mod.features <- colnames(dat[,svm.index])
                              orig.names <- colnames(dat[[1]])
                              if(is.null(f)){
                                ranks <- rep(list(ranks = 1:nrow(svm.index)), 5)
@@ -167,7 +173,7 @@ extract.features <-
                            list(features.selected = out)
                          },
                        
-                       pamrtrained = 
+                       pam = 
                          { 
                            if(model.features){
                              mod.features <- vector("list", length(x))

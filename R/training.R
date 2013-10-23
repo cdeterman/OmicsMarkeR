@@ -20,6 +20,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
+#' @export
 
 training <-
   function(data, method, tuneValue, obsLevels, theDots = NULL)
@@ -128,7 +129,7 @@ training <-
                        svm =
                          { 
                            #library(e1071)
-                           out <- svm(trainX, 
+                           out <- svm(trainX,
                                       trainY,
                                       cost = tuneValue$.C, 
                                       cachesize=500,
