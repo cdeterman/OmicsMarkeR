@@ -27,7 +27,7 @@ dat.discr <- create.discr.matrix(
       ## the estimated standard deviation
       perturb = 0.2
       ## how noisy the data is
-      )))
+      )))$discr.mat
 
 
 ###################################################

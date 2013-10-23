@@ -20,9 +20,14 @@
   more the data is perturbed. Default \code{k = 4}}
 }
 \value{
-  Matrix of dimension \code{dim(V)+1} with discriminatory
-  variables induced and the .classes added to the end of
-  the matrix.
+  List of the following elements
+
+  \item{discr.mat}{Matrix of dimension \code{dim(V)+1} with
+  discriminatory variables induced and the .classes added
+  to the end of the matrix.}
+
+  \item{features}{Vector of features that were induced to
+  be discriminatory.}
 }
 \description{
   Generates a matrix of dimensions \code{dim(U)} with

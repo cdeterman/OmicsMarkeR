@@ -180,8 +180,10 @@ create.corr.matrix <-
 #' @param l Level of discrimination, higher = greater separation.  Default \code{l = 1.5}
 #' @param num.groups Number of groups in the dataset
 #' @param k Correlation Perturbation - The higher k, the more the data is perturbed. Default \code{k = 4}
-#' @return Matrix of dimension \code{dim(V)+1} with discriminatory variables induced and the 
-#' .classes added to the end of the matrix.
+#' @return List of the following elements
+#' @return \item{discr.mat}{Matrix of dimension \code{dim(V)+1} with discriminatory variables induced and the 
+#' .classes added to the end of the matrix.}
+#' @return \item{features}{Vector of features that were induced to be discriminatory.}
 #' @author Charles E. Determan Jr.
 #' @import data.table
 #' @export
@@ -201,6 +203,11 @@ create.discr.matrix <-
     nc <- ncol(V)
     nr <- nrow(V)
     groups <- LETTERS[seq(num.groups)]
+    
+    
+    if(is.null(colnames(V))){
+      colnames(V) <- paste("V", seq(1:nc), sep = "")
+    }
     
     # randomly select which variables to be discriminatory
     d <- sample(nc, size = D, replace=F)
@@ -276,7 +283,8 @@ create.discr.matrix <-
     Y <- as.data.frame(S + W)
     Y$.classes <- classes
     Y[1:nc] <- lapply(Y[1:nc], FUN = function(x) as.numeric(as.character(x)))
-    Y
+    out <- list(discr.mat = Y, features = xNames)
+    out
   }
 
 # histograms of correlation coefficients
