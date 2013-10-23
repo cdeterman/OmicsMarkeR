@@ -10,6 +10,7 @@
 #' @import caTools
 #' @import caret
 
+
 performance.stats <- function(pred, obs)
 {
   isNA <- is.na(pred)
@@ -29,8 +30,14 @@ performance.stats <- function(pred, obs)
     overall.stats <- c("Accuracy", "Kappa")
     byclass.stats <- c("Sensitivity", "Specificity", "Pos Pred Value", "Neg Pred Value")
     
+    colnames(tmp$byClass)
+    
     overall.index <- which(names(tmp$overall) %in% overall.stats)
-    byclass.index <- which(names(tmp$byClass) %in% byclass.stats)
+    if(nlevels(obs) == 2){
+      byclass.index <- which(names(tmp$byClass) %in% byclass.stats)
+    }else{
+      byclass.index <- which(colnames(tmp$byClass) %in% byclass.stats)
+    }
     
     out <- c(tmp$overall[overall.index], dim(tmp$table)[1], tmp$byClass[byclass.index], tmp.auc)
   }
