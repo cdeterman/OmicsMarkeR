@@ -143,7 +143,7 @@ fs.stability <-
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))
     #i <- 1
-    #method <- c("plsda")
+    #method <- c("gbm")
     # loop through k bootstraps for stability metrics
     for(i in seq(k)){          
       trainVars <- X[inTrain[[i]],, drop=F]
@@ -490,9 +490,9 @@ fs.stability <-
     
     ### Performance Metrics of Reduced Models
     #if(verbose){
-      cat("\nCalculating Model Performance Statistics\n")
+      cat("Calculating Model Performance Statistics\n")
     #}
-    length(finalModel.new)
+    
     final.metrics <- prediction.metrics(finalModel = finalModel.new,
                                         method = method,
                                         raw.data = raw.data,

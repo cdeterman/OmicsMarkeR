@@ -34,23 +34,19 @@ prediction.metrics <-
       inTrain.list <- rep(list(inTrain), length(finalModel))
       outTrain.list <- rep(list(outTrain), length(finalModel))
     }
-  
+    
+    bestTune = if(optimize) new.best.tunes
     # a check for when results come from optimize.resample = FALSE
     if(length(bestTune) != length(finalModel)){
       tmp.mult <- length(finalModel)/length(bestTune)
       bestTune <- rep(bestTune, tmp.mult)
+      names(bestTune) <- names(finalModel)
     }
     
-    # if list element contains parameters of model, name the element of that model
-    test.param <- lapply(params(method), FUN = function(x) paste(".", as.character(x$parameter), sep=""))
-    for(i in seq(along = bestTune)){
-      model.index <- which(test.param == names(bestTune[[i]]))
-      names(bestTune)[[i]] <- names(model.index)
-    }    
     # sort the list elements so applied in the proper order
     method.names <- unlist(lapply(method, FUN = function(x) c(rep(x, length(bestTune)/length(method)))))
-    bestTune <- bestTune[order(names(bestTune), levels = method.names)]
-    finalModel <- finalModel[order(names(finalModel), levels = method.names)]
+    bestTune <- bestTune[match(method.names,names(bestTune))]
+    finalModel <- finalModel[match(method.names, names(finalModel))]    
     
     predicted <- vector("list", length(finalModel))
     names(predicted) <- names(finalModel)
