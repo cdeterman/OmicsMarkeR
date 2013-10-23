@@ -22,7 +22,7 @@
 svmrfeFeatureRanking = function(x, y, c, perc.rem=10)
   {
   n = ncol(x)
-  survivingFeaturesIndexes = seq(1:n)
+  survivingFeaturesIndexes = seq(n)
   featureRankedList = vector(length=n)
   rankedFeatureIndex = n
   while(length(survivingFeaturesIndexes)>0){
@@ -118,7 +118,7 @@ svm.weights<-function(model){
 
 svmrfeFeatureRankingForMulticlass = function(x,y,c, perc.rem = 10){
   n = ncol(x)
-  survivingFeaturesIndexes = seq(1:n)
+  survivingFeaturesIndexes = seq(n)
   featureRankedList = vector(length=n)
   rankedFeatureIndex = n
   while(length(survivingFeaturesIndexes)>0){
