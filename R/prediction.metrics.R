@@ -35,7 +35,6 @@ prediction.metrics <-
       outTrain.list <- rep(list(outTrain), length(finalModel))
     }
     
-    bestTune = if(optimize) new.best.tunes
     # a check for when results come from optimize.resample = FALSE
     if(length(bestTune) != length(finalModel)){
       tmp.mult <- length(finalModel)/length(bestTune)
