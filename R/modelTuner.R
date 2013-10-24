@@ -107,7 +107,7 @@ modelTuner <- function(trainData,
                                names(inTrain), iter)
           index <- inTrain[[iter]]
           outIndex <- outTrain[[iter]]
-          #outTrain
+          
           # create models
           mod <- try(
             training(data = trainData[index,,drop = FALSE],
@@ -120,9 +120,7 @@ modelTuner <- function(trainData,
           
           # calculate predictions if model fit successfully
           if(class(mod)[1] != "try-error")
-          {
-            nrow(trainData[outIndex, !(names(trainData) %in% ".classes"), drop = FALSE])
-            
+          {          
             predicted <- try(
               predicting(method = method[algo],
                          modelFit = mod$fit,

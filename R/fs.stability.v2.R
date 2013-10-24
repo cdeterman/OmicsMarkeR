@@ -341,9 +341,7 @@ fs.stability <-
           }else{
             trainData.new <- lapply(features, FUN = function(x) trainData[,colnames(trainData) %in% c(rownames(x$features.selected), ".classes")])          
           }
-          features
-          length(trainData)
-          length(trainData.new)
+
           if(i == 1){
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){

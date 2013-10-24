@@ -105,15 +105,9 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                            
                            svm =                           
                            {
-                             #library(e1071)
-                             #test.dat <- data.frame(newdata)
-                             #levels(test.dat$.classes) <- levels(orig.data$.classes)
-                             #head(newdata)
-                             
+                             #library(e1071)                             
                              out <- as.character(predict(modelFit, newdata = newdata))
                              out
-                             #rownames(newdata)
-                             #predict(modelFit, newdata = newdata)
                            },
                       
                            pam =
@@ -123,6 +117,7 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                                                  pamr.predict(modelFit,
                                                               t(newdata),
                                                               threshold = modelFit$tuneValue$.threshold))
+                             #pamr.predict
                              if(!is.null(param))
                                {
                                  tmp <- vector(mode = "list", length = nrow(param) + 1)
