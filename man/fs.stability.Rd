@@ -13,8 +13,8 @@
     allowParallel = FALSE, verbose = FALSE, ...)
 }
 \arguments{
-  \item{X}{A matrix containing numeric values of each
-  feature}
+  \item{X}{A scaled matrix or dataframe containing numeric
+  values of each feature}
 
   \item{Y}{A factor vector containing group membership of
   samples}
@@ -66,7 +66,7 @@
   Default \code{"repeats = 3"}}
 
   \item{resolution}{Resolution of model optimization grid.
-  Default \code{"res = 3"}}
+  Default \code{"resolution = 3"}}
 
   \item{metric}{Criteria for model optimization.  Available
   options are \code{"Accuracy"} (Predication Accuracy),

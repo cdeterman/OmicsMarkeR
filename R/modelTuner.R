@@ -80,20 +80,23 @@ modelTuner <- function(trainData,
   #for(algo in seq(along = method))
   
   tmp.list <- foreach(algo = seq(along = method), 
-                       .combine = "c", 
-                       .verbose = FALSE, 
-                       .errorhandling = "stop") %op%
-    {
+                      .combine = "c", 
+                      .verbose = FALSE, 
+                      .packages = c("OmicsMarkeR"),
+                      .errorhandling = "stop") %op%
+  {
       result <-      
         #foreach(iter = 1,
         foreach(iter = seq(along = inTrain), 
-              .combine = "c", 
-              .verbose = FALSE, 
-              .errorhandling = "stop") %:%
+                .combine = "c", 
+                .verbose = FALSE, 
+                .packages = c("OmicsMarkeR"),
+                .errorhandling = "stop") %:%
         #foreach(parms = 2,
         foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
                 .combine = "c", 
                 .verbose = FALSE, 
+                .packages = c("OmicsMarkeR"),
                 .errorhandling = "stop")  %op%
         {        
           ## Removes '.' from start of each parameter
