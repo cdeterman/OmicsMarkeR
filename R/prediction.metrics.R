@@ -54,7 +54,6 @@ prediction.metrics <-
     #e <- 1
     
     for(e in seq(along = finalModel)){
-      
       new.dat <- switch(names(finalModel[e]),
                         svm = {raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]},
                         

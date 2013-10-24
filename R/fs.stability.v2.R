@@ -4,7 +4,7 @@
 #' features for classification.  The function bootstraps a user-specified number of times to facilitate
 #' stability metrics of features selected thereby providing an important metric for biomarker investigations,
 #' namely whether the important variables can be identified if the models are refit on 'different' data.
-#' @param X A matrix containing numeric values of each feature
+#' @param X A scaled matrix or dataframe containing numeric values of each feature
 #' @param Y A factor vector containing group membership of samples
 #' @param method A vector listing models to be fit.
 #' Available options are \code{"plsda"} (Partial Least Squares Discriminant Analysis),
@@ -30,7 +30,7 @@
 #' Default \code{"tuning.grid = NULL"} lets function create grid determined by \code{"res"}
 #' @param k.folds Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}
 #' @param repeats Number of times cross-validation repeated.  Default \code{"repeats = 3"}
-#' @param resolution Resolution of model optimization grid.  Default \code{"res = 3"}
+#' @param resolution Resolution of model optimization grid.  Default \code{"resolution = 3"}
 #' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
 #' @param model.features Logical argument if should have number of features selected to be determined
@@ -77,23 +77,23 @@
 #' @export
 
 fs.stability <- 
-  function(X,                             # scaled matrix or dataframe of explanatory variables
-           Y,                                # vector or factor with group memberships
-           method,                                # "PLSDA", "glmnet","SVM", "RF", "GBM","PAM"
-           k = 10,                                # number of subsamples
-           p = 0.9,                               # percentage data subsampled
-           f = ceiling(ncol(X)/10),       # number of top features subset (default = top 10%)
-           stability.metric = "jaccard",          # similarity metric
-           optimize = TRUE,                       # optional choice to optimize each chosen algorithm
-           optimize.resample = FALSE,             # optional choice to optimize each resample of during the optimization process otherwise uses first best model on all
-           tuning.grid = NULL,                    # optional tuning grid specified by the user
-           k.folds = if(optimize) 10 else NULL,   # if optimize = TRUE, folds for cross validation
-           repeats = if(optimize) 3 else NULL,    # if optimize = TRUE, how many repeated CVs
-           resolution = if(optimize) 3 else NULL, # optional & if optimize = TRUE, how fine tuning grid
-           metric = "Accuracy",                   # metric to determine best tuned models
-           model.features = FALSE,                # optional choice for model defined number of features
+  function(X,
+           Y,
+           method,
+           k = 10,
+           p = 0.9,
+           f = ceiling(ncol(X)/10),
+           stability.metric = "jaccard",
+           optimize = TRUE,
+           optimize.resample = FALSE,
+           tuning.grid = NULL,
+           k.folds = if(optimize) 10 else NULL,
+           repeats = if(optimize) 3 else NULL,
+           resolution = if(optimize) 3 else NULL,
+           metric = "Accuracy",
+           model.features = FALSE,
            allowParallel = FALSE,
-           verbose = FALSE,                       # optional print progress
+           verbose = FALSE,
            ...
   )
 {    
