@@ -116,7 +116,7 @@ bagging.wrapper <- function(X,
     if(optimize == TRUE){
       if(optimize.resample == TRUE){
         # tune the methods
-        tuned.methods <- tune(trainVars = trainVars,
+        tuned.methods <- optimize(trainVars = trainVars,
                               trainGroup = trainGroup,
                               method = method,
                               k.folds = k.folds,
@@ -142,7 +142,7 @@ bagging.wrapper <- function(X,
         # end of optimize.resample loop
       }else{
         if(i == 1){
-          tuned.methods <- tune(trainVars = trainVars,
+          tuned.methods <- optimize(trainVars = trainVars,
                                 trainGroup = trainGroup,
                                 method = method,
                                 k.folds = k.folds,
