@@ -1,8 +1,8 @@
-\name{tune}
-\alias{tune}
-\title{Model Tuning and Metrics}
+\name{optimize}
+\alias{optimize}
+\title{Model Optimization and Metrics}
 \usage{
-  tune(trainVars, trainGroup, method, k.folds = 10,
+  optimize(trainVars, trainGroup, method, k.folds = 10,
     repeats = 3, res = 3, grid = NULL, metric = "Accuracy",
     savePerformanceMetrics = NULL, allowParallel = FALSE,
     verbose = FALSE, theDots = NULL)

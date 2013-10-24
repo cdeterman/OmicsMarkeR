@@ -34,7 +34,6 @@ Collate:
     'sequester.R'
     'training.R'
     'tune.instructions.R'
-    'tune.R'
     'verify.R'
     'aggregation.R'
     'stability.R'
@@ -48,6 +47,7 @@ Collate:
     'plsDA.R'
     'print.plsda.R'
     'performance.metrics.R'
+    'optimize.R'
 Packaged: 2013-08-05 12:50:19 UTC; kuhna03
 NeedsCompilation: yes
 Repository: CRAN
