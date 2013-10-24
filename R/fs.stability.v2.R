@@ -96,15 +96,15 @@ fs.stability <-
            verbose = FALSE,                       # optional print progress
            ...
   )
-{
-    verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
-    
+{    
     #### Filter Methods???
     ## Bhattacharyya Distance
     #??bhattacharyya
     #require(fpc)
     #bhattacharyya.dist
     ## Relative Entropy
+    
+    verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
     
     X <- verify_data$X
     Y <- verify_data$Y
@@ -578,7 +578,7 @@ fs.stability <-
     names(results.stability) <- method
     for(c in seq(along = method)){
       met <- method[c]
-      if(met == "svm"){
+      if(met == "svm" | met == "glmnet"){
         results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x))
       }else{
         results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))

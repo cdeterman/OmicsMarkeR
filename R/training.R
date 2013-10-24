@@ -142,7 +142,6 @@ training <-
                        pam = 
                          {
                            #library(pamr)    
-                           
                            pamr.args <- c("n.threshold", "threshold.scale", "scale.sd", "se.scale")
                            theDots <- theDots[names(theDots) %in% pamr.args]
                            
@@ -179,13 +178,19 @@ training <-
                                  theDots$family <- fam
                                }
                              }
+                           }else{
+                             if(!is.na(numLev))
+                             {
+                               fam <- ifelse(numLev > 2, "multinomial", "binomial")
+                             } else stop("Error: levels of classes couldn't be determined for glmnet")
+                             
+                             if(is.null(theDots)){
+                               theDots <- list(family = fam)
+                             }
                            }
                            
                            modelArgs <- c(
-                             list(
-                               x = as.matrix(trainX),
-                               y = trainY,
-                               alpha = tuneValue$.alpha),
+                             list(x = as.matrix(trainX), y = trainY, alpha = tuneValue$.alpha),
                              theDots)
                            
                            out <- do.call("glmnet", modelArgs) 

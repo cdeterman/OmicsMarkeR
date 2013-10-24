@@ -225,24 +225,24 @@ extract.features <-
                        glmnet = 
                         {
                           # extract coefficients and remove intercept
-                          if(nlevels(dat$.classes) > 2){
+                          if(nlevels(grp) > 2){
                             if(model.features){
                               
                               #coefficients <- as.matrix(abs(coef(x, s = bestTune$.lambdaOpt)[[1]][2:(nc+1),,drop=FALSE]))
                               lambda <- unlist(lapply(x, FUN = function(x) x$lambdaOpt))
                               
                               if(length(lambda) == 1){
-                                mapply(x = x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[[1]][2:(ncol(y)+1),,drop=FALSE])), y = dat)
+                                mapply(x = x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = list(dat))
                               }
-                              #str(x[[1]])
-                              coefficients <- lapply(x, FUN = function(x) as.matrix(abs(coef(x, s = x$lambdaOpt)[[1]][2:(ncol(dat)),,drop=FALSE])))
-                              mod.features <- lapply(coefficients, FUN = function(x) rownames(x[order(-x),,drop=F]))
+                              
+                              coefficients <- lapply(x, FUN = function(x) as.matrix(abs(coef(x, s = x$lambdaOpt)[2:(ncol(dat)),,drop=FALSE])))
+                              #mod.features <- lapply(coefficients, FUN = function(x) rownames(x[order(-x),,drop=F]))
+                              mod.features <- head(rownames(coefficients[order(-coefficients),,drop = FALSE]), f)
+                              
                               
                             }else{
                               if(is.null(f)){
-                                #rfs[,iter] <- rank(-abs(coef(x, s = 0)[[1]][2:(nc+1),]))
-                                mod.features <- lapply(x, FUN = function(x) rank(-abs(coef(x, s = 0)[[1]][2:ncol(dat),])))
-                                
+                                mod.features <- lapply(x, FUN = function(x) rank(-abs(coef(x, s = 0)[2:(ncol(dat)+1),])))
                                 }else{
                                   # check if a penalized model exists which includes all features
                                   #index <- min(which(x$df >= f))
@@ -250,20 +250,15 @@ extract.features <-
                                   index <- lapply(x, FUN = function(x) min(which(x$df >= f)))
                                   lambda <- mapply(x, FUN = function(x, ind) x$lambda[ind], ind = index)
                                   
-                                  #rfs[,iter] <- head(rownames(coefficients[order(-coefficients),, drop=F]), f)
                                   #coefficients <- mapply(x, FUN = function(x, lamb, dat) as.matrix(abs(coef(x, s = lamb)[[1]][2:(ncol(dat)),,drop=FALSE])), lamb = lambda, dat = dat)
-                                  mapply(x, FUN = function(x, lamb, dat) as.matrix(coef(x, s = lamb)[[1]][2:(ncol(dat)),,drop=FALSE]), lamb = lambda, dat = dat)
+                                  #mapply(x, FUN = function(x, lamb, dat) as.matrix(coef(x, s = lamb)[[1]][2:(ncol(dat)),,drop=FALSE]), lamb = lambda, dat = dat)
                                   
-                                  #coefficients <- as.matrix(abs(coef(x, s = bestTune$.lambdaOpt)[[1]][2:(nc+1),,drop=FALSE]))
+                                  coefficients <- as.matrix(abs(coef(x, s = bestTune$.lambda)[2:(ncol(dat)+1),,drop=FALSE]))
                                   
-                                  as.matrix(abs(coef(x[[1]], s = as.numeric(lambda[1]))[[1]][2:(ncol(dat[[1]])),,drop=FALSE]))
-                                  
-                                  #ncol(dat[[1]])
+                                  #as.matrix(abs(coef(x[[1]], s = as.numeric(lambda[1]))[[1]][2:(ncol(dat[[1]])),,drop=FALSE]))
                                   mod.features <- lapply(coefficients, FUN = function(x) head(rownames(x[order(-x),,drop=F]),f))
-                              }
-                              
-                            }
-                            # end of multinomial feature extraction
+                              } # end of f = NULL
+                            } # end of multinomial feature extraction
                           }else{
                               #coefficients <- as.matrix(abs(coef(x, s = lambda)[2:(nc+1),,drop=FALSE]))
                               
@@ -272,33 +267,28 @@ extract.features <-
                                 lambda <- unlist(lapply(x, FUN = function(x) x$lambdaOpt))
                                 
                                 if(length(lambda) == 1){
-                                  coefficients <- mapply(x = x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = dat)
-                                  rownames(coefficients) <- colnames(dat[[1]])
+                                  coefficients <- mapply(x = x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = list(dat))
+                                  rownames(coefficients) <- colnames(dat)
                                 }else{
-                                  coefficients <- mapply(x = x, FUN = function(x, y, lamb) as.matrix(abs(coef(x, s = lamb)[2:(ncol(y)+1),,drop=FALSE])), y = dat, lamb = lambda)
-                                  rownames(coefficients) <- colnames(dat[[1]])
+                                  coefficients <- mapply(x = x, FUN = function(x, y, lamb) as.matrix(abs(coef(x, s = lamb)[2:(ncol(y)+1),,drop=FALSE])), y = list(dat), lamb = list(lambda))
+                                  rownames(coefficients) <- colnames(dat)
                                 }
-                                #str(x[[1]])
                                 #coefficients <- lapply(x, FUN = function(x) as.matrix(abs(coef(x, s = x$lambdaOpt)[2:(ncol(dat)),,drop=FALSE])))
                                 nonzero.coefficients <- apply(coefficients, 2, FUN = function(x) x[x!=0])
-                                #tmp
-                                mod.features <- lapply(nonzero.coefficients, FUN = function(x) names(x[order(-x)]))
+                                #mod.features <- lapply(nonzero.coefficients, FUN = function(x) names(x[order(-x)]))
+                                mod.features <- head(rownames(nonzero.coefficients[order(-nonzero.coefficients),,drop = FALSE]), f)
+                                
                                 #mod.features <- do.call("cbind", tmp)
                                 
                                 }else{
                                   if(is.null(f)){
-                                    #rfs[,iter] <- rank(-abs(coef(x, s = 0)[[1]][2:(nc+1),]))
-                                    #mod.features <- lapply(x, FUN = function(x) rank(-abs(coef(x, s = 0)[2:ncol(dat),])))
-                                    mod.features <- mapply(x, FUN = function(x, y) rank(-abs(coef(x, s = 0)[2:(ncol(y)+1),])), y = dat)
+                                    mod.features <- mapply(x, FUN = function(x, y) rank(-abs(coef(x, s = 0)[2:(ncol(y)+1),])), y = list(dat))
                                     mod.features <- as.list(as.data.frame(mod.features))
                                     
-                                    orig.names <- lapply(mod.features, FUN = function(x) names(x) = colnames(dat[[1]]))
+                                    orig.names <- lapply(mod.features, FUN = function(x) names(x) = colnames(dat))
                                     for(i in seq(along = mod.features)){
                                       names(mod.features[[i]]) <- orig.names[[i]]
                                     }
-                                                                        
-                                    
-                                    
                                   }else{
                                     # check if a penalized model exists which includes all features
                                     #index <- min(which(x$df >= f))
@@ -306,22 +296,17 @@ extract.features <-
                                     index <- lapply(x, FUN = function(x) min(which(x$df >= f)))
                                     lambda <- mapply(x, FUN = function(x, ind) x$lambda[ind], ind = index)
                                     
-                                    #rfs[,iter] <- head(rownames(coefficients[order(-coefficients),, drop=F]), f)
-                                    #coefficients <- mapply(x, FUN = function(x, lamb, dat) as.matrix(abs(coef(x, s = lamb)[[1]][2:(ncol(dat)),,drop=FALSE])), lamb = lambda, dat = dat)
-                                    
                                     if(length(lambda) == 1){
-                                      coefficients <- mapply(x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = dat)
-                                      rownames(coefficients) <- colnames(dat[[1]])
+                                      coefficients <- mapply(x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = list(dat))
+                                      rownames(coefficients) <- colnames(dat)
                                     }else{
-                                      coefficients <- mapply(x, FUN = function(x, lamb, dat) as.matrix(coef(x, s = lamb)[2:(ncol(dat)+1),,drop=FALSE]), lamb = lambda, dat = dat)
-                                      rownames(coefficients) <- colnames(dat[[1]])
+                                      coefficients <- mapply(x, FUN = function(x, lamb, dat) as.matrix(coef(x, s = lamb)[2:(ncol(dat)+1),,drop=FALSE]), lamb = list(lambda), dat = list(dat))
+                                      rownames(coefficients) <- colnames(dat)
                                     }
                                     
-                                    
-                                    
                                     nonzero.coefficients <- apply(coefficients, 2, FUN = function(x) x[x!=0])
-                                    #tmp
-                                    mod.features <- lapply(nonzero.coefficients, FUN = function(x) head(names(x[order(-x)]), f))
+                                    mod.features <- head(rownames(nonzero.coefficients[order(-nonzero.coefficients),,drop = FALSE]), f)
+                                    #mod.features <- lapply(nonzero.coefficients, FUN = function(x) head(names(x[order(-x)]), f))
                                   }
                                   
                                 }
@@ -329,17 +314,17 @@ extract.features <-
                           
                           
                           ## Make a matrix from the list, with shorter vectors filled out with ""
-                          n <- max(sapply(mod.features, FUN = function(x) length(x)))
-                          ll <- lapply(mod.features, function(x) {
-                            c(as.character(x), rep("", times = n - length(x)))
-                            #c(as.character(X), rep("", times = testn - length(X)))
-                          })
-                          out <- as.data.frame(do.call(cbind, ll))     
+                          #n <- max(sapply(mod.features, FUN = function(x) length(x)))
+                          #ll <- lapply(mod.features, function(x) {
+                          #  c(as.character(x), rep("", times = n - length(x)))
+                          #  #c(as.character(X), rep("", times = testn - length(X)))
+                          #})
+                          #out <- as.data.frame(do.call(cbind, ll))     
                           
                           
                           # collect ranked features
-                          #list(features.selected = rfs)
-                          list(features.selected = out)
+                          #list(features.selected = out)
+                          list(features.selected = mod.features)
                         }
     )
     features

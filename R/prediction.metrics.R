@@ -58,10 +58,10 @@ prediction.metrics <-
       new.dat <- switch(names(finalModel[e]),
                         svm = {raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]},
                         
-                        pam = {features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
+                        pam =, glmnet = {features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
                                raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]},
                         
-                        plsda =, gbm =, rf =, glmnet = {raw.data.vars[outTrain.list[[e]],,drop = FALSE]}
+                        plsda =, gbm =, rf = {raw.data.vars[outTrain.list[[e]],,drop = FALSE]}
                         )
       
       predicted[[e]] <- predicting(method = names(finalModel)[e],
