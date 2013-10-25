@@ -254,8 +254,10 @@ pairwise.stability <-
     comp <- comp[,-1]
     
     # set row and column names
-    colnames(comp) <- paste("Resample", 2:k, sep=".")
-    rownames(comp) <- paste("Resample", 1:(k-1), sep=".")
+    if(k > 2){
+      colnames(comp) <- paste("Resample", 2:k, sep=".")
+      rownames(comp) <- paste("Resample", 1:(k-1), sep=".")
+    }
     
     # Average all pairwise comparisons
     total <- round(2*sum(comp)/(k*(k-1)), 2)
@@ -276,6 +278,7 @@ pairwise.stability <-
 #'  \code{"spearman"} (Spearman Rank Correlation), and \code{"canberra"} (Canberra Distance)
 #' @param m Number of models fit
 #' @param k Number of resamples run
+#' @param nc Number of original features
 #' @return A list is returned containing:
 #'  \item{comparisons}{Matrix of pairwise comparisons}
 #'  \item{overall}{The average of all pairwise comparisons}
@@ -320,14 +323,11 @@ pairwise.model.stability <-
       model.features[[i]] <- sapply(features, `[[`, i)
     }
     
+    #pairwise.stability(features = model.features[[1]], stability.metric, nc)
+    
     tmp <- lapply(model.features, FUN = function(x) pairwise.stability(x, stability.metric, nc)$comparisons)
-    
-    tmp.dat <- sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])
-    
-    #pariwise.stability(features, stability.metric, nc)
-    #data.frame(tmp)
-    #tmp <- t(data.frame(mapply(a, FUN = stability.metric, y = b)))
-    
+    tmp.dat <- data.frame(t(sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])))
+
     colnames(tmp.dat) <- paste("Resample.", 1:k, sep = "")
     rownames(tmp.dat) <- vec.comps
     

@@ -3,7 +3,7 @@
 \title{Pairwise Model Stability Metrics}
 \usage{
   pairwise.model.stability(features, stability.metric, m,
-    k)
+    k, nc)
 }
 \arguments{
   \item{features}{A matrix of selected features}
@@ -20,6 +20,8 @@
   \item{m}{Number of models fit}
 
   \item{k}{Number of resamples run}
+
+  \item{nc}{Number of original features}
 }
 \value{
   A list is returned containing: \item{comparisons}{Matrix

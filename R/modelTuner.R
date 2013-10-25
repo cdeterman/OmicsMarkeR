@@ -82,20 +82,20 @@ modelTuner <- function(trainData,
   tmp.list <- foreach(algo = seq(along = method), 
                       .combine = "c", 
                       .verbose = FALSE, 
-                      .packages = c("OmicsMarkeR"),
+                      .packages = c("OmicsMarkeR", "foreach", "plyr", "caret"),
                       .errorhandling = "stop") %op%
-  {
+    {
       result <-
         foreach(iter = seq(along = inTrain), 
                 .combine = "c", 
                 .verbose = FALSE, 
-                .packages = c("OmicsMarkeR"),
+                .packages = c("OmicsMarkeR", "foreach", "plyr", "caret"),
                 .errorhandling = "stop") %:%
-        foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
-                .combine = "c", 
-                .verbose = FALSE, 
-                .packages = c("OmicsMarkeR"),
-                .errorhandling = "stop")  %op%
+          foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
+                  .combine = "c", 
+                  .verbose = FALSE, 
+                  .packages = c("OmicsMarkeR", "foreach", "plyr", "caret"),
+                  .errorhandling = "stop") %op%
         {        
           ## Removes '.' from start of each parameter
           ## create 'printed' for verbose printing
