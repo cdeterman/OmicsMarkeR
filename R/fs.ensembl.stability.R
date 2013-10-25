@@ -103,7 +103,7 @@ fs.ensembl.stability <-
            verbose = FALSE,
            ...
            )
-    {        
+    {
     verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
     #verify_data <- my_verify(variables, groups, na.rm = FALSE)
     X <- verify_data$X
@@ -141,10 +141,7 @@ fs.ensembl.stability <-
                        total = seq(nr))    
     
     ### Stability Loop
-    for (i in 1:k){
-      # random sample of data
-      #inTrain <- sample(nr, round(p*(nr)))
-      
+    for (i in 1:k){      
       trainX <- X[inTrain[[i]],, drop=F]
       trainY <- Y[inTrain[[i]], drop=F]
       trainData <- as.data.frame(trainX)
@@ -157,7 +154,6 @@ fs.ensembl.stability <-
                                          bags = bags, 
                                          f = f, 
                                          aggregation.metric = aggregation.metric,
-                                         #inTrain = inTrain[[i]],
                                          k.folds = k.folds,
                                          repeats = repeats,
                                          res = resolution,
@@ -176,7 +172,7 @@ fs.ensembl.stability <-
       }
       
       # Store the features selected for stability analysis
-      features[[i]] <- results.bagging$results$ensemble.results
+      features[[i]] <- as.list(results.bagging$results$ensemble.results)
       
       ### Re-fitting models to reduced features
       # subset only those features which were selected
@@ -282,6 +278,12 @@ fs.ensembl.stability <-
       } # end of non-optimized loop
     } # end stability loop
     
+    #features[[1]]
+    #final.features[1]
+    
+    final.features <- features
+    #ref.features <- lapply(features, FUN = function(x) data.frame(x))
+    
     ### Performance Metrics of Reduced Models
     final.metrics <- prediction.metrics(finalModel = finalModel.new,
                                         method = method,
@@ -289,6 +291,7 @@ fs.ensembl.stability <-
                                         inTrain = inTrain,
                                         outTrain = outTrain,
                                         bestTune = new.best.tunes,
+                                        features = final.features,
                                         grp.levs = grp.levs)
     
     
@@ -391,7 +394,8 @@ fs.ensembl.stability <-
       stability.models <- pairwise.model.stability(features = results.stability,
                                                    stability.metric = stability.metric,
                                                    m = length(method),
-                                                   k = k)
+                                                   k = k,
+                                                   nc = nc)
     }else{
       stability.models <- NULL
     }

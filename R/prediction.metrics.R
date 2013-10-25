@@ -58,17 +58,35 @@ prediction.metrics <-
     
     #e <- 1
     #lapply(finalModel, names)
-    
+    #names(finalModel[e])
+    #outTrain.list[[e]]
+    #features[[6]]
+    #str(features[[e]])
     for(e in seq(along = finalModel)){
       new.dat <- switch(names(finalModel[e]),
-                        svm = {raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]},
+                        svm = {
+                          if(!is.data.frame(features[[e]])){
+                            if(is.character(features[[e]])){
+                              features[[e]] <- features[[e]]
+                            }else{
+                              features[[e]] <- rownames(as.data.frame(features[[e]]))
+                            }
+                          }
+                          raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]},
+                      
+                        pam =, glmnet= {
+                          if(!is.character(features[[e]])){
+                            features[[e]] <- rownames(as.data.frame(features[[e]]))
+                            raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]
+                          }else{
+                            features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
+                            raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]
+                          }
+                          },
                         
-                        pam =, glmnet = {features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
-                               raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]},
-                        
-                        plsda =, gbm =, rf = {raw.data.vars[outTrain.list[[e]],,drop = FALSE]}
+                        plsda =, gbm =, rf = {raw.data.vars[outTrain.list[[e]],,drop = FALSE]},
                         )
-      
+      #final.features
       predicted[[e]] <- predicting(method = names(finalModel)[e],
                                    modelFit = finalModel[[e]],
                                    orig.data = raw.data,

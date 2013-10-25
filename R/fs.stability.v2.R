@@ -336,7 +336,7 @@ fs.stability <-
           }else{
             trainData.new <- lapply(features, FUN = function(x) trainData[,colnames(trainData) %in% c(rownames(x$features.selected), ".classes")])          
           }
-
+          
           if(i == 1){
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
@@ -351,8 +351,7 @@ fs.stability <-
                                           savePerformanceMetrics = FALSE,
                                           allowParallel = allowParallel,
                                           verbose = verbose,
-                                          theDots = theDots)  
-              
+                                          theDots = theDots)    
             }
           }else{
             tmp <- vector("list", length(method))

@@ -16,6 +16,7 @@
 #' @references Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y. (2010) \emph{Robust
 #' biomarker identification for cancer diagnosis with ensemble feature selection methods}. 
 #' Bioinformatics 26:3 392-398.
+#' @export
 
 CLA <- function(efs, f){
   # sum ranks over all bootstraps (i.e. colsums)
@@ -38,6 +39,7 @@ CLA <- function(efs, f){
 #' @references Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y. (2010) \emph{Robust
 #' biomarker identification for cancer diagnosis with ensemble feature selection methods}. 
 #' Bioinformatics 26:3 392-398.
+#' @export
 
 EM <- function(efs, f){
   # average rank over the bootstraps
@@ -62,6 +64,7 @@ EM <- function(efs, f){
 #' @author Charles Determan Jr
 #' @references Meinshausen N., Buhlmann P. (2010) \emph{Stability selection}. 
 #' J.R. Statist. Soc. B. 72:4 417-473.
+#' @export
 
 ES <- function(efs, f){
   # measures percentage of bootstrap samples for which the gene ranks in the top 's'
@@ -88,6 +91,7 @@ ES <- function(efs, f){
 #' @references Haury A., Gestraud P., Vert J. (2011) \emph{The Influence of Features Selection
 #' Methods on Accuracy, Stability, and Interpretability of Molecular Signatures}. 
 #' PLoS ONE 6(12) e28210. doi: 10.1371/journal.pone.0028210
+#' @export
 
 EE <- function(efs, f){
   # average an exponentially decreasing function of the rank
@@ -123,6 +127,7 @@ EE <- function(efs, f){
 #' Haury A., Gestraud P., Vert J. (2011) \emph{The Influence of Features Selection
 #' Methods on Accuracy, Stability, and Interpretability of Molecular Signatures}. 
 #' PLoS ONE 6(12) e28210. doi: 10.1371/journal.pone.0028210.
+#' @export
 
 aggregation <- function(efs,
                         metric,

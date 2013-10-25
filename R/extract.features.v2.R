@@ -157,13 +157,16 @@ extract.features <-
                            }else{
                              #mod.features <- apply(svm.index, 2, FUN = function(x) colnames(dat[[1]][,x]))
                              mod.features <- colnames(dat[,svm.index])
-                             orig.names <- colnames(dat[[1]])
+                             orig.names <- colnames(dat)
                              if(is.null(f)){
-                               ranks <- rep(list(ranks = 1:nrow(svm.index)), 5)
-                               for(i in seq(along = ranks)){
-                                 names(ranks[[i]]) <- as.character(mod.features[,i])
-                               }
-                               out <- lapply(ranks, FUN = function(x) x[orig.names[orig.names %in% names(x)]])
+                               #ranks <- rep(list(ranks = 1:length(svm.index)), 5)
+                               ranks <- c(1:length(svm.index))
+                               names(ranks) = as.character(mod.features)
+                               #for(i in seq(along = ranks)){
+                              #   names(ranks[[i]]) <- as.character(mod.features[i])
+                              # }
+                               out <- ranks[orig.names[orig.names %in% names(ranks)]]
+                               #out <- sapply(ranks, FUN = function(x) x[orig.names[orig.names %in% names(x)]])
                                }else{
                                  out <- head(mod.features, n = f)
                                }
@@ -190,32 +193,45 @@ extract.features <-
                              }
                              }else{
                                #for(i in seq(along = dat)){
-                                 mod.features <- lapply(x, FUN = function(x) data.frame(pamr.listgenes(x, dat, threshold = 0)))
+                                 mod.features <- lapply(x, FUN = function(x) as.character(data.frame(pamr.listgenes(x, dat, threshold = 0))[,1]))
                                #}
                              
                              if(is.null(f)){
-                               nc <- length(dat[[1]]$x)
-                               ranks <- rep(list(ranks = 1:nc), length(x))
-                               for(i in seq(along = ranks)){
-                                 names(ranks[[i]]) <- as.character(mod.features[[i]][,1])
-                               }
+                               #nc <- length(dat[[1]]$x)
+                               nc <- nrow(dat$x)
+                               ranks <- c(1:nc)
+                               #ranks <- rep(list(ranks = 1:nc), length(x))
                                
-                               for(i in seq(along = ranks)){
-                                 mod.features <- lapply(ranks, FUN = function(x) as.data.frame(x[dat[[i]]$geneid[dat[[i]]$geneid %in% names(x)]]))
-                               }
+                               
+                               #names(ranks) <- as.character(mod.features[[1]][,1])
+                               names(ranks) <- as.character(mod.features[[1]])
+                               
+                               
+                               #for(i in seq(along = ranks)){
+                              #   names(ranks[[i]]) <- as.character(mod.features[[i]][,1])
+                               #}
+                               
+                               #mod.features <- 
+                               out <- as.data.frame(ranks[dat$geneid[dat$geneid %in% names(ranks)]])
+                               
+                               #for(i in seq(along = ranks)){
+                              #   mod.features <- lapply(ranks, FUN = function(x) as.data.frame(x[dat[[i]]$geneid[dat[[i]]$geneid %in% names(x)]]))
+                              # }
 
                              }else{
-                               mod.features <- lapply(mod.features, head, n = f)
+                               #mod.features <- 
+                               #out <- lapply(mod.features, head, n = f)
+                               out <- head(unlist(mod.features, recursive = F, use.names = F), n = f)
                              }
                            }
                            
                            ## Make a matrix from the list, with shorter vectors filled out with ""
-                           n <- max(sapply(mod.features, FUN = function(x) length(x[,1])))
-                           ll <- lapply(mod.features, function(x) {
-                             c(as.character(x[,1]), rep("", times = n - length(x[,1])))
-                             #c(as.character(X), rep("", times = testn - length(X)))
-                           })
-                           out <- as.data.frame(do.call(cbind, ll))                           
+                           #n <- max(sapply(mod.features, FUN = function(x) length(x[,1])))
+                           #ll <- lapply(mod.features, function(x) {
+                          #   c(as.character(x[,1]), rep("", times = n - length(x[,1])))
+                          #   #c(as.character(X), rep("", times = testn - length(X)))
+                          # })
+                          # out <- as.data.frame(do.call(cbind, ll))                           
                            
                            # collect ranked features
                            #list(features.selected = rfs)

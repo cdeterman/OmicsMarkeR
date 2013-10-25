@@ -48,6 +48,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
+#' @export
 
 
 
@@ -77,7 +78,6 @@ bagging.wrapper <- function(X,
   # group levels
   grp.levs <- levels(Y)  
   # leave out samples
-  #outTrain <- seq(nr)[-unique(inTrain)]
   
   # need to retain for SVM and PAM feature selection
   trainVars.list <- vector("list", bags)
@@ -98,9 +98,6 @@ bagging.wrapper <- function(X,
     # bootstrapping (i.e. random sample with replacement)
     boot=sample(nr,nr,replace=TRUE)
     
-    #Xb=X[boot,]
-    #Yb=Y[boot]
-    #str(trainVars)
     trainVars <- X[boot,]
     trainGroup <- Y[boot]
     trainVars.list[[i]] <- trainVars
@@ -112,7 +109,6 @@ bagging.wrapper <- function(X,
     
     
     ## Run respective algorithm on bootstrapped subsamples
-    
     if(optimize == TRUE){
       if(optimize.resample == TRUE){
         # tune the methods
@@ -134,7 +130,6 @@ bagging.wrapper <- function(X,
           finalModel <- append(finalModel, tuned.methods$finalModel)
         }
         
-        
         # store the best tune parameters for each iteration
         names(tuned.methods$bestTune) = method
         resample.tunes[[i]] <- tuned.methods$bestTune
@@ -143,18 +138,19 @@ bagging.wrapper <- function(X,
       }else{
         if(i == 1){
           tuned.methods <- optimize(trainVars = trainVars,
-                                trainGroup = trainGroup,
-                                method = method,
-                                k.folds = k.folds,
-                                repeats = repeats,
-                                res = res,
-                                grid = tuning.grid,
-                                metric = metric,
-                                savePerformanceMetrics = FALSE,
-                                allowParallel = allowParallel,
-                                verbose = verbose,
-                                theDots = theDots)
+                                    trainGroup = trainGroup,
+                                    method = method,
+                                    k.folds = k.folds,
+                                    repeats = repeats,
+                                    res = res,
+                                    grid = tuning.grid,
+                                    metric = metric,
+                                    savePerformanceMetrics = FALSE,
+                                    allowParallel = allowParallel,
+                                    verbose = verbose,
+                                    theDots = theDots)
           finalModel <- tuned.methods$finalModel
+          names(tuned.methods$bestTune) <- method
         }else{
           # Fit remainder of resamples with initial best parameters
           tmp <- vector("list", length(method))
@@ -169,9 +165,7 @@ bagging.wrapper <- function(X,
           }
           finalModel <- append(finalModel, tmp)
         }
-        
-        # end of single optimization loop
-      }
+      } # end of single optimization loop
       
       # end of optimizing loops
     }else{
@@ -206,24 +200,26 @@ bagging.wrapper <- function(X,
   
   # sort models together (e.g. first 5 are "plsda", next 5 "gbm", etc.)    
   method.names <- unlist(lapply(method, FUN = function(x) c(rep(x, bags))))
-  finalModel <- finalModel[order(names(finalModel), levels = method.names)]
+  finalModel <- finalModel[match(method.names, names(finalModel))]    
   
   # Create empty list for features identified by each chosen algorithm
   features <- vector("list", length(method))
   names(features) <- tolower(method)
+  
+  #names(finalModel)
   
   for(j in seq(along = method)){
     ### Extract important features
     # pam requires a special mydata argument
     mydata <- vector("list", bags)
     if(method[j] == "pam"){
-      for(i in 1:bags){
-        mydata[[i]] <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
+      for(t in 1:bags){
+        mydata[[t]] <- list(x=t(trainVars.list[[t]]), y=factor(trainGroup.list[[t]]), geneid = as.character(colnames(trainVars.list[[t]])))
       }
     }else{
       # svm requires training data for RFE
-      for(i in 1:bags){
-        mydata[[i]] <- trainVars.list[[i]]
+      for(t in 1:bags){
+        mydata[[t]] <- trainVars.list[[t]]
       }
     }
     
@@ -231,29 +227,66 @@ bagging.wrapper <- function(X,
       start <- 1
       end <- bags
     }
-
-    # set f = NULL because need ranks for aggregation
-    features[[j]] <- extract.features(
-      x = finalModel[start:end],
-      dat = mydata[[j]],
-      grp = trainGroup.list[[j]],
-      # add in gbm best tune trees???
-      bestTune = if(method[j] == "svm" | method[j] == "pam" | method[j] == "glmnet") tuned.methods$bestTune[[j]] else NULL,
-      model.features = model.features, 
-      method = method[j], 
-      f = NULL, 
-      #similarity.metric = similarity.metric,
-      comp.catch = tuned.methods$comp.catch)
     
-    rownames(features[[j]]$features.selected) <- colnames(X)
+    if(method[j] == "svm" | method[j] == "pam" | method[j] == "glmnet"){
+      bt <- vector("list", bags)
+      for(l in seq(bags)){
+        if(optimize == TRUE){
+          if(optimize.resample == FALSE){
+            bt[[l]] <- tuned.methods$bestTune[[j]]
+          }else{
+            bt[[l]] <- tuned.methods$bestTune[[l]]
+          }
+        }
+      }
+    }else{
+      bt <- vector("list", bags)
+    }
+    
+    if(method[j] == "plsda"){
+      cc <- vector("list", bags)
+      for(c in seq(bags)){
+        if(optimize == TRUE){
+          if(optimize.resample == FALSE){
+            cc[[c]] <- tuned.methods$bestTune[[j]]
+          }else{
+            cc[[c]] <- tuned.methods$bestTune[[l]]
+          }
+        }
+      }
+    }
+    
+    finalModel.bag <- finalModel[start:end]
+    tmp <- vector("list", bags)
+    for(s in seq(bags)){
+      tmp[[s]] <- extract.features(
+        x = finalModel.bag[s],
+        dat = mydata[[s]],
+        grp = trainGroup.list[[s]],
+        # add in gbm best tune trees???
+        bestTune = bt[[s]],
+        model.features = model.features, 
+        method = method[j], 
+        f = NULL, 
+        #similarity.metric = similarity.metric,
+        comp.catch = cc)
+    }
+    
+    if(method[j] == "glmnet"){
+      features[[j]] <- do.call("cbind", unlist(unlist(tmp, recursive = F), recursive = F))
+    }else{
+      features[[j]] <- do.call("cbind", unlist(tmp, recursive = F))
+    }
+    rownames(features[[j]]) <- colnames(X)
+    #rownames(features[[j]]$features.selected) <- colnames(X)
     
     start <- start + bags
     end <- end + bags
   }
-    
+  
   ### Ensemble Aggregation
   # Generate summary lists of each algorithm
-  agg <- lapply(features, FUN = function(x) aggregation(efs = data.matrix(x$features.selected), metric = aggregation.metric, f = f))
+  agg <- lapply(features, FUN = function(x) aggregation(efs = data.matrix(x), metric = aggregation.metric, f = f))
   
   # Basic ensemble model parameters
   ensemble.results <- list(Methods = method,
