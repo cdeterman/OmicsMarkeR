@@ -306,18 +306,6 @@ pairwise.model.stability <-
     }
     vec.comps <- as.vector(t(vec))[as.vector(t(vec)) != 0]
     
-    
-    #features
-    
-    #a <- vector("list", k)
-    #b <- vector("list", k)
-    #for(i in 1:(m-1)){
-    #  for(g in 1:k){
-    #    a[[g]] <- features[[i]][,g]
-    #    b[[g]] <- features[[i+1]][,g]
-    #  }
-    #}
-    
     model.features <- vector("list", k)
     for(i in seq(k)){
       model.features[[i]] <- sapply(features, `[[`, i)
