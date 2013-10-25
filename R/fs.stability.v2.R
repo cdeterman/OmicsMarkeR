@@ -482,7 +482,6 @@ fs.stability <-
       } # end of non-optimized sequence
     } # end of stability loop
         
-    
     ### Performance Metrics of Reduced Models
     #if(verbose){
       cat("Calculating Model Performance Statistics\n")
