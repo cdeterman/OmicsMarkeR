@@ -48,10 +48,17 @@ prediction.metrics <-
     bestTune <- bestTune[match(method.names,names(bestTune))]
     finalModel <- finalModel[match(method.names, names(finalModel))]    
     
+    # check features
+    features <- final.features
+    features <- unlist(features, recursive = F)
+    names(features) <- rep(method, length(finalModel)/length(method))
+    features <- features[match(method.names, names(features))]   
+    
     predicted <- vector("list", length(finalModel))
     names(predicted) <- names(finalModel)
     
     #e <- 1
+    #lapply(finalModel, names)
     
     for(e in seq(along = finalModel)){
       new.dat <- switch(names(finalModel[e]),

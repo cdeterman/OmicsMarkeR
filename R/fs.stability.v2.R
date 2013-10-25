@@ -298,26 +298,28 @@ fs.stability <-
           # Create empty list for features identified by each chosen algorithm
           features <- vector("list", length(method))
           #names(features) <- tolower(method)
-          
+          j <- 3
           for(j in seq(along = method)){
             ### Extract important features
             # pam requires a special mydata argument
-            mydata <- vector("list", length(method))
+            #mydata <- vector("list", length(method))
             if(method[j] == "pam"){
-              for(t in seq(along = method)){
-                mydata[[t]] <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
-              }
+            #  for(t in seq(along = method)){
+                #mydata[[t]] <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
+                mydata <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
+            #  }
             }else{
               # svm requires training data for RFE
-              for(t in seq(along = method)){
-                mydata[[t]] <- trainVars.list[[i]]
-              }
+            #  for(t in seq(along = method)){
+            #    mydata[[t]] <- trainVars.list[[i]]
+            mydata <- trainVars.list[[i]]
+                #  }
             }
           
             features[[j]] <- extract.features(
               x = finalModel[j],
-              dat = mydata[[j]],
-              grp = trainGroup.list[[j]],
+              dat = mydata,
+              grp = trainGroup.list[[i]],
               # add in gbm best tune trees???
               bestTune = if(method[j] == "svm" | method[j] == "pam" | method[j] == "glmnet") tuned.methods$bestTune[[j]] else NULL,
               model.features = model.features, 
@@ -576,13 +578,14 @@ fs.stability <-
     # need to split features into length(method) dataframes for pairwise.stability    
     results.stability <- vector("list", length(method))
     names(results.stability) <- method
+    #c <- 3
     for(c in seq(along = method)){
       met <- method[c]
-      if(met == "svm" | met == "glmnet"){
-        results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x))
-      }else{
+      #if(met == "svm" | met == "glmnet"){
+      #  results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x))
+      #}else{
         results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))
-      }
+      #}
       if(is.null(f)){
         rownames(results.stability[[c]]) <- colnames(X)
       }
@@ -596,7 +599,8 @@ fs.stability <-
       stability.models <- pairwise.model.stability(features = results.stability,
                                                    stability.metric = stability.metric,
                                                    m = length(method),
-                                                   k = k)
+                                                   k = k,
+                                                   nc = nc)
     }else{
       stability.models <- NULL
     }

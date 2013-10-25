@@ -285,7 +285,7 @@ pairwise.stability <-
 #' @export
 
 pairwise.model.stability <- 
-  function(features, stability.metric, m, k)
+  function(features, stability.metric, m, k, nc)
   {
     # column x of list one ~= to column x of list two
     # nro = number of pairwise comparisons
@@ -294,28 +294,46 @@ pairwise.model.stability <-
     tmp.names <- names(features)
     
     # used for identifying comparisons
-    vec <- vector()
-    for(i in 1:nro){
-      vec[i] <- paste(tmp.names[i], ".vs.", tmp.names[i+1], sep = "")
-    }
-    
-    a <- vector("list", k)
-    b <- vector("list", k)
+    vec <- matrix(0, nrow=m-1, ncol=m)
+    #vec <- vector()
     for(i in 1:(m-1)){
-      for(g in 1:k){
-        a[[g]] <- features[[i]][,g]
-        b[[g]] <- features[[i+1]][,g]
+      for(j in (i+1):m){
+        vec[i,j] <- paste(tmp.names[i], ".vs.", tmp.names[j], sep = "")
       }
     }
+    vec.comps <- as.vector(t(vec))[as.vector(t(vec)) != 0]
     
-    tmp <- t(data.frame(mapply(a, FUN = stability.metric, y = b)))
     
-    colnames(tmp) <- paste("Resample.", 1:k, sep = "")
-    rownames(tmp) <- vec
+    #features
+    
+    #a <- vector("list", k)
+    #b <- vector("list", k)
+    #for(i in 1:(m-1)){
+    #  for(g in 1:k){
+    #    a[[g]] <- features[[i]][,g]
+    #    b[[g]] <- features[[i+1]][,g]
+    #  }
+    #}
+    
+    model.features <- vector("list", k)
+    for(i in seq(k)){
+      model.features[[i]] <- sapply(features, `[[`, i)
+    }
+    
+    tmp <- lapply(model.features, FUN = function(x) pairwise.stability(x, stability.metric, nc)$comparisons)
+    
+    tmp.dat <- sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])
+    
+    #pariwise.stability(features, stability.metric, nc)
+    #data.frame(tmp)
+    #tmp <- t(data.frame(mapply(a, FUN = stability.metric, y = b)))
+    
+    colnames(tmp.dat) <- paste("Resample.", 1:k, sep = "")
+    rownames(tmp.dat) <- vec.comps
     
     # Average all pairwise comparisons and resamples
-    total <- round(sum(tmp)/k*nro, 2)
-    out <- list(comparisons = tmp,
+    total <- round(sum(tmp.dat)/(k*nro), 2)
+    out <- list(comparisons = tmp.dat,
                 overall = total)
     out  
   }
