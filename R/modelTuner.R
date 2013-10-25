@@ -85,14 +85,12 @@ modelTuner <- function(trainData,
                       .packages = c("OmicsMarkeR"),
                       .errorhandling = "stop") %op%
   {
-      result <-      
-        #foreach(iter = 1,
+      result <-
         foreach(iter = seq(along = inTrain), 
                 .combine = "c", 
                 .verbose = FALSE, 
                 .packages = c("OmicsMarkeR"),
                 .errorhandling = "stop") %:%
-        #foreach(parms = 2,
         foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
                 .combine = "c", 
                 .verbose = FALSE, 
@@ -113,7 +111,7 @@ modelTuner <- function(trainData,
           
           # create models
           mod <- try(
-            training(data = trainData[index,,drop = FALSE],
+            training(data = trainData[complete.cases(trainData[index,,drop = FALSE]),,drop = FALSE],
                      method = method[algo],
                      tuneValue = guide[[algo]]$loop[parms,,drop = FALSE],
                      obsLevels = lev,
