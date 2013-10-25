@@ -298,7 +298,7 @@ fs.stability <-
           # Create empty list for features identified by each chosen algorithm
           features <- vector("list", length(method))
           #names(features) <- tolower(method)
-          j <- 3
+          #j <- 3
           for(j in seq(along = method)){
             ### Extract important features
             # pam requires a special mydata argument
