@@ -189,22 +189,22 @@ fs.stability <-
           for(j in seq(along = method)){
             ### Extract important features
             # pam requires a special mydata argument
-            mydata <- vector("list", length(method))
+            #mydata <- vector("list", length(method))
             if(method[j] == "pam"){
-              for(t in seq(along = method)){
-                mydata[[t]] <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
-              }
+              #for(t in seq(along = method)){
+                mydata <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
+              #}
             }else{
               # svm requires training data for RFE
-              for(t in seq(along = method)){
-                mydata[[t]] <- trainVars.list[[i]]
-              }
+              #for(t in seq(along = method)){
+                mydata <- trainVars.list[[i]]
+              #}
             }
             
             features[[j]] <- extract.features(
               x = finalModel[j],
-              dat = mydata[[j]],
-              grp = trainGroup.list[[j]],
+              dat = mydata,
+              grp = trainGroup.list[[i]],
               # add in gbm best tune trees???
               bestTune = if(method[j] == "svm" | method[j] == "pam" | method[j] == "glmnet") tuned.methods$bestTune[[j]] else NULL,
               model.features = model.features, 
@@ -302,18 +302,11 @@ fs.stability <-
           for(j in seq(along = method)){
             ### Extract important features
             # pam requires a special mydata argument
-            #mydata <- vector("list", length(method))
             if(method[j] == "pam"){
-            #  for(t in seq(along = method)){
-                #mydata[[t]] <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
                 mydata <- list(x=t(trainVars.list[[i]]), y=factor(trainGroup.list[[i]]), geneid = as.character(colnames(trainVars.list[[i]])))
-            #  }
             }else{
               # svm requires training data for RFE
-            #  for(t in seq(along = method)){
-            #    mydata[[t]] <- trainVars.list[[i]]
-            mydata <- trainVars.list[[i]]
-                #  }
+              mydata <- trainVars.list[[i]]
             }
           
             features[[j]] <- extract.features(
