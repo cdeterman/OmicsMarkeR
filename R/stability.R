@@ -314,7 +314,11 @@ pairwise.model.stability <-
     #pairwise.stability(features = model.features[[1]], stability.metric, nc)
     
     tmp <- lapply(model.features, FUN = function(x) pairwise.stability(x, stability.metric, nc)$comparisons)
-    tmp.dat <- data.frame(t(sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])))
+    if(m >2){
+      tmp.dat <- sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])
+    }else{
+      tmp.dat <- data.frame(t(sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])))
+    }
 
     colnames(tmp.dat) <- paste("Resample.", 1:k, sep = "")
     rownames(tmp.dat) <- vec.comps
