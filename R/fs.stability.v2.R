@@ -139,7 +139,8 @@ fs.stability <-
       resample.tunes <- NULL
     }
 
-    inTrain <- rlply(k, sample(nr, round(p*nr)))
+    inTrain <- rlply(k, createDataPartition(Y, p = p, list = FALSE))
+    #inTrain <- rlply(k, sample(nr, round(p*nr)))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))
     #i <- 1

@@ -20,7 +20,7 @@ performance.metrics <- function(fit.model,   # fs.stability object
   perf <- fit.model$performance
   fit.models <- fit.model$methods
   
-  if(length(fit.models >= 2)){
+  if(length(fit.models) >= 2){
     mult.param <- sapply(fit.models, function(x) as.character(params(x)[[1]]$parameter))
     out <- mapply(perf, FUN = function(x,y) x[,!colnames(x) %in% y], y = mult.param)
     out
