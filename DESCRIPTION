@@ -18,7 +18,8 @@ Imports:
     pamr (>= 1.54.1),
     glmnet (>= 1.9-5),
     caTools (>= 1.14),
-    foreach (>= 1.4.1)
+    foreach (>= 1.4.1),
+    tcltk (>= 3.0.2)
 License: GPL-2
 LazyData: true
 Collate:

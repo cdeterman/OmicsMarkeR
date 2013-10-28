@@ -191,7 +191,7 @@ fs.ensembl.stability <-
                                         res = resolution,
                                         grid = tuning.grid,
                                         metric = metric,
-                                        savePerformanceMetrics = FALSE,
+                                        savePerformanceMetrics = NULL,
                                         allowParallel = allowParallel,
                                         verbose = verbose,
                                         theDots = theDots)            
@@ -221,7 +221,7 @@ fs.ensembl.stability <-
                                           res = resolution,
                                           grid = tuning.grid,
                                           metric = metric,
-                                          savePerformanceMetrics = FALSE,
+                                          savePerformanceMetrics = NULL,
                                           allowParallel = allowParallel,
                                           verbose = verbose,
                                           theDots = theDots)  
