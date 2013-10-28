@@ -138,7 +138,7 @@ optimize <- function(
   # all possible parameter names
   paramNames <- levels(tune.guide[[1]]$model$parameter)
   
-  cat("Aggregating results\n")
+  cat("\nAggregating results\n")
   flush.console()
     
   perfCols <- sapply(performance, names)

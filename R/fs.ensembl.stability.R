@@ -136,7 +136,8 @@ fs.ensembl.stability <-
       bagged.tunes <- NULL
     }    
     
-    inTrain <- rlply(k, sample(nr, round(p*nr)))
+    inTrain <- rlply(k, createDataPartition(Y, p = p, list = FALSE))
+    #inTrain <- rlply(k, sample(nr, round(p*nr)))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))    
     
@@ -277,9 +278,6 @@ fs.ensembl.stability <-
         }
       } # end of non-optimized loop
     } # end stability loop
-    
-    #features[[1]]
-    #final.features[1]
     
     final.features <- features
     #ref.features <- lapply(features, FUN = function(x) data.frame(x))

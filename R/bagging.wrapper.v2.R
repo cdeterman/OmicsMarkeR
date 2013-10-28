@@ -71,6 +71,7 @@ bagging.wrapper <- function(X,
                             theDots)
 {
   rownames(X) <- NULL
+  var.names <- colnames(X)
   nr <- nrow(X)
   nc <- ncol(X)
   # number of groups
@@ -92,8 +93,7 @@ bagging.wrapper <- function(X,
   
   ###############
   ### Parallel Processing
-  ###############
-  
+  ###############  
   for (i in 1:bags){
     # bootstrapping (i.e. random sample with replacement)
     boot=sample(nr,nr,replace=TRUE)
@@ -153,9 +153,11 @@ bagging.wrapper <- function(X,
           names(tuned.methods$bestTune) <- method
         }else{
           # Fit remainder of resamples with initial best parameters
-          tmp <- vector("list", length(method))
-          names(tmp) <- method
-          #print(tuned.methods$bestTune)
+          #if(i == 2){
+            tmp <- vector("list", length(method))
+            names(tmp) <- method
+          #}
+    
           for(d in seq(along = method)){
             tmp[[d]] <- training(data = trainData,
                                  method = method[d],
@@ -199,14 +201,17 @@ bagging.wrapper <- function(X,
   }
   
   # sort models together (e.g. first 5 are "plsda", next 5 "gbm", etc.)    
-  method.names <- unlist(lapply(method, FUN = function(x) c(rep(x, bags))))
+  method.names <- unlist(lapply(method, FUN = function(x) paste(c(rep(x, bags)), seq(bags), sep = ".")))
+  #orig.method.names <- unlist(lapply(method, FUN = function(x) c(rep(x, bags))))
+  
+  names(finalModel) <- paste(method, rep(seq(bags), each = length(method)), sep = ".")
   finalModel <- finalModel[match(method.names, names(finalModel))]    
+  #names(finalModel) <- orig.method.names
   
   # Create empty list for features identified by each chosen algorithm
   features <- vector("list", length(method))
   names(features) <- tolower(method)
   
-  #names(finalModel)
   
   for(j in seq(along = method)){
     ### Extract important features
@@ -273,20 +278,29 @@ bagging.wrapper <- function(X,
     }
     
     if(method[j] == "glmnet"){
-      features[[j]] <- do.call("cbind", unlist(unlist(tmp, recursive = F), recursive = F))
+      features[[j]] <- data.frame(do.call("cbind", unlist(unlist(tmp, recursive = F), recursive = F)))
     }else{
       features[[j]] <- do.call("cbind", unlist(tmp, recursive = F))
+      if(class(features[[j]]) != "data.frame"){
+        features[[j]] <- data.frame(features[[j]])
+      }
     }
     rownames(features[[j]]) <- colnames(X)
-    #rownames(features[[j]]$features.selected) <- colnames(X)
     
     start <- start + bags
     end <- end + bags
   }
   
   ### Ensemble Aggregation
+  #convert to numeric & set rownames
+  features.num <- lapply(features, FUN = function(z) sapply(z, FUN = function(x) as.numeric(as.character(x))))
+  features.num <- lapply(features.num, function(x) {
+    rownames(x) <- var.names
+    return(x)
+  })
+  
   # Generate summary lists of each algorithm
-  agg <- lapply(features, FUN = function(x) aggregation(efs = data.matrix(x), metric = aggregation.metric, f = f))
+  agg <- lapply(features.num, FUN = function(x) aggregation(efs = x, metric = aggregation.metric, f = f))
   
   # Basic ensemble model parameters
   ensemble.results <- list(Methods = method,
