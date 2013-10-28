@@ -274,7 +274,7 @@ fs.stability <-
                                   res = resolution,
                                   grid = tuning.grid,
                                   metric = metric,
-                                  savePerformanceMetrics = FALSE,
+                                  savePerformanceMetrics = NULL,
                                   verbose = verbose,
                                   allowParallel = allowParallel,
                                   theDots = theDots)
