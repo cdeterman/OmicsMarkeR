@@ -255,7 +255,7 @@ bagging.wrapper <- function(X,
           if(optimize.resample == FALSE){
             cc[[c]] <- tuned.methods$bestTune[[j]]
           }else{
-            cc[[c]] <- tuned.methods$bestTune[[l]]
+            cc[[c]] <- tuned.methods$bestTune[[c]]
           }
         }
       }

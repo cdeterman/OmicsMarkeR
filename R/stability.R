@@ -320,6 +320,8 @@ pairwise.model.stability <-
       tmp.dat <- data.frame(t(sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])))
     }
 
+    #print(tmp.dat)
+    #print(paste("Resample.", 1:k, sep = ""))
     colnames(tmp.dat) <- paste("Resample.", 1:k, sep = "")
     rownames(tmp.dat) <- vec.comps
     
