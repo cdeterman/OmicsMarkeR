@@ -129,7 +129,9 @@ and feature selection process including the addition of stability metrics. We wi
 +     create.random.matrix(nvar = 50, 
 +                          nsamp = 100, 
 +                          st.dev = 1, 
-+                          perturb = 0.2)))$discr.mat
++                          perturb = 0.2)),
++   D = 10
++   )$discr.mat
 \end{Sinput}
 \end{Schunk}
 
@@ -142,7 +144,7 @@ To avoid confusion in the coding, one can isolate the variables and classes from
 > results <- fs.stability(vars, 
 +                         groups, 
 +                         method = c("plsda", "rf"), 
-+                         f = 20, 
++                         f = 10, 
 +                         k = 3, 
 +                         k.folds = 10, 
 +                         verbose = FALSE)
@@ -150,20 +152,22 @@ To avoid confusion in the coding, one can isolate the variables and classes from
 \begin{Soutput}
 [1] "plsda complete"
 [1] "rf complete"
+
 Aggregating results
 Selecting tuning parameters
 [1] "plsda complete"
+
 Aggregating results
 Selecting tuning parameters
 [1] "rf complete"
+
 Aggregating results
 Selecting tuning parameters
-
 Calculating Model Performance Statistics
 \end{Soutput}
 \end{Schunk}
 
-If I would like to see the performance metrics, I can simply use the {\tt performance.metrics} function.  This will provide a concise data.frame of confusion matrix and ROC statistics.
+If I would like to see the performance metrics, I can simply use the {\tt performance.metrics} function.  This will provide a concise data.frame of confusion matrix and ROC statistics.  Additionally, the Robustness-Performance Trade-off value is provided with the results {\tt RPT}.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -173,20 +177,27 @@ If I would like to see the performance metrics, I can simply use the {\tt perfor
 Model Performance Statistics
 
                        plsda         rf
-Accuracy          1.00000000 0.93333333
-Kappa             1.00000000 0.86111111
-ROC.AUC           0.68959436 0.94444444
-Sensitivity       1.00000000 0.94444444
-Specificity       1.00000000 0.91666667
-Pos Pred Value    1.00000000 0.94444444
-Neg Pred Value    1.00000000 0.91666667
-Accuracy SD       0.08164966 0.08164966
-Kappa SD          0.17010345 0.17010345
-ROC.AUC SD        0.17233103 0.17233103
-Sensitivity SD    0.06804138 0.06804138
-Specificity SD    0.10206207 0.10206207
-Pos Pred Value SD 0.06804138 0.06804138
-Neg Pred Value SD 0.10206207 0.10206207
+Accuracy          0.88333333 0.96666667
+Kappa             0.76666667 0.93333333
+ROC.AUC           0.92000000 1.00000000
+Sensitivity       0.93333333 1.00000000
+Specificity       0.83333333 0.93333333
+Pos Pred Value    0.84747475 0.94444444
+Neg Pred Value    0.93333333 1.00000000
+Accuracy SD       0.07582875 0.07582875
+Kappa SD          0.15165751 0.15165751
+ROC.AUC SD        0.06480741 0.06480741
+Sensitivity SD    0.08164966 0.08164966
+Specificity SD    0.09831921 0.09831921
+Pos Pred Value SD 0.08817435 0.08817435
+Neg Pred Value SD 0.08164966 0.08164966
+\end{Soutput}
+\begin{Sinput}
+> results$RPT
+\end{Sinput}
+\begin{Soutput}
+    plsda        rf 
+0.7933472 0.3715877 
 \end{Soutput}
 \end{Schunk}
 

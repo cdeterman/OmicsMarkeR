@@ -7,6 +7,7 @@
 #' @param raw.data Original dataset prior to any training subset
 #' @param inTrain List of training indicies for each feature selection run
 #' @param outTrain List of testing data indicies for each feature selection run
+#' @param features List of selected features for each model
 #' @param bestTune List of parameters that have been optimized for the each respective model
 #' @param grp.levs Vector of group levels
 #' @return Returns a dataframe consisting of each feature selection runs evaluated Accuracy, Kappa, 

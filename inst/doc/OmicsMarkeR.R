@@ -27,7 +27,10 @@ dat.discr <- create.discr.matrix(
       ## the estimated standard deviation
       perturb = 0.2
       ## how noisy the data is
-      )))$discr.mat
+      )),
+  D = 10
+  ## how many discriminating variables
+  )$discr.mat
 
 
 ###################################################
@@ -40,7 +43,7 @@ groups <- dat.discr[,ncol(dat.discr)]
 results <- fs.stability(vars, 
                         groups, 
                         method = c("plsda", "rf"), 
-                        f = 20, 
+                        f = 10, 
                         ## number of top features returned
                         k = 3, 
                         ## number of bootstrap iterations
@@ -55,4 +58,4 @@ results <- fs.stability(vars,
 ### code chunk number 5: Performance Metrics
 ###################################################
 performance.metrics(results)
-
+results$RPT

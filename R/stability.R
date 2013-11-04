@@ -315,15 +315,19 @@ pairwise.model.stability <-
       s <- seq(m-1)
       out <- c()
       for(i in s){
-        tmp.out <- tmp[i,i:5]
+        tmp.out <- as.matrix(tmp)[i,i:max(s)]
         out <- c(out, tmp.out)
       }
       out
-    }    
+    }
     
     tmp <- lapply(model.features, FUN = function(x) pairwise.stability(x, stability.metric, nc)$comparisons)
     tmp.dat <- sapply(tmp, FUN = function(x,m) extract.pairs(x, m), m = m)
 
+    if(!is.matrix(tmp.dat)){
+      tmp.dat <- t(as.matrix(tmp.dat))
+    }
+    
     colnames(tmp.dat) <- paste("Resample.", 1:k, sep = "")
     rownames(tmp.dat) <- vec.comps
     

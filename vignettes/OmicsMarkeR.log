@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.20)  23 OCT 2013 09:12
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.20)  4 NOV 2013 14:44
 entering extended mode
 **OmicsMarkeR.tex
 (C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR.tex
@@ -528,14 +528,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [2] 
 AED: lastpage setting LastPage
 [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 193.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 193.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 204.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 204.
  (C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 193.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 193.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 204.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 204.
 Package rerunfilecheck Info: File `OmicsMarkeR.out' has not changed.
 (rerunfilecheck)             Checksum: 9BB47A7925E630BF3912A8F7C7E6F8D4;91.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 193.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 204.
  ) 
 Here is how much of TeX's memory you used:
  8364 strings out of 493921
@@ -544,7 +544,7 @@ Here is how much of TeX's memory you used:
  11532 multiletter control sequences out of 15000+200000
  26333 words of font info for 57 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 35i,11n,43p,579b,514s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 35i,11n,43p,579b,395s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Fil
 es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX
@@ -553,7 +553,7 @@ onts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
 e1/public/amsfonts/cm/cmss17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
 c/amsfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmtt12.pfb>
-Output written on OmicsMarkeR.pdf (3 pages, 106388 bytes).
+Output written on OmicsMarkeR.pdf (3 pages, 108132 bytes).
 PDF statistics:
  63 PDF objects out of 1000 (max. 8388607)
  6 named destinations out of 1000 (max. 500000)

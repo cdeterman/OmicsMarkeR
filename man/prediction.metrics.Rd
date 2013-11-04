@@ -20,6 +20,8 @@
   \item{outTrain}{List of testing data indicies for each
   feature selection run}
 
+  \item{features}{List of selected features for each model}
+
   \item{bestTune}{List of parameters that have been
   optimized for the each respective model}
 

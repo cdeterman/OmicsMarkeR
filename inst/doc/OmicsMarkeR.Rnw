@@ -124,7 +124,9 @@ dat.discr <- create.discr.matrix(
     create.random.matrix(nvar = 50, 
                          nsamp = 100, 
                          st.dev = 1, 
-                         perturb = 0.2)))$discr.mat
+                         perturb = 0.2)),
+  D = 10
+  )$discr.mat
 @
 
 To avoid confusion in the coding, one can isolate the variables and classes from the newly created synthetic dataset.  These two objects are then used in the {\tt fs.stability} function.  I can then choose which algorithm(s) to apply e.g. {\tt method = c("plsda", "rf")}, the number of top important features {\tt f = 20}, the number of bootstrap reptititions for stability analysis {\tt k = 3}, the number of k-fold cross-validations {\tt k.folds = 10} and if I would like to see the progress output {\tt verbose = TRUE}.
@@ -135,16 +137,17 @@ groups <- dat.discr[,ncol(dat.discr)]
 results <- fs.stability(vars, 
                         groups, 
                         method = c("plsda", "rf"), 
-                        f = 20, 
+                        f = 10, 
                         k = 3, 
                         k.folds = 10, 
                         verbose = FALSE)
 @
 
-If I would like to see the performance metrics, I can simply use the {\tt performance.metrics} function.  This will provide a concise data.frame of confusion matrix and ROC statistics.
+If I would like to see the performance metrics, I can simply use the {\tt performance.metrics} function.  This will provide a concise data.frame of confusion matrix and ROC statistics.  Additionally, the Robustness-Performance Trade-off value is provided with the results {\tt RPT}.
 
 <<>>=
 performance.metrics(results)
+results$RPT
 @
 
 \end{document}
