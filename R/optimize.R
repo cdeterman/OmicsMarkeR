@@ -58,24 +58,24 @@ optimize <- function(
   
   # for repeated cross-validation
   # creates a list of samples used for models
-  repeat.index <- paste("Rep", seq(repeats), sep = "")
-  for(j in 1:repeats){
-    tmp <- createFolds(trainGroup, k = k.folds, list = TRUE, returnTrain = TRUE)
-    names(tmp) <- paste("Fold",
-                        gsub(" ", "0", format(seq(tmp))),
-                        ".",
-                        repeat.index[j],
-                        sep = "")
-    if(j == 1){
-      inTrain <- tmp
-      }else{
-        inTrain <- c(inTrain, tmp)
-      }
-  }
   
+  # because this was a beast to find
+  set.seed(666)
+  inTrain <- createMultiFolds(trainGroup, k = k.folds, times = repeats)
   # get the remaining samples for testing group
   outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
-                     total = seq(nr))
+                     total = seq(nr))  
+  # check if any only 1 index
+  ind <- which(lapply(outTrain, length) == 1)
+  
+  # if only 1 index, randomly take one and add to outTrain
+  if(length(ind) > 0){
+    for(d in seq(along = ind)){
+      move.ind <- sample(inTrain[[ind[d]]], 1)
+      inTrain[[ind[d]]] <- inTrain[[ind[d]]][-move.ind]
+      outTrain[[ind[d]]] <- sort(c(outTrain[[ind[d]]], move.ind))
+    }
+  }  
   
   ## combine variables and classes to make following functions simpler
   trainData <- as.data.frame(trainVars)

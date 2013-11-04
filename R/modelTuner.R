@@ -70,10 +70,7 @@ modelTuner <- function(trainData,
        #     .packages = c("methods", "caret"), 
         #    .errorhandling = "stop")  %op%
   
-  #algo <- seq(along = method)
-  #print(algo)
-  #stop("finished test")
-  #algo <- 1
+  #algo <- 2
   #iter <- 1
   #parms <- 1
   
@@ -135,6 +132,7 @@ modelTuner <- function(trainData,
             if(class(predicted)[1] == "try-error")
             {
               stop("prediction results failed")
+              #stop(paste("prediction results failed on", method[algo], outIndex, sep = " "))
             }
             
             # what should it do if createModel fails???

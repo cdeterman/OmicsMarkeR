@@ -56,12 +56,6 @@ prediction.metrics <-
     predicted <- vector("list", length(finalModel))
     names(predicted) <- names(finalModel)
     
-    #e <- 1
-    #lapply(finalModel, names)
-    #names(finalModel[e])
-    #outTrain.list[[e]]
-    #features[[6]]
-    #str(features[[e]])
     for(e in seq(along = finalModel)){
       new.dat <- switch(names(finalModel[e]),
                         svm = {
@@ -73,16 +67,41 @@ prediction.metrics <-
                             }
                           }
                           raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]},
-                      
-                        pam =, glmnet= {
-                          if(!is.character(features[[e]])){
+                        #test    
+                        #test2 <- test
+                        #names(test2) <- test
+                        glmnet= {
+                          #class(c(features[[e]]))
+                          #c(test)
+                          #c(test2)
+                          #unlist(lapply(test2, as.character), use.names = FALSE)
+                          
+                          if(class(c(features[[e]])) == "list" | is.null(names(features[[e]]))){
+                            features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
+                            raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]
+                          }else{
+                            features[[e]] <- rownames(as.data.frame(features[[e]]))
+                            raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]
+                          }
+                          
+                          #if(!is.null(names(features[[e]]))){
+                          #  features[[e]] <- rownames(as.data.frame(features[[e]]))
+                          #  raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]
+                          #}else{
+                          #  features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
+                          #  raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]
+                          #}
+                          },
+                        
+                        pam = {
+                          if(!is.null(names(features[[e]]))){
                             features[[e]] <- rownames(as.data.frame(features[[e]]))
                             raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]
                           }else{
                             features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
                             raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]
                           }
-                          },
+                        },
                         
                         plsda =, gbm =, rf = {raw.data.vars[outTrain.list[[e]],,drop = FALSE]},
                         )

@@ -153,7 +153,8 @@ svmrfeFeatureRankingForMulticlass = function(x,y,c, perc.rem = 10){
     
     #eliminate the feature with smallest ranking criterion
     survivingFeaturesIndexes = survivingFeaturesIndexes[-ranking[1:r]]
-    cat(length(survivingFeaturesIndexes),"\n")
+    #cat(length(survivingFeaturesIndexes),"\n")
   }
+  return(featureRankedList)
 }
 

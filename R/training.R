@@ -78,6 +78,14 @@ training <-
                                          "bag.fraction", "var.names", "response.name", "group") 
                            theDots <- theDots[names(theDots) %in% gbm.args]
                            
+                           if(ncol(trainX) < 50){
+                             if(is.null(class(theDots))){
+                               theDots <- list(n.minobsinnode = 5)
+                             }else{
+                               theDots <- c(theDots, n.minobsinnode = 5)
+                             }
+                           }
+                           
                            # determine if binary or multiclass
                            gbmdist <- if(length(unique(trainY)) == 2){
                              "bernoulli"}else{

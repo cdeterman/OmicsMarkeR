@@ -311,17 +311,19 @@ pairwise.model.stability <-
       model.features[[i]] <- sapply(features, `[[`, i)
     }
     
-    #pairwise.stability(features = model.features[[1]], stability.metric, nc)
+    extract.pairs <- function(tmp, m){
+      s <- seq(m-1)
+      out <- c()
+      for(i in s){
+        tmp.out <- tmp[i,i:5]
+        out <- c(out, tmp.out)
+      }
+      out
+    }    
     
     tmp <- lapply(model.features, FUN = function(x) pairwise.stability(x, stability.metric, nc)$comparisons)
-    if(m >2){
-      tmp.dat <- sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])
-    }else{
-      tmp.dat <- data.frame(t(sapply(tmp, FUN = function(x) as.vector(t(x))[as.vector(t(x)) != 0])))
-    }
+    tmp.dat <- sapply(tmp, FUN = function(x,m) extract.pairs(x, m), m = m)
 
-    #print(tmp.dat)
-    #print(paste("Resample.", 1:k, sep = ""))
     colnames(tmp.dat) <- paste("Resample.", 1:k, sep = "")
     rownames(tmp.dat) <- vec.comps
     

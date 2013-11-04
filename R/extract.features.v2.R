@@ -243,7 +243,6 @@ extract.features <-
                           # extract coefficients and remove intercept
                           if(nlevels(grp) > 2){
                             if(model.features){
-                              
                               #coefficients <- as.matrix(abs(coef(x, s = bestTune$.lambdaOpt)[[1]][2:(nc+1),,drop=FALSE]))
                               lambda <- unlist(lapply(x, FUN = function(x) x$lambdaOpt))
                               
@@ -265,14 +264,41 @@ extract.features <-
                                   #lambda <- x$lambda[index]
                                   index <- lapply(x, FUN = function(x) min(which(x$df >= f)))
                                   lambda <- mapply(x, FUN = function(x, ind) x$lambda[ind], ind = index)
-                                  
+
                                   #coefficients <- mapply(x, FUN = function(x, lamb, dat) as.matrix(abs(coef(x, s = lamb)[[1]][2:(ncol(dat)),,drop=FALSE])), lamb = lambda, dat = dat)
                                   #mapply(x, FUN = function(x, lamb, dat) as.matrix(coef(x, s = lamb)[[1]][2:(ncol(dat)),,drop=FALSE]), lamb = lambda, dat = dat)
                                   
-                                  coefficients <- as.matrix(abs(coef(x, s = bestTune$.lambda)[2:(ncol(dat)+1),,drop=FALSE]))
+                                  #coefficients <- as.matrix(abs(coef(x$glmnet, s = as.numeric(lambda))[2:(ncol(dat)+1),,drop=FALSE]))
+                                  #coefficients <- mapply(x, FUN = function(x, y) as.matrix(abs(coef(x, s = as.numeric(lambda))[2:(ncol(y)+1),,drop=FALSE])), y = list(dat))
+                                  #coefficients <- mapply(x, FUN = function(x, lamb, dat) as.matrix(coef(x, s = lamb)[2:(ncol(dat)+1),,drop=FALSE]), lamb = list(as.numeric(lambda)), dat = list(dat))
                                   
-                                  #as.matrix(abs(coef(x[[1]], s = as.numeric(lambda[1]))[[1]][2:(ncol(dat[[1]])),,drop=FALSE]))
-                                  mod.features <- lapply(coefficients, FUN = function(x) head(rownames(x[order(-x),,drop=F]),f))
+                                  
+                                  #cofs <- coef(x$glmnet, s = lambda)[[1]][2:(ncol(dat)+1),, drop = FALSE]
+                                  
+                                  full.coefs <- coef(x$glmnet, s = lambda)
+                                  full.coefs <- lapply(full.coefs, FUN = function(x) as.matrix(x[2:(ncol(dat)+1),, drop = FALSE]))
+                                  coefs <- lapply(full.coefs, FUN = function(x) x[x[,1] != 0,, drop = FALSE])
+                                  
+                                  coef.names <- lapply(coefs, row.names)
+                                  coefs <- unlist(coefs, use.names = TRUE)
+                                  names(coefs) <- unlist(coef.names)
+                                  
+                                  dups <- table(names(coefs))
+                                  dups <- names(dups[dups > 1])
+                                  
+                                  for(n in seq(along = dups)){
+                                    ind <- which(names(coefs) == dups[n])
+                                    uni <- sum(abs(coefs[ind]))
+                                    names(uni) <- dups[n]
+                                    coefs <- coefs[-ind]
+                                    coefs <- c(coefs, uni)
+                                  }
+                                  
+                                  mod.features <- as.data.frame(names(head(abs(coefs)[order(-abs(coefs))], f)))
+                                  colnames(mod.features) <- "glmnet"
+                                  
+                                  #mod.features <- lapply(coefficients, FUN = function(x) head(rownames(x[order(-x),,drop=F]),f))
+                                  
                               } # end of f = NULL
                             } # end of multinomial feature extraction
                           }else{
