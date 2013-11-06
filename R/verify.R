@@ -28,7 +28,7 @@ verify <- function(x, y, method, f, stability.metric, model.features, na.rm = na
     f <- NULL
   } 
   # make sure 'f' is set when using a feature subset metric
-  if(stability.metric %in% c("jaccard","sorenson","ochiai","pof","kuncheva") & is.null(f)){
+  if(stability.metric %in% c("jaccard","sorenson","ochiai","pof","kuncheva") & is.null(f) & !model.features){
     stop(paste("Stability metric", " '", stability.metric, "' ", "requires 'f' to be set.\n", sep = ""))
   }  
   # x matrix or data.frame
