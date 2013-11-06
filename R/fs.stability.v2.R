@@ -324,7 +324,7 @@ fs.stability <-
               dat = mydata,
               grp = trainGroup.list[[i]],
               # add in gbm best tune trees???
-              bestTune = if(method[j] == "svm" | method[j] == "pam" | method[j] == "glmnet") tuned.methods$bestTune[[j]] else NULL,
+              bestTune = if(method[j] == "svm" | method[j] == "pam" | method[j] == "glmnet" | method[j] == "gbm") tuned.methods$bestTune[[j]] else NULL,
               model.features = model.features, 
               method = method[j], 
               f = f, 
