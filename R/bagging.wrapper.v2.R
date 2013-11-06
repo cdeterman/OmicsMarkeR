@@ -92,7 +92,7 @@ bagging.wrapper <- function(X,
   }
   
   ###############
-  ### Parallel Processing
+  ### Parallel Processing??
   ###############  
   for (i in 1:bags){
     # bootstrapping (i.e. random sample with replacement)
@@ -106,7 +106,6 @@ bagging.wrapper <- function(X,
     trainData$.classes <- trainGroup
     # duplicate rownames because of bagging, must reset to 1:nrow
     rownames(trainData) <- NULL
-    
     
     ## Run respective algorithm on bootstrapped subsamples
     if(optimize == TRUE){

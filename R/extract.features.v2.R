@@ -30,8 +30,7 @@ extract.features <-
            f,                       # number of features to subset if defined
            comp.catch = NULL        # a check for plsda models that have only 1 component
   )
-{    #class(x[[1]])
-    features <- switch(method,
+    {features <- switch(method,
                        plsda =
                          {
                            if(!is.null(comp.catch)){
@@ -257,7 +256,35 @@ extract.features <-
                               
                             }else{
                               if(is.null(f)){
-                                mod.features <- lapply(x, FUN = function(x) rank(-abs(coef(x, s = 0)[2:(ncol(dat)+1),])))
+                                full.coefs <- coef(x[[1]], s = 0)
+                                full.coefs <- lapply(full.coefs, FUN = function(x) as.matrix(x[2:(ncol(dat)+1),, drop = FALSE]))
+                                coefs <- lapply(full.coefs, FUN = function(x) x[x[,1] >= 0,, drop = FALSE])
+
+                                coef.names <- lapply(coefs, row.names)
+                                coefs <- unlist(coefs, use.names = TRUE)
+                                names(coefs) <- unlist(coef.names)
+                                
+                                dups <- table(names(coefs))
+                                dups <- names(dups[dups > 1])
+                                
+                                for(n in seq(along = dups)){
+                                  ind <- which(names(coefs) == dups[n])
+                                  uni <- sum(abs(coefs[ind]))
+                                  names(uni) <- dups[n]
+                                  coefs <- coefs[-ind]
+                                  coefs <- c(coefs, uni)
+                                }                      
+                                
+                                coefs <- sort(coefs, decreasing = TRUE)
+                                ranks <- seq(length(names(coefs)))
+                                names(ranks) <- names(coefs)
+                                orig.order <- x[[1]]$xNames
+                                
+                                mod.features <- as.data.frame(ranks)[orig.order,, drop = F]
+                                
+                                #mod.features <- as.data.frame(rank(-abs(coefs)[order(-abs(coefs))]))
+                                colnames(mod.features) <- "glmnet"
+                                
                                 }else{
                                   # check if a penalized model exists which includes all features
                                   #index <- min(which(x$df >= f))
@@ -275,7 +302,7 @@ extract.features <-
                                   
                                   #cofs <- coef(x$glmnet, s = lambda)[[1]][2:(ncol(dat)+1),, drop = FALSE]
                                   
-                                  full.coefs <- coef(x$glmnet, s = lambda)
+                                  full.coefs <- coef(x[[1]], s = lambda)
                                   full.coefs <- lapply(full.coefs, FUN = function(x) as.matrix(x[2:(ncol(dat)+1),, drop = FALSE]))
                                   coefs <- lapply(full.coefs, FUN = function(x) x[x[,1] != 0,, drop = FALSE])
                                   
