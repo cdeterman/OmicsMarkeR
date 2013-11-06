@@ -345,7 +345,7 @@ extract.features <-
                                 #coefficients <- lapply(x, FUN = function(x) as.matrix(abs(coef(x, s = x$lambdaOpt)[2:(ncol(dat)),,drop=FALSE])))
                                 nonzero.coefficients <- apply(coefficients, 2, FUN = function(x) x[x!=0])
                                 #mod.features <- lapply(nonzero.coefficients, FUN = function(x) names(x[order(-x)]))
-                                mod.features <- head(rownames(nonzero.coefficients[order(-nonzero.coefficients),,drop = FALSE]), f)
+                                mod.features <- rownames(nonzero.coefficients[order(-nonzero.coefficients),,drop = FALSE])
                                 
                                 #mod.features <- do.call("cbind", tmp)
                                 
