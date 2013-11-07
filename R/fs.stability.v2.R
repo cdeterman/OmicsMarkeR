@@ -341,7 +341,7 @@ fs.stability <-
           }
           
           # subset only those features which were selected
-          if(!is.null(f)){
+          if(!is.null(f) | model.features == TRUE){
             trainData.new <- lapply(features, FUN = function(x) trainData[,colnames(trainData) %in% c(t(x$features.selected), ".classes")])          
           }else{
             trainData.new <- lapply(features, FUN = function(x) trainData[,colnames(trainData) %in% c(rownames(x$features.selected), ".classes")])          

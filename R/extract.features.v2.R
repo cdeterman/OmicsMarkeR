@@ -178,18 +178,21 @@ extract.features <-
                        pam = 
                          { 
                            if(model.features){
-                             mod.features <- vector("list", length(x))
-                             for(i in seq(along = x)){
-                               pam.features <- try(data.frame(pamr.listgenes(x[[i]], 
+                             #mod.features <- vector("list", length(x))
+                             str(x)
+                             #for(i in seq(along = x)){
+                               pam.features <- try(data.frame(pamr.listgenes(x[[1]], 
                                                                              dat, 
                                                                              threshold = bestTune$.threshold)),
                                                    silent = TRUE)
                                if(class(pam.features)[1] == "try-error"){
                                  tmp <- matrix("", nrow = 1, ncol = 3)
                                  colnames(tmp) <- c("id", "A-Score", "B-Score")
-                                 mod.features[[i]] <- tmp
+                                 mod.features <- tmp
+                               }else{
+                                 mod.features <- as.character(pam.features[,1])
                                }
-                             }
+                             #}
                              }else{
                               
                                mod.features <- lapply(x, FUN = function(x) as.character(data.frame(pamr.listgenes(x, dat, threshold = 0))[,1]))
