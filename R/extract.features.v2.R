@@ -180,9 +180,9 @@ extract.features <-
                            if(model.features){
                              mod.features <- vector("list", length(x))
                              for(i in seq(along = x)){
-                               mod.features[[i]] <- try(mod.features[[i]] <- data.frame(pamr.listgenes(x[[i]], 
-                                                                                                  dat, 
-                                                                                                  threshold = bestTune$.threshold)),
+                               pam.features <- try(data.frame(pamr.listgenes(x[[i]], 
+                                                                             dat, 
+                                                                             threshold = bestTune$.threshold)),
                                                    silent = TRUE)
                                if(class(pam.features)[1] == "try-error"){
                                  tmp <- matrix("", nrow = 1, ncol = 3)
