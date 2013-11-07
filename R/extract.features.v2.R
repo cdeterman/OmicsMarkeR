@@ -191,36 +191,18 @@ extract.features <-
                                }
                              }
                              }else{
-                               #for(i in seq(along = dat)){
-                                 mod.features <- lapply(x, FUN = function(x) as.character(data.frame(pamr.listgenes(x, dat, threshold = 0))[,1]))
-                               #}
-                             
-                             if(is.null(f)){
-                               #nc <- length(dat[[1]]$x)
-                               nc <- nrow(dat$x)
-                               ranks <- c(1:nc)
-                               #ranks <- rep(list(ranks = 1:nc), length(x))
+                              
+                               mod.features <- lapply(x, FUN = function(x) as.character(data.frame(pamr.listgenes(x, dat, threshold = 0))[,1]))
                                
-                               
-                               #names(ranks) <- as.character(mod.features[[1]][,1])
-                               names(ranks) <- as.character(mod.features[[1]])
-                               
-                               
-                               #for(i in seq(along = ranks)){
-                              #   names(ranks[[i]]) <- as.character(mod.features[[i]][,1])
-                               #}
-                               
-                               #mod.features <- 
-                               out <- as.data.frame(ranks[dat$geneid[dat$geneid %in% names(ranks)]])
-                               
-                               #for(i in seq(along = ranks)){
-                              #   mod.features <- lapply(ranks, FUN = function(x) as.data.frame(x[dat[[i]]$geneid[dat[[i]]$geneid %in% names(x)]]))
-                              # }
-
+                               if(is.null(f)){
+                                 nc <- nrow(dat$x)
+                                 ranks <- c(1:nc)
+                                 names(ranks) <- as.character(mod.features[[1]])
+                                  
+                                 mod.features <- as.data.frame(ranks[dat$geneid[dat$geneid %in% names(ranks)]])
+                                 
                              }else{
-                               #mod.features <- 
-                               #out <- lapply(mod.features, head, n = f)
-                               out <- head(unlist(mod.features, recursive = F, use.names = F), n = f)
+                               mod.features <- head(unlist(mod.features, recursive = F, use.names = F), n = f)
                              }
                            }
                            
@@ -234,7 +216,7 @@ extract.features <-
                            
                            # collect ranked features
                            #list(features.selected = rfs)
-                           list(features.selected = out)
+                           list(features.selected = mod.features)
                          },         
                        
                        glmnet = 
