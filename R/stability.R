@@ -304,11 +304,19 @@ pairwise.model.stability <-
         vec[i,j] <- paste(tmp.names[i], ".vs.", tmp.names[j], sep = "")
       }
     }
-    vec.comps <- as.vector(t(vec))[as.vector(t(vec)) != 0]
+    vec.comps <- as.vector(t(vec))[as.vector(t(vec)) != 0]    
     
-    model.features <- vector("list", k)
-    for(i in seq(k)){
-      model.features[[i]] <- sapply(features, `[[`, i)
+    if(length(unique(unlist(lapply(features, function(x) dim(x)[1])))) == 1){
+      model.features <- vector("list", k)
+      for(i in seq(k)){
+        model.features[[i]] <- sapply(features, `[[`, i)
+      }
+    }else{
+      model.features <- vector("list", k)
+      for(c in seq(k)){
+        tmp <- lapply(features, FUN = function(x) as.data.frame(t(data.frame(x[,c]))))
+        model.features[[c]] <- t(rbind.fill(tmp))
+      } 
     }
     
     extract.pairs <- function(tmp, m){

@@ -583,16 +583,24 @@ fs.stability <-
     results.stability <- vector("list", length(method))
     names(results.stability) <- method
     #c <- 3
-    for(c in seq(along = method)){
-      met <- method[c]
-      #if(met == "svm" | met == "glmnet"){
-      #  results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x))
-      #}else{
+    if(!model.features){
+      for(c in seq(along = method)){
+        #met <- method[c]
+        #if(met == "svm" | met == "glmnet"){
+        #  results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x))
+        #}else{
         results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))
-      #}
-      if(is.null(f)){
-        rownames(results.stability[[c]]) <- colnames(X)
+        #}
+        if(is.null(f)){
+          rownames(results.stability[[c]]) <- colnames(X)
+        }
       }
+    }else{
+      for(c in seq(along = method)){
+        tmp <- lapply(final.features, FUN = function(x) as.data.frame(t(data.frame(x[[c]]))))
+        results.stability[[c]] <- t(rbind.fill(tmp))
+        rownames(results.stability[[c]]) <- NULL
+      }      
     }
     
     # Calculate All Pairwise Stability Measurements for each algorithm's set of features

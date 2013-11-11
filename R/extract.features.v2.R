@@ -228,17 +228,43 @@ extract.features <-
                           if(nlevels(grp) > 2){
                             if(model.features){
                               #coefficients <- as.matrix(abs(coef(x, s = bestTune$.lambdaOpt)[[1]][2:(nc+1),,drop=FALSE]))
-                              lambda <- unlist(lapply(x, FUN = function(x) x$lambdaOpt))
+                              #lambda <- unlist(lapply(x, FUN = function(x) x$lambdaOpt))
+                              lambda <- bestTune$.lambda
+                              #if(length(lambda) == 1){
+                              #  mod.features <- mapply(x = x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = list(dat))
+                              #}
                               
-                              if(length(lambda) == 1){
-                                mapply(x = x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = list(dat))
-                              }
-                              
-                              coefficients <- lapply(x, FUN = function(x) as.matrix(abs(coef(x, s = x$lambdaOpt)[2:(ncol(dat)),,drop=FALSE])))
-                              #mod.features <- lapply(coefficients, FUN = function(x) rownames(x[order(-x),,drop=F]))
-                              mod.features <- head(rownames(coefficients[order(-coefficients),,drop = FALSE]), f)
+                              ##coefficients <- lapply(x, FUN = function(x) as.matrix(abs(coef(x, s = lambda)[2:(ncol(dat)),,drop=FALSE])))
+                              #coefficients <- as.matrix(abs(coef(x[[1]], s = lambda)[2:(ncol(dat)),,drop=FALSE]))
+                              ##mod.features <- lapply(coefficients, FUN = function(x) rownames(x[order(-x),,drop=F]))
+                              #coefs <- coefficients[coefficients > 0,, drop = FALSE]
+                              #mod.features <- rownames(coefs[order(-coefs),,drop = FALSE])
                               
                               
+                              full.coefs <- coef(x[[1]], s = lambda)
+                              full.coefs <- lapply(full.coefs, FUN = function(x) as.matrix(x[2:(ncol(dat)+1),, drop = FALSE]))
+                              coefs <- lapply(full.coefs, FUN = function(x) x[x[,1] >= 0,, drop = FALSE])
+                              
+                              coef.names <- lapply(coefs, row.names)
+                              coefs <- unlist(coefs, use.names = TRUE)
+                              names(coefs) <- unlist(coef.names)
+                              
+                              dups <- table(names(coefs))
+                              dups <- names(dups[dups > 1])
+                              
+                              for(n in seq(along = dups)){
+                                ind <- which(names(coefs) == dups[n])
+                                uni <- sum(abs(coefs[ind]))
+                                names(uni) <- dups[n]
+                                coefs <- coefs[-ind]
+                                coefs <- c(coefs, uni)
+                              }                      
+                              
+                              #coefs <- sort(coefs, decreasing = TRUE)
+                              coefs <- coefs[order(-coefs),, drop = FALSE]
+                              mod.features <- rownames(coefs)
+                              #ranks <- seq(length(names(coefs)))
+                              #names(ranks) <- rownames(coefs)                              
                             }else{
                               if(is.null(f)){
                                 full.coefs <- coef(x[[1]], s = 0)
@@ -318,7 +344,8 @@ extract.features <-
                               
                               if(model.features){
                                 #coefficients <- as.matrix(abs(coef(x, s = bestTune$.lambdaOpt)[[1]][2:(nc+1),,drop=FALSE]))
-                                lambda <- unlist(lapply(x, FUN = function(x) x$lambdaOpt))
+                                #lambda <- unlist(lapply(x, FUN = function(x) x$lambdaOpt))
+                                lambda <- bestTune$.lambda
                                 
                                 if(length(lambda) == 1){
                                   coefficients <- mapply(x = x, FUN = function(x, y) as.matrix(abs(coef(x, s = lambda)[2:(ncol(y)+1),,drop=FALSE])), y = list(dat))

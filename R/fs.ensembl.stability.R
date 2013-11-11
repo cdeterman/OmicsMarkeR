@@ -106,6 +106,11 @@ fs.ensembl.stability <-
     {
     verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
     #verify_data <- my_verify(variables, groups, na.rm = FALSE)
+    
+    if(model.features == TRUE){
+      stop("Error... Model derived features cannot be used for ensemble because all features are ranked and then subset.\nSet model.features = FALSE")
+    }
+    
     X <- verify_data$X
     Y <- verify_data$Y
     method <- verify_data$method

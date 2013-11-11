@@ -269,7 +269,7 @@ bagging.wrapper <- function(X,
         grp = trainGroup.list[[s]],
         # add in gbm best tune trees???
         bestTune = bt[[s]],
-        model.features = model.features, 
+        model.features = FALSE, 
         method = method[j], 
         f = NULL, 
         #similarity.metric = similarity.metric,
