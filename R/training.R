@@ -78,11 +78,19 @@ training <-
                                          "bag.fraction", "var.names", "response.name", "group") 
                            theDots <- theDots[names(theDots) %in% gbm.args]
                            
-                           if(ncol(trainX) < 50){
-                             if(is.null(class(theDots))){
-                               theDots <- list(n.minobsinnode = 5)
+                           if(ncol(trainX) < 50 | nrow(trainX) < 50){
+                             if(is.null(theDots) | length(theDots) == 0){
+                               if(nrow(trainX) < 30){
+                                 theDots <- list(n.minobsinnode = 2)
+                               }else{
+                                 theDots <- list(n.minobsinnode = 5)  
+                               }
                              }else{
-                               theDots <- c(theDots, n.minobsinnode = 5)
+                               if(nrow(trainX) < 30){
+                                 theDots <- c(theDots, n.minobsinnode = 2)
+                               }else{
+                                 theDots <- c(theDots, n.minobsinnode = 5)
+                               }
                              }
                            }
                            
