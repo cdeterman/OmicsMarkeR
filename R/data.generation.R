@@ -232,15 +232,25 @@ create.discr.matrix <-
     }else{
       # Multi-class induced discrimination
       # split Z into n groups
-      Z.list <- split(as.data.frame(Z), rep(1:num.groups, each = nrow(Z)/num.groups))
-      classes <- unlist(mapply(groups, FUN = function(x,y) rep(x, nrow(y)), y = Z.list), use.names=FALSE)    
+      #Z.list <- split(as.data.frame(Z), rep(1:num.groups, each = nrow(Z)/num.groups))
       
+      Z.list <- tryCatch({
+        splt <- split(as.data.frame(Z), rep(1:num.groups, each = nrow(Z)/num.groups))
+        }, warning = function(war){
+          cat("Warning: Uneven distribution of groups")
+          splt <- suppressWarnings(split(as.data.frame(Z), rep(1:num.groups, each = nrow(Z)/num.groups)))
+          return(splt)
+        }
+      )
+      
+      classes <- unlist(mapply(groups, FUN = function(x,y) rep(x, nrow(y)), y = Z.list), use.names=FALSE)    
+      classes <- sapply(classes, rbind)
       Z.rows <- lapply(Z.list, rownames)
       
       # Create matrix of instructions for discriminating variables
       mat <- matrix(0, nrow=D, ncol=num.groups)
       rownames(mat) <- paste("Var", seq(D), sep=".")
-      for(d in seq(D)){
+      for(e in seq(D)){
         # for each variable, randomize number of groups discriminating
         num <- sample.int(num.groups, 1)
         
@@ -252,7 +262,7 @@ create.discr.matrix <-
         pm.complete <- c(pm, rep(0, num.zero))
         
         # randomize how value added
-        mat[d,] <- sample(pm.complete)
+        mat[e,] <- sample(pm.complete)
       }
       
       # make each change unique to facilitate each group is discriminated while leaving 0's alone
@@ -276,7 +286,7 @@ create.discr.matrix <-
     
     # add newly discriminated variables back to matrix V to make matrix S
     S <- V
-    S[,d] <- Z
+    S[,d] <- as.matrix(Z)
     
     ## Create a noise matrix to perturb distributions again
     W <- noise.matrix(S, k)
