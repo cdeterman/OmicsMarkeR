@@ -19,7 +19,8 @@ Imports:
     glmnet (>= 1.9-5),
     caTools (>= 1.14),
     foreach (>= 1.4.1),
-    tcltk (>= 3.0.2)
+    tcltk (>= 3.0.2),
+    permute (>= 0.7-0)
 License: GPL-2
 LazyData: true
 Collate:
@@ -49,6 +50,7 @@ Collate:
     'print.plsda.R'
     'performance.metrics.R'
     'optimize.R'
+    'perm.features.R'
 Packaged: 2013-08-05 12:50:19 UTC; kuhna03
 NeedsCompilation: yes
 Repository: CRAN

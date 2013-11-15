@@ -85,12 +85,6 @@ training <-
                                }else{
                                  theDots <- list(n.minobsinnode = 5)  
                                }
-                             }else{
-                               if(nrow(trainX) < 30){
-                                 theDots <- c(theDots, n.minobsinnode = 2)
-                               }else{
-                                 theDots <- c(theDots, n.minobsinnode = 5)
-                               }
                              }
                            }
                            
