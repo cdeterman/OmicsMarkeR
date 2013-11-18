@@ -175,37 +175,37 @@ extract.features <-
                          },
                        
                        pam = 
-                         { 
+                         {
                            if(model.features){
-                             #mod.features <- vector("list", length(x))
-                             #for(i in seq(along = x)){
-                               pam.features <- try(data.frame(pamr.listgenes(x[[1]], 
-                                                                             dat, 
-                                                                             threshold = bestTune$.threshold)),
-                                                   silent = TRUE)
-                               if(class(pam.features)[1] == "try-error"){
-                                 tmp <- matrix("", nrow = 1, ncol = 3)
-                                 colnames(tmp) <- c("id", "A-Score", "B-Score")
-                                 mod.features <- tmp
-                               }else{
-                                 mod.features <- as.character(pam.features[,1])
-                               }
-                             #}
+                             pam.features <- try(data.frame(pamr.listgenes(x[[1]], 
+                                                                           dat, 
+                                                                           threshold = bestTune$.threshold)),
+                                                 silent = TRUE)
+                             if(class(pam.features)[1] == "try-error"){
+                               tmp <- matrix("", nrow = 1, ncol = 3)
+                               blank.names <- paste(levels(grp), "Score", sep = "-")
+                               colnames(tmp) <- c("id", blank.names)
+                               mod.features <- tmp
                              }else{
-                              
-                               mod.features <- lapply(x, FUN = function(x) as.character(data.frame(pamr.listgenes(x, dat, threshold = 0))[,1]))
+                               mod.features <- as.character(pam.features[,1])
+                             }
+                             #}
+                           }else{
+                             
+                             mod.features <- lapply(x, FUN = function(x) as.character(data.frame(pamr.listgenes(x, dat, threshold = 0))[,1]))
+                             
+                             if(is.null(f)){
+                               nc <- nrow(dat$x)
+                               ranks <- c(1:nc)
+                               names(ranks) <- as.character(mod.features[[1]])
                                
-                               if(is.null(f)){
-                                 nc <- nrow(dat$x)
-                                 ranks <- c(1:nc)
-                                 names(ranks) <- as.character(mod.features[[1]])
-                                  
-                                 mod.features <- as.data.frame(ranks[dat$geneid[dat$geneid %in% names(ranks)]])
-                                 
+                               mod.features <- as.data.frame(ranks[dat$geneid[dat$geneid %in% names(ranks)]])
+                               
                              }else{
                                mod.features <- head(unlist(mod.features, recursive = F, use.names = F), n = f)
                              }
                            }
+                         
                            
                            ## Make a matrix from the list, with shorter vectors filled out with ""
                            #n <- max(sapply(mod.features, FUN = function(x) length(x[,1])))
@@ -247,20 +247,32 @@ extract.features <-
                               coefs <- unlist(coefs, use.names = TRUE)
                               names(coefs) <- unlist(coef.names)
                               
-                              dups <- table(names(coefs))
-                              dups <- names(dups[dups > 1])
                               
-                              for(n in seq(along = dups)){
-                                ind <- which(names(coefs) == dups[n])
+                              var.names <- unique(names(coefs))
+                              
+                              for(n in seq(along = unique(names(coefs)))){
+                                ind <- which(names(coefs) == var.names[n])
                                 uni <- sum(abs(coefs[ind]))
-                                names(uni) <- dups[n]
+                                names(uni) <- var.names[n]
                                 coefs <- coefs[-ind]
                                 coefs <- c(coefs, uni)
-                              }                      
+                              }   
+                              
+                              #dups <- table(names(coefs))
+                              #dups <- names(dups[dups > 1])
+                              
+                              #for(n in seq(along = dups)){
+                              #  ind <- which(names(coefs) == dups[n])
+                              #  uni <- sum(abs(coefs[ind]))
+                              #  names(uni) <- dups[n]
+                              #  coefs <- coefs[-ind]
+                              #  coefs <- c(coefs, uni)
+                              #}                      
                               
                               #coefs <- sort(coefs, decreasing = TRUE)
-                              coefs <- coefs[order(-coefs),, drop = FALSE]
-                              mod.features <- rownames(coefs)
+                              coefs <- coefs[which(coefs > 0)]
+                              coefs <- coefs[order(-coefs)]
+                              mod.features <- names(coefs)
                               #ranks <- seq(length(names(coefs)))
                               #names(ranks) <- rownames(coefs)                              
                             }else{
@@ -273,16 +285,26 @@ extract.features <-
                                 coefs <- unlist(coefs, use.names = TRUE)
                                 names(coefs) <- unlist(coef.names)
                                 
-                                dups <- table(names(coefs))
-                                dups <- names(dups[dups > 1])
+                                var.names <- unique(names(coefs))
                                 
-                                for(n in seq(along = dups)){
-                                  ind <- which(names(coefs) == dups[n])
+                                #dups <- table(names(coefs))
+                                #dups <- names(dups[dups > 1])
+                                
+                                #for(n in seq(along = dups)){
+                                #  ind <- which(names(coefs) == dups[n])
+                                #  uni <- sum(abs(coefs[ind]))
+                                #  names(uni) <- dups[n]
+                                #  coefs <- coefs[-ind]
+                                #  coefs <- c(coefs, uni)
+                                #}                      
+                                
+                                for(n in seq(along = unique(names(coefs)))){
+                                  ind <- which(names(coefs) == var.names[n])
                                   uni <- sum(abs(coefs[ind]))
-                                  names(uni) <- dups[n]
+                                  names(uni) <- var.names[n]
                                   coefs <- coefs[-ind]
                                   coefs <- c(coefs, uni)
-                                }                      
+                                }   
                                 
                                 coefs <- sort(coefs, decreasing = TRUE)
                                 ranks <- seq(length(names(coefs)))

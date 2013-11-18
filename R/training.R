@@ -13,7 +13,7 @@
 #'  \item{tuneValue: Parameters applied to the fitted model}
 #'  \item{obsLevels: Observed levels of the groups}}
 #' @author Charles Determan Jr
-# @import DiscriMiner
+#' @import DiscriMiner
 #' @import randomForest
 #' @import caret
 #' @import e1071

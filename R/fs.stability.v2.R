@@ -66,7 +66,7 @@
 #' @author Charles Determan Jr
 #' @references Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and Knowledge Discovery in Databases}. 
 #' 313-325. http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
-# @import DiscriMiner
+#' @import DiscriMiner
 #' @import randomForest
 #' @import plyr
 #' @import caret
@@ -139,7 +139,7 @@ fs.stability <-
     }else{
       resample.tunes <- NULL
     }
-
+    
     inTrain <- rlply(k, createDataPartition(Y, p = p, list = FALSE))
     #inTrain <- rlply(k, sample(nr, round(p*nr)))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
@@ -307,8 +307,7 @@ fs.stability <-
           
           # Create empty list for features identified by each chosen algorithm
           features <- vector("list", length(method))
-          #names(features) <- tolower(method)
-          #j <- 3
+
           for(j in seq(along = method)){
             ### Extract important features
             # pam requires a special mydata argument

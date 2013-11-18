@@ -13,7 +13,7 @@
 #' @param verbose Logical argument dictating if should print progress
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
 #' @return Returns list of fitted models
-# @import DiscriMiner
+#' @import DiscriMiner
 #' @import randomForest
 #' @import plyr
 #' @import caret

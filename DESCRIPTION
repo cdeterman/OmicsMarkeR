@@ -2,7 +2,7 @@ Package: OmicsMarkeR
 Title: Classification and Feature Selection for 'Omics' Datasets
 Description: Tools for classification and feature selection for 'omics' level
     datasets
-Date: 2013-10-22
+Date: 2013-11-18
 Version: 0.1
 Author: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
@@ -12,6 +12,7 @@ Imports:
     caret (>= 5.17.7),
     plyr (>= 1.8),
     data.table (>= 1.8.10),
+    DiscriMiner (>= 0.1-29),
     e1071 (>= 1.6-1),
     randomForest (>= 4.6-7),
     gbm (>= 2.1),
@@ -43,11 +44,6 @@ Collate:
     'performance.R'
     'params.R'
     'data.generation.R'
-    'my_plsDA.R'
-    'my_tdc.R'
-    'my_verify.R'
-    'plsDA.R'
-    'print.plsda.R'
     'performance.metrics.R'
     'optimize.R'
     'perm.features.R'

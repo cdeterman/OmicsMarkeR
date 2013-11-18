@@ -46,13 +46,13 @@ extract.args <- function(fs.model, method)
 #' @author Charles Determan Jr.
 #' @references Wongravee K., et. al. (2009) \emph{Monte-Carlo methods for determining optimal number
 #' of significant variables.  Application to mouse urinary profiles}. Metabolomics 5:387-406.
-# @import DiscriMiner
+#' @import DiscriMiner
 #' @import randomForest
 #' @import e1071
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @import permute
+#' @importFrom permute shuffle
 #' @export
 
 # user-defined -> sig.level, model, nperm
@@ -297,7 +297,7 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                            coefs <- unlist(coefs, use.names = TRUE)
                            names(coefs) <- unlist(coef.names)
                            
-                           length(unique(names(coefs)))
+                           #length(unique(names(coefs)))
                            var.names <- unique(names(coefs))
                            
                            for(n in seq(along = unique(names(coefs)))){
