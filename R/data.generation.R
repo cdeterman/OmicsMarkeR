@@ -9,8 +9,9 @@ plus_minus <- function(beta){
 }
 
 ind_corr <- function(dat, group_size, start, end){
-  pm <- plus_minus(group_size-1)
-  
+  gs <- if(group_size == 1) group_size else group_size-1
+  pm <- plus_minus(gs)
+
   # take first column of block
   f <- dat[,start]
   
