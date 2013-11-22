@@ -318,22 +318,24 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   
   # extract p-value (one-tailed)
   var.scores <- sapply(scores, "[")  
-  perm.p.val=apply(var.scores, 1, FUN = function(x) sum(x[2:(nperm+1)] >= x[1])/nperm)
+  perm.p.val=apply(var.scores, 1, FUN = function(x) sprintf("%.3f", round(sum(x[2:(nperm+1)] >= x[1])/nperm, digits = 3)))
   
   # return number of significant features and features themselves
   num.features <- sum(perm.p.val <= sig.level)
   features <- names(which(perm.p.val <= sig.level))
+  p.vals <- perm.p.val[which(perm.p.val <= sig.level)]
   
   cat("\nFeature Permutation Results\n")
   cat(rep("-",30), sep="")
   cat("\n\n")
   cat(paste(num.features, "features were significant at significance level", sig.level, sep = " "))
   cat("\nIdentified features:\n")
-  print(data.frame(features))
+  print(data.frame(features = features, p.val = p.vals))
+  sig.features <- data.frame(features = features, p.val = p.vals)
   
   perm.results = list(sig.level = sig.level,
                       num.sig.features = num.features,
-                      sig.features = features
+                      sig.features = sig.features
                       )
   
   return(perm.results)
