@@ -20,7 +20,7 @@ Imports:
     glmnet (>= 1.9-5),
     caTools (>= 1.14),
     foreach (>= 1.4.1),
-    tcltk (>= 3.0.2),
+    tcltk (>= 3.0.1),
     permute (>= 0.7-0)
 License: GPL-2
 LazyData: true
