@@ -47,6 +47,7 @@ Collate:
     'performance.metrics.R'
     'optimize.R'
     'perm.features.R'
+    'perm.class.R'
 Packaged: 2013-08-05 12:50:19 UTC; kuhna03
 NeedsCompilation: yes
 Repository: CRAN
