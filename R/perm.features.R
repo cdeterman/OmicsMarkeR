@@ -332,10 +332,12 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   cat("\nIdentified features:\n")
   print(data.frame(features = features, p.val = p.vals))
   sig.features <- data.frame(features = features, p.val = p.vals)
+  all.features <- data.frame(features = names(perm.p.val), p.val = c(perm.p.val))
   
   perm.results = list(sig.level = sig.level,
                       num.sig.features = num.features,
-                      sig.features = sig.features
+                      sig.features = sig.features,
+                      all.features = all.features
                       )
   
   return(perm.results)
