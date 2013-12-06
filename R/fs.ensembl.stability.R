@@ -411,7 +411,7 @@ fs.ensembl.stability <-
     
     # add stability metric to each respective algorithm
     for(i in 1:length(method)){
-      results.stability[[i]] <- list(metric = stability.metric, results.stability = results.stability[[i]], stability = stability[[i]])
+      results.stability[[i]] <- list(metric = stability.metric, features = results.stability[[i]], stability = stability[[i]])
     }
     
     specs = list(total.samples=nr, 
