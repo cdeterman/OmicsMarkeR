@@ -37,7 +37,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 optimize <- function(
   trainVars,

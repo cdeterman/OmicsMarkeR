@@ -22,7 +22,7 @@
 #' @import pamr
 #' @import glmnet
 #' @import foreach
-#' @export
+# ' @export
 #' @author Charles E. Determan Jr.
 
 modelTuner <- function(trainData,

@@ -20,7 +20,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 training <-
   function(data, method, tuneValue, obsLevels, theDots = NULL)

@@ -14,7 +14,7 @@
 #' ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value.
 #' @seealso \code{\link{performance.stats}}, \code{\link{perf.calc}} caret function \code{\link{confusionMatrix}}
 #' @import caret
-#' @export
+# ' @export
 
 prediction.metrics <- 
   function(finalModel,

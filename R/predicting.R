@@ -15,7 +15,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 
 predicting <- function(method, modelFit, orig.data, indicies, newdata, param = NULL)

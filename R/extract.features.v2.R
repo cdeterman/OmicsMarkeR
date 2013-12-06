@@ -17,7 +17,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 extract.features <-
   function(x,                       # fitted model

@@ -19,7 +19,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 tune.instructions <- function(method, grid)
 {
