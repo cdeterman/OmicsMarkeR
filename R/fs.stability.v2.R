@@ -74,7 +74,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @import tcltk
+# ' @import tcltk
 #' @export
 
 fs.stability <- 
@@ -148,13 +148,13 @@ fs.stability <-
     #method <- c("plsda")
     # loop through k bootstraps for stability metrics
     #require(tcltk)
-    pb <- tkProgressBar(title = "progress bar", min = 0,
-                        max = k, width = 300)
+    #pb <- tkProgressBar(title = "progress bar", min = 0,
+    #                    max = k, width = 300)
     
     for(i in seq(k)){
       
-      setTkProgressBar(pb, i, label=paste( round(i/k*100, 0),
-                                           "% done"))
+      #setTkProgressBar(pb, i, label=paste( round(i/k*100, 0),
+      #                                     "% done"))
       
       trainVars <- X[inTrain[[i]],, drop=F]
       trainVars.list[[i]] <- trainVars
@@ -490,7 +490,7 @@ fs.stability <-
       } # end of non-optimized sequence
     } # end of stability loop
         
-    close(pb)
+    #close(pb)
     
     ### Performance Metrics of Reduced Models
     #if(verbose){
