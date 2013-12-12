@@ -65,12 +65,10 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   } 
   
   theDots <- list(...)
-  #print(theDots)
-  #print(length(theDots))
-  #print(is.null(fs.model) & length(theDots == 0))
   if(is.null(fs.model) & length(theDots) == 0){
     stop("Error: you must either provide fitted model from fs.stability or the parameters for the desired model")
   }
+  method <- "pam"
   
   obsLevels <- levels(as.factor(Y))
   
@@ -246,6 +244,7 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                            out <- sapply(pam.features[,2:3], FUN = function(x) as.numeric(as.character(x)))
                          }
                          names(out) <- as.character(pam.features[,1])
+                         out
                        },         
                        
                        glmnet ={
@@ -311,6 +310,7 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                          }else{
                            out <- abs(as.matrix(full.coefs[2:(ncol(trainX)+1),, drop = FALSE]))
                          }
+                         out
                        }
     )
     features
