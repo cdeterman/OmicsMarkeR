@@ -317,7 +317,16 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   }
   
   # extract p-value (one-tailed)
-  var.scores <- sapply(scores, "[")  
+  var.scores <- lapply(scores, "[")  
+  miss <- lapply(var.scores, FUN = function(x) which(!xNames %in% names(x)))
+  for(i in 2:(nperm+1)){
+    if(length(miss[[i]]) >= 1){
+      zero <- rep(0, length(miss[[i]]))
+      names(zero) <- xNames[miss[[i]]]
+      var.scores[[i]] <- c(var.scores[[i]], zero)
+    } 
+  }
+  var.scores <- sapply(var.scores, FUN = function(x) x[sort(names(x))])
   perm.p.val=apply(var.scores, 1, FUN = function(x) sprintf("%.3f", round(sum(x[2:(nperm+1)] >= x[1])/nperm, digits = 3)))
   
   # return number of significant features and features themselves
