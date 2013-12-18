@@ -317,7 +317,8 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   }
   
   # extract p-value (one-tailed)
-  var.scores <- lapply(scores, "[")  
+  var.scores <- lapply(scores, "[") 
+  # check for features that were excluded by model, they need to have a zero for p.value calculation
   miss <- lapply(var.scores, FUN = function(x) which(!xNames %in% names(x)))
   for(i in 1:(nperm+1)){
     if(length(miss[[i]]) >= 1){
