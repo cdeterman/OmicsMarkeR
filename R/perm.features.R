@@ -123,13 +123,6 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                     .verbose = FALSE,
                     .errorhandling = "stop") %op% 
     {
-    # permute group membership
-    #if(!p == 1){
-    #  perm=shuffle(N)
-    #  trainY <- trainY[perm]  
-    #}else{
-    #  trainY <- trainY
-    #}
     
     features <- switch(method,
                        plsda ={
@@ -246,7 +239,8 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                            )
                          }
                          
-                         pam.scores <- sapply(pam.features[,2:ncol(pam.features)], FUN = function(x) as.numeric(as.character(x)))
+                        
+                        pam.scores <- sapply(pam.features[,2:ncol(pam.features)], FUN = function(x) as.numeric(as.character(x)))
                          # check to make sure in matrix format
                          if(!is.matrix(pam.scores)){
                            pam.scores <- t(as.data.frame(pam.scores))
@@ -319,7 +313,9 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                          }else{
                            out <- abs(as.matrix(full.coefs[2:(ncol(trainX)+1),, drop = FALSE]))
                          }
-                         out
+                         scs <- out[,1]
+                         names(scs) <- rownames(out)
+                         scs
                        }
     )
     features
