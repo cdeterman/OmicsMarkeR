@@ -114,18 +114,22 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   
   # extract new values of variables
   N <- nrow(trainX)
+  # create permutations
+  perms <- replicate(nperm, shuffle(N), simplify = F)
+  perms <- append(list(seq(N)), perms)
+  
   scores <- foreach(p = seq.int(nperm+1),
                     .packages = c("OmicsMarkeR", "permute", "foreach", "randomForest", "e1071", "DiscriMiner","gbm","pamr","glmnet"),
                     .verbose = FALSE,
                     .errorhandling = "stop") %op% 
     {
     # permute group membership
-    if(!p == 1){
-      perm=shuffle(N)
-      trainY <- trainY[perm]  
-    }else{
-      trainY <- trainY
-    }
+    #if(!p == 1){
+    #  perm=shuffle(N)
+    #  trainY <- trainY[perm]  
+    #}else{
+    #  trainY <- trainY
+    #}
     
     features <- switch(method,
                        plsda ={
@@ -221,30 +225,35 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                        pam ={
                          pamr.args <- c("n.threshold", "threshold.scale", "scale.sd", "se.scale")
                          theDots <- theDots[names(theDots) %in% pamr.args]
-                         
-                         modArgs <- list(data = list(x = t(trainX), y = trainY, geneid = as.character(colnames(trainX))),
+                         #p=100
+                         modArgs <- list(data = list(x = t(trainX), y = trainY[perms[[p]]], geneid = as.character(colnames(trainX))),
                                          threshold = args$threshold
                          )
-                         mydata <- list(x = t(trainX), y = trainY, geneid = as.character(colnames(trainX)))
+                         mydata <- list(x = t(trainX), y = trainY[perms[[p]]], geneid = as.character(colnames(trainX)))
                          
                          
                          if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
                          
                          mod <- do.call("pamr.train", modArgs)
-                         pam.features <- data.frame(pamr.listgenes(mod,
-                                                                   mydata,
-                                                                   threshold = args$threshold)
-                         )
+                         if(mod$nonzero == 0){
+                           zero <- replicate(length(obsLevels), rep(0, length(xNames)))
+                           pam.features <- data.frame(factor(xNames), zero)
+                           colnames(pam.features) <- c("id", paste(seq(length(obsLevels)), "score", sep = "-"))
+                         }else{
+                           pam.features <- data.frame(pamr.listgenes(mod,
+                                                                     mydata,
+                                                                     threshold = args$threshold)
+                           )
+                         }
                          
-                        # if(length(obsLevels) > 2){
-                           pam.scores <- sapply(pam.features[,2:ncol(pam.features)], FUN = function(x) as.numeric(as.character(x)))
-                           out <- rowSums(abs(pam.scores))
-                         #}else{
-                        #   out <- sapply(pam.features[,2:3], FUN = function(x) as.numeric(as.character(x)))
-                        # }
+                         pam.scores <- sapply(pam.features[,2:ncol(pam.features)], FUN = function(x) as.numeric(as.character(x)))
+                         # check to make sure in matrix format
+                         if(!is.matrix(pam.scores)){
+                           pam.scores <- t(as.data.frame(pam.scores))
+                         }
+                         out <- rowSums(abs(pam.scores))
                          names(out) <- as.character(pam.features[,1])
                          out
-                         #str(out)
                        },         
                        
                        glmnet ={
@@ -317,8 +326,7 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   }
   
   # extract p-value (one-tailed)
-  var.scores <- lapply(scores, "[") 
-  # check for features that were excluded by model, they need to have a zero for p.value calculation
+  var.scores <- lapply(scores, "[")  
   miss <- lapply(var.scores, FUN = function(x) which(!xNames %in% names(x)))
   for(i in 1:(nperm+1)){
     if(length(miss[[i]]) >= 1){
