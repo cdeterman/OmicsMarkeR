@@ -111,10 +111,12 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
   }
   
   args <- data.frame(do.call("cbind", args))
+  orig.groups <- trainY
   
   # extract new values of variables
   N <- nrow(trainX)
-  # create permutations
+  set.seed(666)
+  #nperm = 99
   perms <- replicate(nperm, shuffle(N), simplify = F)
   perms <- append(list(seq(N)), perms)
   
@@ -123,8 +125,10 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                     .verbose = FALSE,
                     .errorhandling = "stop") %op% 
     {
-    
-    features <- switch(method,
+      #permute the groups
+      trainY <- orig.groups[perms[[p]]]
+      
+      features <- switch(method,
                        plsda ={
                          mod <- plsDA(trainX, 
                                       trainY,
@@ -219,10 +223,10 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                          pamr.args <- c("n.threshold", "threshold.scale", "scale.sd", "se.scale")
                          theDots <- theDots[names(theDots) %in% pamr.args]
                          #p=100
-                         modArgs <- list(data = list(x = t(trainX), y = trainY[perms[[p]]], geneid = as.character(colnames(trainX))),
+                         modArgs <- list(data = list(x = t(trainX), y = trainY, geneid = as.character(colnames(trainX))),
                                          threshold = args$threshold
                          )
-                         mydata <- list(x = t(trainX), y = trainY[perms[[p]]], geneid = as.character(colnames(trainX)))
+                         mydata <- list(x = t(trainX), y = trainY, geneid = as.character(colnames(trainX)))
                          
                          
                          if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
@@ -239,12 +243,12 @@ perm.features <- function(fs.model = NULL, X, Y, method, sig.level = .05, nperm 
                            )
                          }
                          
-                        
-                        pam.scores <- sapply(pam.features[,2:ncol(pam.features)], FUN = function(x) as.numeric(as.character(x)))
-                         # check to make sure in matrix format
+                         pam.scores <- sapply(pam.features[,2:ncol(pam.features)], FUN = function(x) as.numeric(as.character(x)))
+                         
                          if(!is.matrix(pam.scores)){
                            pam.scores <- t(as.data.frame(pam.scores))
                          }
+                         
                          out <- rowSums(abs(pam.scores))
                          names(out) <- as.character(pam.features[,1])
                          out
