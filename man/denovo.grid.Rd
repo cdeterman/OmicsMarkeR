@@ -2,7 +2,7 @@
 \alias{denovo.grid}
 \title{Denovo Grid Generation}
 \usage{
-  denovo.grid(data, method, res)
+denovo.grid(data, method, res)
 }
 \arguments{
   \item{data}{data of method to be tuned}
@@ -18,18 +18,18 @@
   \item{res}{Resolution of model optimization grid.}
 }
 \value{
-  A list containing dataframes of all combinations of
-  parameters for each model:
+A list containing dataframes of all combinations of
+parameters for each model:
 }
 \description{
-  Greates grid for optimizing selected models
+Greates grid for optimizing selected models
 }
 \author{
-  Charles Determan Jr
+Charles Determan Jr
 }
 \seealso{
-  \code{"expand.grid"} for generating grids of specific
-  parameters desired.  However, NOTE that you must still
-  convert the generated grid to a list.
+\code{"expand.grid"} for generating grids of specific
+parameters desired.  However, NOTE that you must still
+convert the generated grid to a list.
 }
 

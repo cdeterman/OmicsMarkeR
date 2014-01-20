@@ -2,8 +2,7 @@
 \alias{predicting}
 \title{Model Group Prediction}
 \usage{
-  predicting(method, modelFit, orig.data, indicies,
-    newdata, param = NULL)
+predicting(method, modelFit, orig.data, indicies, newdata, param = NULL)
 }
 \arguments{
   \item{method}{String of the model to be evaluated}
@@ -23,10 +22,10 @@
   (Determined by model optimization).}
 }
 \value{
-  Returns a list of predicted group membership
+Returns a list of predicted group membership
 }
 \description{
-  This function evaluates a single fitted model and returns
-  the predicted group memberships.
+This function evaluates a single fitted model and returns
+the predicted group memberships.
 }
 

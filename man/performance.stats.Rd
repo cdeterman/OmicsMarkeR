@@ -2,7 +2,7 @@
 \alias{performance.stats}
 \title{Performance Statistics (Internal for \code{perf.calc})}
 \usage{
-  performance.stats(pred, obs)
+performance.stats(pred, obs)
 }
 \arguments{
   \item{pred}{vector of groups predicted by a fitted
@@ -11,16 +11,16 @@
   \item{obs}{vector of groups from the original dataset}
 }
 \value{
-  Returns confusion matrix and ROC performance statistics
-  including Accuracy, Kappa, ROC.AUC, Sensitivity,
-  Specificity, Positive Predictive Value, and Negative
-  Predictive Value
+Returns confusion matrix and ROC performance statistics
+including Accuracy, Kappa, ROC.AUC, Sensitivity,
+Specificity, Positive Predictive Value, and Negative
+Predictive Value
 }
 \description{
-  Calculates confusion matrix and ROC statistics comparing
-  the results of the fitted models to the observed groups.
+Calculates confusion matrix and ROC statistics comparing
+the results of the fitted models to the observed groups.
 }
 \seealso{
-  caret function \code{\link{confusionMatrix}}
+caret function \code{\link{confusionMatrix}}
 }
 

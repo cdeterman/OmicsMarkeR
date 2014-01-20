@@ -2,7 +2,7 @@
 \alias{EE}
 \title{Ensemble Exponential Aggregation}
 \usage{
-  EE(efs, f)
+EE(efs, f)
 }
 \arguments{
   \item{efs}{A matrix of selected features}
@@ -11,19 +11,19 @@
   correlation desired, f = NULL}
 }
 \value{
-  \item{agg}{Aggregated list of features}
+\item{agg}{Aggregated list of features}
 }
 \description{
-  Compiles matrix of ranked features via ensemble
-  exponential aggregation
+Compiles matrix of ranked features via ensemble exponential
+aggregation
 }
 \author{
-  Charles Determan Jr
+Charles Determan Jr
 }
 \references{
-  Haury A., Gestraud P., Vert J. (2011) \emph{The Influence
-  of Features Selection Methods on Accuracy, Stability, and
-  Interpretability of Molecular Signatures}. PLoS ONE 6(12)
-  e28210. doi: 10.1371/journal.pone.0028210
+Haury A., Gestraud P., Vert J. (2011) \emph{The Influence
+of Features Selection Methods on Accuracy, Stability, and
+Interpretability of Molecular Signatures}. PLoS ONE 6(12)
+e28210. doi: 10.1371/journal.pone.0028210
 }
 

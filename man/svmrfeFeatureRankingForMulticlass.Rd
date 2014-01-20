@@ -2,7 +2,7 @@
 \alias{svmrfeFeatureRankingForMulticlass}
 \title{SVM Recursive Feature Extraction (Multiclass)}
 \usage{
-  svmrfeFeatureRankingForMulticlass(x, y, c, perc.rem = 10)
+svmrfeFeatureRankingForMulticlass(x, y, c, perc.rem = 10)
 }
 \arguments{
   \item{x}{A matrix where each column represents a feature
@@ -21,25 +21,25 @@
   \code{perc.rem = 10}.}
 }
 \value{
-  Vector of features ranked from most important to least
-  important.
+Vector of features ranked from most important to least
+important.
 }
 \description{
-  This conducts feature selection for Support Vector
-  Machines models via recursive feature extraction.  This
-  returns a vector of the features in x ordered by
-  relevance. The first item of the vector has the index of
-  the feature which is more relevant to perform the
-  classification and the last item of the vector has the
-  feature which is less relevant. This function is specific
-  to Binary classification problems,
+This conducts feature selection for Support Vector Machines
+models via recursive feature extraction.  This returns a
+vector of the features in x ordered by relevance. The first
+item of the vector has the index of the feature which is
+more relevant to perform the classification and the last
+item of the vector has the feature which is less relevant.
+This function is specific to Binary classification
+problems,
 }
 \references{
-  Guyon I. et. al. (2010) \emph{Gene Selection for Cancer
-  Classification using Support Vector Machines}. Machine
-  Learning 46 389-422.
+Guyon I. et. al. (2010) \emph{Gene Selection for Cancer
+Classification using Support Vector Machines}. Machine
+Learning 46 389-422.
 }
 \seealso{
-  \code{\link{svmrfeFeatureRanking}}
+\code{\link{svmrfeFeatureRanking}}
 }
 

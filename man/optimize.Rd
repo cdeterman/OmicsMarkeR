@@ -2,10 +2,10 @@
 \alias{optimize}
 \title{Model Optimization and Metrics}
 \usage{
-  optimize(trainVars, trainGroup, method, k.folds = 10,
-    repeats = 3, res = 3, grid = NULL, metric = "Accuracy",
-    savePerformanceMetrics = NULL, allowParallel = FALSE,
-    verbose = FALSE, theDots = NULL)
+optimize(trainVars, trainGroup, method, k.folds = 10, repeats = 3,
+  res = 3, grid = NULL, metric = "Accuracy",
+  savePerformanceMetrics = NULL, allowParallel = FALSE, verbose = FALSE,
+  theDots = NULL)
 }
 \arguments{
   \item{trainVars}{Data used to fit the model}
@@ -50,43 +50,43 @@
   function}
 }
 \value{
-  Basically a list with the following elements:
+Basically a list with the following elements:
 
-  \item{method}{Vector of strings listing models that were
-  optimized}
+\item{method}{Vector of strings listing models that were
+optimized}
 
-  \item{performance}{Performance generated internally to
-  optimize model}
+\item{performance}{Performance generated internally to
+optimize model}
 
-  \item{bestTune}{List of paramaters chosen for each model}
+\item{bestTune}{List of paramaters chosen for each model}
 
-  \item{dots}{List of extra arguments initially provided}
+\item{dots}{List of extra arguments initially provided}
 
-  \item{metric}{Criteria that was used for model
-  optimization}
+\item{metric}{Criteria that was used for model
+optimization}
 
-  \item{finalModels}{The fitted models with the 'optimum'
-  parameters}
+\item{finalModels}{The fitted models with the 'optimum'
+parameters}
 
-  \item{performance.metrics}{The performance metrics
-  calculated internally for each resulting prediction}
+\item{performance.metrics}{The performance metrics
+calculated internally for each resulting prediction}
 
-  \item{tune.metrics}{The results from each tune}
+\item{tune.metrics}{The results from each tune}
 
-  \item{perfNames}{The names of the performance metrics}
+\item{perfNames}{The names of the performance metrics}
 
-  \item{comp.catch}{If the optimal PLSDA model contains
-  only 1 component, the model must be refit with 2
-  components.  This catches the 1 component parameter so
-  feature selection and further performance analysis can be
-  conducted on the 1 component.}
+\item{comp.catch}{If the optimal PLSDA model contains only
+1 component, the model must be refit with 2 components.
+This catches the 1 component parameter so feature selection
+and further performance analysis can be conducted on the 1
+component.}
 }
 \description{
-  Optimizes each model based upon the parameters provided
-  either by the internal \code{\link{denovo.grid}} function
-  or by the user.
+Optimizes each model based upon the parameters provided
+either by the internal \code{\link{denovo.grid}} function
+or by the user.
 }
 \author{
-  Charles E. Determan Jr.
+Charles E. Determan Jr.
 }
 

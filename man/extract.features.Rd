@@ -2,9 +2,8 @@
 \alias{extract.features}
 \title{Feature Extraction}
 \usage{
-  extract.features(x, dat = NULL, grp = NULL, method,
-    model.features = FALSE, bestTune = NULL, f,
-    comp.catch = NULL)
+extract.features(x, dat = NULL, grp = NULL, method,
+  model.features = FALSE, bestTune = NULL, f, comp.catch = NULL)
 }
 \arguments{
   \item{x}{Previously fitted model}
@@ -34,11 +33,11 @@
   component.}
 }
 \value{
-  Returns list of the features selected from the fitted
-  model.
+Returns list of the features selected from the fitted
+model.
 }
 \description{
-  Extracts features from models that have been previously
-  fit.
+Extracts features from models that have been previously
+fit.
 }
 

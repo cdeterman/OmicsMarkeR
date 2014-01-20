@@ -2,7 +2,7 @@
 \alias{spearman}
 \title{Spearman Rank Correlation Coefficient}
 \usage{
-  spearman(x, y)
+spearman(x, y)
 }
 \arguments{
   \item{x}{numeric vector of ranks}
@@ -11,9 +11,9 @@
   to x}
 }
 \value{
-  Returns the spearman rank coefficient for the two vectors
+Returns the spearman rank coefficient for the two vectors
 }
 \description{
-  Calculates spearman rank correlation between two vectors
+Calculates spearman rank correlation between two vectors
 }
 

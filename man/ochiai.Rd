@@ -2,7 +2,7 @@
 \alias{ochiai}
 \title{Ochiai's Index}
 \usage{
-  ochiai(x, y)
+ochiai(x, y)
 }
 \arguments{
   \item{x}{vector of feature names}
@@ -10,42 +10,42 @@
   \item{y}{vector of feature names}
 }
 \value{
-  Returns the Ochiai Index for the two vectors. It takes
-  values in [0,1], with 0 meaning no overlap between two
-  sets and 1 meaning two sets are identical.
+Returns the Ochiai Index for the two vectors. It takes
+values in [0,1], with 0 meaning no overlap between two sets
+and 1 meaning two sets are identical.
 }
 \description{
-  Calculates Ochiai's index between two vectors of
-  features.  In brief, the closer to 1 the more similar the
-  vectors.  The two vectors may have an arbitrary
-  cardinality (i.e. don't need same length).  Very similar
-  to the Jaccard Index \code{\link{jaccard}} but Ochiai is
-  a geometric means of the ratio.
+Calculates Ochiai's index between two vectors of features.
+In brief, the closer to 1 the more similar the vectors.
+The two vectors may have an arbitrary cardinality (i.e.
+don't need same length).  Very similar to the Jaccard Index
+\code{\link{jaccard}} but Ochiai is a geometric means of
+the ratio.
 }
 \author{
-  Charles E. Determan Jr.
+Charles E. Determan Jr.
 }
 \references{
-  Ochiai A. (1957) \emph{Zoogeographical studies on the
-  soleoid fishes found in Japan and its neigbouring
-  regions}. Bulletin of the Japanese Society of Scientific
-  Fisheries. 22: 526-530.
+Ochiai A. (1957) \emph{Zoogeographical studies on the
+soleoid fishes found in Japan and its neigbouring regions}.
+Bulletin of the Japanese Society of Scientific Fisheries.
+22: 526-530.
 
-  Zucknick M., Richardson S., & Stronach E.A. (2008)
-  \emph{Comparing the characteristics of gene expression
-  profiles derived by univariate and multivariate
-  classification methods}. Statistical Applications in
-  Genetics and Molecular Biology. 7(1): Article 7.
-  doi:10.2202/1544-6115.1307
+Zucknick M., Richardson S., & Stronach E.A. (2008)
+\emph{Comparing the characteristics of gene expression
+profiles derived by univariate and multivariate
+classification methods}. Statistical Applications in
+Genetics and Molecular Biology. 7(1): Article 7.
+doi:10.2202/1544-6115.1307
 
-  He. Z. & Weichuan Y. (2010) \emph{Stable feature
-  selection for biomarker discovery}. Computational Biology
-  and Chemistry 34 215-225.
+He. Z. & Weichuan Y. (2010) \emph{Stable feature selection
+for biomarker discovery}. Computational Biology and
+Chemistry 34 215-225.
 }
 \seealso{
-  \code{\link{kuncheva}}, \code{\link{sorensen}},
-  \code{\link{ochiai}}, \code{\link{pof}},
-  \code{\link{pairwise.stability}},
-  \code{\link{pairwise.model.stability}}
+\code{\link{kuncheva}}, \code{\link{sorensen}},
+\code{\link{ochiai}}, \code{\link{pof}},
+\code{\link{pairwise.stability}},
+\code{\link{pairwise.model.stability}}
 }
 

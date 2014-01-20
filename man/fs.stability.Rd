@@ -2,15 +2,12 @@
 \alias{fs.stability}
 \title{Classification & Feature Selection}
 \usage{
-  fs.stability(X, Y, method, k = 10, p = 0.9,
-    f = ceiling(ncol(X)/10), stability.metric = "jaccard",
-    optimize = TRUE, optimize.resample = FALSE,
-    tuning.grid = NULL,
-    k.folds = if (optimize) 10 else NULL,
-    repeats = if (optimize) 3 else NULL,
-    resolution = if (optimize) 3 else NULL,
-    metric = "Accuracy", model.features = FALSE,
-    allowParallel = FALSE, verbose = FALSE, ...)
+fs.stability(X, Y, method, k = 10, p = 0.9, f = ceiling(ncol(X)/10),
+  stability.metric = "jaccard", optimize = TRUE,
+  optimize.resample = FALSE, tuning.grid = NULL, k.folds = if (optimize)
+  10 else NULL, repeats = if (optimize) 3 else NULL, resolution = if
+  (optimize) 3 else NULL, metric = "Accuracy", model.features = FALSE,
+  allowParallel = FALSE, verbose = FALSE, ...)
 }
 \arguments{
   \item{X}{A scaled matrix or dataframe containing numeric
@@ -89,59 +86,57 @@
   apply to the models}
 }
 \value{
-  \item{Methods}{Vector of models fit to data}
+\item{Methods}{Vector of models fit to data}
 
-  \item{performance}{Performance metrics of each model and
-  bootstrap iteration}
+\item{performance}{Performance metrics of each model and
+bootstrap iteration}
 
-  \item{RPT}{Robustness-Performance Trade-Off as defined in
-  Saeys 2008}
+\item{RPT}{Robustness-Performance Trade-Off as defined in
+Saeys 2008}
 
-  \item{features}{List concerning features determined via
-  each algorithms feature selection criteria.}
+\item{features}{List concerning features determined via
+each algorithms feature selection criteria.}
 
-  \itemize{ \item{metric: Stability metric applied}
-  \item{features: Matrix of selected features}
-  \item{stability: Matrix of pairwise comparions and
-  average stability} }
+\itemize{ \item{metric: Stability metric applied}
+\item{features: Matrix of selected features}
+\item{stability: Matrix of pairwise comparions and average
+stability} }
 
-  \item{stability.models}{Function perturbation metric -
-  i.e. how similar are the features selected by each
-  model.}
+\item{stability.models}{Function perturbation metric - i.e.
+how similar are the features selected by each model.}
 
-  \item{original.best.tunes}{If \code{"optimize.resample =
-  TRUE"} then returns list of optimized parameters for each
-  bootstrap.}
+\item{original.best.tunes}{If \code{"optimize.resample =
+TRUE"} then returns list of optimized parameters for each
+bootstrap.}
 
-  \item{final.best.tunes}{If \code{"optimize.resample =
-  TRUE"} then returns list of optimized parameters for each
-  bootstrap of models refit to selected features.}
+\item{final.best.tunes}{If \code{"optimize.resample =
+TRUE"} then returns list of optimized parameters for each
+bootstrap of models refit to selected features.}
 
-  \item{specs}{List with the following elements:}
+\item{specs}{List with the following elements:}
 
-  \itemize{ \item{total.samples: Number of samples in
-  original dataset} \item{number.features: Number of
-  features in orginal dataset} \item{number.groups: Number
-  of groups} \item{group.levels: The specific levels of the
-  groups} \item{number.observations.group: Number of
-  observations in each group}}
+\itemize{ \item{total.samples: Number of samples in
+original dataset} \item{number.features: Number of features
+in orginal dataset} \item{number.groups: Number of groups}
+\item{group.levels: The specific levels of the groups}
+\item{number.observations.group: Number of observations in
+each group}}
 }
 \description{
-  Applies models to high-dimensional data to both classify
-  and determine important features for classification.  The
-  function bootstraps a user-specified number of times to
-  facilitate stability metrics of features selected thereby
-  providing an important metric for biomarker
-  investigations, namely whether the important variables
-  can be identified if the models are refit on 'different'
-  data.
+Applies models to high-dimensional data to both classify
+and determine important features for classification.  The
+function bootstraps a user-specified number of times to
+facilitate stability metrics of features selected thereby
+providing an important metric for biomarker investigations,
+namely whether the important variables can be identified if
+the models are refit on 'different' data.
 }
 \author{
-  Charles Determan Jr
+Charles Determan Jr
 }
 \references{
-  Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning
-  and Knowledge Discovery in Databases}. 313-325.
-  http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
+Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning
+and Knowledge Discovery in Databases}. 313-325.
+http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
 }
 

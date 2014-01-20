@@ -2,8 +2,7 @@
 \alias{create.corr.matrix}
 \title{Correlated Multivariate Data Generator}
 \usage{
-  create.corr.matrix(U, k = 4, min.block.size = 2,
-    max.block.size = 5)
+create.corr.matrix(U, k = 4, min.block.size = 2, max.block.size = 5)
 }
 \arguments{
   \item{U}{Numeric matrix}
@@ -18,25 +17,24 @@
   correlate Default \code{max.block.size = 5}}
 }
 \value{
-  Matrix of dimension \code{dim(U)} with correlations
-  induced between variables
+Matrix of dimension \code{dim(U)} with correlations induced
+between variables
 }
 \description{
-  Generates a matrix of dimensions \code{dim(U)} with
-  induced correlations.  Blocks of variables are randomly
-  assigned and correlations are induced.  A noise matrix is
-  applied to the final matrix to perturb 'perfect'
-  correlations.
+Generates a matrix of dimensions \code{dim(U)} with induced
+correlations.  Blocks of variables are randomly assigned
+and correlations are induced.  A noise matrix is applied to
+the final matrix to perturb 'perfect' correlations.
 }
 \note{
-  Output does not contain classes, may provide externally
-  as classes are irrelevant in this function.
+Output does not contain classes, may provide externally as
+classes are irrelevant in this function.
 }
 \author{
-  Charles E. Determan Jr.
+Charles E. Determan Jr.
 }
 \seealso{
-  \code{\link{create.random.matrix}},
-  \code{\link{create.discr.matrix}}
+\code{\link{create.random.matrix}},
+\code{\link{create.discr.matrix}}
 }
 

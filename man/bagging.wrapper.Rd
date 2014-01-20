@@ -2,10 +2,9 @@
 \alias{bagging.wrapper}
 \title{Bagging Wrapper for Ensemble Features Selection}
 \usage{
-  bagging.wrapper(X, Y, method, bags, f,
-    aggregation.metric, k.folds, repeats, res, tuning.grid,
-    optimize, optimize.resample, metric, model.features,
-    allowParallel, verbose, theDots)
+bagging.wrapper(X, Y, method, bags, f, aggregation.metric, k.folds, repeats,
+  res, tuning.grid, optimize, optimize.resample, metric, model.features,
+  allowParallel, verbose, theDots)
 }
 \arguments{
   \item{X}{A matrix containing numeric values of each
@@ -71,22 +70,22 @@
   FALSE"}.}
 }
 \value{
-  \item{results}{List with the following elements:}
+\item{results}{List with the following elements:}
 
-  \itemize{ \item{Methods: Vector of models fit to data}
-  \item{ensemble.results: List of length = length(method)
-  containing aggregated features} \item{Number.bags: Number
-  of bagging iterations} \item{Agg.metric: Aggregation
-  method applied} \item{Number.features: Number of
-  user-defined features}}
+\itemize{ \item{Methods: Vector of models fit to data}
+\item{ensemble.results: List of length = length(method)
+containing aggregated features} \item{Number.bags: Number
+of bagging iterations} \item{Agg.metric: Aggregation method
+applied} \item{Number.features: Number of user-defined
+features}}
 
-  \item{bestTunes}{If \code{"optimize.resample = TRUE"}
-  then returns list of best parameters for each iteration}
+\item{bestTunes}{If \code{"optimize.resample = TRUE"} then
+returns list of best parameters for each iteration}
 }
 \description{
-  Compiles results of ensemble feature selection
+Compiles results of ensemble feature selection
 }
 \author{
-  Charles Determan Jr
+Charles Determan Jr
 }
 

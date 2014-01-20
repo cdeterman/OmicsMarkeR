@@ -2,7 +2,7 @@
 \alias{aggregation}
 \title{Feature Aggregation}
 \usage{
-  aggregation(efs, metric, f = NULL)
+aggregation(efs, metric, f = NULL)
 }
 \arguments{
   \item{efs}{A matrix of selected features}
@@ -16,27 +16,27 @@
   = NULL}}
 }
 \value{
-  \item{agg}{Aggregated list of features}
+\item{agg}{Aggregated list of features}
 }
 \description{
-  Compiles matrix of ranked features via user defined
-  'metric'
+Compiles matrix of ranked features via user defined
+'metric'
 }
 \author{
-  Charles Determan Jr
+Charles Determan Jr
 }
 \references{
-  Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys
-  Y. (2010) \emph{Robust biomarker identification for
-  cancer diagnosis with ensemble feature selection
-  methods}. Bioinformatics 26(3) 392-398.
+Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys
+Y. (2010) \emph{Robust biomarker identification for cancer
+diagnosis with ensemble feature selection methods}.
+Bioinformatics 26(3) 392-398.
 
-  Meinshausen N., Buhlmann P. (2010) \emph{Stability
-  selection}. J.R. Statist. Soc. B. 72(4) 417-473.
+Meinshausen N., Buhlmann P. (2010) \emph{Stability
+selection}. J.R. Statist. Soc. B. 72(4) 417-473.
 
-  Haury A., Gestraud P., Vert J. (2011) \emph{The Influence
-  of Features Selection Methods on Accuracy, Stability, and
-  Interpretability of Molecular Signatures}. PLoS ONE 6(12)
-  e28210. doi: 10.1371/journal.pone.0028210.
+Haury A., Gestraud P., Vert J. (2011) \emph{The Influence
+of Features Selection Methods on Accuracy, Stability, and
+Interpretability of Molecular Signatures}. PLoS ONE 6(12)
+e28210. doi: 10.1371/journal.pone.0028210.
 }
 

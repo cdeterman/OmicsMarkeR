@@ -2,9 +2,8 @@
 \alias{perm.features}
 \title{Feature Selection via Monte Carlo Permutation}
 \usage{
-  perm.features(fs.model = NULL, X, Y, method,
-    sig.level = 0.05, nperm = 10, allowParallel = FALSE,
-    ...)
+perm.features(fs.model = NULL, X, Y, method, sig.level = 0.05, nperm = 10,
+  allowParallel = FALSE, ...)
 }
 \arguments{
   \item{fs.model}{Object containing results from
@@ -35,25 +34,24 @@
   Default \code{allowParallel = FALSE}}
 }
 \value{
-  \item{sig.level}{User-specified significance level}
+\item{sig.level}{User-specified significance level}
 
-  \item{num.sig.features}{Number of significant features}
+\item{num.sig.features}{Number of significant features}
 
-  \item{sig.features}{Dataframe of significant features}
+\item{sig.features}{Dataframe of significant features}
 }
 \description{
-  Applies Monte Carlo permutations to user specified
-  models.  The user can either use the results from
-  \code{fs.stability} or provide specified model
-  parameters.
+Applies Monte Carlo permutations to user specified models.
+The user can either use the results from
+\code{fs.stability} or provide specified model parameters.
 }
 \author{
-  Charles Determan Jr.
+Charles Determan Jr.
 }
 \references{
-  Wongravee K., et. al. (2009) \emph{Monte-Carlo methods
-  for determining optimal number of significant variables.
-  Application to mouse urinary profiles}. Metabolomics
-  5:387-406.
+Wongravee K., et. al. (2009) \emph{Monte-Carlo methods for
+determining optimal number of significant variables.
+Application to mouse urinary profiles}. Metabolomics
+5:387-406.
 }
 

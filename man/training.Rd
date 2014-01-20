@@ -2,8 +2,7 @@
 \alias{training}
 \title{Model Training}
 \usage{
-  training(data, method, tuneValue, obsLevels,
-    theDots = NULL)
+training(data, method, tuneValue, obsLevels, theDots = NULL)
 }
 \arguments{
   \item{data}{Dataframe consisting of both numeric feature
@@ -21,17 +20,17 @@
   applied to the specific model}
 }
 \value{
-  \item{fit}{Fitted model with list with the following
-  elements:}
+\item{fit}{Fitted model with list with the following
+elements:}
 
-  \itemize{ \item{xNames: Names of the features}
-  \item{tuneValue: Parameters applied to the fitted model}
-  \item{obsLevels: Observed levels of the groups}}
+\itemize{ \item{xNames: Names of the features}
+\item{tuneValue: Parameters applied to the fitted model}
+\item{obsLevels: Observed levels of the groups}}
 }
 \description{
-  This fits each model with the defined parameters
+This fits each model with the defined parameters
 }
 \author{
-  Charles Determan Jr
+Charles Determan Jr
 }
 

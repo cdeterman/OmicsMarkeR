@@ -2,9 +2,9 @@
 \alias{modelTuner}
 \title{Model Tuner}
 \usage{
-  modelTuner(trainData, guide, method, inTrain, outTrain,
-    lev, savePredictions = FALSE, allowParallel = FALSE,
-    verbose = FALSE, theDots = NULL)
+modelTuner(trainData, guide, method, inTrain, outTrain, lev,
+  savePredictions = FALSE, allowParallel = FALSE, verbose = FALSE,
+  theDots = NULL)
 }
 \arguments{
   \item{trainData}{Data used to fit the model}
@@ -38,14 +38,14 @@
   function}
 }
 \value{
-  Returns list of fitted models
+Returns list of fitted models
 }
 \description{
-  Optimizes each model based upon the parameters provided
-  either by the internal \code{\link{denovo.grid}} function
-  or by the user.
+Optimizes each model based upon the parameters provided
+either by the internal \code{\link{denovo.grid}} function
+or by the user.
 }
 \author{
-  Charles E. Determan Jr.
+Charles E. Determan Jr.
 }
 

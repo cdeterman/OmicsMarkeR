@@ -2,8 +2,7 @@
 \alias{create.random.matrix}
 \title{Random Multivariate Data Generator}
 \usage{
-  create.random.matrix(nvar, nsamp, st.dev = 1,
-    perturb = 0.2)
+create.random.matrix(nvar, nsamp, st.dev = 1, perturb = 0.2)
 }
 \arguments{
   \item{nvar}{Number of features (i.e. variables)}
@@ -18,20 +17,20 @@
   distribution.  Default \code{perturb = 0.2}}
 }
 \value{
-  Matrix of dimension \code{nvar} by \code{nsamp}
+Matrix of dimension \code{nvar} by \code{nsamp}
 }
 \description{
-  Generates a matrix of dimensions \code{nvar} by
-  \code{nsamp} consisting of random numbers generated from
-  a normal distriubtion.  This normal distribution is then
-  perturbed to more accurately reflect experimentally
-  acquired multivariate data.
+Generates a matrix of dimensions \code{nvar} by
+\code{nsamp} consisting of random numbers generated from a
+normal distriubtion.  This normal distribution is then
+perturbed to more accurately reflect experimentally
+acquired multivariate data.
 }
 \author{
-  Charles E. Determan Jr.
+Charles E. Determan Jr.
 }
 \seealso{
-  \code{\link{create.corr.matrix}},
-  \code{\link{create.discr.matrix}}
+\code{\link{create.corr.matrix}},
+\code{\link{create.discr.matrix}}
 }
 

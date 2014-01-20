@@ -2,9 +2,8 @@
 \alias{perm.class}
 \title{Monte Carlo Permutation of Model Performance}
 \usage{
-  perm.class(fs.model = NULL, X, Y, method, k.folds = 5,
-    metric = "Accuracy", nperm = 10, allowParallel = FALSE,
-    ...)
+perm.class(fs.model = NULL, X, Y, method, k.folds = 5,
+  metric = "Accuracy", nperm = 10, allowParallel = FALSE, ...)
 }
 \arguments{
   \item{fs.model}{Object containing results from
@@ -39,21 +38,20 @@
   Default \code{allowParallel = FALSE}}
 }
 \value{
-  \item{p.value}{Resulting p-value of permuation test}
+\item{p.value}{Resulting p-value of permuation test}
 }
 \description{
-  Applies Monte Carlo permutations to user specified
-  models.  The user can either use the results from
-  \code{fs.stability} or provide specified model
-  parameters.
+Applies Monte Carlo permutations to user specified models.
+The user can either use the results from
+\code{fs.stability} or provide specified model parameters.
 }
 \author{
-  Charles Determan Jr.
+Charles Determan Jr.
 }
 \references{
-  Guo Y., et. al. (2010) \emph{Sample size and statistical
-  power considerations in high-dimensionality data
-  settings: a comparative study of classification
-  algorithms}. BMC Bioinformatics 11:447.
+Guo Y., et. al. (2010) \emph{Sample size and statistical
+power considerations in high-dimensionality data settings:
+a comparative study of classification algorithms}. BMC
+Bioinformatics 11:447.
 }
 

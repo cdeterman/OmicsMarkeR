@@ -24,30 +24,6 @@ Imports:
     permute (>= 0.7-0)
 License: GPL-2
 LazyData: true
-Collate:
-    'bagging.wrapper.v2.R'
-    'denovo.grid.R.R'
-    'extract.features.v2.R'
-    'fs.ensembl.stability.R'
-    'fs.stability.v2.R'
-    'misc.R'
-    'modelTuner.R'
-    'predicting.R'
-    'prediction.metrics.R'
-    'sequester.R'
-    'training.R'
-    'tune.instructions.R'
-    'verify.R'
-    'aggregation.R'
-    'stability.R'
-    'svm.functions.R'
-    'performance.R'
-    'params.R'
-    'data.generation.R'
-    'performance.metrics.R'
-    'optimize.R'
-    'perm.features.R'
-    'perm.class.R'
 Packaged: 2013-08-05 12:50:19 UTC; kuhna03
 NeedsCompilation: yes
 Repository: CRAN
