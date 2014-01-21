@@ -276,8 +276,6 @@ pairwise.stability <-
 #'  \code{"sorensen"} (Dice-Sorensen's Index), \code{"ochiai"} (Ochiai's Index),
 #'  \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"} (Kuncheva's Stability Measures),
 #'  \code{"spearman"} (Spearman Rank Correlation), and \code{"canberra"} (Canberra Distance)
-#' @param m Number of models fit
-#' @param k Number of resamples run
 #' @param nc Number of original features
 #' @return A list is returned containing:
 #'  \item{comparisons}{Matrix of pairwise comparisons}
@@ -288,11 +286,16 @@ pairwise.stability <-
 #' @export
 
 pairwise.model.stability <- 
-  function(features, stability.metric, m, k, nc)
+  function(features, stability.metric, nc)
   {
     # column x of list one ~= to column x of list two
     # nro = number of pairwise comparisons
-    nro = m*(m-1)/2
+    m <- length(features)
+    k <- unique(unlist(lapply(features, ncol)))
+    if(length(k) > 1){
+      stop("\n Error: The number of resamples must be equal")
+    }
+    nro <- m*(m-1)/2
     tmp <- matrix(0, nrow=nro, ncol=k)
     tmp.names <- names(features)
     

@@ -609,8 +609,6 @@ fs.stability <-
     if(length(method) > 1){
       stability.models <- pairwise.model.stability(features = results.stability,
                                                    stability.metric = stability.metric,
-                                                   m = length(method),
-                                                   k = k,
                                                    nc = nc)
     }else{
       stability.models <- NULL

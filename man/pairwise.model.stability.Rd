@@ -2,7 +2,7 @@
 \alias{pairwise.model.stability}
 \title{Pairwise Model Stability Metrics}
 \usage{
-pairwise.model.stability(features, stability.metric, m, k, nc)
+pairwise.model.stability(features, stability.metric, nc)
 }
 \arguments{
   \item{features}{A matrix of selected features}
@@ -15,10 +15,6 @@ pairwise.model.stability(features, stability.metric, m, k, nc)
   \code{"kuncheva"} (Kuncheva's Stability Measures),
   \code{"spearman"} (Spearman Rank Correlation), and
   \code{"canberra"} (Canberra Distance)}
-
-  \item{m}{Number of models fit}
-
-  \item{k}{Number of resamples run}
 
   \item{nc}{Number of original features}
 }
