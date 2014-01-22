@@ -85,7 +85,7 @@ jaccard <- function(x,y){
 #' @return Returns the Dice-Sorensen's Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap 
 #' between two sets and 1 meaning two sets are identical.
 #' @author Charles E. Determan Jr.
-#' @references Sorensen T. (1957) \emph{A method of establishing roups of equal amplitude
+#' @references Sorensen T. (1948) \emph{A method of establishing roups of equal amplitude
 #' in plant sociology based on similarity of species and its application to analyses of
 #' the vegetation on Danish commons}. 
 #' Kongelige Danske Videnskabernes Selskab. 5(4): 1-34.
