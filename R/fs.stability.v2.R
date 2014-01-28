@@ -167,7 +167,7 @@ fs.stability <-
       if(optimize == TRUE){
         if(optimize.resample == TRUE){
           # tune the methods
-          tuned.methods <- optimize(trainVars = trainVars,
+          tuned.methods <- optimize.model(trainVars = trainVars,
                                 trainGroup = trainGroup,
                                 method = method,
                                 k.folds = k.folds,
@@ -241,7 +241,7 @@ fs.stability <-
           
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
-              tunedModel.new[[m]] <- optimize(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
+              tunedModel.new[[m]] <- optimize.model(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
                                           trainGroup = trainData.new[[m]]$.classes,
                                           method = method[m],
                                           k.folds = k.folds,
@@ -275,7 +275,7 @@ fs.stability <-
           # end of optimize.resample loop
         }else{
           if(i == 1){
-            tuned.methods <- optimize(trainVars = trainVars,
+            tuned.methods <- optimize.model(trainVars = trainVars,
                                   trainGroup = trainGroup,
                                   method = method,
                                   k.folds = k.folds,
@@ -349,7 +349,7 @@ fs.stability <-
           if(i == 1){
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
-              tunedModel.new[[m]] <- optimize(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
+              tunedModel.new[[m]] <- optimize.model(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
                                           trainGroup = trainData.new[[m]]$.classes,
                                           method = method[m],
                                           k.folds = k.folds,
@@ -540,11 +540,10 @@ fs.stability <-
           end = end + 2
         }
         
+        x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
         for(h in seq(along = method)){
-          x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
-          
           tmp <- subset(x, rownames(x) == method[h])
-          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(x, 2, sd, na.rm = TRUE))
+          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(tmp, 2, sd, na.rm = TRUE))
           names(performance[[h]])[-(1:ncol(tmp))] <- paste(names(performance[[h]])[-(1:ncol(tmp))], "SD", sep = " ")
           performance[[h]] <- t(data.frame(performance[[h]]))
           rownames(performance[[h]]) <- 1
@@ -553,10 +552,10 @@ fs.stability <-
         colnames(final.metrics) <- gsub("^\\.", "", colnames(final.metrics))  
         performance <- vector("list", length(method))
         names(performance) <- method
+        x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
         for(h in seq(along = method)){
-          x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
           tmp <- subset(x, rownames(x) == method[h])
-          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(x, 2, sd, na.rm = TRUE))
+          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(tmp, 2, sd, na.rm = TRUE))
           names(performance[[h]])[-(1:ncol(tmp))] <- paste(names(performance[[h]])[-(1:ncol(tmp))], "SD", sep = " ")
           performance[[h]] <- do.call(cbind, c(as.vector(new.best.tunes[[h]]), performance[[h]]))
           colnames(performance[[h]]) <- gsub("^\\.", "", colnames(performance[[h]]))
@@ -570,7 +569,7 @@ fs.stability <-
       for(h in seq(along = method)){
         x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
         tmp <- subset(x, rownames(x) == method[h])
-        performance[[h]] <- c(colMeans(x, na.rm = TRUE), apply(x, 2, sd, na.rm = TRUE))
+        performance[[h]] <- c(colMeans(x, na.rm = TRUE), apply(tmp, 2, sd, na.rm = TRUE))
         names(performance[[h]])[-(1:ncol(tmp))] <- paste(names(performance[[h]])[-(1:ncol(tmp))], "SD", sep = " ")
         performance[[h]] <- do.call(cbind, c(as.vector(args.seq$parameters[[h]]), performance[[h]]))
         colnames(performance[[h]]) <- gsub("^\\.", "", colnames(performance[[h]]))
