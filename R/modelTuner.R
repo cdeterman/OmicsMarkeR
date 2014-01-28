@@ -103,12 +103,12 @@ modelTuner <- function(trainData,
           #caret::progress
           if(verbose) progress(printed[parms,,drop = FALSE],
                                names(inTrain), iter)
-          index <- inTrain[[iter]]
+          #index <- inTrain[[iter]]
           outIndex <- outTrain[[iter]]
           
           # create models
           mod <- try(
-            training(data = trainData[complete.cases(trainData[index,,drop = FALSE]),,drop = FALSE],
+            training(data = trainData[complete.cases(trainData[inTrain[[iter]],,drop = FALSE]),,drop = FALSE],
                      method = method[algo],
                      tuneValue = guide[[algo]]$loop[parms,,drop = FALSE],
                      obsLevels = lev,
@@ -123,7 +123,7 @@ modelTuner <- function(trainData,
               predicting(method = method[algo],
                          modelFit = mod$fit,
                          orig.data = trainData,
-                         indicies = index,
+                         indicies = inTrain[[iter]],
                          newdata = trainData[outIndex, !(names(trainData) %in% ".classes"), drop = FALSE],
                          param = guide[[algo]]$seqParam[[parms]]),
               silent = TRUE)
