@@ -27,7 +27,7 @@ training <-
     {
     
     data <- as.data.frame(data)
-
+    
     ## pam and will crash if there is a resample with <2 observations
     ## in a class. We will detect this and remove those classes.
     if(method == "pam")
@@ -44,7 +44,7 @@ training <-
     data$.classes <- factor(as.character(data$.classes), levels = obsLevels)
     xNames <- names(data)[!(names(data) %in% ".classes")]
     
-    trainX <- data[,!(names(data) %in% ".classes"), drop = FALSE]
+    trainX <- as.matrix(data[,!(names(data) %in% ".classes"), drop = FALSE])
     trainY <- data[,".classes"]
     
     if(method == "gbm" & length(obsLevels) == 2)  numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
@@ -109,7 +109,8 @@ training <-
                                            n.trees = tuneValue$.n.trees,
                                            shrinkage = tuneValue$.shrinkage, 
                                            distribution = gbmdist,
-                                           verbose = FALSE)
+                                           verbose = FALSE,
+                                           keep.data = FALSE)
                            
                            if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
                            
@@ -128,7 +129,8 @@ training <-
                                            y = trainY,
                                            importance = TRUE,
                                            mtry = tuneValue$.mtry,
-                                           ntree=round.multiple(sqrt(ncol(trainX)), target = 50)
+                                           ntree=round.multiple(sqrt(ncol(trainX)), target = 50),
+                                           keep.forest = FALSE
                            )
                            
                            if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
