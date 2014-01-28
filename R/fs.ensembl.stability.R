@@ -188,7 +188,7 @@ fs.ensembl.stability <-
         if(optimize.resample == TRUE){
           tunedModel.new <- vector("list", length(method))
           for(m in seq(along = method)){
-            tunedModel.new[[m]] <- optimize(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
+            tunedModel.new[[m]] <- optimize.model(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
                                         trainGroup = trainData.new[[m]]$.classes,
                                         method = method[m],
                                         k.folds = k.folds,
@@ -218,7 +218,7 @@ fs.ensembl.stability <-
           if(i == 1){
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
-              tunedModel.new[[m]] <- optimize(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
+              tunedModel.new[[m]] <- optimize.model(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
                                           trainGroup = trainData.new[[m]]$.classes,
                                           method = method[m],
                                           k.folds = k.folds,
