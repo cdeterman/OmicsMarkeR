@@ -39,7 +39,7 @@
 #' @import glmnet
 # ' @export
 
-optimize <- function(
+optimize.model <- function(
   trainVars,
   trainGroup,
   method,
