@@ -26,7 +26,7 @@ harmonic mean of the ratio.
 Charles E. Determan Jr.
 }
 \references{
-Sorensen T. (1957) \emph{A method of establishing roups of
+Sorensen T. (1948) \emph{A method of establishing roups of
 equal amplitude in plant sociology based on similarity of
 species and its application to analyses of the vegetation
 on Danish commons}. Kongelige Danske Videnskabernes
