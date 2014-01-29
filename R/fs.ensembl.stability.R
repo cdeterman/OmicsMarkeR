@@ -104,6 +104,8 @@ fs.ensembl.stability <-
            ...
            )
     {
+    theDots <- list(...)
+    
     verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
     #verify_data <- my_verify(variables, groups, na.rm = FALSE)
     
@@ -128,7 +130,7 @@ fs.ensembl.stability <-
     grp.levs <- levels(Y)  
     # how many obs in each group
     num.obs.group <- as.vector(table(Y))
-    theDots <- list(...)
+    
     
     # Create empty list for features identified by each chosen algorithm
     features <- vector("list", k)
@@ -145,7 +147,7 @@ fs.ensembl.stability <-
     #inTrain <- rlply(k, sample(nr, round(p*nr)))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))    
-    
+    #i <- 1
     ### Stability Loop
     for (i in 1:k){      
       trainX <- X[inTrain[[i]],, drop=F]

@@ -129,8 +129,7 @@ training <-
                                            y = trainY,
                                            importance = TRUE,
                                            mtry = tuneValue$.mtry,
-                                           ntree=round.multiple(sqrt(ncol(trainX)), target = 50),
-                                           keep.forest = FALSE
+                                           ntree=round.multiple(sqrt(ncol(trainX)), target = 50)
                            )
                            
                            if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
