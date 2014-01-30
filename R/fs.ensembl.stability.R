@@ -336,7 +336,7 @@ fs.ensembl.stability <-
         for(h in seq(along = method)){
           x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
           tmp <- subset(x, rownames(x) == method[h])
-          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(x, 2, sd, na.rm = TRUE))
+          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(tmp, 2, sd, na.rm = TRUE))
           names(performance[[h]])[-(1:ncol(tmp))] <- paste(names(performance[[h]])[-(1:ncol(tmp))], "SD", sep = " ")
           performance[[h]] <- t(data.frame(performance[[h]]))
           rownames(performance[[h]]) <- 1
@@ -349,7 +349,7 @@ fs.ensembl.stability <-
           x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
           #x <- x[, !colnames(x) %in% rownames(final.metrics), drop = FALSE]
           tmp <- subset(x, rownames(x) == method[h])
-          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(x, 2, sd, na.rm = TRUE))
+          performance[[h]] <- c(colMeans(tmp, na.rm = TRUE), apply(tmp, 2, sd, na.rm = TRUE))
           names(performance[[h]])[-(1:ncol(tmp))] <- paste(names(performance[[h]])[-(1:ncol(tmp))], "SD", sep = " ")
           #performance[[h]] <- do.call(cbind, c(as.vector(tuned.methods$bestTune[[h]]), performance[[h]]))
           performance[[h]] <- do.call(cbind, c(as.vector(new.best.tunes[[h]]), performance[[h]]))
@@ -365,7 +365,7 @@ fs.ensembl.stability <-
         x <- final.metrics[,!grepl("^cell", colnames(final.metrics)),drop = FALSE]
         #x <- x[, !colnames(x) %in% rownames(final.metrics), drop = FALSE]
         tmp <- subset(x, rownames(x) == method[h])
-        performance[[h]] <- c(colMeans(x, na.rm = TRUE), apply(x, 2, sd, na.rm = TRUE))
+        performance[[h]] <- c(colMeans(x, na.rm = TRUE), apply(tmp, 2, sd, na.rm = TRUE))
         names(performance[[h]])[-(1:ncol(tmp))] <- paste(names(performance[[h]])[-(1:ncol(tmp))], "SD", sep = " ")
         performance[[h]] <- do.call(cbind, c(as.vector(args.seq$parameters[[h]]), performance[[h]]))
         colnames(performance[[h]]) <- gsub("^\\.", "", colnames(performance[[h]]))
