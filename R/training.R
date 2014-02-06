@@ -15,7 +15,7 @@
 #' @author Charles Determan Jr
 #' @import DiscriMiner
 #' @import randomForest
-#' @import caret
+# ' @import caret
 #' @import e1071
 #' @import gbm
 #' @import pamr
@@ -62,12 +62,13 @@ training <-
                              tuneValue$.ncomp = 2
                            }
                            
-                           plsDA(trainX, 
-                                 trainY,
-                                 autosel=F,
-                                 validation = NULL,
-                                 comps = tuneValue$.ncomp,
-                                 cv ="none")
+                           out <- plsDA(trainX, 
+                                        trainY,
+                                        autosel=F,
+                                        validation = NULL,
+                                        comps = tuneValue$.ncomp,
+                                        cv ="none")
+                           out
                          },
                        
                        gbm =  
