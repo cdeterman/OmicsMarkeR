@@ -116,11 +116,16 @@ optimize.model <- function(
                     allowParallel = allowParallel,
                     theDots = theDots)
 
-  performance <- vector("list", length(method))
-  tune.results <- vector("list", length(method))
-  for(i in seq(along = method)){
-    performance[[i]] <- tmp[[i]]$performance
-    tune.results[[i]] <- tmp[[i]]$tunes
+  if(all(names(tmp) == c("performance","tunes"))){
+    performance <- list(tmp$performance)
+    tune.results <- list(tmp$tunes)
+  }else{
+    performance <- vector("list", length(method))
+    tune.results <- vector("list", length(method))
+    for(i in seq(along = method)){
+      performance[[i]] <- tmp[[i]]$performance
+      tune.results[[i]] <- tmp[[i]]$tunes
+    }
   }
   
   tune.cm <- vector("list", length(method))
@@ -264,8 +269,7 @@ optimize.model <- function(
   finalModel <- lapply(finalModel, function(x) x = x$fit)
   names(finalModel) <- method
   
-  ## To use predict.train and automatically use the optimal lambda,
-  ## we need to save it
+  ## To use predict.train and automatically use the optimal lambda we need to save it
   if(any(method %in% "glmnet")){
     m <- which(method == "glmnet")
     finalModel[[m]]$lambdaOpt <- bestTune[[m]]$.lambda
@@ -276,28 +280,18 @@ optimize.model <- function(
   
   out <-list(
     methods = method,
-    #modelType = modelType,
     performance = performance,
-    #pred = tmp$predictions,
     bestTune = bestTune,
-    #dots = list(...),
     dots = theDots,
     metric = metric,
     finalModels = finalModel,
-    #trainingData = outData,
-    #resample = perfMetrics,
     performance.metrics = perfMetrics,
     tune.metrics = tune.cm,
     perfNames = perfNames,
-    #yLimits = if(is.numeric(trainGroup)) range(trainGroup) else NULL,
     comp.catch = plsda.comp.catch
-    #times = times - if want time took for tuning
   )
   
   out  
 }
 
-#expand.grid(interaction.depth = seq(1, 3),
-#            n.tress = floor((1:3) * 50),
-#            shrinkage = c(.1, .01, .001))
 
