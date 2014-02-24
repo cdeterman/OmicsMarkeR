@@ -65,6 +65,11 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                              gbmProb <- predict(modelFit, newdata, type = "response",
                                                 n.trees = modelFit$tuneValue$.n.trees)
                              gbmProb[is.nan(gbmProb)] <- NA
+                             
+                             # need a check if all NA
+                             # if so, n.trees are way too high
+                             
+                             
                              if(modelFit$distribution$name != "multinomial")
                              {
                                out <- ifelse(gbmProb >= .5, modelFit$obsLevels[1], modelFit$obsLevels[2])
