@@ -41,7 +41,8 @@ denovo.grid <- function(data,       # training data of method being tuned
                   # modified .shrinkage from just '.1' to sequence of values
                   gbm = expand.grid(
                     .interaction.depth = seq(1, res),
-                    .n.trees = floor((1:res) * 10000),
+                    #.n.trees = floor((1:res) * 10000),
+                    .n.trees = c(500, 1000, 2000, 5000, 10000),
                     .shrinkage = c(.1/seq(res))),
                   
                   rf = rfTune(data, res),
