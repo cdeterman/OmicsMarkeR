@@ -349,13 +349,24 @@ fs.stability <-
           if(i == 1){
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
+              
+              if(is.null(tuning.grid)){
+                grid <- denovo.grid(data = trainData, method = method[m], res = resolution)
+              }
+              # if generated grid and running gbm, reduce n.trees for gbm
+              # the large number of trees cause NaN for most values
+              if(method[m] == "gbm" & is.null(tuning.grid)){
+                gbm.trees <- grid$gbm$.n.trees
+                grid$gbm$.n.trees <- gbm.trees/10
+              }
+              grid
               tunedModel.new[[m]] <- optimize.model(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
                                           trainGroup = trainData.new[[m]]$.classes,
                                           method = method[m],
                                           k.folds = k.folds,
                                           repeats = repeats,
                                           res = resolution,
-                                          grid = tuning.grid,
+                                          grid = grid,
                                           metric = metric,
                                           savePerformanceMetrics = FALSE,
                                           allowParallel = allowParallel,
