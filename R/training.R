@@ -26,7 +26,7 @@ training <-
   function(data, method, tuneValue, obsLevels, theDots = NULL)
     {
     
-    data <- as.data.frame(data)
+    if(!is.data.frame(data)) data <- as.data.frame(data)
     
     ## pam and will crash if there is a resample with <2 observations
     ## in a class. We will detect this and remove those classes.
@@ -76,8 +76,21 @@ training <-
                            #library(gbm)
                            # need to make sure only extract arguments that pertain to gbm
                            gbm.args <- c("w", "var.monotone", "n.minobsinnode", 
-                                         "bag.fraction", "var.names", "response.name", "group") 
+                                         "bag.fraction", "var.names", "response.name", "group",
+                                         "n.trees","interaction.depth", "shrinkage") 
                            theDots <- theDots[names(theDots) %in% gbm.args]
+                           
+                           if("n.trees" %in% names(theDots)){
+                             tuneValue$.n.trees <- theDots$n.trees
+                           }
+                           if("interaciton.depth" %in% names(theDots)){
+                             tuneValue$.interaction.depth <- theDots$interaction.depth
+                           }
+                           if("shrinkage" %in% names(theDots)){
+                             tuneValue$.shrinkage <- theDots$shrinkage
+                           }
+                           
+                           #print(tuneValue$.n.trees)
                            
                            if(ncol(trainX) < 50 | nrow(trainX) < 50){
                              if(is.null(theDots) | length(theDots) == 0){
@@ -113,7 +126,11 @@ training <-
                                            verbose = FALSE,
                                            keep.data = FALSE)
                            
-                           if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
+                           
+                           if(length(theDots) > 0){
+                             theDots <- theDots[!names(theDots) %in% c("n.trees", "interaction.depth", "shrinkage")]
+                             modArgs <- c(modArgs, theDots)
+                           } 
                            
                            do.call("gbm.fit", modArgs)
                            
