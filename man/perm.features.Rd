@@ -32,6 +32,9 @@ perm.features(fs.model = NULL, X, Y, method, sig.level = 0.05, nperm = 10,
   \item{allowParallel}{Logical argument dictating if
   parallel processing is allowed via foreach package.
   Default \code{allowParallel = FALSE}}
+
+  \item{...}{Extra arguments that the user would like to
+  apply to the models}
 }
 \value{
 \item{sig.level}{User-specified significance level}

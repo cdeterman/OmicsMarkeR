@@ -20,7 +20,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-# ' @export
+#' @export
 
 training <-
   function(data, method, tuneValue, obsLevels, theDots = NULL)
@@ -62,12 +62,12 @@ training <-
                              tuneValue$.ncomp = 2
                            }
                            
-                           out <- plsDA(trainX, 
-                                        trainY,
-                                        autosel=F,
-                                        validation = NULL,
-                                        comps = tuneValue$.ncomp,
-                                        cv ="none")
+                           out <- DiscriMiner::plsDA(trainX, 
+                                                     trainY,
+                                                     autosel=F,
+                                                     validation = NULL,
+                                                     comps = tuneValue$.ncomp,
+                                                     cv ="none")
                            out
                          },
                        
@@ -230,6 +230,5 @@ training <-
     modelFit$xNames <- xNames
     modelFit$tuneValue <- tuneValue
     modelFit$obsLevels <- obsLevels
-    
     list(fit = modelFit)
 }

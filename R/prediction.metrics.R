@@ -13,7 +13,7 @@
 #' @return Returns a dataframe consisting of each feature selection runs evaluated Accuracy, Kappa, 
 #' ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value.
 #' @seealso \code{\link{performance.stats}}, \code{\link{perf.calc}} caret function \code{\link{confusionMatrix}}
-#' @import caret
+# ' @import caret
 # ' @export
 
 prediction.metrics <- 
@@ -50,9 +50,16 @@ prediction.metrics <-
     finalModel <- finalModel[match(method.names, names(finalModel))]    
     
     # check features
-    features <- unlist(features, recursive = F)
-    names(features) <- rep(method, length(finalModel)/length(method))
-    features <- features[match(method.names, names(features))]   
+    if(is.null(features)){
+      features <- vector("list", length(finalModel))
+      for(f in seq(length(finalModel))){
+        features[[f]] <- colnames(raw.data.vars)
+      }
+    }else{
+      features <- unlist(features, recursive = F)
+      names(features) <- rep(method, length(finalModel)/length(method))
+      features <- features[match(method.names, names(features))]  
+    }
     
     predicted <- vector("list", length(finalModel))
     names(predicted) <- names(finalModel)
@@ -68,15 +75,8 @@ prediction.metrics <-
                             }
                           }
                           raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]},
-                        #test    
-                        #test2 <- test
-                        #names(test2) <- test
-                        glmnet= {
-                          #class(c(features[[e]]))
-                          #c(test)
-                          #c(test2)
-                          #unlist(lapply(test2, as.character), use.names = FALSE)
-                          
+                        
+                        glmnet= {                          
                           if(class(c(features[[e]])) == "list" | is.null(names(features[[e]]))){
                             features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
                             raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]
@@ -84,14 +84,6 @@ prediction.metrics <-
                             features[[e]] <- rownames(as.data.frame(features[[e]]))
                             raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]
                           }
-                          
-                          #if(!is.null(names(features[[e]]))){
-                          #  features[[e]] <- rownames(as.data.frame(features[[e]]))
-                          #  raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features[[e]]), drop = FALSE]
-                          #}else{
-                          #  features.ch <- unlist(lapply(features[[e]], as.character), use.names = FALSE)
-                          #  raw.data.vars[outTrain.list[[e]],(names(raw.data.vars) %in% features.ch), drop = FALSE]
-                          #}
                           },
                         
                         pam = {
@@ -128,7 +120,7 @@ prediction.metrics <-
                            y = method.vector, SIMPLIFY = FALSE)                 
     
     cells <- lapply(predicted,
-                    function(x) caret:::flatTable(x$pred, x$obs))
+                    function(x) flatTable(x$pred, x$obs))
     for(ind in seq(along = cells)){
       perf.metrics[[ind]] <- c(perf.metrics[[ind]], cells[[ind]])
     } 

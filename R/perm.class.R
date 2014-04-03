@@ -42,6 +42,7 @@ extract.args <- function(fs.model, method)
 #' @param nperm Number of permutations, default \code{nperm = 10}
 #' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package.
 #' Default \code{allowParallel = FALSE}
+#' @param ... Extra arguments that the user would like to apply to the models
 #' @return \item{p.value}{Resulting p-value of permuation test}
 #' @author Charles Determan Jr.
 #' @references Guo Y., et. al. (2010) \emph{Sample size and statistical power considerations in
@@ -52,7 +53,7 @@ extract.args <- function(fs.model, method)
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @import caret
+#' @importFrom caret createMultiFolds
 #' @importFrom permute shuffle
 #' @export
 

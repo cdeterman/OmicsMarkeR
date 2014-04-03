@@ -36,6 +36,9 @@ perm.class(fs.model = NULL, X, Y, method, k.folds = 5,
   \item{allowParallel}{Logical argument dictating if
   parallel processing is allowed via foreach package.
   Default \code{allowParallel = FALSE}}
+
+  \item{...}{Extra arguments that the user would like to
+  apply to the models}
 }
 \value{
 \item{p.value}{Resulting p-value of permuation test}

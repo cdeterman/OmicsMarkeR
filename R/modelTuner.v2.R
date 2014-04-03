@@ -16,14 +16,14 @@
 #' @import DiscriMiner
 #' @import randomForest
 #' @import plyr
-#' @import caret
+#' @importFrom caret progress
 #' @import e1071
 #' @import gbm
 #' @import pamr
 #' @import glmnet
 #' @import foreach
 #' @import caTools
-# ' @export
+#' @export
 #' @author Charles E. Determan Jr.
 
 modelTuner <- function(trainData,
@@ -44,7 +44,7 @@ modelTuner <- function(trainData,
   #cl <- makeCluster(1)
   #registerDoSNOW(cl)
   #stopCluster(cl)
-  
+  #allowParallel = F
   `%op%` <- if(allowParallel){
     `%dopar%` 
   }else{
@@ -60,34 +60,37 @@ modelTuner <- function(trainData,
   #result <- foreach(iter = seq(along = inTrain), 
   #                 .combine = "c", 
   #                .verbose = FALSE, 
-  #               .packages = c("methods", "caret"), 
+  #               .packages = c("bar", "foo"), 
   #              .errorhandling = "stop") %:%
   #foreach(parms = 1:nrow(guide[[i]]$loop), # how many combinations of parameters to try in these loops
   #       .combine = "c", 
   #      .verbose = FALSE, 
-  #     .packages = c("methods", "caret"), 
+  #     .packages = c("bar", "foo"), 
   #    .errorhandling = "stop")  %op%
   
   #algo <- 1
   #iter <- 1
   #parms <- 1
   
+  # Windows OS seems tempermental with foreach and requires several functions to be exported
+  # within the loops
+  # This is a moot point to my knowledge on Linux
   tmp.list <- foreach(algo = seq(along = method),
                       .verbose = F, 
-                      .packages = c("OmicsMarkeR","foreach","caret","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
-                      .export = c("progress", "training", "round.multiple", "predicting"),
+                      .packages = c("OmicsMarkeR","foreach","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
+                      .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable"),
                       .errorhandling = "stop") %:%
     foreach(iter = seq(along = inTrain), 
             .combine = "c", 
             .verbose = F, 
-            .packages = c("OmicsMarkeR","foreach","caret","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
-            .export = c("progress", "training", "round.multiple", "predicting"),
+            .packages = c("OmicsMarkeR","foreach","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
+            .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable"),
             .errorhandling = "stop") %:%
     foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
             .combine = "c", 
             .verbose = F, 
-            .packages = c("OmicsMarkeR","foreach","caret","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
-            .export = c("progress", "training", "round.multiple", "predicting"),
+            .packages = c("OmicsMarkeR","foreach","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
+            .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable"),
             .errorhandling = "stop") %op%
 {        
   ## Removes '.' from start of each parameter
@@ -96,8 +99,7 @@ modelTuner <- function(trainData,
   colnames(printed) <- gsub("^\\.", "", colnames(printed))
   
   # show progress through interations
-  #caret::progress
-  if(verbose) progress(printed[parms,,drop = FALSE],
+  if(verbose) caret::progress(printed[parms,,drop = FALSE],
                        names(inTrain), iter)
   #index <- inTrain[[iter]]
   outIndex <- outTrain[[iter]]
@@ -141,8 +143,7 @@ modelTuner <- function(trainData,
   if(!is.null(guide[[algo]]$seq))
   {
     ## merge the fixed and seq parameter values together
-    #caret::expandParameters
-    allParam <- caret:::expandParameters(guide[[algo]]$loop[parms,,drop = FALSE], guide[[algo]]$seqParam[[parms]])
+    allParam <- expandParameters(guide[[algo]]$loop[parms,,drop = FALSE], guide[[algo]]$seqParam[[parms]])
     
     ## For glmnet, we fit all the lambdas but x$fixed has an NA
     if(method[algo] == "glmnet") allParam <- allParam[complete.cases(allParam),, drop = FALSE]
@@ -168,9 +169,8 @@ modelTuner <- function(trainData,
     #library(plyr)
     if(length(lev) > 1)
     {
-      #caret::flatTable
       cells <- lapply(predicted,
-                      function(x) caret:::flatTable(x$pred, x$obs))
+                      function(x) flatTable(x$pred, x$obs))
       for(ind in seq(along = cells)){
         perf.metrics[[ind]] <- c(perf.metrics[[ind]], cells[[ind]])
       } 
@@ -207,7 +207,7 @@ modelTuner <- function(trainData,
                               model = method[algo])
     
     ## Generate the confusion matrix
-    perf.metrics <- c(perf.metrics, caret:::flatTable(tmp$pred, tmp$obs))
+    perf.metrics <- c(perf.metrics, flatTable(tmp$pred, tmp$obs))
     perf.metrics <- as.data.frame(t(perf.metrics))
     perf.metrics <- cbind(perf.metrics, guide[[algo]]$loop[parms,,drop = FALSE])
     
@@ -215,9 +215,8 @@ modelTuner <- function(trainData,
   #perf.metrics$Resamples <- names(inTrain)[iter]
   perf.metrics$sampleIndex <- names(inTrain)[iter]
   
-  # was verboseIter
-  #caret::progress
-  if(verbose) progress(printed[parms,,drop = FALSE],
+  # Print progress
+  if(verbose) caret::progress(printed[parms,,drop = FALSE],
                        names(inTrain), iter, FALSE)
   list(tunes=perf.metrics)
 }
@@ -246,7 +245,7 @@ modelTuner <- function(trainData,
     ## caret:::MeanSD
     metrics <-mapply(tunes, FUN = function(x,y) ddply(x[,!grepl("^cell|sampleIndex", colnames(x)),drop = FALSE],
                                                       y$model$parameter,
-                                                      caret:::MeanSD, exclude = y$model$parameter), y = guide, SIMPLIFY = F)
+                                                      MeanSD, exclude = y$model$parameter), y = guide, SIMPLIFY = F)
     
     
     
@@ -275,7 +274,7 @@ modelTuner <- function(trainData,
     ## caret:::MeanSD
     metrics <- ddply(tunes[,!grepl("^cell|sampleIndex", colnames(tunes)),drop = FALSE],
                      guide[[1]]$model$parameter,
-                     caret:::MeanSD, exclude = guide[[1]]$model$parameter)
+                     MeanSD, exclude = guide[[1]]$model$parameter)
     
     print(paste(method, "complete"))
     

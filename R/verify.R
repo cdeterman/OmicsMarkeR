@@ -1,6 +1,6 @@
 
 
-verify <- function(x, y, method, f, stability.metric, model.features, na.rm = na.rm){  
+verify <- function(x, y, method, f, stability.metric, model.features, na.rm = na.rm, no.fs){  
   
   # set method to lowercase to avoid user frustration
   method <- tolower(method)
@@ -8,29 +8,33 @@ verify <- function(x, y, method, f, stability.metric, model.features, na.rm = na
   if(!all(method %in% c("plsda","glmnet","gbm", "pam", "rf", "svm")))
     simpleError("Selected method is not plsda, glmnet, gbm, pam, rf or svm!")
   
-  # kuncheva is a special case stability metric
-  if(stability.metric == "kuncheva"){
-    if(is.null(f)){
-      stop("\n Error: Kuncheva requires same number of features in subsets.\nYou must specifiy number of features to be selected")    
+  # added no.fs (i.e. no feature selection to reuse in fit.only.model function)
+  if(!no.fs){
+    # kuncheva is a special case stability metric
+    if(stability.metric == "kuncheva"){
+      if(is.null(f)){
+        stop("\n Error: Kuncheva requires same number of features in subsets.\nYou must specifiy number of features to be selected")    
+      }
+      if(!model.features){
+        stop("\n Error: Kuncheva requires same number of features in subsets. \nYou must specifiy number of features to be selected")
+      }
     }
-    if(!model.features){
-      stop("\n Error: Kuncheva requires same number of features in subsets. \nYou must specifiy number of features to be selected")
+    
+    # full rank corrleation doesn't allow for feature subsets
+    if(model.features & !is.null(f)){
+      stop("If running model defined number of features you can not specifiy the number of features.  \n")
     }
+    # f cannot be set if doing rank corrleation metric
+    if(stability.metric %in% c("spearman", "canberra")){
+      warning("Rank Correlation doesn't allow for feature subsets.\n'f' has been set to NULL")
+      f <- NULL
+    } 
+    # make sure 'f' is set when using a feature subset metric
+    if(stability.metric %in% c("jaccard","sorenson","ochiai","pof","kuncheva") & is.null(f) & !model.features){
+      stop(paste("Stability metric", " '", stability.metric, "' ", "requires 'f' to be set.\n", sep = ""))
+    }  
   }
   
-  # full rank corrleation doesn't allow for feature subsets
-  if(model.features & !is.null(f)){
-    stop("If running model defined number of features you can not specifiy the number of features.  \n")
-  }
-  # f cannot be set if doing rank corrleation metric
-  if(stability.metric %in% c("spearman", "canberra")){
-    warning("Rank Correlation doesn't allow for feature subsets.\n'f' has been set to NULL")
-    f <- NULL
-  } 
-  # make sure 'f' is set when using a feature subset metric
-  if(stability.metric %in% c("jaccard","sorenson","ochiai","pof","kuncheva") & is.null(f) & !model.features){
-    stop(paste("Stability metric", " '", stability.metric, "' ", "requires 'f' to be set.\n", sep = ""))
-  }  
   # x matrix or data.frame
   if (is.null(dim(x))) {
     stop("\n Error: 'variables' is not a matrix or dataframe")

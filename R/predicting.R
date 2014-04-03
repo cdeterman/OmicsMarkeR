@@ -10,12 +10,12 @@
 #' @return Returns a list of predicted group membership
 #' @import DiscriMiner
 #' @import randomForest
-#' @import caret
+# ' @import caret
 #' @import e1071
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-# ' @export
+#' @export
 
 
 predicting <- function(method, modelFit, orig.data, indicies, newdata, param = NULL)

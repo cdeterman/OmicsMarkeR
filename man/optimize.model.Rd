@@ -3,9 +3,8 @@
 \title{Model Optimization and Metrics}
 \usage{
 optimize.model(trainVars, trainGroup, method, k.folds = 10, repeats = 3,
-  res = 3, grid = NULL, metric = "Accuracy",
-  savePerformanceMetrics = NULL, allowParallel = FALSE, verbose = FALSE,
-  theDots = NULL)
+  res = 3, grid = NULL, metric = "Accuracy", allowParallel = FALSE,
+  verbose = FALSE, theDots = NULL)
 }
 \arguments{
   \item{trainVars}{Data used to fit the model}
@@ -34,10 +33,6 @@ optimize.model(trainVars, trainGroup, method, k.folds = 10, repeats = 3,
   options are \code{"Accuracy"} (Predication Accuracy),
   \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"}
   (Area Under the Curve - Receiver Operator Curve)}
-
-  \item{savePerformanceMetrics}{Logical argument dictating
-  if should save the prediction data.  Default
-  \code{savePerformanceMetrics = FALSE}}
 
   \item{allowParallel}{Logical argument dictating if
   parallel processing is allowed via foreach package}

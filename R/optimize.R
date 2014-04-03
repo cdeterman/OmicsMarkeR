@@ -12,7 +12,7 @@
 #' Default \code{"grid = NULL"} lets function create grid determined by \code{"res"}
 #' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
 #' \code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)
-#' @param savePerformanceMetrics Logical argument dictating if should save the prediction data.  Default \code{savePerformanceMetrics = FALSE}
+# ' @param savePerformanceMetrics Logical argument dictating if should save the prediction data.  Default \code{savePerformanceMetrics = FALSE}
 #' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package
 #' @param verbose Logical argument if should output progress
 #' @param theDots List of additional arguments provided in the initial classification and features selection function
@@ -32,12 +32,12 @@
 #' @author Charles E. Determan Jr.
 #' @import DiscriMiner
 #' @import randomForest
-#' @import caret
+#' @importFrom caret createMultiFolds best
 #' @import e1071
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-# ' @export
+#' @export
 
 optimize.model <- function(
   trainVars,
@@ -48,7 +48,7 @@ optimize.model <- function(
   res = 3, 
   grid = NULL,
   metric = "Accuracy",
-  savePerformanceMetrics = NULL,
+  #savePerformanceMetrics = NULL,
   allowParallel = FALSE,
   verbose = FALSE,
   theDots = NULL)
@@ -59,9 +59,9 @@ optimize.model <- function(
   # for repeated cross-validation
   # creates a list of samples used for models
   
-  # because this was a beast to find
+  # because this was a beast of an error initially to find
   set.seed(666)
-  inTrain <- createMultiFolds(trainGroup, k = k.folds, times = repeats)
+  inTrain <- caret::createMultiFolds(trainGroup, k = k.folds, times = repeats)
   # get the remaining samples for testing group
   outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                      total = seq(nr))  
@@ -161,24 +161,13 @@ optimize.model <- function(
     performance[[i]] <- byComplexity2(performance[[i]], method[i])
   }
   
-  #if(any(is.na(performance[, metric])))
-  #{
-  #  warning("missing values found in aggregated results")
-  #  print(performance)
-  #}
-  
   cat("Selecting tuning parameters\n")
   flush.console()
-    
-  ## select the optimal set
-  #selectClass <- class(trControl$selectionFunction)[1]
   
   ## Select the "optimal" tuning parameter.
-  # bestIter <- best(x = performance, metric = metric, maximize = maximize)
-  #bestIter <- mapply("best", performance, metric)
   bestIter <- vector("list", length(performance))
   for(i in seq(along=performance)){
-    bestIter[[i]] <- caret:::best(performance[[i]], metric, maximize=TRUE)
+    bestIter[[i]] <- caret::best(performance[[i]], metric, maximize=TRUE)
   }
   
   # make sure a model was chosen for each method and that it is only one option
@@ -192,29 +181,7 @@ optimize.model <- function(
     bestTune[[i]] <- performance[[i]][bestIter[[i]], as.character(unlist(tune.parameters[[i]])), drop = FALSE]
   }
   
-  ## Save some or all of the resampling summary metrics
-  # byResample <- 
-  perfMetrics <- 
-    if(!is.null(savePerformanceMetrics)){
-      if(savePerformanceMetrics == "all"){
-        # save all model metrics
-        out <- tune.results
-        colnames(out) <- gsub("^\\.", "", colnames(out))
-        out
-      }else{
-        # just save the best model metrics
-        out <- merge(bestTune, tune.results)
-        out <- out[,!(names(out) %in% names(grid))]
-        out
-      }
-    }else{
-      out <- NULL
-      out
-    }
-  
   ## Rename parameters to have '.' at the start of each
-  #names(bestTune) <- paste(".", names(bestTune), sep = "")   
-  #names(bestTune[[2]]) <- paste(".", names(bestTune[[2]]), sep="")
   newnames <- lapply(bestTune, FUN = function(x) names(x) = paste(".", names(x), sep=""))
   for(i in seq(along = newnames)){
     names(bestTune[[i]]) <- newnames[[i]]
@@ -285,7 +252,7 @@ optimize.model <- function(
     dots = theDots,
     metric = metric,
     finalModels = finalModel,
-    performance.metrics = perfMetrics,
+    #performance.metrics = perfMetrics,
     tune.metrics = tune.cm,
     perfNames = perfNames,
     comp.catch = plsda.comp.catch

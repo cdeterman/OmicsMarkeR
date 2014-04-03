@@ -1,29 +1,5 @@
 ### Monte Carlo Permutation Testing for Feature Significance
 
-## Function to extract arguments from previously fit model
-#' @title Argument extractor
-#' @description Extract arguments from previously fs.stability models
-#' @param fs.model Previously fit fs.stability model
-#' @param method Which model to extract from
-#' @return args List of model arguments
-
-extract.args <- function(fs.model, method)
-{
-  ind <- which(names(fs.model$performance) == method)
-  metrics <- data.frame(fs.model$performance[[ind]])
-  
-  args <- switch(method,
-                 plsda = {out <- list(ncomp = metrics$ncomp)},
-                 gbm = {out <- c(metrics[,colnames(metrics) %in% c("interaction.depth", "n.trees", "shrinkage")])},
-                 rf = {out <- list(mtry = metrics$mtry)},
-                 svm = {out <- list(C = metrics$C)},
-                 pam = {out <- list(threshold = metrics$threshold)},
-                 glmnet = {out <- c(metrics[colnames(metrics) %in% c("alpha", "lambda")])}
-  )
-  return(args)
-}
-
-
 
 #' @title Feature Selection via Monte Carlo Permutation
 #' @description Applies Monte Carlo permutations to user specified models.  The user can either use the results
@@ -40,6 +16,7 @@ extract.args <- function(fs.model, method)
 #' @param nperm Number of permutations, default \code{nperm = 10}
 #' @param allowParallel Logical argument dictating if parallel processing is allowed via foreach package.
 #' Default \code{allowParallel = FALSE}
+#' @param ... Extra arguments that the user would like to apply to the models
 #' @return \item{sig.level}{User-specified significance level}
 #' @return \item{num.sig.features}{Number of significant features}
 #' @return \item{sig.features}{Dataframe of significant features}

@@ -43,7 +43,6 @@
 #' @import DiscriMiner
 #' @import randomForest
 #' @import plyr
-#' @import caret
 #' @import e1071
 #' @import gbm
 #' @import pamr
@@ -119,7 +118,6 @@ bagging.wrapper <- function(X,
                               res = res,
                               grid = tuning.grid,
                               metric = metric,
-                              savePerformanceMetrics = NULL,
                               allowParallel = allowParallel,
                               verbose = verbose,
                               theDots = theDots)
@@ -144,7 +142,6 @@ bagging.wrapper <- function(X,
                                     res = res,
                                     grid = tuning.grid,
                                     metric = metric,
-                                    savePerformanceMetrics = NULL,
                                     allowParallel = allowParallel,
                                     verbose = verbose,
                                     theDots = theDots)

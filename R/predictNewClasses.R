@@ -4,13 +4,12 @@
 #' @param method String of the model to be evaluated
 #' @param modelFit The fitted model being evaluated
 #' @param orig.data The orginal data before subsetting training sets.  Required to have the 'observed' group membership
-#' @param indicies The indicies for the training subsets
 #' @param newdata The testing data to predict group membership
 #' @param parms Optional alternate parameters being fit to the model
 #' @return Returns a list of predicted group membership
 #' @import DiscriMiner
 #' @import randomForest
-#' @import caret
+# ' @import caret
 #' @import e1071
 #' @import gbm
 #' @import pamr

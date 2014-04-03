@@ -69,12 +69,11 @@
 #' @import DiscriMiner
 #' @import randomForest
 #' @import plyr
-#' @import caret
+#' @importFrom caret createDataPartition
 #' @import e1071
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-# ' @import tcltk
 #' @export
 
 fs.stability <- 
@@ -105,7 +104,8 @@ fs.stability <-
     #bhattacharyya.dist
     ## Relative Entropy
     
-    verify_data <- verify(x = X, y = Y, method = method, f = f, stability.metric = stability.metric, model.features = model.features, na.rm = FALSE)
+    verify_data <- verify(x = X, y = Y, method = method, f = f, 
+                          stability.metric = stability.metric, model.features = model.features, na.rm = FALSE, no.fs=FALSE)
     
     X <- verify_data$X
     Y <- verify_data$Y
@@ -141,21 +141,10 @@ fs.stability <-
     }
     
     inTrain <- rlply(k, createDataPartition(Y, p = p, list = FALSE))
-    #inTrain <- rlply(k, sample(nr, round(p*nr)))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))
-    #i <- 1
-    #method <- c("plsda")
-    # loop through k bootstraps for stability metrics
-    #require(tcltk)
-    #pb <- tkProgressBar(title = "progress bar", min = 0,
-    #                    max = k, width = 300)
     
-    for(i in seq(k)){
-      
-      #setTkProgressBar(pb, i, label=paste( round(i/k*100, 0),
-      #                                     "% done"))
-      
+    for(i in seq(k)){      
       trainVars <- X[inTrain[[i]],, drop=F]
       trainVars.list[[i]] <- trainVars
       trainGroup <- Y[inTrain[[i]], drop=F]
@@ -175,7 +164,6 @@ fs.stability <-
                                 res = resolution,
                                 grid = tuning.grid,
                                 metric = metric,
-                                savePerformanceMetrics = NULL,
                                 allowParallel = allowParallel,
                                 verbose = verbose,
                                 theDots = theDots)
@@ -249,7 +237,6 @@ fs.stability <-
                                           res = resolution,
                                           grid = tuning.grid,
                                           metric = metric,
-                                          savePerformanceMetrics = FALSE,
                                           allowParallel = allowParallel,
                                           verbose = verbose,
                                           theDots = theDots)  
@@ -283,7 +270,6 @@ fs.stability <-
                                   res = resolution,
                                   grid = tuning.grid,
                                   metric = metric,
-                                  savePerformanceMetrics = NULL,
                                   verbose = verbose,
                                   allowParallel = allowParallel,
                                   theDots = theDots)
@@ -368,7 +354,6 @@ fs.stability <-
                                           res = resolution,
                                           grid = grid,
                                           metric = metric,
-                                          savePerformanceMetrics = FALSE,
                                           allowParallel = allowParallel,
                                           verbose = verbose,
                                           theDots = theDots)    
@@ -500,14 +485,10 @@ fs.stability <-
         }  
       } # end of non-optimized sequence
     } # end of stability loop
-        
-    #close(pb)
+
     
     ### Performance Metrics of Reduced Models
-    #if(verbose){
-      cat("Calculating Model Performance Statistics\n")
-    #}
-    
+    cat("Calculating Model Performance Statistics\n")    
     
     final.metrics <- prediction.metrics(finalModel = finalModel.new,
                                         method = method,

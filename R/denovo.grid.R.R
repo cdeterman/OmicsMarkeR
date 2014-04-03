@@ -24,6 +24,10 @@ denovo.grid <- function(data,       # training data of method being tuned
   
   nc <- dim(data)[2] - 1
   
+  if("gbm" %in% method) {
+    .tree.options = c(500, 1000, 2000, 5000, 10000)
+  }
+  
   for(i in 1:length(method)){
     algo <- tolower(method[i])
     tmp <- switch(algo,
@@ -44,8 +48,7 @@ denovo.grid <- function(data,       # training data of method being tuned
                   # modified .shrinkage from just '.1' to sequence of values
                   gbm = expand.grid(
                     .interaction.depth = seq(1, res),
-                    #.n.trees = floor((1:res) * 10000),
-                    .n.trees = if(nc > 100) c(500, 1000, 2000, 5000, 10000) else c(500, 1000, 2000),                    
+                    .n.trees = .tree.options[1:res],                    
                     .shrinkage = c(.1/seq(res))),
                   
                   rf = rfTune(data, res),

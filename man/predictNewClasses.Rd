@@ -13,8 +13,6 @@ predictNewClasses(modelFit, method, orig.data, newdata, parms = NULL)
   training sets.  Required to have the 'observed' group
   membership}
 
-  \item{indicies}{The indicies for the training subsets}
-
   \item{newdata}{The testing data to predict group
   membership}
 

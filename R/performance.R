@@ -8,7 +8,7 @@
 #' Accuracy, Kappa, ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value
 #' @seealso caret function \code{\link{confusionMatrix}}
 #' @import caTools
-#' @import caret
+#' @importFrom caret confusionMatrix
 
 
 performance.stats <- function(pred, obs)

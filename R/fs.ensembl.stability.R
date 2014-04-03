@@ -74,7 +74,7 @@
 #' @import DiscriMiner
 #' @import randomForest
 #' @import plyr
-#' @import caret
+#' @importFrom caret createDataPartition
 #' @import e1071
 #' @import gbm
 #' @import pamr
@@ -198,7 +198,6 @@ fs.ensembl.stability <-
                                         res = resolution,
                                         grid = tuning.grid,
                                         metric = metric,
-                                        savePerformanceMetrics = NULL,
                                         allowParallel = allowParallel,
                                         verbose = verbose,
                                         theDots = theDots)            
@@ -228,7 +227,6 @@ fs.ensembl.stability <-
                                           res = resolution,
                                           grid = tuning.grid,
                                           metric = metric,
-                                          savePerformanceMetrics = NULL,
                                           allowParallel = allowParallel,
                                           verbose = verbose,
                                           theDots = theDots)  

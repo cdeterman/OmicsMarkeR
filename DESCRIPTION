@@ -2,16 +2,16 @@ Package: OmicsMarkeR
 Title: Classification and Feature Selection for 'Omics' Datasets
 Description: Tools for classification and feature selection for 'omics' level
     datasets
-Date: 2013-11-18
+Date: 2014-04-03
 Version: 0.1
 Author: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Depends:
     R (>= 3.0.1)
 Imports:
-    caret (>= 5.17.7),
     plyr (>= 1.8),
     data.table (>= 1.8.10),
+    caret (>= 5.17-7),
     DiscriMiner (>= 0.1-29),
     e1071 (>= 1.6-1),
     randomForest (>= 4.6-7),
@@ -20,11 +20,10 @@ Imports:
     glmnet (>= 1.9-5),
     caTools (>= 1.14),
     foreach (>= 1.4.1),
-    tcltk (>= 3.0.1),
     permute (>= 0.7-0)
 License: GPL-2
 LazyData: true
-Packaged: 2013-08-05 12:50:19 UTC; kuhna03
+Packaged: 2014-04-03 14:12:19 UTC
 NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2013-08-05 18:57:32
