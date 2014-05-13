@@ -33,7 +33,8 @@
 #' determined parameters
 #' @param tuning.grid Optional list of grids containing parameters to optimize for each algorithm.  
 #' Default \code{"tuning.grid = NULL"} lets function create grid determined by \code{"res"}
-#' @param k.folds Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}
+#' @param k.folds Number of folds generated during cross-validation.  May optionally be set to \code{"LOO"} for 
+#' leave-one-out cross-validation.  Default \code{"k.folds = 10"}
 #' @param repeats Number of times cross-validation repeated.  Default \code{"repeats = 3"}
 #' @param resolution Optional - Resolution of model optimization grid.  Default \code{"res = 3"}
 #' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
@@ -95,7 +96,7 @@ fs.ensembl.stability <-
            optimize.resample = FALSE,
            tuning.grid = NULL,
            k.folds = if(optimize) 10 else NULL,
-           repeats = if(optimize) 3 else NULL,
+           repeats = if(k.folds=="LOO") NULL else if(optimize) 3 else NULL,
            resolution = if(optimize) 3 else NULL,
            metric = "Accuracy",
            model.features = FALSE,

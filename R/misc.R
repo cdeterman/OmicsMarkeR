@@ -45,6 +45,9 @@ feature.table <- function(features, method = NULL){
 # slight modification of the 'caret' function 'byComplexity' to suit this program
 byComplexity2 <- function(x, model)
 {
+  # must be dataframe to access components easily with '$'
+  if(!is.data.frame(x)) x <- as.data.frame(x)
+  
   switch(tolower(model),
          gbm =
 {

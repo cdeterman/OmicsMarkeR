@@ -57,7 +57,7 @@ performance.stats <- function(pred, obs)
 #' @return Returns confusion matrix and ROC performance statistics including
 #' Accuracy, Kappa, ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value
 #' @seealso caret function \code{\link{confusionMatrix}}
-#' @export
+# ' @export
 
 perf.calc <- function(data,          
                       lev = NULL, 

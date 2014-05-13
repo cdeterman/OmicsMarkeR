@@ -23,7 +23,7 @@
 #' @import glmnet
 #' @import foreach
 #' @import caTools
-#' @export
+# ' @export
 #' @author Charles E. Determan Jr.
 
 modelTuner <- function(trainData,
@@ -38,6 +38,13 @@ modelTuner <- function(trainData,
                        theDots = NULL
 )
 {
+  # Set parallel option
+  `%op%` <- if(allowParallel){
+    `%dopar%` 
+  }else{
+    `%do%`
+  }
+  
   ### Parallel Programming for Windows
   #getDoParWorkers()
   #detectCores()
@@ -45,11 +52,8 @@ modelTuner <- function(trainData,
   #registerDoSNOW(cl)
   #stopCluster(cl)
   #allowParallel = F
-  `%op%` <- if(allowParallel){
-    `%dopar%` 
-  }else{
-    `%do%`
-  }  
+  
+  
   # set number of iterations to number of resample lists (i.e. folds * repeats)
   # iter = seq(along = inTrain)
   
@@ -57,16 +61,6 @@ modelTuner <- function(trainData,
   # first loop cycles through the methods chosen
   # second loop cycles through the cross validations
   # third loop cycles through parameters of each cross validation cycle
-  #result <- foreach(iter = seq(along = inTrain), 
-  #                 .combine = "c", 
-  #                .verbose = FALSE, 
-  #               .packages = c("bar", "foo"), 
-  #              .errorhandling = "stop") %:%
-  #foreach(parms = 1:nrow(guide[[i]]$loop), # how many combinations of parameters to try in these loops
-  #       .combine = "c", 
-  #      .verbose = FALSE, 
-  #     .packages = c("bar", "foo"), 
-  #    .errorhandling = "stop")  %op%
   
   #algo <- 1
   #iter <- 1

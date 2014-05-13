@@ -37,7 +37,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 optimize.model <- function(
   trainVars,
@@ -53,29 +53,37 @@ optimize.model <- function(
   verbose = FALSE,
   theDots = NULL)
 {
-  classLevels <- levels(trainGroup)
+  classLevels <- levels(as.factor(trainGroup))
   nr <- nrow(trainVars)
   
   # for repeated cross-validation
   # creates a list of samples used for models
-  
-  # because this was a beast of an error initially to find
-  set.seed(666)
-  inTrain <- caret::createMultiFolds(trainGroup, k = k.folds, times = repeats)
-  # get the remaining samples for testing group
-  outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
-                     total = seq(nr))  
-  # check if any only 1 index
-  ind <- which(lapply(outTrain, length) == 1)
-  
-  # if only 1 index, randomly take one and add to outTrain
-  if(length(ind) > 0){
-    for(d in seq(along = ind)){
-      move.ind <- sample(inTrain[[ind[d]]], 1)
-      inTrain[[ind[d]]] <- inTrain[[ind[d]]][-move.ind]
-      outTrain[[ind[d]]] <- sort(c(outTrain[[ind[d]]], move.ind))
-    }
-  }  
+  # LOO uses every sample so repeating is a moot point
+  if(!k.folds == "LOO"){
+    # because this was a beast of an error initially to find
+    set.seed(666)
+    inTrain <- caret::createMultiFolds(trainGroup, k = k.folds, times = repeats)
+    
+    # get the remaining samples for testing group
+    outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
+                       total = seq(nr))  
+    # check if any only 1 index
+    ind <- which(lapply(outTrain, length) == 1)
+    
+    # if only 1 index, randomly take one and add to outTrain
+    if(length(ind) > 0){
+      for(d in seq(along = ind)){
+        move.ind <- sample(inTrain[[ind[d]]], 1)
+        inTrain[[ind[d]]] <- inTrain[[ind[d]]][-move.ind]
+        outTrain[[ind[d]]] <- sort(c(outTrain[[ind[d]]], move.ind))
+      }
+    }  
+  }else{
+    # for LOO cross-validation
+    inTrain <- caret::createFolds(trainGroup, length(trainGroup), returnTrain = TRUE)
+    outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
+                       total = seq(nr)) 
+  }
   
   ## combine variables and classes to make following functions simpler
   trainData <- as.data.frame(trainVars)
@@ -84,7 +92,8 @@ optimize.model <- function(
   if(is.null(grid)){
     grid <- denovo.grid(data = trainData, method = method, res = res)
   }#else{
-    #verify user provided grid is okay
+    # TO DO
+    # verify user provided grid is okay
   #}
   
   ## get instructions to guide the loops within the modelTuner
@@ -106,15 +115,28 @@ optimize.model <- function(
   names(perfNames) <- method
   
   # tune each model  
-  tmp <- modelTuner(trainData = trainData, 
-                    guide = tune.guide, 
-                    method = method,
-                    inTrain = inTrain, 
-                    outTrain = outTrain, 
-                    lev = classLevels, 
-                    verbose = verbose,
-                    allowParallel = allowParallel,
-                    theDots = theDots)
+  if(k.folds=="LOO"){
+    tmp <- modelTuner_loo(trainData = trainData, 
+                          guide = tune.guide, 
+                          method = method,
+                          inTrain = inTrain, 
+                          outTrain = outTrain, 
+                          lev = classLevels, 
+                          verbose = verbose,
+                          allowParallel = allowParallel,
+                          theDots = theDots)
+  }else{
+    tmp <- modelTuner(trainData = trainData, 
+                      guide = tune.guide, 
+                      method = method,
+                      inTrain = inTrain, 
+                      outTrain = outTrain, 
+                      lev = classLevels, 
+                      verbose = verbose,
+                      allowParallel = allowParallel,
+                      theDots = theDots)
+  }
+ 
 
   if(all(names(tmp) == c("performance","tunes"))){
     performance <- list(tmp$performance)
@@ -156,11 +178,12 @@ optimize.model <- function(
   ## mapply only works if multiple methods being run
   #mapply("byComplexity", performance, method)
   
+  # Defaulted to using a simple loop
   #modified from caret:::byComplexity
   for(i in seq(along=method)){
     performance[[i]] <- byComplexity2(performance[[i]], method[i])
   }
-  
+
   cat("Selecting tuning parameters\n")
   flush.console()
   
@@ -182,10 +205,15 @@ optimize.model <- function(
   }
   
   ## Rename parameters to have '.' at the start of each
-  newnames <- lapply(bestTune, FUN = function(x) names(x) = paste(".", names(x), sep=""))
-  for(i in seq(along = newnames)){
-    names(bestTune[[i]]) <- newnames[[i]]
+  if(length(bestTune)>1){
+    newnames <- lapply(bestTune, FUN = function(x) names(x) = paste(".", names(x), sep=""))
+    for(i in seq(along = newnames)){
+      names(bestTune[[i]]) <- newnames[[i]]
+    }
+  }else{
+    colnames(bestTune[[1]]) <- paste(".", colnames(bestTune[[1]]), sep="")
   }
+  
   
   ## Restore original order of performance
   for(m in seq(along = method)){
@@ -228,7 +256,7 @@ optimize.model <- function(
   for(i in seq(along = method)){
     finalModel[[i]] <- training(data = trainData,
                                 method = method[i],
-                                tuneValue = bestTune[[i]],
+                                tuneValue = as.data.frame(bestTune[[i]]),
                                 obsLevels = classLevels,
                                 theDots = theDots)  
   }

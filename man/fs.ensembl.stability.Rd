@@ -6,9 +6,9 @@ fs.ensembl.stability(X, Y, method, k = 10, p = 0.9,
   f = ceiling(ncol(X)/10), bags = 40, aggregation.metric = "CLA",
   stability.metric = "jaccard", optimize = TRUE,
   optimize.resample = FALSE, tuning.grid = NULL, k.folds = if (optimize)
-  10 else NULL, repeats = if (optimize) 3 else NULL, resolution = if
-  (optimize) 3 else NULL, metric = "Accuracy", model.features = FALSE,
-  allowParallel = FALSE, verbose = FALSE, ...)
+  10 else NULL, repeats = if (k.folds == "LOO") NULL else if (optimize) 3 else
+  NULL, resolution = if (optimize) 3 else NULL, metric = "Accuracy",
+  model.features = FALSE, allowParallel = FALSE, verbose = FALSE, ...)
 }
 \arguments{
   \item{X}{A matrix containing numeric values of each
@@ -67,7 +67,9 @@ fs.ensembl.stability(X, Y, method, k = 10, p = 0.9,
   determined by \code{"res"}}
 
   \item{k.folds}{Number of folds generated during
-  cross-validation.  Default \code{"k.folds = 10"}}
+  cross-validation.  May optionally be set to \code{"LOO"}
+  for leave-one-out cross-validation.  Default
+  \code{"k.folds = 10"}}
 
   \item{repeats}{Number of times cross-validation repeated.
   Default \code{"repeats = 3"}}

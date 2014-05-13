@@ -28,7 +28,8 @@
 #' determined parameters
 #' @param tuning.grid Optional list of grids containing parameters to optimize for each algorithm.  
 #' Default \code{"tuning.grid = NULL"} lets function create grid determined by \code{"res"}
-#' @param k.folds Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}
+#' @param k.folds Number of folds generated during cross-validation.  May optionally be set to \code{"LOO"} for 
+#' leave-one-out cross-validation.  Default \code{"k.folds = 10"}
 #' @param repeats Number of times cross-validation repeated.  Default \code{"repeats = 3"}
 #' @param resolution Resolution of model optimization grid.  Default \code{"resolution = 3"}
 #' @param metric Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
@@ -88,7 +89,7 @@ fs.stability <-
            optimize.resample = FALSE,
            tuning.grid = NULL,
            k.folds = if(optimize) 10 else NULL,
-           repeats = if(optimize) 3 else NULL,
+           repeats = if(k.folds=="LOO") NULL else if(optimize) 3 else NULL,
            resolution = if(optimize) 3 else NULL,
            metric = "Accuracy",
            model.features = FALSE,
@@ -140,10 +141,10 @@ fs.stability <-
       resample.tunes <- NULL
     }
     
-    inTrain <- rlply(k, createDataPartition(Y, p = p, list = FALSE))
+    inTrain <- rlply(k, caret::createDataPartition(Y, p = p, list = FALSE))
     outTrain <- lapply(inTrain, function(inTrain, total) total[-unique(inTrain)],
                        total = seq(nr))
-    
+    #i <- 1
     for(i in seq(k)){      
       trainVars <- X[inTrain[[i]],, drop=F]
       trainVars.list[[i]] <- trainVars
@@ -335,7 +336,7 @@ fs.stability <-
           if(i == 1){
             tunedModel.new <- vector("list", length(method))
             for(m in seq(along = method)){
-              
+              #m <- 2
               if(is.null(tuning.grid)){
                 grid <- denovo.grid(data = trainData, method = method[m], res = resolution)
               }
@@ -345,7 +346,7 @@ fs.stability <-
                 gbm.trees <- grid$gbm$.n.trees
                 grid$gbm$.n.trees <- gbm.trees/10
               }
-              grid
+              
               tunedModel.new[[m]] <- optimize.model(trainVars = trainData.new[[m]][,!colnames(trainData.new[[m]]) %in% c(".classes")],
                                           trainGroup = trainData.new[[m]]$.classes,
                                           method = method[m],
@@ -361,6 +362,8 @@ fs.stability <-
           }else{
             tmp <- vector("list", length(method))
             names(tmp) <- method
+            
+            #as.data.frame(tunedModel.new[[d]]$bestTune)
             
             for(d in seq(along = method)){
               tmp[[d]] <- training(data = trainData.new[[d]],

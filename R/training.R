@@ -15,12 +15,11 @@
 #' @author Charles Determan Jr
 #' @import DiscriMiner
 #' @import randomForest
-# ' @import caret
 #' @import e1071
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 training <-
   function(data, method, tuneValue, obsLevels, theDots = NULL)
@@ -66,7 +65,7 @@ training <-
                                                      trainY,
                                                      autosel=F,
                                                      validation = NULL,
-                                                     comps = tuneValue$.ncomp,
+                                                     comps = as.numeric(tuneValue$.ncomp),
                                                      cv ="none")
                            out
                          },
@@ -119,9 +118,9 @@ training <-
                            
                            modArgs <- list(x = trainX,
                                            y = modY,
-                                           interaction.depth = tuneValue$.interaction.depth,
-                                           n.trees = tuneValue$.n.trees,
-                                           shrinkage = tuneValue$.shrinkage, 
+                                           interaction.depth = as.numeric(tuneValue$.interaction.depth),
+                                           n.trees = as.numeric(tuneValue$.n.trees),
+                                           shrinkage = as.numeric(tuneValue$.shrinkage), 
                                            distribution = gbmdist,
                                            verbose = FALSE,
                                            keep.data = FALSE)
@@ -146,7 +145,7 @@ training <-
                            modArgs <- list(x = trainX,
                                            y = trainY,
                                            importance = TRUE,
-                                           mtry = tuneValue$.mtry,
+                                           mtry = as.numeric(tuneValue$.mtry),
                                            ntree=round.multiple(sqrt(ncol(trainX)), target = 50)
                            )
                            
@@ -160,7 +159,7 @@ training <-
                            #library(e1071)
                            out <- svm(trainX,
                                       trainY,
-                                      cost = tuneValue$.C, 
+                                      cost = as.numeric(tuneValue$.C), 
                                       cachesize=500,
                                       scale=F, 
                                       type="C-classification", 
@@ -175,7 +174,7 @@ training <-
                            theDots <- theDots[names(theDots) %in% pamr.args]
                            
                            modArgs <- list(data = list(x = t(trainX), y = trainY, geneid = as.character(colnames(trainX))),
-                                           threshold = tuneValue$.threshold
+                                           threshold = as.numeric(tuneValue$.threshold)
                            )
                            
                            if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
@@ -219,7 +218,7 @@ training <-
                            }
                            
                            modelArgs <- c(
-                             list(x = as.matrix(trainX), y = trainY, alpha = tuneValue$.alpha),
+                             list(x = as.matrix(trainX), y = trainY, alpha = as.numeric(tuneValue$.alpha)),
                              theDots)
                            
                            out <- do.call("glmnet", modelArgs) 
