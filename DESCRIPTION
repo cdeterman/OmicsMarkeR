@@ -21,9 +21,10 @@ Imports:
     caTools (>= 1.14),
     foreach (>= 1.4.1),
     permute (>= 0.7-0)
+Roxygen: list(wrap = FALSE)
 License: GPL-2
 LazyData: true
 Packaged: 2014-04-03 14:12:19 UTC
 NeedsCompilation: yes
-Repository: CRAN
+Repository: Bioconductor
 Date/Publication: 2013-08-05 18:57:32
