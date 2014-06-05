@@ -59,3 +59,27 @@ results <- fs.stability(vars,
 ###################################################
 performance.metrics(results)
 results$RPT
+
+###################################################
+### code chunk number 6: Alternate Tuning Resolutions
+###################################################
+grid <- denovo.grid(vars, "plsda", 15)
+grid <- append(grid, denovo.grid(vars, "svm", 3)) 
+
+# list of two different methods resolution
+
+results <- fs.stability(vars, 
+                        groups, 
+                        grid = grid,
+                        method = c("plsda", "svm"), 
+                        f = 10, 
+                        k = 3, 
+                        k.folds = 10, 
+                        verbose = FALSE)
+
+###################################################
+### code chunk number 7: Manual Tuning Resolutions
+###################################################
+grid <- list(expand.grid(.ncomp = seq(3,8)))
+grid <- append(grid, list(expand.grid(.C = c(.50, 1))))
+names(grid) <- c("plsda", "svm")

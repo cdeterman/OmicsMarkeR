@@ -150,8 +150,7 @@ To avoid confusion in the coding, one can isolate the variables and classes from
 +                         verbose = FALSE)
 \end{Sinput}
 \begin{Soutput}
-[1] "plsda complete"
-[1] "rf complete"
+[1] "Model Tuning Complete"
 
 Aggregating results
 Selecting tuning parameters
@@ -177,28 +176,103 @@ If I would like to see the performance metrics, I can simply use the {\tt perfor
 Model Performance Statistics
 
                        plsda         rf
-Accuracy          0.88333333 0.96666667
-Kappa             0.76666667 0.93333333
-ROC.AUC           0.92000000 1.00000000
-Sensitivity       0.93333333 1.00000000
-Specificity       0.83333333 0.93333333
-Pos Pred Value    0.84747475 0.94444444
-Neg Pred Value    0.93333333 1.00000000
-Accuracy SD       0.07582875 0.07582875
-Kappa SD          0.15165751 0.15165751
-ROC.AUC SD        0.06480741 0.06480741
-Sensitivity SD    0.08164966 0.08164966
-Specificity SD    0.09831921 0.09831921
-Pos Pred Value SD 0.08817435 0.08817435
-Neg Pred Value SD 0.08164966 0.08164966
+Accuracy          0.88333333 0.93333333
+Kappa             0.76666667 0.86666667
+ROC.AUC           0.92000000 0.96000000
+Sensitivity       0.86666667 0.93333333
+Specificity       0.90000000 0.93333333
+Pos Pred Value    0.90303030 0.93333333
+Neg Pred Value    0.87777778 0.93333333
+Accuracy SD       0.07637626 0.11547005
+Kappa SD          0.15275252 0.23094011
+ROC.AUC SD        0.07549834 0.06928203
+Sensitivity SD    0.11547005 0.11547005
+Specificity SD    0.10000000 0.11547005
+Pos Pred Value SD 0.10013765 0.11547005
+Neg Pred Value SD 0.10715168 0.11547005
 \end{Soutput}
 \begin{Sinput}
 > results$RPT
 \end{Sinput}
 \begin{Soutput}
     plsda        rf 
-0.7933472 0.3715877 
+0.7933472 0.4307692 
 \end{Soutput}
 \end{Schunk}
+
+
+\maketitle
+\section{Manual Grid}
+If the user would prefer to tune different models to different resolutions one can simply use the {\tt denovo.grid} function to generate the level of resolution for each model, subsequently append the list together and submit as the {\tt grid} parameter of {\tt fs.stability}. For example, say the user would like to tune 15 components of the PLSDA model but only 3 levels of SVM.
+
+\begin{Schunk}
+\begin{Sinput}
+> grid <- denovo.grid(vars, "plsda", 15)
+> grid <- append(grid, denovo.grid(vars, "svm", 3)) 
+> grid
+\end{Sinput}
+\begin{Soutput}
+$plsda
+   .ncomp
+1       1
+2       2
+3       3
+4       4
+5       5
+6       6
+7       7
+8       8
+9       9
+10     10
+11     11
+12     12
+13     13
+14     14
+15     15
+
+$svm
+    .C
+1 0.25
+2 0.50
+3 1.00
+\end{Soutput}
+\begin{Sinput}
+> results <- fs.stability(vars, 
++                         groups, 
++                         grid = grid,
++                         method = c("plsda", "svm"), 
++                         f = 10, 
++                         k = 3, 
++                         k.folds = 10, 
++                         verbose = FALSE)
+\end{Sinput}
+\begin{Soutput}
+[1] "Model Tuning Complete"
+
+Aggregating results
+Selecting tuning parameters
+[1] "plsda complete"
+
+Aggregating results
+Selecting tuning parameters
+[1] "svm complete"
+
+Aggregating results
+Selecting tuning parameters
+Calculating Model Performance Statistics
+\end{Soutput}
+\end{Schunk}
+
+If the user would prefer to set a particular range for the parameters, such as components 3-8 in the PLSDA model, one can simply use the {\tt expand.grid} function for which {\tt denovo.grid} is simply a wrapper function.  {\tt denovo.grid}, however, has been designed to create grids with acceptable increments and relationships between parameters, with particular note to Random Forest, Gradient Boosting Machines, and Support Vector Machines and is generally recommended.
+
+\begin{Schunk}
+\begin{Sinput}
+> grid <- list(expand.grid(.ncomp = seq(3,8)))
+> grid <- append(grid, list(expand.grid(.C = c(.50, 1))))
+> names(grid) <- c("plsda", "svm")
+\end{Sinput}
+\end{Schunk}
+
+NOTE!!! The user should make sure to add the '.' before the parameter as this is important for internal consistency of the functions.  Furthermore, the user currently must specify all optimizable parameters (package will possibly implement defaults in the future for this scenario).  This method can be used to set any combination of parameters desired given the user is familiar with choosing and optimizing such parameters.  The parameters are the same as the native packages and can be easily accessed with the {\tt params} function.
 
 \end{document}

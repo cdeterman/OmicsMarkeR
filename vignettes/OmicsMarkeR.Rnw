@@ -150,4 +150,35 @@ performance.metrics(results)
 results$RPT
 @
 
+
+\maketitle
+\section{Manual Grid}
+If the user would prefer to tune different models to different resolutions one can simply use the {\tt denovo.grid} function to generate the level of resolution for each model, subsequently append the list together and submit as the {\tt grid} parameter of {\tt fs.stability}. For example, say the user would like to tune 15 components of the PLSDA model but only 3 levels of SVM.
+
+<<>>=
+grid <- denovo.grid(vars, "plsda", 15)
+grid <- append(grid, denovo.grid(vars, "svm", 3)) 
+
+grid
+
+results <- fs.stability(vars, 
+                        groups, 
+                        grid = grid,
+                        method = c("plsda", "svm"), 
+                        f = 10, 
+                        k = 3, 
+                        k.folds = 10, 
+                        verbose = FALSE)
+@
+
+If the user would prefer to set a particular range for the parameters, such as components 3-8 in the PLSDA model, one can simply use the {\tt expand.grid} function for which {\tt denovo.grid} is simply a wrapper function.  {\tt denovo.grid}, however, has been designed to create grids with acceptable increments and relationships between parameters, with particular note to Random Forest, Gradient Boosting Machines, and Support Vector Machines and is generally recommended.
+
+<<>>=
+grid <- list(expand.grid(.ncomp = seq(3,8)))
+grid <- append(grid, list(expand.grid(.C = c(.50, 1))))
+names(grid) <- c("plsda", "svm")
+@
+
+NOTE!!! The user should make sure to add the '.' before the parameter as this is important for internal consistency of the functions.  Furthermore, the user currently must specify all optimizable parameters (package will possibly implement defaults in the future for this scenario).  This method can be used to set any combination of parameters desired given the user is familiar with choosing and optimizing such parameters.  The parameters are the same as the native packages and can be easily accessed with the {\tt params} function.
+
 \end{document}
