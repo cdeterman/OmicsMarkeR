@@ -72,19 +72,19 @@ modelTuner <- function(trainData,
   tmp.list <- foreach(algo = seq(along = method),
                       .verbose = F, 
                       .packages = c("OmicsMarkeR","foreach","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
-                      .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable"),
+                      .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable", "perf.calc", "confusionMatrix", "performance.stats"),
                       .errorhandling = "stop") %:%
     foreach(iter = seq(along = inTrain), 
             .combine = "c", 
             .verbose = F, 
             .packages = c("OmicsMarkeR","foreach","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
-            .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable"),
+            .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable", "perf.calc", "confusionMatrix", "performance.stats"),
             .errorhandling = "stop") %:%
     foreach(parms = seq(nrow(guide[[algo]]$loop)), # how many combinations of parameters to try in these loops
             .combine = "c", 
             .verbose = F, 
             .packages = c("OmicsMarkeR","foreach","plyr","DiscriMiner","randomForest","e1071","gbm","pamr","glmnet","caTools"),
-            .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable"),
+            .export = c("training", "round.multiple", "predicting", "expandParameters", "flatTable", "perf.calc", "confusionMatrix", "performance.stats"),
             .errorhandling = "stop") %op%
 {        
   ## Removes '.' from start of each parameter
