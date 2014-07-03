@@ -132,7 +132,7 @@ perm.class <- function(fs.model = NULL, X, Y, method, k.folds = 5, metric = "Acc
       inTrain[[ind[d]]] <- inTrain[[ind[d]]][-move.ind]
       outTrain[[ind[d]]] <- sort(c(outTrain[[ind[d]]], move.ind))
     }
-  }  
+  }
   
   # extract new values of variables
   N <- nrow(trainX)
@@ -192,9 +192,12 @@ perm.class <- function(fs.model = NULL, X, Y, method, k.folds = 5, metric = "Acc
     stop("model could not be fit")
   }
   
-  #predicted <- lapply(predicted, FUN = function(x) factor(as.character(x), levels = obsLevels))
-  if(length(predicted) > 1){
-    predicted <- predicted[[length(predicted)]]
+  #if(length(predicted) > 1){
+  #  predicted <- predicted[[length(predicted)]]
+  #}
+  
+  if(is.list(predicted)){
+    predicted <- as.vector(unlist(predicted))
   }
   
   predicted <- factor(as.character(predicted),
@@ -221,7 +224,7 @@ perm.class <- function(fs.model = NULL, X, Y, method, k.folds = 5, metric = "Acc
   perm.res <- sapply(perform, FUN = function(x) mean(x))
   #perm.p.val=apply(perm.res, 1, FUN = function(x) sprintf("%.3f", round(sum(x[2:(nperm+1)] >= x[1])/nperm, digits = 3)))
   
-  perm.p.val <- sprintf("%.3f", mean(as.numeric(round(perm.res[2:(nperm+1)] >= perm.res[1])/nperm, digits = 3)))
+  perm.p.val <- sprintf("%.3f", mean(as.numeric(round(sum(perm.res[2:(nperm+1)] >= perm.res[1]))/nperm, digits = 3)))
   
   ###plot distribution of permutations results
   plot(density(perm.res[2:(nperm+1)], from=min(perm.res)-sd(perm.res), to = max(perm.res)),
