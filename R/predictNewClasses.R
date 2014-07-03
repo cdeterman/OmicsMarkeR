@@ -127,13 +127,13 @@ predictNewClasses <- function(modelFit, method, orig.data, newdata, parms = NULL
                            rf =
                              {
                               #library(randomForest)
-                               out <-  as.character(predict(train.model, newdata))
+                               out <-  as.character(predict(train.model, newdata)$fit)
                                out
                              },
                            svm =                           
                              {
                                #library(e1071)                             
-                               out <- as.character(predict(train.model, newdata = newdata))
+                               out <- as.character(predict(train.model, newdata = newdata)$fit)
                                out
                              },
                            pam =
@@ -165,18 +165,7 @@ predictNewClasses <- function(modelFit, method, orig.data, newdata, parms = NULL
                              {                          
                                #library(glmnet)
                                if(!is.matrix(newdata)) newdata <- as.matrix(newdata)
-                               
-                               if(!is.null(param))
-                               {
-                                 out <- predict(train.model, newdata, s = param$.lambda, type = "class")
-                                 out <- as.list(as.data.frame(out, stringsAsFactors = FALSE))
-                               } else {
-                                 
-                                 if(is.null(train.model$lambdaOpt))
-                                   stop("optimal lambda not saved; needs a single lambda value")
-                                 
-                                 out <- predict(train.model, newdata, s = train.model$lambdaOpt, type = "class")[,1]
-                               }
+                               out <- predict(train.model, newdata, s = tVal$.lambda, type = "class")$fit[,1]
                                out
                              },
                            
