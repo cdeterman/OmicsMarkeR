@@ -87,12 +87,18 @@ fit.only.model <-
     num.obs.group <- as.vector(table(Y))
     theDots <- list(...)
     
-    trainData <- as.data.frame(X)
-    trainData$.classes <- Y
+    inTrain <- caret::createDataPartition(Y, p = p, list = FALSE)
+    outTrain <- seq(nr)[-unique(inTrain)]
+    trainVars <- X[inTrain,, drop=F]
+    trainGroup <- Y[inTrain, drop=F]
+    trainData <- as.data.frame(trainVars)
+    trainData$.classes <- trainGroup
+    
+    # must add repeat loops (same as k in fs.stability for StDev)
     
     if(optimize == TRUE){
-      tuned.methods <- optimize.model(trainVars = X,
-                                      trainGroup = Y,
+      tuned.methods <- optimize.model(trainVars = trainVars,
+                                      trainGroup = trainGroup,
                                       method = method,
                                       k.folds = k.folds,
                                       repeats = repeats,
