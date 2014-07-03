@@ -25,7 +25,7 @@ performance.stats <- function(pred, obs)
     tmp.auc <- colMeans(colAUC(order(pred), obs, plotROC = FALSE, alg = "ROC"))
     pred <- factor(pred, levels = levels(obs))  
     
-    tmp <- confusionMatrix(pred, obs)
+    tmp <- caret::confusionMatrix(pred, obs)
     
     overall.stats <- c("Accuracy", "Kappa")
     byclass.stats <- c("Sensitivity", "Specificity", "Pos Pred Value", "Neg Pred Value")
