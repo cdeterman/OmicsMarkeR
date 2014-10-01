@@ -33,13 +33,13 @@ The interested reader, as well you should be, is highly encouraged to seek out t
 
 Not currently submitted - may send to Bioconductor instead
 Stable version [CRAN](http://cran.r-project.org/web/packages/OmicsMarkeR/index.html)
-```ruby
+```r
 # stable version
 install.packages("OmicsMarkeR")
 ```
 
 Development version on [github](https://github.com/cdeterman/OmicsMarkeR)
-```ruby
+```r
 # development version
 library(devtools)
 install_github('OmicsMarkeR',  username='cdeterman')
