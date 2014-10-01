@@ -575,15 +575,9 @@ fs.stability <-
     # need to split features into length(method) dataframes for pairwise.stability    
     results.stability <- vector("list", length(method))
     names(results.stability) <- method
-    #c <- 3
     if(!model.features){
       for(c in seq(along = method)){
-        #met <- method[c]
-        #if(met == "svm" | met == "glmnet"){
-        #  results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x))
-        #}else{
         results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))
-        #}
         if(is.null(f)){
           rownames(results.stability[[c]]) <- colnames(X)
         }
