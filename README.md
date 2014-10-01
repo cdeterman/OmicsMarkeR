@@ -34,7 +34,7 @@ The interested reader, as well you should be, is highly encouraged to seek out t
 Not currently submitted - may send to Bioconductor instead
 Stable version [CRAN](http://cran.r-project.org/web/packages/OmicsMarkeR/index.html)
 ```r
-# stable version
+# stable version currently does not exist
 install.packages("OmicsMarkeR")
 ```
 
@@ -44,3 +44,11 @@ Development version on [github](https://github.com/cdeterman/OmicsMarkeR)
 library(devtools)
 install_github('OmicsMarkeR',  username='cdeterman')
 ```
+
+## Features in Progress
+1. Access to fitted models (averaged or all bootstrapped results?)
+2. Easy graphics access (scores/loadings plots, variable importance plots, etc.)
+3. Summary graphics (across models)
+4. Database searching (HMDB, MMCD, Metlin, LipidMaps, etc.)
+5. Additional algorithms
+
