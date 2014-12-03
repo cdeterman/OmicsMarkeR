@@ -42,7 +42,7 @@ Development version on [github](https://github.com/cdeterman/OmicsMarkeR)
 ```r
 # development version
 library(devtools)
-install_github('OmicsMarkeR',  username='cdeterman')
+install_github('cdeterman/OmicsMarkeR')
 ```
 
 ## Features in Progress
