@@ -37,7 +37,10 @@ predicting <- function(method, modelFit, orig.data, indicies, newdata, param = N
                                ncomp = 2
                              }                        
                              
-                             tmp <- plsDA(orig.data[,-which(names(orig.data) %in% c(".classes"))], 
+                             vars <- as.matrix(orig.data[,-which(names(orig.data) %in% c(".classes"))])
+                             mode(vars) <- 'numeric'
+                             
+                             tmp <- plsDA(vars, 
                                           orig.data[,c(".classes")],
                                           autosel=F,
                                           learn = indicies,

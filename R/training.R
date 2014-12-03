@@ -44,6 +44,7 @@ training <-
     xNames <- names(data)[!(names(data) %in% ".classes")]
     
     trainX <- as.matrix(data[,!(names(data) %in% ".classes"), drop = FALSE])
+    mode(trainX) <- 'numeric'
     trainY <- data[,".classes"]
     
     if(method == "gbm" & length(obsLevels) == 2)  numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
