@@ -55,9 +55,11 @@ prediction.metrics <-
         features[[f]] <- colnames(raw.data.vars)
       }
     }else{
-      features <- unlist(features, recursive = F)
-      names(features) <- rep(method, length(finalModel)/length(method))
-      features <- features[match(method.names, names(features))]  
+      if(length(method) > 1){
+        features <- unlist(features, recursive = F)
+        names(features) <- rep(method, length(finalModel)/length(method))
+        features <- features[match(method.names, names(features))] 
+      }
     }
     
     predicted <- vector("list", length(finalModel))
@@ -67,9 +69,7 @@ prediction.metrics <-
       new.dat <- switch(names(finalModel[e]),
                         svm = {
                           if(!is.data.frame(features[[e]])){
-                            if(is.character(features[[e]])){
-                              features[[e]] <- features[[e]]
-                            }else{
+                            if(!is.character(features[[e]])){
                               features[[e]] <- rownames(as.data.frame(features[[e]]))
                             }
                           }

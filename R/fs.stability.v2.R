@@ -90,7 +90,7 @@ fs.stability <-
            tuning.grid = NULL,
            k.folds = if(optimize) 10 else NULL,
            repeats = if(k.folds=="LOO") NULL else if(optimize) 3 else NULL,
-           resolution = if(optimize) 3 else NULL,
+           resolution = if(is.null(grid) && optimize) 3 else NULL,
            metric = "Accuracy",
            model.features = FALSE,
            allowParallel = FALSE,
@@ -576,10 +576,17 @@ fs.stability <-
     results.stability <- vector("list", length(method))
     names(results.stability) <- method
     if(!model.features){
-      for(c in seq(along = method)){
-        results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))
+      if(length(method) == 1){
+        results.stability[[1]] <- as.data.frame(sapply(final.features, function(x) x))
         if(is.null(f)){
           rownames(results.stability[[c]]) <- colnames(X)
+        }
+      }else{
+        for(c in seq(along = method)){
+          results.stability[[c]] <- as.data.frame(sapply(final.features, FUN = function(x) x[[c]]))
+          if(is.null(f)){
+            rownames(results.stability[[c]]) <- colnames(X)
+          }
         }
       }
     }else{
@@ -628,7 +635,8 @@ fs.stability <-
                     stability.models = stability.models,  # stability amongst algorithms
                     original.best.tunes = resample.tunes, # if optimize.resample returns the best tunes for each iteration
                     final.best.tunes = if(optimize.resample) all.model.perfs else NULL,   # if optimize.resample, provide parameter with performance statistics
-                    specs = specs                         # general specs of the input data
+                    specs = specs,                         # general specs of the input data
+                    perf.table = x
     )
     return(overall)
   }
