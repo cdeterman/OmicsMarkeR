@@ -2,19 +2,19 @@ Package: OmicsMarkeR
 Title: Classification and Feature Selection for 'Omics' Datasets
 Description: Tools for classification and feature selection for 'omics' level
     datasets
-Date: 2014-04-03
-Version: 0.1
+Date: 2014-12-31
+Version: 1.1.1
 Author: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@hotmail.com>
 Depends:
-    R (>= 3.0.1)
+    R (>= 3.1.2)
 Imports:
     plyr (>= 1.8),
-    data.table (>= 1.8.10),
-    caret (>= 5.17-7),
+    data.table (>= 1.9.4),
+    caret (>= 6.0-37),
     DiscriMiner (>= 0.1-29),
     e1071 (>= 1.6-1),
-    randomForest (>= 4.6-7),
+    randomForest (>= 4.6-10),
     gbm (>= 2.1),
     pamr (>= 1.54.1),
     glmnet (>= 1.9-5),
@@ -22,9 +22,10 @@ Imports:
     foreach (>= 1.4.1),
     permute (>= 0.7-0)
 Roxygen: list(wrap = FALSE)
-License: GPL-2
+License: GPL-3
 LazyData: true
-Packaged: 2014-04-03 14:12:19 UTC
-NeedsCompilation: yes
+URL: http://github.com/cdeterman/OmicsMarkeR
+BugReports: http://github.com/cdeterman/OmicsMarkeR/issues/new
+biocViews: Metabolomics, Classification
+Packaged: 2014-12-31 08:07:19 UTC
 Repository: Bioconductor
-Date/Publication: 2013-08-05 18:57:32
