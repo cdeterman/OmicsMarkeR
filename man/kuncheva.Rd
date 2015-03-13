@@ -14,27 +14,43 @@ kuncheva(x, y, num.features)
 \item{num.features}{total number of features in the original dataset}
 }
 \value{
-Returns the Kuncheva Index for the two vectors. It takes values in [0,1], with 0 meaning no overlap
-between two sets and 1 meaning two sets are identical.
+Returns the Kuncheva Index for the two vectors. It takes values
+in [0,1], with 0 meaning no overlap between two sets and 1 meaning two
+sets are identical.
 }
 \description{
-Calculates Kuncheva's index between two vectors of features.  In brief,
-the closer to 1 the more similar the vectors.  The two vectors must have the same
-cardinality (i.e. same length).
+Calculates Kuncheva's index between two vectors of features.
+In brief, the closer to 1 the more similar the vectors.  The two vectors
+must have the same cardinality (i.e. same length).
+}
+\examples{
+# Kuncheva demo
+# Assuming 50 metabolites were measured
+# But only 10 were found significant
+
+# For demonstration purposes only!!!
+some.numbers <- seq(20)
+
+# Metabolites identified from one run
+v1 <- paste("Metabolite", sample(some.numbers, 10), sep="_")
+# Metabolites identifed from second run
+v2 <- paste("Metabolite", sample(some.numbers, 10), sep="_")
+kuncheva(v1, v2, 50)
 }
 \author{
 Charles E. Determan Jr.
 }
 \references{
-Kuncheva L. (2007) \emph{A stability index for feature selection}.
-Proceedings of the 25th IASTED International Multi-Conference: Artificial Intelligence and
-Applications. pp. 390-395.
+Kuncheva L. (2007) \emph{A stability index for feature
+selection}. Proceedings of the 25th IASTED International Multi-Conference:
+Artificial Intelligence and Applications. pp. 390-395.
 
-He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}.
-Computational Biology and Chemistry 34 215-225.
+He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for
+biomarker discovery}. Computational Biology and Chemistry 34 215-225.
 }
 \seealso{
-\code{\link{kuncheva}}, \code{\link{sorensen}}, \code{\link{ochiai}},
-\code{\link{pof}}, \code{\link{pairwise.stability}}, \code{\link{pairwise.model.stability}}
+\code{\link{kuncheva}}, \code{\link{sorensen}},
+\code{\link{ochiai}}, \code{\link{pof}}, \code{\link{pairwise.stability}},
+\code{\link{pairwise.model.stability}}
 }
 

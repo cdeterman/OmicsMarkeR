@@ -10,34 +10,43 @@ fit.only.model(X, Y, method, p = 0.9, optimize = TRUE, tuning.grid = NULL,
   allowParallel = FALSE, verbose = FALSE, ...)
 }
 \arguments{
-\item{X}{A scaled matrix or dataframe containing numeric values of each feature}
+\item{X}{A scaled matrix or dataframe containing numeric values of
+each feature}
 
 \item{Y}{A factor vector containing group membership of samples}
 
 \item{method}{A vector listing models to be fit.
-Available options are \code{"plsda"} (Partial Least Squares Discriminant Analysis),
- \code{"rf"} (Random Forest), \code{"gbm"} (Gradient Boosting Machine),
- \code{"svm"} (Support Vector Machines), \code{"glmnet"} (Elastic-net Generalized Linear Model),
- and \code{"pam"} (Prediction Analysis of Microarrays)}
+Available options are \code{"plsda"} (Partial Least Squares Discriminant
+Analysis), \code{"rf"} (Random Forest), \code{"gbm"} (Gradient Boosting
+Machine), \code{"svm"} (Support Vector Machines), \code{"glmnet"}
+(Elastic-net Generalized Linear Model), and \code{"pam"} (Prediction
+Analysis of Microarrays)}
 
 \item{p}{Percent of data to by 'trained'}
 
-\item{optimize}{Logical argument determining if each model should be optimized.
-Default \code{"optimize = TRUE"}}
+\item{optimize}{Logical argument determining if each model should be
+optimized. Default \code{"optimize = TRUE"}}
 
-\item{tuning.grid}{Optional list of grids containing parameters to optimize for each algorithm.
-Default \code{"tuning.grid = NULL"} lets function create grid determined by \code{"res"}}
+\item{tuning.grid}{Optional list of grids containing parameters to optimize
+for each algorithm. Default \code{"tuning.grid = NULL"} lets function
+create grid determined by \code{"res"}}
 
-\item{k.folds}{Number of folds generated during cross-validation.  Default \code{"k.folds = 10"}}
+\item{k.folds}{Number of folds generated during cross-validation.
+Default \code{"k.folds = 10"}}
 
-\item{repeats}{Number of times cross-validation repeated.  Default \code{"repeats = 3"}}
+\item{repeats}{Number of times cross-validation repeated.
+Default \code{"repeats = 3"}}
 
-\item{resolution}{Resolution of model optimization grid.  Default \code{"resolution = 3"}}
+\item{resolution}{Resolution of model optimization grid.
+Default \code{"resolution = 3"}}
 
-\item{metric}{Criteria for model optimization.  Available options are \code{"Accuracy"} (Predication Accuracy),
-\code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the Curve - Receiver Operator Curve)}
+\item{metric}{Criteria for model optimization.
+Available options are \code{"Accuracy"} (Predication Accuracy),
+\code{"Kappa"} (Kappa Statistic), and \code{"AUC-ROC"} (Area Under the
+Curve - Receiver Operator Curve)}
 
-\item{allowParallel}{Logical argument dictating if parallel processing is allowed via foreach package.
+\item{allowParallel}{Logical argument dictating if parallel processing
+is allowed via foreach package.
 Default \code{allowParallel = FALSE}}
 
 \item{verbose}{Logical argument if should output progress}
@@ -47,7 +56,8 @@ Default \code{allowParallel = FALSE}}
 \value{
 \item{Methods}{Vector of models fit to data}
 
-\item{performance}{Performance metrics of each model and bootstrap iteration}
+\item{performance}{Performance metrics of each model and
+bootstrap iteration}
 
 \item{specs}{List with the
 following elements:}

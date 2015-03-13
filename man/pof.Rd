@@ -12,26 +12,35 @@ pof(x, y)
 \item{y}{vector of feature names}
 }
 \value{
-Returns the percent of overlapping features for the two vectors. It takes values in [0,1], with 0 meaning no overlap
-between two sets and 1 meaning two sets are identical.
+Returns the percent of overlapping features for the two vectors.
+It takes values in [0,1], with 0 meaning no overlap between two sets and 1
+meaning two sets are identical.
 }
 \description{
-Calculates percent of overlapping features between two vectors of features.  In brief,
-the closer to 1 the more similar the vectors.  The two vectors may have
-an arbitrary cardinality (i.e. don't need same length).
+Calculates percent of overlapping features between two vectors
+of features.  In brief, the closer to 1 the more similar the vectors.
+The two vectors may have an arbitrary cardinality (i.e. don't need
+same length).
+}
+\examples{
+# Percent-Overlapping Features demo
+v1 <- paste("Metabolite", seq(10), sep="_")
+v2 <- sample(v1, 10)
+pof(v1, v2)
 }
 \author{
 Charles E. Determan Jr.
 }
 \references{
-Shi L., et al. (2005) \emph{Cross-platform comparability of microarray
-technology: intra-platform consistency and appropriate data analysis procedures are essential}.
-BMC Bioinformatics. 6 (Suppl. 2) S12.
-He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}.
-Computational Biology and Chemistry 34 215-225.
+Shi L., et al. (2005) \emph{Cross-platform comparability
+of microarray technology: intra-platform consistency and appropriate data
+analysis procedures are essential}. BMC Bioinformatics. 6 (Suppl. 2) S12.
+He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for
+biomarker discovery}. Computational Biology and Chemistry 34 215-225.
 }
 \seealso{
-\code{\link{kuncheva}}, \code{\link{sorensen}}, \code{\link{ochiai}},
-\code{\link{pof}}, \code{\link{pairwise.stability}}, \code{\link{pairwise.model.stability}}
+\code{\link{kuncheva}}, \code{\link{sorensen}},
+\code{\link{ochiai}}, \code{\link{pof}}, \code{\link{pairwise.stability}},
+\code{\link{pairwise.model.stability}}
 }
 

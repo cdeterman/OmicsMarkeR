@@ -15,8 +15,9 @@ performance.metrics(fit.model, digits = max(3, getOption("digits") - 3))
 Dataframe of performance statistics by model
 }
 \description{
-This will provide a concise data.frame of confusion matrix and ROC statistics
-from the results of \code{fs.stability} or \code{fs.ensembl.stability}.
+This will provide a concise data.frame of confusion matrix
+and ROC statistics from the results of \code{fs.stability} or
+\code{fs.ensembl.stability}.
 }
 \author{
 Charles E. Determan Jr.

@@ -11,7 +11,8 @@ modelTuner(trainData, guide, method, inTrain, outTrain, lev,
 \arguments{
 \item{trainData}{Data used to fit the model}
 
-\item{guide}{Output from \code{\link{tune.instructions}}.  Facilitates the optimization by avoiding redundant model fitting.}
+\item{guide}{Output from \code{\link{tune.instructions}}.  Facilitates the
+optimization by avoiding redundant model fitting.}
 
 \item{method}{Vector of strins listing models to be fit}
 
@@ -21,19 +22,23 @@ modelTuner(trainData, guide, method, inTrain, outTrain, lev,
 
 \item{lev}{Group levels}
 
-\item{savePredictions}{Logical argument dictating if should save the prediction data.  Default \code{savePredictions = FALSE}}
+\item{savePredictions}{Logical argument dictating if should save the
+prediction data.  Default \code{savePredictions = FALSE}}
 
-\item{allowParallel}{Logical argument dictating if parallel processing is allowed via foreach package}
+\item{allowParallel}{Logical argument dictating if parallel processing
+is allowed via foreach package}
 
 \item{verbose}{Logical argument dictating if should print progress}
 
-\item{theDots}{List of additional arguments provided in the initial classification and features selection function}
+\item{theDots}{List of additional arguments provided in the initial
+classification and features selection function}
 }
 \value{
 Returns list of fitted models
 }
 \description{
-Optimizes each model based upon the parameters provided either by the internal \code{\link{denovo.grid}}
+Optimizes each model based upon the parameters provided either
+by the internal \code{\link{denovo.grid}}
 function or by the user.
 }
 \author{

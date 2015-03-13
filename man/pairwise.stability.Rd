@@ -12,8 +12,9 @@ pairwise.stability(features, stability.metric, nc)
 \item{stability.metric}{string indicating the type of stability metric.
 Available options are \code{"jaccard"} (Jaccard Index/Tanimoto Distance),
  \code{"sorensen"} (Dice-Sorensen's Index), \code{"ochiai"} (Ochiai's Index),
- \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"} (Kuncheva's Stability Measures),
- \code{"spearman"} (Spearman Rank Correlation), and \code{"canberra"} (Canberra Distance)}
+ \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"}
+ (Kuncheva's Stability Measures), \code{"spearman"} (Spearman Rank
+ Correlation), and \code{"canberra"} (Canberra Distance)}
 
 \item{nc}{Number of variables in original dataset}
 }
@@ -23,14 +24,28 @@ A list is returned containing:
 \item{overall}{The average of all pairwise comparisons}
 }
 \description{
-Conducts all pairwise comparisons of features selected following bootstrapping.
-Also known as the data perturbation ensemble approach
+Conducts all pairwise comparisons of features selected
+following bootstrapping. Also known as the data perturbation ensemble
+approach.
+}
+\examples{
+# pairwise.stability demo
+
+# For demonstration purposes only!!!
+some.numbers <- seq(20)
+
+# matrix of Metabolites identified (e.g. 5 trials)
+features <- 
+    replicate(5, paste("Metabolite", sample(some.numbers, 10), sep="_"))
+
+# nc may be omitted unless using kuncheva
+pairwise.stability(features, "jaccard")
 }
 \author{
 Charles Determan Jr
 }
 \references{
-He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}.
-Computational Biology and Chemistry 34 215-225.
+He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for
+biomarker discovery}. Computational Biology and Chemistry 34 215-225.
 }
 

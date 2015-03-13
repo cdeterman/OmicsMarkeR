@@ -19,8 +19,9 @@ Returns a list of the following elements
 \item{pnames}{The names of the specific parameters}
 }
 \description{
-When the user provides additional arguments to either \code{fs.stability} or
-\code{fs.ensembl.stability} this function will extract the parameters to be fit if optimization
-is not used i.e. \code{optimize = FALSE}.
+When the user provides additional arguments to either
+\code{fs.stability} or \code{fs.ensembl.stability} this function will
+extract the parameters to be fit if optimization is not used i.e.
+\code{optimize = FALSE}.
 }
 

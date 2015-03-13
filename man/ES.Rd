@@ -9,13 +9,15 @@ ES(efs, f)
 \arguments{
 \item{efs}{A matrix of selected features}
 
-\item{f}{The number of features desired.  If rank correlation desired, f = NULL}
+\item{f}{The number of features desired.  If rank correlation desired,
+f = NULL}
 }
 \value{
 \item{agg}{Aggregated list of features}
 }
 \description{
-Compiles matrix of ranked features via ensemble stability aggregation
+Compiles matrix of ranked features via ensemble
+stability aggregation
 }
 \author{
 Charles Determan Jr

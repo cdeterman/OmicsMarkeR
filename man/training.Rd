@@ -7,8 +7,8 @@
 training(data, method, tuneValue, obsLevels, theDots = NULL)
 }
 \arguments{
-\item{data}{Dataframe consisting of both numeric feature values and a single column
-named '.classes' to denoted group membership.}
+\item{data}{Dataframe consisting of both numeric feature values and a
+single column named '.classes' to denoted group membership.}
 
 \item{method}{String dictating which model to fit}
 
@@ -16,7 +16,8 @@ named '.classes' to denoted group membership.}
 
 \item{obsLevels}{Observed group levels}
 
-\item{theDots}{List of additional parameters to be applied to the specific model}
+\item{theDots}{List of additional parameters to be applied to the
+specific model}
 }
 \value{
 \item{fit}{Fitted model with list with the following elements:}

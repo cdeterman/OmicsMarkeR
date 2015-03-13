@@ -10,10 +10,12 @@ feature.table(features, method = NULL)
 \item{features}{A fs.stability fitted object}
 
 \item{method}{Algorithm of interest
-Available options are \code{"plsda"} (Partial Least Squares Discriminant Analysis),
- \code{"rf"} (Random Forest), \code{"gbm"} (Gradient Boosting Machine),
- \code{"svm"} (Support Vector Machines), \code{"glmnet"} (Elastic-net Generalized Linear Model),
- and \code{"pam"} (Prediction Analysis of Microarrays)}
+Available options are \code{"plsda"} (Partial Least Squares
+Discriminant Analysis), \code{"rf"} (Random Forest),
+\code{"gbm"} (Gradient Boosting Machine), \code{"svm"}
+(Support Vector Machines), \code{"glmnet"}
+(Elastic-net Generalized Linear Model), and \code{"pam"}
+(Prediction Analysis of Microarrays)}
 }
 \value{
 A data frame containing:

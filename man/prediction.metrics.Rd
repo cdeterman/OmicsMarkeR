@@ -20,19 +20,23 @@ prediction.metrics(finalModel, method, raw.data, inTrain, outTrain, features,
 
 \item{features}{List of selected features for each model}
 
-\item{bestTune}{List of parameters that have been optimized for the each respective model}
+\item{bestTune}{List of parameters that have been optimized for the each
+respective model}
 
 \item{grp.levs}{Vector of group levels}
 }
 \value{
-Returns a dataframe consisting of each feature selection runs evaluated Accuracy, Kappa,
-ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value.
+Returns a dataframe consisting of each feature selection runs
+evaluated Accuracy, Kappa, ROC.AUC, Sensitivity, Specificity, Positive
+Predictive Value, and Negative Predictive Value.
 }
 \description{
-Performance evaluation of all fitted models.  This function concisely provides
-model performance metrics, including confusion matrix and ROC.
+Performance evaluation of all fitted models.  This function
+concisely provides model performance metrics, including confusion matrix
+and ROC.
 }
 \seealso{
-\code{\link{performance.stats}}, \code{\link{perf.calc}} caret function \code{\link{confusionMatrix}}
+\code{\link{performance.stats}},
+\code{\link{perf.calc}} caret function \link[caret]{confusionMatrix}
 }
 

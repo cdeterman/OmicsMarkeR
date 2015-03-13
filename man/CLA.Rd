@@ -9,20 +9,22 @@ CLA(efs, f)
 \arguments{
 \item{efs}{A matrix of selected features}
 
-\item{f}{The number of features desired.  If rank correlation desired, f = NULL}
+\item{f}{The number of features desired.  If rank correlation
+desired, f = NULL}
 }
 \value{
 \item{agg}{Aggregated list of features}
 }
 \description{
-Compiles matrix of ranked features via complete linear aggregation
+Compiles matrix of ranked features via complete
+linear aggregation
 }
 \author{
 Charles Determan Jr
 }
 \references{
-Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y. (2010) \emph{Robust
-biomarker identification for cancer diagnosis with ensemble feature selection methods}.
-Bioinformatics 26:3 392-398.
+Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y.
+(2010) \emph{Robust biomarker identification for cancer diagnosis with
+ensemble feature selection methods}. Bioinformatics 26:3 392-398.
 }
 

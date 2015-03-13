@@ -12,8 +12,9 @@ pairwise.model.stability(features, stability.metric, nc)
 \item{stability.metric}{string indicating the type of stability metric.
 Avialable options are \code{"jaccard"} (Jaccard Index/Tanimoto Distance),
  \code{"sorensen"} (Dice-Sorensen's Index), \code{"ochiai"} (Ochiai's Index),
- \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"} (Kuncheva's Stability Measures),
- \code{"spearman"} (Spearman Rank Correlation), and \code{"canberra"} (Canberra Distance)}
+ \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"}
+ (Kuncheva's Stability Measures), \code{"spearman"} (Spearman Rank
+ Correlation), and \code{"canberra"} (Canberra Distance)}
 
 \item{nc}{Number of original features}
 }
@@ -23,14 +24,37 @@ A list is returned containing:
  \item{overall}{The average of all pairwise comparisons}
 }
 \description{
-Conducts all pairwise comparisons of each model's selected features selected
-following bootstrapping.  Also known as the function perturbation ensemble approach
+Conducts all pairwise comparisons of each model's selected
+features selected  following bootstrapping.  Also known as the function
+perturbation ensemble approach
+}
+\examples{
+# pairwise.model.stability demo
+# For demonstration purposes only!!!
+some.numbers <- seq(20)
+
+# A list containing the metabolite matrices for each algorithm
+# As an example, let's say we have the output from two different models
+# such as plsda and random forest.
+# matrix of Metabolites identified (e.g. 5 trials)
+plsda <- 
+    replicate(5, paste("Metabolite", sample(some.numbers, 10), sep="_"))
+rf <-
+    replicate(5, paste("Metabolite", sample(some.numbers, 10), sep="_"))
+
+features <- list(plsda=plsda, rf=rf)
+
+# nc may be omitted unless using kuncheva
+pairwise.model.stability(features, "kuncheva")
 }
 \author{
 Charles Determan Jr
 }
 \references{
-He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker discovery}.
-Computational Biology and Chemistry 34 215-225.
+He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for
+biomarker discovery}. Computational Biology and Chemistry 34 215-225.
+}
+\seealso{
+\code{\link{pairwise.stability}}
 }
 

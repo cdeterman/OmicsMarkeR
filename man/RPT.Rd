@@ -21,8 +21,13 @@ Harmonic mean of robustness and classification performance
 A variation on the F-measure (precision and recall) to
 assess robustness versus classification performance.
 }
+\examples{
+# RPT demo
+RPT(stability=0.85, performance=0.90, beta=1)
+}
 \references{
-Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and Knowledge Discovery in Databases}.
-313-325. http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
+Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and
+Knowledge Discovery in Databases}. 313-325.
+http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
 }
 

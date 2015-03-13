@@ -17,4 +17,10 @@ Returns the spearman rank coefficient for the two vectors
 \description{
 Calculates spearman rank correlation between two vectors
 }
+\examples{
+# Spearman demo
+v1 <- seq(10)
+v2 <- sample(v1, 10)
+spearman(v1, v2)
+}
 

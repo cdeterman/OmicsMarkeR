@@ -10,15 +10,18 @@ denovo.grid(data, method, res)
 \item{data}{data of method to be tuned}
 
 \item{method}{vector indicating the models to generate grids.
-Available options are \code{"plsda"} (Partial Least Squares Discriminant Analysis),
+Available options are \code{"plsda"} (Partial Least Squares
+Discriminant Analysis),
  \code{"rf"} (Random Forest), \code{"gbm"} (Gradient Boosting Machine),
- \code{"svm"} (Support Vector Machines), \code{"glmnet"} (Elastic-net Generalized Linear Model),
+ \code{"svm"} (Support Vector Machines), \code{"glmnet"}
+ (Elastic-net Generalized Linear Model),
  and \code{"pam"} (Prediction Analysis of Microarrays)}
 
 \item{res}{Resolution of model optimization grid.}
 }
 \value{
-A list containing dataframes of all combinations of parameters for each model:
+A list containing dataframes of all combinations of
+parameters for each model:
 }
 \description{
 Greates grid for optimizing selected models
@@ -27,7 +30,8 @@ Greates grid for optimizing selected models
 Charles Determan Jr
 }
 \seealso{
-\code{"expand.grid"} for generating grids of specific parameters desired.  However,
-NOTE that you must still convert the generated grid to a list.
+\code{"expand.grid"} for generating grids of specific
+parameters desired.  However, NOTE that you must still convert
+the generated grid to a list.
 }
 

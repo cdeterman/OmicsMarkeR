@@ -13,10 +13,11 @@
 Vector of feature weights
 }
 \description{
-This calculates feature weights for multiclass Support Vector Machine (SVM) problems
+This calculates feature weights for multiclass Support
+Vector Machine (SVM) problems
 }
 \references{
-Guyon I. et. al. (2010) \emph{Gene Selection for Cancer Classification using Support Vector Machines}.
-Machine Learning 46 389-422.
+Guyon I. et. al. (2010) \emph{Gene Selection for Cancer
+Classification using Support Vector Machines}. Machine Learning 46 389-422.
 }
 

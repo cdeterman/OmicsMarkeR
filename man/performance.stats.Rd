@@ -13,11 +13,12 @@ performance.stats(pred, obs)
 }
 \value{
 Returns confusion matrix and ROC performance statistics including
-Accuracy, Kappa, ROC.AUC, Sensitivity, Specificity, Positive Predictive Value, and Negative Predictive Value
+Accuracy, Kappa, ROC.AUC, Sensitivity, Specificity, Positive Predictive
+Value, and Negative Predictive Value
 }
 \description{
-Calculates confusion matrix and ROC statistics comparing the results of the fitted models
-to the observed groups.
+Calculates confusion matrix and ROC statistics comparing the
+results of the fitted models to the observed groups.
 }
 \seealso{
 caret function \code{\link{confusionMatrix}}

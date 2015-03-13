@@ -22,8 +22,9 @@ tune.instructions(method, grid)
  \item{vary: Indication of parameters that vary and can access recursively}}
 }
 \description{
-Provides directions for which parameters to loop over during tuning.  This becomes
-important when certain models can access 'lower' parameters without running them independently.
+Provides directions for which parameters to loop over
+during tuning.  This becomes important when certain models can access
+'lower' parameters without running them independently.
 }
 \author{
 Charles E. Determan Jr.

@@ -18,9 +18,11 @@ parameter A vector of possible parameters to be optimized
 
 label A vector of the names for each possible parameter
 
-seq A logical indicator if the parameter is sequential in the model (i.e. if model is able to fit all 'lower' parameters simultaneously)
+seq A logical indicator if the parameter is sequential in the
+model (i.e. if model is able to fit all 'lower' parameters simultaneously)
 }
 \description{
-Provides a list of the models with their respective parameters and properties.
+Provides a list of the models with their respective parameters
+and properties.
 }
 

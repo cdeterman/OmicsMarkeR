@@ -11,18 +11,21 @@ predicting(method, modelFit, orig.data, indicies, newdata, param = NULL)
 
 \item{modelFit}{The fitted model being evaluated}
 
-\item{orig.data}{The orginal data before subsetting training sets.  Required to have the 'observed' group membership}
+\item{orig.data}{The orginal data before subsetting training sets.
+Required to have the 'observed' group membership}
 
 \item{indicies}{The indicies for the training subsets}
 
 \item{newdata}{The testing data to predict group membership}
 
-\item{param}{The parameters being fit to the model (Determined by model optimization).}
+\item{param}{The parameters being fit to the model
+(Determined by model optimization).}
 }
 \value{
 Returns a list of predicted group membership
 }
 \description{
-This function evaluates a single fitted model and returns the predicted group memberships.
+This function evaluates a single fitted model and returns
+the predicted group memberships.
 }
 
