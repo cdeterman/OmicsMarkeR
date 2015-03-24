@@ -1,278 +1,607 @@
 % \VignetteIndexEntry{ A Short Introduction to the OmicMarkeR Package}
-% \VignetteDepends{OmicsMarkeR}
 % \VignettePackage{OmicsMarkeR}
-\documentclass[12pt]{article}
-\usepackage{colortbl}
-\usepackage{amsmath}
-\usepackage[pdftex]{graphicx}
-\usepackage{color}
-\usepackage{xspace}
-\usepackage{fancyvrb}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage[boxed, linesnumbered]{algorithm2e}
-\usepackage[
-         colorlinks=true,
-         linkcolor=blue,
-         citecolor=blue,
-         urlcolor=blue]
-         {hyperref}
+%\VignetteEngine{knitr::knitr}
 
-\usepackage{Sweave}
+% To compile this document
+% library('knitr'); rm(list=ls()); knit('OmicsMarkeR.Rnw')
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt]{article}\usepackage[]{graphicx}\usepackage[usenames,dvipsnames]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
 
-% define new colors for use
-\definecolor{darkgreen}{rgb}{0,0.6,0}
-\definecolor{darkred}{rgb}{0.6,0.0,0}
-\definecolor{lightbrown}{rgb}{1,0.9,0.8}
-\definecolor{brown}{rgb}{0.6,0.3,0.3}
-\definecolor{darkblue}{rgb}{0,0,0.8}
-\definecolor{darkmagenta}{rgb}{0.5,0,0.5}
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
 
-\newcommand{\bld}[1]{\mbox{\boldmath $#1$}}
-\newcommand{\shell}[1]{\mbox{$#1$}}
-\renewcommand{\vec}[1]{\mbox{\bf {#1}}}
- \newcommand{\codeheading}[1]{\mbox{\color{darkblue}\texttt{#1}}}
-\newcommand{\code}[1]{\mbox{\footnotesize\color{darkblue}\texttt{#1}}}
-\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
-\renewcommand{\pkg}[1]{{\textsf{#1}}}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
-\newcommand{\ReallySmallSpacing}{\renewcommand{\baselinestretch}{.6}\Large\normalsize}
-\newcommand{\SmallSpacing}{\renewcommand{\baselinestretch}{1.1}\Large\normalsize}
-
-\providecommand{\SetAlgoLined}{\SetLine}
-
-\newcommand{\halfs}{\frac{1}{2}}
-
-\setlength{\oddsidemargin}{-.25 truein}
-\setlength{\evensidemargin}{0truein}
-\setlength{\topmargin}{-0.2truein}
-\setlength{\textwidth}{7 truein}
-\setlength{\textheight}{8.5 truein}
-\setlength{\parindent}{0truein}
-\setlength{\parskip}{0.10truein}
-
-
-\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl,formatcom=\color{darkblue}} 
-\fvset{listparameters={\setlength{\topsep}{0pt}}}
-\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
-
-\fvset{fontsize=\footnotesize}
- 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagestyle{fancy}
-\lhead{}
-\chead{The {\tt OmicsMarkeR} Package}
-\rhead{}
-\lfoot{}
-\cfoot{}
-\rfoot{\thepage\ of \pageref{LastPage}}
-\renewcommand{\headrulewidth}{1pt}
-\renewcommand{\footrulewidth}{1pt}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\title{A Short Introduction to the \pkg{OmicsMarkeR} Package}
-\author{Charles Determan Jr. \\ cdetermanjr@hotmail.com}
+\usepackage{alltt}
 
 
+
+
+
+\RequirePackage{C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/Bioconductor}
+
+\AtBeginDocument{\bibliographystyle{C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/unsrturl}}
+
+
+
+\bioctitle{A Short Introduction to the \Biocpkg{OmicsMarkeR} Package}
+\author{Charles Determan Jr.\footnote{cdetermanjr@gmail.com}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
-\input{OmicsMarkeR-concordance}
 
 \maketitle
-
 \thispagestyle{empty}
-  
-\vspace{.2in}
-
-\renewcommand{\baselinestretch}{1}
 
 \maketitle
 \section{Introduction}
-The \pkg{OmicsMarkeR} package contains functions to streamline the analysis of
-'omics' level datasets with the objective to classify groups and determine the
-most important features. \pkg{OmicsMarkeR} loads packages as needed and assumes 
-that they are installed.  I will provide a short tutorial using the both synthetic
-datasets created by internal functions as well as the 'Sonar' dataset. 
-Install \pkg{OmicMarkeR} using  
+The \Biocpkg{OmicsMarkeR} package contains functions to streamline the analysis
+of 'omics' level datasets with the objective to classify groups and determine 
+the most important features. \Biocpkg{OmicsMarkeR} loads packages as needed and 
+assumes that they are installed.  I will provide a short tutorial using the 
+both synthetic datasets created by internal functions as well as the 'Sonar' 
+dataset. 
 
-\begin{Schunk}
-\begin{Sinput}
-> # currently in development
-> # install.packages("OmicsMarkeR", dependencies = c("Imports"))
-\end{Sinput}
-\end{Schunk}
-to ensure that all the needed packages are installed.
+Install \Biocpkg{OmicsMarkeR} using  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{source}\hlstd{(}\hlstr{"http://bioconductor.org/biocLite.R"}\hlstd{)}
+\hlkwd{biocLite}\hlstd{(}\hlstr{"OmicsMarkeR"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+    to ensure that all the needed packages are installed.
 
-You may also install the developmental version using
-\begin{Schunk}
-\begin{Sinput}
-> library(devtools)
-> install_github("OmicsMarkeR", username = "cdeterman")
-\end{Sinput}
-\end{Schunk}
-
+\newpage
 \maketitle
-\section{Example}
-\pkg{OmicsMarkeR} has a few simplified functions that attempt to streamline the classification
-and feature selection process including the addition of stability metrics. We will first generate a synthetic dataset.  This includes three functions that can be used to create multivariate datasets that can mimic specific omics examples.  This can include a null dataset via {\tt nvar = 50} and {\tt nsamp = 100}.  The {\tt create.corr.matrix} function induces correlations to the datasets.  The {\tt create.discr.matrix} function induces variables to be discriminate between groups.  The number of groups can be specified with {\tt num.groups}. 
+\section{Basic Classification Example}
+\pkg{OmicsMarkeR} has a few simplified functions that attempt to streamline 
+the classification and feature selection process including the addition of 
+stability metrics. We will first generate a synthetic dataset.  This includes 
+three functions that can be used to create multivariate datasets that can 
+mimic specific omics examples.  This can include a null dataset via the
+\Rfunction{create.rand.matrix} to create a random multivarate dataset with
+\Rcode{nvar = 50} and \Rcode{nsamp = 100}.  The \Rfunction{create.corr.matrix} 
+function induces correlations to the datasets.  The 
+\Rfunction{create.discr.matrix} function induces variables to be discriminate 
+between groups.  The number of groups can be specified with \Rcode{num.groups}. 
 
-\begin{Schunk}
-\begin{Sinput}
-> library("OmicsMarkeR")
-> set.seed(123)
-> dat.discr <- create.discr.matrix(
-+   create.corr.matrix(
-+     create.random.matrix(nvar = 50, 
-+                          nsamp = 100, 
-+                          st.dev = 1, 
-+                          perturb = 0.2)),
-+   D = 10
-+   )$discr.mat
-\end{Sinput}
-\end{Schunk}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{"OmicsMarkeR"}\hlstd{)}
+\hlkwd{set.seed}\hlstd{(}\hlnum{123}\hlstd{)}
+\hlstd{dat.discr} \hlkwb{<-} \hlkwd{create.discr.matrix}\hlstd{(}
+    \hlkwd{create.corr.matrix}\hlstd{(}
+        \hlkwd{create.random.matrix}\hlstd{(}\hlkwc{nvar} \hlstd{=} \hlnum{50}\hlstd{,}
+                             \hlkwc{nsamp} \hlstd{=} \hlnum{100}\hlstd{,}
+                             \hlkwc{st.dev} \hlstd{=} \hlnum{1}\hlstd{,}
+                             \hlkwc{perturb} \hlstd{=} \hlnum{0.2}\hlstd{)),}
+    \hlkwc{D} \hlstd{=} \hlnum{10}
+\hlstd{)}\hlopt{$}\hlstd{discr.mat}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+    
+To avoid confusion in the coding, one can isolate the variables and classes 
+from the newly created synthetic dataset.  These two objects are then used in 
+the \Rfunction{fs.stability} function.  I can then choose which algorithm(s) to 
+apply e.g. \Rcode{method = c("plsda", "rf")}, the number of top important 
+features \Rcode{f = 20}, the number of bootstrap reptititions for stability 
+analysis \Rcode{k = 3}, the number of k-fold cross-validations 
+\Rcode{k.folds = 10} and if I would like to see the progress output 
+\Rcode{verbose = TRUE}.
 
-To avoid confusion in the coding, one can isolate the variables and classes from the newly created synthetic dataset.  These two objects are then used in the {\tt fs.stability} function.  I can then choose which algorithm(s) to apply e.g. {\tt method = c("plsda", "rf")}, the number of top important features {\tt f = 20}, the number of bootstrap reptititions for stability analysis {\tt k = 3}, the number of k-fold cross-validations {\tt k.folds = 10} and if I would like to see the progress output {\tt verbose = TRUE}.
+\warning{You will receive warnings if you run code exactly as shown
+in this vignette.  This is intentional as the PLSDA runs with this simple
+dataset often only need a single component but you need to indicate 2
+to fit the model.  This is provided for the users information.}
 
-\begin{Schunk}
-\begin{Sinput}
-> vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-> groups <- dat.discr[,ncol(dat.discr)]
-> results <- fs.stability(vars, 
-+                         groups, 
-+                         method = c("plsda", "rf"), 
-+                         f = 10, 
-+                         k = 3, 
-+                         k.folds = 10, 
-+                         verbose = FALSE)
-\end{Sinput}
-\begin{Soutput}
-[1] "Model Tuning Complete"
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{vars} \hlkwb{<-} \hlstd{dat.discr[,}\hlnum{1}\hlopt{:}\hlstd{(}\hlkwd{ncol}\hlstd{(dat.discr)}\hlopt{-}\hlnum{1}\hlstd{)]}
+\hlstd{groups} \hlkwb{<-} \hlstd{dat.discr[,}\hlkwd{ncol}\hlstd{(dat.discr)]}
+\hlstd{fits} \hlkwb{<-} \hlkwd{fs.stability}\hlstd{(vars,}
+                    \hlstd{groups,}
+                    \hlkwc{method} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"plsda"}\hlstd{,} \hlstr{"rf"}\hlstd{),}
+                    \hlkwc{f} \hlstd{=} \hlnum{10}\hlstd{,}
+                    \hlkwc{k} \hlstd{=} \hlnum{3}\hlstd{,}
+                    \hlkwc{k.folds} \hlstd{=} \hlnum{10}\hlstd{,}
+                    \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+    
+If I would like to see the performance metrics, I can simply use the 
+\Rfunction{performance.metrics} function.  This will provide a concise 
+data.frame of confusion matrix and ROC statistics.  Additionally, the 
+Robustness-Performance Trade-off value (RPT) is provided with the results.
 
-Aggregating results
-Selecting tuning parameters
-[1] "plsda complete"
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{performance.metrics}\hlstd{(fits)}
+\hlstd{fits}\hlopt{$}\hlstd{RPT}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
-Aggregating results
-Selecting tuning parameters
-[1] "rf complete"
+If I would want to see the occurance of the features the model identified as the
+most important, this is accomplished by \Rfunction{feature.table}.  This 
+function returns a simple table reporting the consistency (i.e. how many times
+identified) and frequency (percent identified in all runs).
 
-Aggregating results
-Selecting tuning parameters
-Calculating Model Performance Statistics
-\end{Soutput}
-\end{Schunk}
-
-If I would like to see the performance metrics, I can simply use the {\tt performance.metrics} function.  This will provide a concise data.frame of confusion matrix and ROC statistics.  Additionally, the Robustness-Performance Trade-off value is provided with the results {\tt RPT}.
-
-\begin{Schunk}
-\begin{Sinput}
-> performance.metrics(results)
-\end{Sinput}
-\begin{Soutput}
-Model Performance Statistics
-
-                       plsda         rf
-Accuracy          0.88333333 0.93333333
-Kappa             0.76666667 0.86666667
-ROC.AUC           0.92000000 0.96000000
-Sensitivity       0.86666667 0.93333333
-Specificity       0.90000000 0.93333333
-Pos Pred Value    0.90303030 0.93333333
-Neg Pred Value    0.87777778 0.93333333
-Accuracy SD       0.07637626 0.11547005
-Kappa SD          0.15275252 0.23094011
-ROC.AUC SD        0.07549834 0.06928203
-Sensitivity SD    0.11547005 0.11547005
-Specificity SD    0.10000000 0.11547005
-Pos Pred Value SD 0.10013765 0.11547005
-Neg Pred Value SD 0.10715168 0.11547005
-\end{Soutput}
-\begin{Sinput}
-> results$RPT
-\end{Sinput}
-\begin{Soutput}
-    plsda        rf 
-0.7933472 0.4307692 
-\end{Soutput}
-\end{Schunk}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{feature.table}\hlstd{(fits,} \hlstr{"plsda"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
+If the user is interesting in applying the fitted model (determined by 
+\Rfunction{fs.stability}) towards some new data this can be accomplished with
+\Rfunction{predictNewClasses}.  This could either be yet another level to 
+evaluate the tuned model's performance or if the user is applying the model
+in a production type setting where you are systematically using this model
+on new data that comes in.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# create some 'new' data}
+\hlstd{newdata} \hlkwb{<-} \hlkwd{create.discr.matrix}\hlstd{(}
+    \hlkwd{create.corr.matrix}\hlstd{(}
+        \hlkwd{create.random.matrix}\hlstd{(}\hlkwc{nvar} \hlstd{=} \hlnum{50}\hlstd{,}
+                             \hlkwc{nsamp} \hlstd{=} \hlnum{100}\hlstd{,}
+                             \hlkwc{st.dev} \hlstd{=} \hlnum{1}\hlstd{,}
+                             \hlkwc{perturb} \hlstd{=} \hlnum{0.2}\hlstd{)),}
+    \hlkwc{D} \hlstd{=} \hlnum{10}
+\hlstd{)}\hlopt{$}\hlstd{discr.mat}
+
+\hlcom{# see what the PLSDA predicts for the new data}
+\hlcom{# NOTE, newdata does not require a .classes column}
+\hlkwd{predictNewClasses}\hlstd{(fits,} \hlstr{"plsda"}\hlstd{, dat.discr, newdata)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\newpage
 \maketitle
-\section{Manual Grid}
-If the user would prefer to tune different models to different resolutions one can simply use the {\tt denovo.grid} function to generate the level of resolution for each model, subsequently append the list together and submit as the {\tt grid} parameter of {\tt fs.stability}. For example, say the user would like to tune 15 components of the PLSDA model but only 3 levels of SVM.
+\section{Ensemble Methods}
 
-\begin{Schunk}
-\begin{Sinput}
-> grid <- denovo.grid(vars, "plsda", 15)
-> grid <- append(grid, denovo.grid(vars, "svm", 3)) 
-> grid
-\end{Sinput}
-\begin{Soutput}
-$plsda
-   .ncomp
-1       1
-2       2
-3       3
-4       4
-5       5
-6       6
-7       7
-8       8
-9       9
-10     10
-11     11
-12     12
-13     13
-14     14
-15     15
+In machine learning ensembles of models can be used to obtain better predictive
+performance than any individual model.  There are multiple types of ensemble
+types including the bayes optimal classifier, bayesian model averaging (BMA),
+bayesian model combination (BMC), boostrap aggregation (bagging), and boosting. 
+Although it is the intention to include all the methods the only currently
+implemented method is bagging.
 
-$svm
-    .C
-1 0.25
-2 0.50
-3 1.00
-\end{Soutput}
-\begin{Sinput}
-> results <- fs.stability(vars, 
-+                         groups, 
-+                         grid = grid,
-+                         method = c("plsda", "svm"), 
-+                         f = 10, 
-+                         k = 3, 
-+                         k.folds = 10, 
-+                         verbose = FALSE)
-\end{Sinput}
-\begin{Soutput}
-[1] "Model Tuning Complete"
+Bagging, in the simplest terms, is defined as giving a set of trained models
+equal weight when 'voting' on an optimal solution.  The most familiar 
+application of this concept is in the random forest algorithm.  This technique
+requires a defined aggregation technique to combine the set of models.  
+Implemented methods include Complete Linear Aggregation (\Rfunction{CLA}), 
+Ensemble Mean (\Rfunction{EM}), Ensemble Stability (\Rfunction{ES}), and
+Ensemble Exponential (\Rfunction{EE}).
 
-Aggregating results
-Selecting tuning parameters
-[1] "plsda complete"
+To conduct an ensemble analysis, the code is nearly identical to the first
+example in Section 1.  The \Rfunction{fs.ensembl.stability} function contains
+the same arguments as \Rfunction{fs.stability} in addition to a few more for
+the ensemble components.  Please see \Rcode{?fs.ensemble.stability} for
+complete details on each.  The two major additional parameters are 
+\Robject{bags} and \Robject{aggregation.metric}.  The \Robject{bags} parameter
+naturally defines the number of bagging iterations and the 
+\Robject{aggregation.metric} is a string defining the aggregation method.  These
+arguments have common defaults predefined so the call can be:
 
-Aggregating results
-Selecting tuning parameters
-[1] "svm complete"
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{fits} \hlkwb{<-} \hlkwd{fs.ensembl.stability}\hlstd{(vars,}
+                            \hlstd{groups,}
+                            \hlkwc{method} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"plsda"}\hlstd{,} \hlstr{"rf"}\hlstd{),}
+                            \hlkwc{f} \hlstd{=} \hlnum{10}\hlstd{,}
+                            \hlkwc{k} \hlstd{=} \hlnum{3}\hlstd{,}
+                            \hlkwc{k.folds} \hlstd{=} \hlnum{10}\hlstd{,}
+                            \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
-Aggregating results
-Selecting tuning parameters
-Calculating Model Performance Statistics
-\end{Soutput}
-\end{Schunk}
+As in Section 1, the \Rfunction{performance.metrics} function can be applied
+for summary statistics.
 
-If the user would prefer to set a particular range for the parameters, such as components 3-8 in the PLSDA model, one can simply use the {\tt expand.grid} function for which {\tt denovo.grid} is simply a wrapper function.  {\tt denovo.grid}, however, has been designed to create grids with acceptable increments and relationships between parameters, with particular note to Random Forest, Gradient Boosting Machines, and Support Vector Machines and is generally recommended.
+\newpage
+\subsection{Aggregation Methods}
 
-\begin{Schunk}
-\begin{Sinput}
-> grid <- list(expand.grid(.ncomp = seq(3,8)))
-> grid <- append(grid, list(expand.grid(.C = c(.50, 1))))
-> names(grid) <- c("plsda", "svm")
-\end{Sinput}
-\end{Schunk}
+If the user wishes to apply an aggregation method manually utilizing results
+from an alternative analysis, this can also be done.  This package provides
+a the wrapper \Rfunction{aggregation} to appply this analysis.  For these 
+methods, the variables must have been ranked and the rownames assigned as the
+variable names.  The function then will return that aggregated list of 
+variables with their new respective ranks.
 
-NOTE!!! The user should make sure to add the '.' before the parameter as this is important for internal consistency of the functions.  Furthermore, the user currently must specify all optimizable parameters (package will possibly implement defaults in the future for this scenario).  This method can be used to set any combination of parameters desired given the user is familiar with choosing and optimizing such parameters.  The parameters are the same as the native packages and can be easily accessed with the {\tt params} function.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# test data}
+\hlstd{ranks} \hlkwb{<-} \hlkwd{replicate}\hlstd{(}\hlnum{5}\hlstd{,} \hlkwd{sample}\hlstd{(}\hlkwd{seq}\hlstd{(}\hlnum{50}\hlstd{),} \hlnum{50}\hlstd{))}
+\hlkwd{row.names}\hlstd{(ranks)} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"V"}\hlstd{,} \hlkwd{seq}\hlstd{(}\hlnum{50}\hlstd{))}
+
+\hlkwd{aggregation}\hlstd{(ranks,} \hlstr{"CLA"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+This is used internally in \Rfunction{fs.ensembl.stability} to optimize which
+variables are selected to be included in the final optimized model.  The only
+exception to the format above is with the \Rfunction{EE} function where the 
+number of variables must be defined with \Robject{f}.
+
+\newpage
+\maketitle
+\section{Custom Tuning}
+
+The default implementation assumes that each model will be tuned with the same
+resolution of tuning parameters.  For example, a default call with PLSDA and 
+Random Forest will result in tuning 3 components and 3 mtry for each
+respectively.  However, let's say I want to be more fine tuned with my
+random forest model.  You can create a customized grid using 
+\Rfunction{denovo.grid}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{plsda} \hlkwb{<-} \hlkwd{denovo.grid}\hlstd{(vars,} \hlstr{"plsda"}\hlstd{,} \hlnum{3}\hlstd{)}
+\hlstd{rf} \hlkwb{<-} \hlkwd{denovo.grid}\hlstd{(vars,} \hlstr{"rf"}\hlstd{,} \hlnum{5}\hlstd{)}
+
+\hlcom{# create grid list}
+\hlcom{# Make sure to assign appropriate model names}
+\hlstd{grid} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{plsda}\hlstd{=plsda,} \hlkwc{rf}\hlstd{=rf)}
+
+\hlcom{# pass to fs.stability or fs.ensemble.stability}
+\hlstd{fits} \hlkwb{<-} \hlkwd{fs.stability}\hlstd{(vars,}
+                    \hlstd{groups,}
+                    \hlkwc{method} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"plsda"}\hlstd{,} \hlstr{"rf"}\hlstd{),}
+                    \hlkwc{f} \hlstd{=} \hlnum{10}\hlstd{,}
+                    \hlkwc{k} \hlstd{=} \hlnum{3}\hlstd{,}
+                    \hlkwc{k.folds} \hlstd{=} \hlnum{10}\hlstd{,}
+                    \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+                    \hlkwc{grid} \hlstd{= grid)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The user can create their own grid completely manually but must use the 
+appropriate names as defined by the functions.  These can be check with 
+\Rfunction{params}.  As an example: \Rcode{params{method="plsda"}}.  
+
+\textbf{Note} - the argument names must be preceded by a period.  This is to
+prevent any unforseen conflicts in the code.
+
+\newpage
+\maketitle
+\section{Stability Metrics}
+\subsection{Stability Metric Basics}
+
+It is quite possible that a user may already have fitted a model previously
+or using a model that has not yet been implemented in this package.  However,
+they may be interested in applying one or more of the stability metrics
+defined within this package.  These functions are very simple to use.  To 
+demonstrate, let's create some sample data consisting of our \textbf{Metabolite
+Population}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{metabs} \hlkwb{<-} \hlkwd{paste}\hlstd{(}\hlstr{"Metabolite"}\hlstd{,} \hlkwd{seq}\hlstd{(}\hlnum{20}\hlstd{),} \hlkwc{sep}\hlstd{=}\hlstr{"_"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Now, let's say you have run you different special model twice on different 
+samples of a dataset.  You complete your feature selection and get two lists
+of Metabolites.  Here I am just randomly sampling.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{13}\hlstd{)}
+\hlstd{run1} \hlkwb{<-} \hlkwd{sample}\hlstd{(metabs,} \hlnum{10}\hlstd{)}
+\hlstd{run2} \hlkwb{<-} \hlkwd{sample}\hlstd{(metabs,} \hlnum{10}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The user can now evaluate how similar the sets of metabolites selected are via
+multiple possible stability metrics.  These include the Jaccard Index 
+(\Rfunction{jaccard}), Dice-Sorensen (\Rfunction{sorensen}), Ochiai's Index 
+(\Rfunction{ochiai}), Percent of Overlapping Features (\Rfunction{pof}), 
+Kuncheva's Index (\Rfunction{kuncheva}), Spearman (\Rfunction{spearman}), and
+Canberra (\Rfunction{canberra}).  The latter two methods are not 
+\emph{Set Methods} and do require the same number of features in each vector.
+The relevant citations are provided in each function's documenation.
+
+The general use for most of the functions is:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{jaccard}\hlstd{(run1, run2)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.25
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+The exception to this is Kuncheva's Index.  This requires one additional
+parameter, the number of features (e.g. metabolites) in the original dataset.
+This metric is designed to account for smaller numbers of variables increasing
+the likelihood of matching sets by chance.  Naturally, if you have many more
+variables it would be far more indicative of significance if you see the same
+small subset again and again as opposed to a small set seeing the same 
+variables.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# In this case, 20 original variables}
+\hlkwd{kuncheva}\hlstd{(run1, run2,} \hlnum{20}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] -0.2
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\newpage
+\subsection{Pairwise Stability}
+\subsubsection{Pairwise Feature Stability}
+
+The above examples immediately lead to the question, what if I have more than
+two runs?  What I have 3, 5, 10, or more bootstrap iterations?  This is also
+know as a data perturbation ensemble approach.  It would be  very tedious to 
+have to call the same function for every single comparison.  Therefore a 
+pairwise function exists to allow a rapid comparison between all sets.  
+This \Rfunction{pairwise.stability} is very similar to the individual 
+stability functions in practice.  Let's take an example consisting of 5 runs.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{21}\hlstd{)}
+\hlcom{# matrix of Metabolites identified (e.g. 5 trials)}
+\hlstd{features} \hlkwb{<-} \hlkwd{replicate}\hlstd{(}\hlnum{5}\hlstd{,} \hlkwd{sample}\hlstd{(metabs,} \hlnum{10}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Please note that currently only \Rclass{matrix} objects are accepted by
+\Rfunction{pairwise.stability}.  To use the function, you simply pass your 
+matrix of variables and stability metric (e.g. sorensen).  The only exception
+is when applying Kuncheva's Index where the \Robject{nc} parameter again must
+be set (which can be ignored otherwise).  This will return all list containing 
+the upper triangular matrix of stability values and an overall average.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{pairwise.stability}\hlstd{(features,} \hlstr{"sorensen"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## $comparisons
+##            Resample.2 Resample.3 Resample.4 Resample.5
+## Resample.1        0.4        0.4        0.5        0.5
+## Resample.2        0.0        0.5        0.5        0.5
+## Resample.3        0.0        0.0        0.5        0.5
+## Resample.4        0.0        0.0        0.0        0.7
+## 
+## $overall
+## [1] 0.5
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\newpage
+\subsubsection{Pairwise Model Stability}
+
+Now, in the spirit of this package, you may have the alternate approach whereby
+you have created several bootstrapped data sets and run a different statistical
+model on each data set.  You could compare each one manually, but again to 
+avoid such tedious work another function is provided for specifically this
+purpose.  Let's take a theoretical example where I have bootstrapped 5 different
+data sets and applied two models to each dataset (PLSDA and Random Forest).
+Please note that currently only \Rclass{list} objects are accepted by
+\Rfunction{pairwise.model.stability}.
+
+\textbf{Note} - here I am only randomly sampling but in practice the each model
+would have been trained on the same dataset. 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{999}\hlstd{)}
+\hlstd{plsda} \hlkwb{<-}
+    \hlkwd{replicate}\hlstd{(}\hlnum{5}\hlstd{,} \hlkwd{paste}\hlstd{(}\hlstr{"Metabolite"}\hlstd{,} \hlkwd{sample}\hlstd{(metabs,} \hlnum{10}\hlstd{),} \hlkwc{sep}\hlstd{=}\hlstr{"_"}\hlstd{))}
+\hlstd{rf} \hlkwb{<-}
+    \hlkwd{replicate}\hlstd{(}\hlnum{5}\hlstd{,} \hlkwd{paste}\hlstd{(}\hlstr{"Metabolite"}\hlstd{,} \hlkwd{sample}\hlstd{(metabs,} \hlnum{10}\hlstd{),} \hlkwc{sep}\hlstd{=}\hlstr{"_"}\hlstd{))}
+
+\hlstd{features} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{plsda}\hlstd{=plsda,} \hlkwc{rf}\hlstd{=rf)}
+
+\hlcom{# nc may be omitted unless using kuncheva}
+\hlkwd{pairwise.model.stability}\hlstd{(features,} \hlstr{"kuncheva"}\hlstd{,} \hlkwc{nc}\hlstd{=}\hlnum{20}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## $comparisons
+##             Resample.1 Resample.2 Resample.3 Resample.4 Resample.5
+## plsda.vs.rf       -0.4       -0.6          0       -0.4          0
+## 
+## $overall
+## [1] -0.28
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\newpage
+\section{Permuation Analysis}
+
+One additional level of analysis often applied to these datasets is Monte
+Carlo Permuations.  For example, I would like to check the chance that
+my data can distinguish between the groups by chance.  This can be done by
+permuting the groups in the dataset and applying the model on each permuation.
+This can be accomplished with \Rfunction{perm.class}, which also provides a 
+plot of the classification distribution.  Additionally, one may
+be interested in another way to evaluate the importance of variables to the 
+distinguishing the groups.  Once again, groups can be permuted, the model
+refit to the data and the importance of the variables evaluated.  This is
+accomplished with \Rfunction{perm.features}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# permuate class}
+\hlkwd{perm.class}\hlstd{(fits, vars, groups,} \hlstr{"rf"}\hlstd{,} \hlkwc{k.folds}\hlstd{=}\hlnum{5}\hlstd{,}
+           \hlkwc{metric}\hlstd{=}\hlstr{"Accuracy"}\hlstd{,} \hlkwc{nperm}\hlstd{=}\hlnum{10}\hlstd{)}
+
+
+\hlcom{# permute variables/features}
+\hlkwd{perm.features}\hlstd{(fits, vars, groups,} \hlstr{"rf"}\hlstd{,}
+        \hlkwc{sig.level} \hlstd{=} \hlnum{.05}\hlstd{,} \hlkwc{nperm} \hlstd{=} \hlnum{10}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\newpage
+\section{Parallel Analysis}
+
+Given the repetitive nature of this analysis there are ample opportunities to
+level the power of parallel computing.  These include \Rfunction{fs.stability},
+\Rfunction{fs.ensembl.stability}, \Rfunction{perm.class}, and 
+\Rfunction{perm.features} simply by specifying the parameter 
+\Rcode{allowParallel = TRUE} in the respective function. However, the parallel
+backend must be registered in order to work. There are slight differences 
+between operating systems so here are two examples.
+
+For Unix OS, you probably will use \CRANpkg{doMC}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(doMC)}
+
+\hlstd{n} \hlkwb{<-} \hlkwd{detectCores}\hlstd{()}
+\hlkwd{registerDoMC}\hlstd{(n)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+For a Windows OS, you likely with use the \CRANpkg{doSNOW}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(parallel)}
+\hlkwd{library}\hlstd{(doSNOW)}
+
+\hlcom{# get number of cores}
+\hlstd{n} \hlkwb{<-} \hlkwd{detectCores}\hlstd{()}
+
+\hlcom{# make clusters}
+\hlstd{cl} \hlkwb{<-} \hlkwd{makeCluster}\hlstd{(n)}
+
+\hlcom{# register backend}
+\hlkwd{registerDoSNOW}\hlstd{(cl)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\textbf{NOTE} - remember to stop your clusters on Windows when you are finished 
+with \Rcode{stopCluster(cl)}.
+
+\newpage
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{sessionInfo}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## R version 3.1.2 (2014-10-31)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] OmicsMarkeR_0.99.2 knitr_1.9         
+## 
+## loaded via a namespace (and not attached):
+##  [1] assertive_0.1-8     BiocStyle_1.4.1     bitops_1.0-6        BradleyTerry2_1.0-5
+##  [5] brglm_0.5-9         car_2.0-24          caret_6.0-41        caTools_1.17.1     
+##  [9] chron_2.3-45        class_7.3-11        cluster_2.0.1       codetools_0.2-10   
+## [13] colorspace_1.2-4    data.table_1.9.4    digest_0.6.8        DiscriMiner_0.1-29 
+## [17] e1071_1.6-4         evaluate_0.5.5      foreach_1.4.2       formatR_1.0        
+## [21] gbm_2.1             ggplot2_1.0.0       glmnet_1.9-8        grid_3.1.2         
+## [25] gtable_0.1.2        gtools_3.4.1        highr_0.4           iterators_1.0.7    
+## [29] lattice_0.20-29     lme4_1.1-7          MASS_7.3-37         Matrix_1.1-5       
+## [33] mgcv_1.8-4          minqa_1.2.4         munsell_0.4.2       nlme_3.1-119       
+## [37] nloptr_1.0.4        nnet_7.3-8          pamr_1.55           parallel_3.1.2     
+## [41] pbkrtest_0.4-2      permute_0.8-3       plyr_1.8.1          proto_0.3-10       
+## [45] quantreg_5.11       randomForest_4.6-10 Rcpp_0.11.4         reshape2_1.4.1     
+## [49] scales_0.2.4        SparseM_1.6         splines_3.1.2       stringr_0.6.2      
+## [53] survival_2.37-7     tools_3.1.2
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 \end{document}

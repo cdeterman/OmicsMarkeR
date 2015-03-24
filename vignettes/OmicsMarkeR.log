@@ -1,21 +1,21 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.20)  5 JUN 2014 14:12
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.8.26)  24 MAR 2015 13:22
 entering extended mode
 **OmicsMarkeR.tex
-(C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR.tex
+(C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
 croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, iceland
+lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
 ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
  lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
-german-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
 ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
 an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
 ishmax, welsh, loaded.
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo"
 File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -30,205 +30,76 @@ File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\colortbl\colortbl.sty"
-Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
-Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
-\col@sep=\dimen103
-\extrarowheight=\dimen104
-\NC@list=\toks14
-\extratabsurround=\skip43
-\backup@length=\skip44
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
-Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-Package color Info: Driver file: pdftex.def on input line 130.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count87
 ))
-\everycr=\toks15
-\minrowclearance=\skip45
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
-Package: amsmath 2013/01/14 v2.14 AMS math features
-\@mathmargin=\skip46
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
-For additional information on amsmath, use the `?' option.
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
-Package: amstext 2000/06/29 v2.01
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
-File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks16
-\ex@=\dimen105
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\dvipsnam.def"
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
-Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen106
+(C:\Users\cdeterman\AppData\Roaming\MiKTeX\2.9\tex\latex\framed\framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip43
+\fb@frw=\dimen105
+\fb@frh=\dimen106
+\FrameRule=\dimen107
+\FrameSep=\dimen108
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
-Package: amsopn 1999/12/14 v2.01 operator names
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\alltt.sty"
+Package: alltt 1997/06/16 v2.0g defines alltt environment
 )
-\inf@bad=\count88
-LaTeX Info: Redefining \frac on input line 210.
-\uproot@=\count89
-\leftroot@=\count90
-LaTeX Info: Redefining \overline on input line 306.
-\classnum@=\count91
-\DOTSCASE@=\count92
-LaTeX Info: Redefining \ldots on input line 378.
-LaTeX Info: Redefining \dots on input line 381.
-LaTeX Info: Redefining \cdots on input line 466.
-\Mathstrutbox@=\box26
-\strutbox@=\box27
-\big@size=\dimen107
-LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
-\macc@depth=\count93
-\c@MaxMatrixCols=\count94
-\dotsspace@=\muskip10
-\c@parentequation=\count95
-\dspbrk@lvl=\count96
-\tag@help=\toks17
-\row@=\count97
-\column@=\count98
-\maxfields@=\count99
-\andhelp@=\toks18
-\eqnshift@=\dimen108
-\alignsep@=\dimen109
-\tagshift@=\dimen110
-\tagwidth@=\dimen111
-\totwidth@=\dimen112
-\lineht@=\dimen113
-\@envbody=\toks19
-\multlinegap=\skip47
-\multlinetaggap=\skip48
-\mathdisplay@stack=\toks20
-LaTeX Info: Redefining \[ on input line 2665.
-LaTeX Info: Redefining \] on input line 2666.
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
-Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+(C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/Bioco
+nductor.sty
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
-Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
-\KV@toks@=\toks21
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+LaTeX Warning: You have requested package `C:/Users/cdeterman/Documents/R/R-3.1
+.2/library/BiocStyle/resources/latex/Bioconductor',
+               but the package provides `Bioconductor'.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
-Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
-)
-Package graphics Info: Driver file: pdftex.def on input line 91.
-)
-\Gin@req@height=\dimen114
-\Gin@req@width=\dimen115
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\xspace.sty"
-Package: xspace 2009/10/20 v1.13 Space after command names (DPC,MH)
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\fancyvrb\fancyvrb.sty"
-Package: fancyvrb 2008/02/07
-
-Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
-<2008/02/07> (tvz)
-\FV@CodeLineNo=\count100
-\FV@InFile=\read1
-\FV@TabBox=\box28
-\c@FancyVerbLine=\count101
-\FV@StepNumber=\count102
-\FV@OutFile=\write3
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
-\fancy@headwidth=\skip49
-\f@ncyO@elh=\skip50
-\f@ncyO@erh=\skip51
-\f@ncyO@olh=\skip52
-\f@ncyO@orh=\skip53
-\f@ncyO@elf=\skip54
-\f@ncyO@erf=\skip55
-\f@ncyO@olf=\skip56
-\f@ncyO@orf=\skip57
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\lastpage\lastpage.sty"
-Package: lastpage 2013/01/28 v1.2l Refers to last page's name (HMM; JPG)
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\algorithm2e\algorithm2e.sty"
-Package: algorithm2e 2013/01/06 v5.00 algorithms environments
-\c@AlgoLine=\count103
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
-Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\ltxmisc\relsize.sty"
-Package: relsize 2003/07/04 ver 3.1
-)
-********************************************************
-Package `algorithm2e' Release 5.0 -- january 06 2013 --
-- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
-- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
-subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
-- Author: Christophe Fiorio (cfiorio@um2.fr)
-********************************************************
-\skiptotal=\skip58
-\skiplinenumber=\skip59
-\skiprule=\skip60
-\skiphlne=\skip61
-\skiptext=\skip62
-\skiplength=\skip63
-\algomargin=\skip64
-\skipalgocfslide=\skip65
-\algowidth=\dimen116
-\inoutsize=\dimen117
-\inoutindent=\dimen118
-\interspacetitleruled=\dimen119
-\interspacealgoruled=\dimen120
-\interspacetitleboxruled=\dimen121
-\algocf@inoutbox=\box29
-\algocf@inputbox=\box30
-\AlCapSkip=\skip66
-\AlCapHSkip=\skip67
-\algoskipindent=\skip68
-\algocf@nlbox=\box31
-\algocf@hangingbox=\box32
-\algocf@untilbox=\box33
-\algocf@skipuntil=\skip69
-\algocf@capbox=\box34
-\algoheightruledefault=\skip70
-\algoheightrule=\skip71
-\algotitleheightruledefault=\skip72
-\algotitleheightrule=\skip73
-\c@algocfline=\count104
-\c@algocfproc=\count105
-\c@algocf=\count106
-\algocf@algoframe=\box35
-\algocf@algobox=\box36
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: Bioconductor 2013/07/01 Bioconductor vignette style
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
 Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
 
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
 Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -269,28 +140,37 @@ Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
 Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 )
-\@linkdim=\dimen122
-\Hy@linkcounter=\count107
-\Hy@pagecounter=\count108
+\@linkdim=\dimen109
+\Hy@linkcounter=\count88
+\Hy@pagecounter=\count89
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count109
+\Hy@SavedSpaceFactor=\count90
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
+Package hyperref Info: Option `pdfpagelabels' set `true' on input line 4319.
+Package hyperref Info: Option `plainpages' set `false' on input line 4319.
+Package hyperref Info: Option `bookmarks' set `true' on input line 4319.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4319.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4319
+.
 Package hyperref Info: Option `colorlinks' set `true' on input line 4319.
+Package hyperref Info: Option `breaklinks' set `true' on input line 4319.
+Package hyperref Info: Option `raiselinks' set `true' on input line 4319.
+Package hyperref Info: Option `pdfusetitle' set `true' on input line 4319.
 Package hyperref Info: Hyper figures OFF on input line 4443.
 Package hyperref Info: Link nesting OFF on input line 4448.
 Package hyperref Info: Hyper index ON on input line 4451.
@@ -298,17 +178,17 @@ Package hyperref Info: Plain pages OFF on input line 4458.
 Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
-\c@Hy@tempcnt=\count110
+\c@Hy@tempcnt=\count91
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
-\Urlmuskip=\muskip11
-Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+(C:\Users\cdeterman\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
-\XeTeXLinkMargin=\dimen123
-\Fld@menulength=\count111
-\Field@Width=\dimen124
-\Fld@charsize=\dimen125
+\XeTeXLinkMargin=\dimen110
+\Fld@menulength=\count92
+\Field@Width=\dimen111
+\Fld@charsize=\dimen112
 Package hyperref Info: Hyper figures OFF on input line 6295.
 Package hyperref Info: Link nesting OFF on input line 6300.
 Package hyperref Info: Hyper index ON on input line 6303.
@@ -318,244 +198,298 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count112
-\c@Item=\count113
-\c@Hfootnote=\count114
+\Hy@abspage=\count93
+\c@Item=\count94
+\c@Hfootnote=\count95
 )
 
-Package hyperref Message: Driver (autodetected): hpdftex.
+Package hyperref Message: Driver: hpdftex.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
-\Fld@listcount=\count115
-\c@bookmark@seq@number=\count116
+\Fld@listcount=\count96
+\c@bookmark@seq@number=\count97
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip74
+\Hy@SectionHShift=\skip44
 )
-(C:/PROGRA~1/R/R-30~1.2/share/texmf/tex/latex\Sweave.sty
-Package: Sweave 
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+Package: geometry 2010/09/12 v5.6 Page Geometry
+\Gm@cnth=\count98
+\Gm@cntv=\count99
+\c@Gm@tempcnt=\count100
+\Gm@bindingoffset=\dimen113
+\Gm@wd@mp=\dimen114
+\Gm@odd@mp=\dimen115
+\Gm@even@mp=\dimen116
+\Gm@layoutwidth=\dimen117
+\Gm@layoutheight=\dimen118
+\Gm@layouthoffset=\dimen119
+\Gm@layoutvoffset=\dimen120
+\Gm@dimlist=\toks15
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\textcomp.sty"
-Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
-Package textcomp Info: Sub-encoding information:
-(textcomp)               5 = only ISO-Adobe without \textcurrency
-(textcomp)               4 = 5 + \texteuro
-(textcomp)               3 = 4 + \textohm
-(textcomp)               2 = 3 + \textestimated + \textcurrency
-(textcomp)               1 = TS1 - \textcircled - \t
-(textcomp)               0 = TS1 (full)
-(textcomp)             Font families with sub-encoding setting implement
-(textcomp)             only a restricted character set as indicated.
-(textcomp)             Family '?' is the default used for unknown fonts.
-(textcomp)             See the documentation for details.
-Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1enc.def"
-File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+(C:\Users\cdeterman\AppData\Roaming\MiKTeX\2.9\tex\latex\sectsty\sectsty.sty
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
+les
 )
-LaTeX Info: Redefining \oldstylenums on input line 266.
-Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 281.
-Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 282.
-Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 283.
-Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 284.
-Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 285.
-Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 286.
-Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 287.
-Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 288.
-Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 289.
-Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 290.
-Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 291.
-Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 292.
-Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 293.
-Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 294.
-Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 295.
-Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 296.
-Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 297.
-Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 298.
-Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 299.
-Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 300.
-Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 301.
-Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 302.
-Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 303.
-Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 304.
-
-Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 305.
-Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 306.
-Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 307.
-Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 308.
-Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 309.
-Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 310.
-Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 311.
-Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 312.
-Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 313.
-Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 314.
-Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 315.
-Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 316.
-Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 317.
-Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 318.
-Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 319.
-Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 320.
-Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 321.
-Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 322.
-Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 323.
-Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 324.
-Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 325.
-Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 326.
-Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 327.
-Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 328.
-Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 329.
-Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 330.
-Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 331.
-Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 332.
-Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 333.
-Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 334.
-Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 335.
-Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 336.
-Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 337.
-Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
-Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
-Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
+(C:\Users\cdeterman\AppData\Roaming\MiKTeX\2.9\tex\latex\fancyhdr\fancyhdr.sty
+\fancy@headwidth=\skip45
+\f@ncyO@elh=\skip46
+\f@ncyO@erh=\skip47
+\f@ncyO@olh=\skip48
+\f@ncyO@orh=\skip49
+\f@ncyO@elf=\skip50
+\f@ncyO@erf=\skip51
+\f@ncyO@olf=\skip52
+\f@ncyO@orf=\skip53
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
-Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
-File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
-LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
+less on input line 50.
+
+
+Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
+less on input line 51.
+
+(C:\Users\cdeterman\AppData\Roaming\MiKTeX\2.9\tex\latex\enumitem\enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip54
+\enit@outerparindent=\dimen121
+\enit@toks=\toks16
+\enit@inbox=\box26
+\enitdp@description=\count101
+) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\parskip.sty"
+Package: parskip 2001/04/09 non-zero parskip adjustments
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\ae\ae.sty"
-Package: ae 2001/02/12 1.3 Almost European Computer Modern
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
-Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
-File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
-LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+(C:\Users\cdeterman\AppData\Roaming\MiKTeX\2.9\tex\latex\upquote\upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
 )
-LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\ae\t1aer.fd"
-File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-))))
-(C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 82.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 82.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
-File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    ... okay on input line 82.
-
-("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+(C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+(C:\Users\cdeterman\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count117
-\scratchdimen=\dimen126
-\scratchbox=\box37
-\nofMPsegments=\count118
-\nofMParguments=\count119
-\everyMPshowfont=\toks22
-\MPscratchCnt=\count120
-\MPscratchDim=\dimen127
-\MPnumerator=\count121
-\makeMPintoPDFobject=\count122
-\everyMPtoPDFconversion=\toks23
+\scratchcounter=\count102
+\scratchdimen=\dimen122
+\scratchbox=\box27
+\nofMPsegments=\count103
+\nofMParguments=\count104
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count105
+\MPscratchDim=\dimen123
+\MPnumerator=\count106
+\makeMPintoPDFobject=\count107
+\everyMPtoPDFconversion=\toks18
 )
-Package lastpage Info: Please have a look at the pageslts package at
-(lastpage)             http://www.ctan.org/tex-archive/ 
-(lastpage)             macros/latex/contrib/pageslts/ 
-(lastpage)             or
-(lastpage)             http://www.ctan.org/tex-archive/ 
-(lastpage)             install/macros/latex/contrib/pageslts.tds.zip
-(lastpage)             ! on input line 82.
-\AtBeginShipoutBox=\box38
-Package hyperref Info: Link coloring ON on input line 82.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+\AtBeginShipoutBox=\box28
+Package hyperref Info: Link coloring ON on input line 72.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count123
+\c@section@level=\count108
 )
-LaTeX Info: Redefining \ref on input line 82.
-LaTeX Info: Redefining \pageref on input line 82.
-LaTeX Info: Redefining \nameref on input line 82.
+LaTeX Info: Redefining \ref on input line 72.
+LaTeX Info: Redefining \pageref on input line 72.
+LaTeX Info: Redefining \nameref on input line 72.
 
-(C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR.out)
-(C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR.out)
-\@outlinefile=\write4
+(C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.out)
+(C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.out)
+\@outlinefile=\write3
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(56.9055pt, 500.484pt, 56.9055pt)
+* v-part:(T,H,B)=(71.13188pt, 652.70622pt, 71.13188pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=500.484pt
+* \textheight=652.70622pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-38.1381pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=44.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-(C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR-concordan
-ce.tex)
-LaTeX Font Info:    Try loading font information for T1+aess on input line 86.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\ae\t1aess.fd"
-File: t1aess.fd 1997/11/16 Font definitions for T1/aess.
-)
-LaTeX Font Info:    Try loading font information for T1+aett on input line 103.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 75.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 75.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 75.
+Package color Info: Redefining color shadecolor on input line 88.
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 90.
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\@ifnextchar' on input line 97.
+
+[1
+
+{C:/Users/cdeterman/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+! Undefined control sequence.
+l.100 \pkg
+          {OmicsMarkeR} has a few simplified functions that attempt to strea...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Package color Info: Redefining color shadecolor on input line 112.
+Package color Info: Redefining color shadecolor on input line 143.
+Package color Info: Redefining color shadecolor on input line 164.
+[2]
+Package color Info: Redefining color shadecolor on input line 178.
+Package color Info: Redefining color shadecolor on input line 194.
+ [3]
+Package color Info: Redefining color shadecolor on input line 243.
+ [4]
+Package color Info: Redefining color shadecolor on input line 270.
+ [5]
+Package color Info: Redefining color shadecolor on input line 298.
+ [6]
+Package color Info: Redefining color shadecolor on input line 340.
+Package color Info: Redefining color shadecolor on input line 352.
 
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
-File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) [1
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <12> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 367.
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
+Package color Info: Redefining color shadecolor on input line 373.
+Package color Info: Redefining color shadecolor on input line 392.
+[7]
+Package color Info: Redefining color shadecolor on input line 416.
+Package color Info: Redefining color shadecolor on input line 433.
+ [8]
+Package color Info: Redefining color shadecolor on input line 467.
+ [9]
+Package color Info: Redefining color shadecolor on input line 506.
+ [10]
+Overfull \hbox (5.51231pt too wide) in paragraph at lines 523--530
+\OT1/cmss/m/n/12 com-put-ing. These in-clude \OT1/cmtt/m/n/12 fs.stability\OT1/
+cmss/m/n/12 , \OT1/cmtt/m/n/12 fs.ensembl.stability\OT1/cmss/m/n/12 , \OT1/cmtt
+/m/n/12 perm.class\OT1/cmss/m/n/12 , and \OT1/cmtt/m/n/12 perm.features
+ []
 
-[2] [3] [4] 
-AED: lastpage setting LastPage
-[5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 278.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 278.
- (C:\Users\Chaz\Documents\Revolution\OmicsMarkeR\vignettes\OmicsMarkeR.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 278.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 278.
+Package color Info: Redefining color shadecolor on input line 534.
+Package color Info: Redefining color shadecolor on input line 547.
+[11]
+Package color Info: Redefining color shadecolor on input line 569.
+
+Overfull \hbox (36.74127pt too wide) in paragraph at lines 603--603
+[]\OT1/cmtt/m/n/12 ##  [1] assertive_0.1-8     BiocStyle_1.4.1     bitops_1.0-6
+        BradleyTerry2_1.0-5[] 
+ []
+
+
+Overfull \hbox (5.86626pt too wide) in paragraph at lines 603--603
+[]\OT1/cmtt/m/n/12 ##  [5] brglm_0.5-9         car_2.0-24          caret_6.0-41
+        caTools_1.17.1[] 
+ []
+
+
+Overfull \hbox (18.21626pt too wide) in paragraph at lines 603--603
+[]\OT1/cmtt/m/n/12 ##  [9] chron_2.3-45        class_7.3-11        cluster_2.0.
+1       codetools_0.2-10[] 
+ []
+
+
+Overfull \hbox (30.56627pt too wide) in paragraph at lines 603--603
+[]\OT1/cmtt/m/n/12 ## [13] colorspace_1.2-4    data.table_1.9.4    digest_0.6.8
+        DiscriMiner_0.1-29[] 
+ []
+
+
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 603--603
+[]\OT1/cmtt/m/n/12 ## [25] gtable_0.1.2        gtools_3.4.1        highr_0.4   
+        iterators_1.0.7[] 
+ []
+
+
+Overfull \hbox (5.86626pt too wide) in paragraph at lines 603--603
+[]\OT1/cmtt/m/n/12 ## [37] nloptr_1.0.4        nnet_7.3-8          pamr_1.55   
+        parallel_3.1.2[] 
+ []
+
+
+Overfull \hbox (5.86626pt too wide) in paragraph at lines 603--603
+[]\OT1/cmtt/m/n/12 ## [45] quantreg_5.11       randomForest_4.6-10 Rcpp_0.11.4 
+        reshape2_1.4.1[] 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 607.
+[12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 607.
+
+(C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 607.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 607.
 Package rerunfilecheck Info: File `OmicsMarkeR.out' has not changed.
-(rerunfilecheck)             Checksum: BA7621268AB14A79224E4C8A5E452A49;138.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 278.
+(rerunfilecheck)             Checksum: 4CA98545A33322DD4422493CB896E37C;783.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 607.
  ) 
 Here is how much of TeX's memory you used:
- 8368 strings out of 493921
- 120226 string characters out of 3147284
- 225671 words of memory out of 3000000
- 11533 multiletter control sequences out of 15000+200000
- 26333 words of font info for 57 fonts, out of 3000000 for 9000
+ 6317 strings out of 493921
+ 95191 string characters out of 3144864
+ 188183 words of memory out of 3000000
+ 9538 multiletter control sequences out of 15000+200000
+ 8618 words of font info for 31 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 35i,11n,43p,579b,514s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmsltt10.pfb><C:/Program Files/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmss17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmtt12.pfb>
-Output written on OmicsMarkeR.pdf (5 pages, 116579 bytes).
+ 36i,11n,45p,314b,335s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmitt10.pfb
+><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><
+C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi12.pfb><C:/Pr
+ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi17.pfb><C:/Pro
+gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Progr
+am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on OmicsMarkeR.pdf (12 pages, 147544 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
- 9 named destinations out of 1000 (max. 500000)
- 29 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 168 PDF objects out of 1000 (max. 8388607)
+ 25 named destinations out of 1000 (max. 500000)
+ 97 words of extra memory for PDF output out of 10000 (max. 10000000)
 

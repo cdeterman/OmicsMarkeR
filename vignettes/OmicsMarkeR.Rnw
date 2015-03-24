@@ -1,172 +1,426 @@
 % \VignetteIndexEntry{ A Short Introduction to the OmicMarkeR Package}
-% \VignetteDepends{OmicsMarkeR}
 % \VignettePackage{OmicsMarkeR}
+%\VignetteEngine{knitr::knitr}
+
+% To compile this document
+% library('knitr'); rm(list=ls()); knit('OmicsMarkeR.Rnw')
+
 \documentclass[12pt]{article}
-\usepackage{colortbl}
-\usepackage{amsmath}
-\usepackage[pdftex]{graphicx}
-\usepackage{color}
-\usepackage{xspace}
-\usepackage{fancyvrb}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage[boxed, linesnumbered]{algorithm2e}
-\usepackage[
-         colorlinks=true,
-         linkcolor=blue,
-         citecolor=blue,
-         urlcolor=blue]
-         {hyperref}
-
-\usepackage{Sweave}
-\SweaveOpts{keep.source=TRUE}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% define new colors for use
-\definecolor{darkgreen}{rgb}{0,0.6,0}
-\definecolor{darkred}{rgb}{0.6,0.0,0}
-\definecolor{lightbrown}{rgb}{1,0.9,0.8}
-\definecolor{brown}{rgb}{0.6,0.3,0.3}
-\definecolor{darkblue}{rgb}{0,0,0.8}
-\definecolor{darkmagenta}{rgb}{0.5,0,0.5}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\bld}[1]{\mbox{\boldmath $#1$}}
-\newcommand{\shell}[1]{\mbox{$#1$}}
-\renewcommand{\vec}[1]{\mbox{\bf {#1}}}
- \newcommand{\codeheading}[1]{\mbox{\color{darkblue}\texttt{#1}}}
-\newcommand{\code}[1]{\mbox{\footnotesize\color{darkblue}\texttt{#1}}}
-\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
-\renewcommand{\pkg}[1]{{\textsf{#1}}}
-
-\newcommand{\ReallySmallSpacing}{
-\renewcommand{\baselinestretch}{.6}\Large\normalsize}
-\newcommand{\SmallSpacing}{
-\renewcommand{\baselinestretch}{1.1}\Large\normalsize}
-
-\providecommand{\SetAlgoLined}{\SetLine}
-
-\newcommand{\halfs}{\frac{1}{2}}
-
-\setlength{\oddsidemargin}{-.25 truein}
-\setlength{\evensidemargin}{0truein}
-\setlength{\topmargin}{-0.2truein}
-\setlength{\textwidth}{7 truein}
-\setlength{\textheight}{8.5 truein}
-\setlength{\parindent}{0truein}
-\setlength{\parskip}{0.10truein}
 
 
-\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl,
-formatcom=\color{darkblue}} 
-\fvset{listparameters={\setlength{\topsep}{0pt}}}
-\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+<<knitr, echo=FALSE, results="hide">>=
+library("knitr")
+@
 
-\fvset{fontsize=\footnotesize}
- 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagestyle{fancy}
-\lhead{}
-\chead{The {\tt OmicsMarkeR} Package}
-\rhead{}
-\lfoot{}
-\cfoot{}
-\rfoot{\thepage\ of \pageref{LastPage}}
-\renewcommand{\headrulewidth}{1pt}
-\renewcommand{\footrulewidth}{1pt}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
 
-\title{A Short Introduction to the \pkg{OmicsMarkeR} Package}
-\author{Charles Determan Jr. \\ cdetermanjr@hotmail.com}
+
+\bioctitle{A Short Introduction to the \Biocpkg{OmicsMarkeR} Package}
+\author{Charles Determan Jr.\footnote{cdetermanjr@gmail.com}}
 
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
 \maketitle
-
 \thispagestyle{empty}
-  
-\vspace{.2in}
-
-\renewcommand{\baselinestretch}{1}
 
 \maketitle
 \section{Introduction}
-The \pkg{OmicsMarkeR} package contains functions to streamline the analysis of
-'omics' level datasets with the objective to classify groups and determine the
-most important features. \pkg{OmicsMarkeR} loads packages as needed and assumes 
-that they are installed.  I will provide a short tutorial using the both 
-synthetic datasets created by internal functions as well as the 'Sonar' dataset. 
-Install \pkg{OmicMarkeR} using  
+The \Biocpkg{OmicsMarkeR} package contains functions to streamline the analysis
+of 'omics' level datasets with the objective to classify groups and determine 
+the most important features. \Biocpkg{OmicsMarkeR} loads packages as needed and 
+assumes that they are installed.  I will provide a short tutorial using the 
+both synthetic datasets created by internal functions as well as the 'Sonar' 
+dataset. 
 
+Install \Biocpkg{OmicsMarkeR} using  
 <<install, eval = FALSE>>=
-# currently in development
-# install.packages("OmicsMarkeR", dependencies = c("Imports"))
+source("http://bioconductor.org/biocLite.R")
+biocLite("OmicsMarkeR")
 @
-to ensure that all the needed packages are installed.
+    to ensure that all the needed packages are installed.
 
-You may also install the developmental version using
-<<install_dev, eval = FALSE>>=
-library(devtools)
-install_github("OmicsMarkeR", username = "cdeterman")
-@
-
+\newpage
 \maketitle
-\section{Example}
+\section{Basic Classification Example}
 \pkg{OmicsMarkeR} has a few simplified functions that attempt to streamline 
 the classification and feature selection process including the addition of 
 stability metrics. We will first generate a synthetic dataset.  This includes 
 three functions that can be used to create multivariate datasets that can 
-mimic specific omics examples.  This can include a null dataset via 
-{\tt nvar = 50} and {\tt nsamp = 100}.  The {\tt create.corr.matrix} function 
-induces correlations to the datasets.  The {\tt create.discr.matrix} function 
-induces variables to be discriminate between groups.  The number of groups 
-can be specified with {\tt num.groups}. 
+mimic specific omics examples.  This can include a null dataset via the
+\Rfunction{create.rand.matrix} to create a random multivarate dataset with
+\Rcode{nvar = 50} and \Rcode{nsamp = 100}.  The \Rfunction{create.corr.matrix} 
+function induces correlations to the datasets.  The 
+\Rfunction{create.discr.matrix} function induces variables to be discriminate 
+between groups.  The number of groups can be specified with \Rcode{num.groups}. 
 
 <<>>=
 library("OmicsMarkeR")
 set.seed(123)
 dat.discr <- create.discr.matrix(
-  create.corr.matrix(
-    create.random.matrix(nvar = 50, 
-                         nsamp = 100, 
-                         st.dev = 1, 
-                         perturb = 0.2)),
-  D = 10
-  )$discr.mat
+    create.corr.matrix(
+        create.random.matrix(nvar = 50, 
+                             nsamp = 100, 
+                             st.dev = 1, 
+                             perturb = 0.2)),
+    D = 10
+)$discr.mat
 @
-
+    
 To avoid confusion in the coding, one can isolate the variables and classes 
 from the newly created synthetic dataset.  These two objects are then used in 
-the {\tt fs.stability} function.  I can then choose which algorithm(s) to 
-apply e.g. {\tt method = c("plsda", "rf")}, the number of top important 
-features {\tt f = 20}, the number of bootstrap reptititions for stability 
-analysis {\tt k = 3}, the number of k-fold cross-validations {\tt k.folds = 10}
-and if I would like to see the progress output {\tt verbose = TRUE}.
+the \Rfunction{fs.stability} function.  I can then choose which algorithm(s) to 
+apply e.g. \Rcode{method = c("plsda", "rf")}, the number of top important 
+features \Rcode{f = 20}, the number of bootstrap reptititions for stability 
+analysis \Rcode{k = 3}, the number of k-fold cross-validations 
+\Rcode{k.folds = 10} and if I would like to see the progress output 
+\Rcode{verbose = TRUE}.
 
-<<>>=
+\warning{You will receive warnings if you run code exactly as shown
+in this vignette.  This is intentional as the PLSDA runs with this simple
+dataset often only need a single component but you need to indicate 2
+to fit the model.  This is provided for the users information.}
+
+<<eval=FALSE>>=
 vars <- dat.discr[,1:(ncol(dat.discr)-1)]
 groups <- dat.discr[,ncol(dat.discr)]
-results <- fs.stability(vars, 
-                        groups, 
-                        method = c("plsda", "rf"), 
-                        f = 10, 
-                        k = 3, 
-                        k.folds = 10, 
-                        verbose = FALSE)
+fits <- fs.stability(vars, 
+                    groups, 
+                    method = c("plsda", "rf"), 
+                    f = 10, 
+                    k = 3, 
+                    k.folds = 10, 
+                    verbose = FALSE)
+@
+    
+If I would like to see the performance metrics, I can simply use the 
+\Rfunction{performance.metrics} function.  This will provide a concise 
+data.frame of confusion matrix and ROC statistics.  Additionally, the 
+Robustness-Performance Trade-off value (RPT) is provided with the results.
+
+<<eval=FALSE>>=
+performance.metrics(fits)
+fits$RPT
 @
 
-If I would like to see the performance metrics, I can simply use the 
-{\tt performance.metrics} function.  This will provide a concise data.frame 
-of confusion matrix and ROC statistics.  Additionally, the 
-Robustness-Performance Trade-off value is provided with the results {\tt RPT}.
+If I would want to see the occurance of the features the model identified as the
+most important, this is accomplished by \Rfunction{feature.table}.  This 
+function returns a simple table reporting the consistency (i.e. how many times
+identified) and frequency (percent identified in all runs).
+
+<<eval=FALSE>>=
+feature.table(fits, "plsda")
+@
+
+
+If the user is interesting in applying the fitted model (determined by 
+\Rfunction{fs.stability}) towards some new data this can be accomplished with
+\Rfunction{predictNewClasses}.  This could either be yet another level to 
+evaluate the tuned model's performance or if the user is applying the model
+in a production type setting where you are systematically using this model
+on new data that comes in.
+
+<<eval=FALSE>>=
+
+# create some 'new' data
+newdata <- create.discr.matrix(
+    create.corr.matrix(
+        create.random.matrix(nvar = 50, 
+                             nsamp = 100, 
+                             st.dev = 1, 
+                             perturb = 0.2)),
+    D = 10
+)$discr.mat
+
+# see what the PLSDA predicts for the new data
+# NOTE, newdata does not require a .classes column
+predictNewClasses(fits, "plsda", dat.discr, newdata)
+@
+
+\newpage
+\maketitle
+\section{Ensemble Methods}
+
+In machine learning ensembles of models can be used to obtain better predictive
+performance than any individual model.  There are multiple types of ensemble
+types including the bayes optimal classifier, bayesian model averaging (BMA),
+bayesian model combination (BMC), boostrap aggregation (bagging), and boosting. 
+Although it is the intention to include all the methods the only currently
+implemented method is bagging.
+
+Bagging, in the simplest terms, is defined as giving a set of trained models
+equal weight when 'voting' on an optimal solution.  The most familiar 
+application of this concept is in the random forest algorithm.  This technique
+requires a defined aggregation technique to combine the set of models.  
+Implemented methods include Complete Linear Aggregation (\Rfunction{CLA}), 
+Ensemble Mean (\Rfunction{EM}), Ensemble Stability (\Rfunction{ES}), and
+Ensemble Exponential (\Rfunction{EE}).
+
+To conduct an ensemble analysis, the code is nearly identical to the first
+example in Section 1.  The \Rfunction{fs.ensembl.stability} function contains
+the same arguments as \Rfunction{fs.stability} in addition to a few more for
+the ensemble components.  Please see \Rcode{?fs.ensemble.stability} for
+complete details on each.  The two major additional parameters are 
+\Robject{bags} and \Robject{aggregation.metric}.  The \Robject{bags} parameter
+naturally defines the number of bagging iterations and the 
+\Robject{aggregation.metric} is a string defining the aggregation method.  These
+arguments have common defaults predefined so the call can be:
+
+<<eval=FALSE>>=
+fits <- fs.ensembl.stability(vars, 
+                            groups, 
+                            method = c("plsda", "rf"), 
+                            f = 10, 
+                            k = 3, 
+                            k.folds = 10, 
+                            verbose = FALSE)
+@
+
+As in Section 1, the \Rfunction{performance.metrics} function can be applied
+for summary statistics.
+
+\newpage
+\subsection{Aggregation Methods}
+
+If the user wishes to apply an aggregation method manually utilizing results
+from an alternative analysis, this can also be done.  This package provides
+a the wrapper \Rfunction{aggregation} to appply this analysis.  For these 
+methods, the variables must have been ranked and the rownames assigned as the
+variable names.  The function then will return that aggregated list of 
+variables with their new respective ranks.
+
+<<eval=FALSE>>=
+# test data
+ranks <- replicate(5, sample(seq(50), 50))
+row.names(ranks) <- paste0("V", seq(50))
+
+aggregation(ranks, "CLA")
+@
+
+This is used internally in \Rfunction{fs.ensembl.stability} to optimize which
+variables are selected to be included in the final optimized model.  The only
+exception to the format above is with the \Rfunction{EE} function where the 
+number of variables must be defined with \Robject{f}.
+
+\newpage
+\maketitle
+\section{Custom Tuning}
+
+The default implementation assumes that each model will be tuned with the same
+resolution of tuning parameters.  For example, a default call with PLSDA and 
+Random Forest will result in tuning 3 components and 3 mtry for each
+respectively.  However, let's say I want to be more fine tuned with my
+random forest model.  You can create a customized grid using 
+\Rfunction{denovo.grid}.
+
+<<eval=FALSE>>=
+plsda <- denovo.grid(vars, "plsda", 3)
+rf <- denovo.grid(vars, "rf", 5)
+
+# create grid list
+# Make sure to assign appropriate model names
+grid <- list(plsda=plsda, rf=rf)
+
+# pass to fs.stability or fs.ensemble.stability
+fits <- fs.stability(vars, 
+                    groups, 
+                    method = c("plsda", "rf"), 
+                    f = 10, 
+                    k = 3, 
+                    k.folds = 10, 
+                    verbose = FALSE,
+                    grid = grid)
+
+@
+
+The user can create their own grid completely manually but must use the 
+appropriate names as defined by the functions.  These can be check with 
+\Rfunction{params}.  As an example: \Rcode{params{method="plsda"}}.  
+
+\textbf{Note} - the argument names must be preceded by a period.  This is to
+prevent any unforseen conflicts in the code.
+
+\newpage
+\maketitle
+\section{Stability Metrics}
+\subsection{Stability Metric Basics}
+
+It is quite possible that a user may already have fitted a model previously
+or using a model that has not yet been implemented in this package.  However,
+they may be interested in applying one or more of the stability metrics
+defined within this package.  These functions are very simple to use.  To 
+demonstrate, let's create some sample data consisting of our \textbf{Metabolite
+Population}.
 
 <<>>=
-performance.metrics(results)
-results$RPT
+metabs <- paste("Metabolite", seq(20), sep="_")
+@
+
+Now, let's say you have run you different special model twice on different 
+samples of a dataset.  You complete your feature selection and get two lists
+of Metabolites.  Here I am just randomly sampling.
+
+<<>>=
+set.seed(13)
+run1 <- sample(metabs, 10)
+run2 <- sample(metabs, 10)
+@
+
+The user can now evaluate how similar the sets of metabolites selected are via
+multiple possible stability metrics.  These include the Jaccard Index 
+(\Rfunction{jaccard}), Dice-Sorensen (\Rfunction{sorensen}), Ochiai's Index 
+(\Rfunction{ochiai}), Percent of Overlapping Features (\Rfunction{pof}), 
+Kuncheva's Index (\Rfunction{kuncheva}), Spearman (\Rfunction{spearman}), and
+Canberra (\Rfunction{canberra}).  The latter two methods are not 
+\emph{Set Methods} and do require the same number of features in each vector.
+The relevant citations are provided in each function's documenation.
+
+The general use for most of the functions is:
+
+<<>>=
+jaccard(run1, run2)
+@
+
+The exception to this is Kuncheva's Index.  This requires one additional
+parameter, the number of features (e.g. metabolites) in the original dataset.
+This metric is designed to account for smaller numbers of variables increasing
+the likelihood of matching sets by chance.  Naturally, if you have many more
+variables it would be far more indicative of significance if you see the same
+small subset again and again as opposed to a small set seeing the same 
+variables.
+
+<<>>=
+# In this case, 20 original variables
+kuncheva(run1, run2, 20)
+@
+
+\newpage
+\subsection{Pairwise Stability}
+\subsubsection{Pairwise Feature Stability}
+
+The above examples immediately lead to the question, what if I have more than
+two runs?  What I have 3, 5, 10, or more bootstrap iterations?  This is also
+know as a data perturbation ensemble approach.  It would be  very tedious to 
+have to call the same function for every single comparison.  Therefore a 
+pairwise function exists to allow a rapid comparison between all sets.  
+This \Rfunction{pairwise.stability} is very similar to the individual 
+stability functions in practice.  Let's take an example consisting of 5 runs.
+
+<<>>=
+set.seed(21)
+# matrix of Metabolites identified (e.g. 5 trials)
+features <- replicate(5, sample(metabs, 10))
+@
+
+Please note that currently only \Rclass{matrix} objects are accepted by
+\Rfunction{pairwise.stability}.  To use the function, you simply pass your 
+matrix of variables and stability metric (e.g. sorensen).  The only exception
+is when applying Kuncheva's Index where the \Robject{nc} parameter again must
+be set (which can be ignored otherwise).  This will return all list containing 
+the upper triangular matrix of stability values and an overall average.
+
+<<>>=
+pairwise.stability(features, "sorensen")
+@
+
+\newpage
+\subsubsection{Pairwise Model Stability}
+
+Now, in the spirit of this package, you may have the alternate approach whereby
+you have created several bootstrapped data sets and run a different statistical
+model on each data set.  You could compare each one manually, but again to 
+avoid such tedious work another function is provided for specifically this
+purpose.  Let's take a theoretical example where I have bootstrapped 5 different
+data sets and applied two models to each dataset (PLSDA and Random Forest).
+Please note that currently only \Rclass{list} objects are accepted by
+\Rfunction{pairwise.model.stability}.
+
+\textbf{Note} - here I am only randomly sampling but in practice the each model
+would have been trained on the same dataset. 
+
+<<>>=
+set.seed(999)
+plsda <- 
+    replicate(5, paste("Metabolite", sample(metabs, 10), sep="_"))
+rf <-
+    replicate(5, paste("Metabolite", sample(metabs, 10), sep="_"))
+
+features <- list(plsda=plsda, rf=rf)
+
+# nc may be omitted unless using kuncheva
+pairwise.model.stability(features, "kuncheva", nc=20)
+@
+
+\newpage
+\section{Permuation Analysis}
+
+One additional level of analysis often applied to these datasets is Monte
+Carlo Permuations.  For example, I would like to check the chance that
+my data can distinguish between the groups by chance.  This can be done by
+permuting the groups in the dataset and applying the model on each permuation.
+This can be accomplished with \Rfunction{perm.class}, which also provides a 
+plot of the classification distribution.  Additionally, one may
+be interested in another way to evaluate the importance of variables to the 
+distinguishing the groups.  Once again, groups can be permuted, the model
+refit to the data and the importance of the variables evaluated.  This is
+accomplished with \Rfunction{perm.features}.
+
+<<eval=FALSE>>=
+# permuate class
+perm.class(fits, vars, groups, "rf", k.folds=5,
+           metric="Accuracy", nperm=10)
+
+
+# permute variables/features
+perm.features(fits, vars, groups, "rf",
+        sig.level = .05, nperm = 10)
+@
+
+\newpage
+\section{Parallel Analysis}
+
+Given the repetitive nature of this analysis there are ample opportunities to
+level the power of parallel computing.  These include \Rfunction{fs.stability},
+\Rfunction{fs.ensembl.stability}, \Rfunction{perm.class}, and 
+\Rfunction{perm.features} simply by specifying the parameter 
+\Rcode{allowParallel = TRUE} in the respective function. However, the parallel
+backend must be registered in order to work. There are slight differences 
+between operating systems so here are two examples.
+
+For Unix OS, you probably will use \CRANpkg{doMC}
+
+<<eval=FALSE>>=
+library(doMC)
+
+n <- detectCores()
+registerDoMC(n)
+@
+
+For a Windows OS, you likely with use the \CRANpkg{doSNOW}
+
+<<eval=FALSE>>=
+library(parallel)
+library(doSNOW)
+
+# get number of cores
+n <- detectCores()
+
+# make clusters
+cl <- makeCluster(n)
+
+# register backend
+registerDoSNOW(cl)
+@
+
+\textbf{NOTE} - remember to stop your clusters on Windows when you are finished 
+with \Rcode{stopCluster(cl)}.
+
+\newpage
+<<>>=
+sessionInfo()
 @
 
 \end{document}
