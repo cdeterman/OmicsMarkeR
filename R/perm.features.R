@@ -394,6 +394,22 @@ perm.features <-
 
 # extract p-value (one-tailed)
 var.scores <- lapply(scores, "[")  
+
+# check for var.scores structure
+# mainly for randomforest bug which returns data.frame object
+# must be named numeric vector
+var.scores <- lapply(var.scores, function(x) {
+    if(is.vector(x)){
+        x
+    }else{
+        xNames <- row.names(x)
+        x <- as.numeric(x)
+        names(x) <- xNames
+        x
+    }
+})
+
+
 miss <- lapply(var.scores, FUN = function(x) which(!xNames %in% names(x)))
 for(i in 1:(nperm+1)){
     if(length(miss[[i]]) >= 1){

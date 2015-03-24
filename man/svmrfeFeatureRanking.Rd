@@ -30,6 +30,20 @@ index of the feature which is more relevant to perform the classification
 and the last item of the vector has the feature which is less relevant.
 This function is specific to Binary classification problems,
 }
+\examples{
+
+# binary class feature ranking
+svmrfeFeatureRanking(x = vars,
+                     y = groups, 
+                     c = 0.1,
+                     num.rem = 10)
+
+# multiclass
+svmrfeFeatureRankingForMulticlass(x = vars,
+                                  y = groups, 
+                                  c = 0.1,
+                                  num.rem = 10)
+}
 \references{
 Guyon I. et. al. (2010) \emph{Gene Selection for Cancer
 Classification using Support Vector Machines}. Machine Learning 46 389-422.

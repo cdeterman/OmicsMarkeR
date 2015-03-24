@@ -27,4 +27,7 @@ Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y.
 (2010) \emph{Robust biomarker identification for cancer diagnosis with
 ensemble feature selection methods}. Bioinformatics 26:3 392-398.
 }
+\seealso{
+\code{\link{CLA}}, \code{\link{ES}}, \code{\link{EE}}
+}
 

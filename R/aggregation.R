@@ -14,11 +14,12 @@
 #' @param f The number of features desired.  If rank correlation 
 #' desired, f = NULL
 #' @return \item{agg}{Aggregated list of features}
+#' @seealso \code{\link{ES}}, \code{\link{EM}}, \code{\link{EE}}
 #' @author Charles Determan Jr
 #' @references Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y. 
 #' (2010) \emph{Robust biomarker identification for cancer diagnosis with 
 #' ensemble feature selection methods}. Bioinformatics 26:3 392-398.
-#' @export
+# ' @export
 
 CLA <- function(efs, f){
     # sum ranks over all bootstraps (i.e. colsums)
@@ -39,11 +40,12 @@ CLA <- function(efs, f){
 #' @param f The number of features desired.  If rank correlation desired,
 #' f = NULL
 #' @return \item{agg}{Aggregated list of features}
+#' @seealso \code{\link{CLA}}, \code{\link{ES}}, \code{\link{EE}}
 #' @author Charles Determan Jr
 #' @references Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y. 
 #' (2010) \emph{Robust biomarker identification for cancer diagnosis with 
 #' ensemble feature selection methods}. Bioinformatics 26:3 392-398.
-#' @export
+# ' @export
 
 EM <- function(efs, f){
     # average rank over the bootstraps
@@ -67,10 +69,11 @@ EM <- function(efs, f){
 #' @param f The number of features desired.  If rank correlation desired, 
 #' f = NULL
 #' @return \item{agg}{Aggregated list of features}
+#' @seealso \code{\link{CLA}}, \code{\link{EM}}, \code{\link{EE}}
 #' @author Charles Determan Jr
 #' @references Meinshausen N., Buhlmann P. (2010) \emph{Stability selection}. 
 #' J.R. Statist. Soc. B. 72:4 417-473.
-#' @export
+# ' @export
 
 ES <- function(efs, f){
     # measures percentage of bootstrap samples for which the gene ranks 
@@ -98,12 +101,13 @@ ES <- function(efs, f){
 #' @param f The number of features desired.  If rank correlation desired, 
 #' f = NULL
 #' @return \item{agg}{Aggregated list of features}
+#' @seealso \code{\link{CLA}}, \code{\link{ES}}, \code{\link{EM}},
 #' @author Charles Determan Jr
 #' @references Haury A., Gestraud P., Vert J. (2011) \emph{The Influence of 
 #' Features Selection Methods on Accuracy, Stability, and Interpretability 
 #' of Molecular Signatures}.  PLoS ONE 6(12) e28210. doi: 
 #' 10.1371/journal.pone.0028210
-#' @export
+# ' @export
 
 EE <- function(efs, f){
     # average an exponentially decreasing function of the rank
@@ -129,6 +133,8 @@ EE <- function(efs, f){
 #'  \code{"EE"} (Ensemble Exponential)
 #' @param f The number of features desired.  Default \code{f = NULL}
 #' @return \item{agg}{Aggregated list of features}
+#' @seealso \code{\link{CLA}}, \code{\link{ES}}, \code{\link{EM}},
+#' \code{\link{EE}}
 #' @author Charles Determan Jr
 #' @references Abeel T., Helleputte T., Van de Peer Y., Dupont P., Saeys Y. 
 #' (2010) \emph{Robust biomarker identification for cancer diagnosis with 
@@ -141,6 +147,7 @@ EE <- function(efs, f){
 #' Selection Methods on Accuracy, Stability, and Interpretability of 
 #' Molecular Signatures}.  PLoS ONE 6(12) e28210. doi: 
 #' 10.1371/journal.pone.0028210.
+#' @example /inst/examples/aggregation.R
 #' @export
 
 aggregation <- function(efs,

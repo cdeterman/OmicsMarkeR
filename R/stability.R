@@ -43,6 +43,9 @@ spearman <- function(x,y){
 canberra <- function(x,y){
     x <- as.vector(as.numeric(as.character(x)))
     y <- as.vector(as.numeric(as.character(y)))
+    if(length(x) != length(y)){
+        stop("\n Error: feature lengths must be same for Spearman Correlation")
+    }
     out <- sum(abs(x-y)/(x+y))
     out
 }

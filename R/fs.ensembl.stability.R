@@ -125,7 +125,8 @@ fs.ensembl.stability <-
         
         verify_data <- verify(x = X, y = Y, method = method, 
                               f = f, stability.metric = stability.metric,
-                              model.features = model.features, na.rm = FALSE)
+                              model.features = model.features, na.rm = FALSE,
+                              no.fs = FALSE)
         
         if(model.features == TRUE){
             stop("Error... Model derived features cannot be used for 

@@ -51,7 +51,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @export
+# ' @export
 
 
 
@@ -313,10 +313,13 @@ bagging.wrapper <- function(X,
             FUN = function(z){
                 sapply(z, FUN = function(x) as.numeric(as.character(x)))
             })
+
     features.num <- lapply(features.num, function(x) {
         rownames(x) <- var.names
         return(x)
     })
+    
+    print(features.num)
     
     # Generate summary lists of each algorithm
     agg <- lapply(features.num, 

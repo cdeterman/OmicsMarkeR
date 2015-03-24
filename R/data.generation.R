@@ -35,7 +35,6 @@ ind_corr <- function(dat, group_size, start, end){
 #' can add to perturb the 
 #' original simulated data.
 #' @author Charles E. Determan Jr.
-#' @export
 
 noise.matrix <- function(matrix, k){
     nvar <- ncol(matrix)
@@ -68,7 +67,12 @@ noise.matrix <- function(matrix, k){
 #' Default \code{perturb = 0.2}
 #' @return Matrix of dimension \code{nvar} by \code{nsamp}
 #' @author Charles E. Determan Jr.
+#' @references Wongravee, K., Lloyd, G R., Hall, J., Holmboe, M. E., & 
+#' Schaefer, M. L. (2009). \emph{Monte-Carlo methods for determining optimal 
+#' number of significant variables. Application to mouse urinary profiles.} 
+#' Metabolomics, 5(4), 387-406. http://dx.doi.org/10.1007/s11306-009-0164-4
 #' @seealso \code{\link{create.corr.matrix}}, \code{\link{create.discr.matrix}}
+#' @example inst/examples/data.generation.R
 #' @export
 
 create.random.matrix <-
@@ -102,13 +106,18 @@ create.random.matrix <-
 #' Default \code{min.block.size = 2}
 #' @param max.block.size maximum number of variables to correlate 
 #' Default \code{max.block.size = 5}
-#' @return Matrix of dimension \code{dim(U)} with correlations induced 
+#' @return A numberic matrix of dimension \code{dim(U)} with correlations induced 
 #' between variables
 #' @note Output does not contain classes, may provide externally as 
 #' classes are irrelevant in this function.
 #' @author Charles E. Determan Jr.
+#' @references Wongravee, K., Lloyd, G R., Hall, J., Holmboe, M. E., & 
+#' Schaefer, M. L. (2009). \emph{Monte-Carlo methods for determining optimal 
+#' number of significant variables. Application to mouse urinary profiles.} 
+#' Metabolomics, 5(4), 387-406. http://dx.doi.org/10.1007/s11306-009-0164-4
 #' @seealso \code{\link{create.random.matrix}}, 
 #' \code{\link{create.discr.matrix}}
+#' @example inst/examples/data.generation.R
 #' @export
 
 create.corr.matrix <-
@@ -177,7 +186,10 @@ create.corr.matrix <-
         
         # randomize order of columns to make blocks no longer obvious
         rand <- sample(nsamp)
+        
+        # very naieve class structure, only to say it is from this function
         V <- structure(B[rand,], class = c("matrix.corr", "matrix"))
+        #V <- B[rand,]
         V
         }
 
@@ -199,7 +211,7 @@ create.corr.matrix <-
 #' discrimination factor.  The resulting values are then added/subtracted 
 #' from the respective groups.  A noise matrix is applied to the final 
 #' matrix to perturb 'perfect' discrimination.
-#' @param V Numeric matrix of class "matrix.corr"
+#' @param V Numeric matrix
 #' @param D Number of discriminatory variables induced. Default \code{D = 20}
 #' @param l Level of discrimination, higher = greater separation.  
 #' Default \code{l = 1.5}
@@ -213,7 +225,11 @@ create.corr.matrix <-
 #' @return \item{features}{Vector of features that were induced to 
 #' be discriminatory.}
 #' @author Charles E. Determan Jr.
-#' @import data.table
+#' @references Wongravee, K., Lloyd, G R., Hall, J., Holmboe, M. E., & 
+#' Schaefer, M. L. (2009). \emph{Monte-Carlo methods for determining optimal 
+#' number of significant variables. Application to mouse urinary profiles.} 
+#' Metabolomics, 5(4), 387-406. http://dx.doi.org/10.1007/s11306-009-0164-4
+#' @example inst/examples/data.generation.R
 #' @export
 
 create.discr.matrix <-
@@ -345,7 +361,7 @@ create.discr.matrix <-
         ## Create a noise matrix to perturb distributions again
         W <- noise.matrix(S, k)
         Y <- as.data.frame(S + W)
-        Y$.classes <- classes
+        Y$.classes <- as.factor(classes)
         Y[1:nc] <- lapply(Y[1:nc], 
                           FUN = function(x) as.numeric(as.character(x)))
         out <- list(discr.mat = Y, features = xNames)

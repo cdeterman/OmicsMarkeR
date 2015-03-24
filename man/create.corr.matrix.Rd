@@ -19,7 +19,7 @@ Default \code{min.block.size = 2}}
 Default \code{max.block.size = 5}}
 }
 \value{
-Matrix of dimension \code{dim(U)} with correlations induced
+A numberic matrix of dimension \code{dim(U)} with correlations induced
 between variables
 }
 \description{
@@ -32,8 +32,46 @@ to the final matrix to perturb 'perfect' correlations.
 Output does not contain classes, may provide externally as
 classes are irrelevant in this function.
 }
+\examples{
+# Create Multivariate Matrices
+
+# Random Multivariate Matrix
+
+# 50 variables, 100 samples, 1 standard devation, 0.2 noise factor
+
+rand.mat <- create.random.matrix(nvar = 50, 
+                                 nsamp = 100, 
+                                 st.dev = 1, 
+                                 perturb = 0.2)
+
+
+# Induce correlations in a numeric matrix
+
+# Default settings
+# minimum and maximum block sizes (min.block.size = 2, max.block.size = 5)
+# default correlation purturbation (k=4)
+# see ?create.corr.matrix for citation for methods
+
+corr.mat <- create.corr.matrix(rand.mat)
+
+
+# Induce Discriminatory Variables
+
+# 10 discriminatory variables (D = 10)
+# default discrimination level (l = 1.5)
+# default number of groups (num.groups=2)
+# default correlation purturbation (k = 4)
+
+dat.discr <- create.discr.matrix(corr.mat, D=10)
+}
 \author{
 Charles E. Determan Jr.
+}
+\references{
+Wongravee, K., Lloyd, G R., Hall, J., Holmboe, M. E., &
+Schaefer, M. L. (2009). \emph{Monte-Carlo methods for determining optimal
+number of significant variables. Application to mouse urinary profiles.}
+Metabolomics, 5(4), 387-406. http://dx.doi.org/10.1007/s11306-009-0164-4
 }
 \seealso{
 \code{\link{create.random.matrix}},

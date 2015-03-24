@@ -28,4 +28,7 @@ Features Selection Methods on Accuracy, Stability, and Interpretability
 of Molecular Signatures}.  PLoS ONE 6(12) e28210. doi:
 10.1371/journal.pone.0028210
 }
+\seealso{
+\code{\link{CLA}}, \code{\link{ES}}, \code{\link{EM}},
+}
 

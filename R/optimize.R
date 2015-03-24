@@ -47,7 +47,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-# ' @export
+#' @export
 
 optimize.model <- function(
     trainVars,
@@ -290,7 +290,7 @@ optimize.model <- function(
     }else{
         plsda.comp.catch <- NULL
     }
-    
+
     finalModel <- vector("list", length(method))
     for(i in seq(along = method)){
         finalModel[[i]] <- 

@@ -14,4 +14,4 @@ rf <-
 features <- list(plsda=plsda, rf=rf)
 
 # nc may be omitted unless using kuncheva
-pairwise.model.stability(features, "kuncheva")
+pairwise.model.stability(features, "kuncheva", nc=20)

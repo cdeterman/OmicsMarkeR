@@ -165,7 +165,7 @@ fs.stability <-
                            function(inTrain, total) total[-unique(inTrain)],
                            total = seq(nr))
         #i <- 1
-        for(i in seq(k)){      
+        for(i in seq(k)){
             trainVars <- X[inTrain[[i]],, drop= FALSE]
             trainVars.list[[i]] <- trainVars
             trainGroup <- Y[inTrain[[i]], drop= FALSE]
@@ -454,6 +454,17 @@ fs.stability <-
                             if(method[m] == "gbm" & is.null(tuning.grid)){
                                 gbm.trees <- grid$gbm$.n.trees
                                 grid$gbm$.n.trees <- gbm.trees/10
+                            }
+                            
+                            # if generated grid and running rf, reduce
+                            # mtry for rf otherwise may be higher
+                            # than number of variables
+                            if(method[m] == "rf" & is.null(tuning.grid)){
+                                grid$rf$.mtry <- floor(
+                                    seq(1, 
+                                        to=ncol(trainData.new[[m]])-1, 
+                                        length=resolution)
+                                )
                             }
                             
                             tunedModel.new[[m]] <- 

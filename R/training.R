@@ -154,7 +154,6 @@ rf =
 {                 
     rf.args <- c("maxnodes", "keep.forest", "keep.inbag")
     theDots <- theDots[names(theDots) %in% rf.args]
-    
     modArgs <- 
         list(x = trainX,
              y = trainY,

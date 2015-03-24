@@ -76,6 +76,9 @@ modelTuner <-
       # several functions to be exported
       # within the loops
       # This is a moot point to my knowledge on Linux
+      # algo = 1
+      # iter = 1
+      # parms = 1
       tmp.list <- 
         foreach(algo = seq(along = method),
                 .verbose =FALSE, 
@@ -107,7 +110,7 @@ modelTuner <-
                             "expandParameters", "flatTable", "perf.calc", 
                             "confusionMatrix", "performance.stats"),
                 .errorhandling = "stop") %op%
-{        
+{
     ## Removes '.' from start of each parameter
     ## create 'printed' for verbose printing
     printed <- format(guide[[algo]]$loop, digits = 4)

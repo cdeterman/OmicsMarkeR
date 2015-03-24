@@ -22,6 +22,13 @@ Avialable options are \code{"CLA"} (Complete Linear),
 \description{
 Compiles matrix of ranked features via user defined 'metric'
 }
+\examples{
+# test data
+ranks <- replicate(5, sample(seq(50), 50))
+row.names(ranks) <- paste0("V", seq(50))
+
+aggregation(ranks, "CLA")
+}
 \author{
 Charles Determan Jr
 }
@@ -37,5 +44,9 @@ Haury A., Gestraud P., Vert J. (2011) \emph{The Influence of Features
 Selection Methods on Accuracy, Stability, and Interpretability of
 Molecular Signatures}.  PLoS ONE 6(12) e28210. doi:
 10.1371/journal.pone.0028210.
+}
+\seealso{
+\code{\link{CLA}}, \code{\link{ES}}, \code{\link{EM}},
+\code{\link{EE}}
 }
 

@@ -16,7 +16,7 @@
 #' @import gbm
 #' @import pamr
 #' @import glmnet
-#' @import data.table
+#' @importFrom data.table rbindlist
 #' @export
 
 predictNewClasses <- 
@@ -50,28 +50,36 @@ predictNewClasses <-
         tVal <- as.data.frame(t(tVal))
         
         # get trained model
+        # be better if could be pulled from fs.stability object
+        # but instead simply refit
         train.model <- training(data = orig.data, method, tuneValue = tVal, 
                                 obsLevels = obsLevels, theDots = param)
         
         predictedValue <- 
-            switch(method,                           
-                   plsda =
+            switch(method,                                              
+plsda =
 {
     # library(DiscriMiner)
     # check for number of components provided.  This is 
     # important following selection of the best model
     ncomp <- tVal
     if(ncomp == 1){
-        warning("PLSDA model contained only 1 component. PLSDA requires 
-                at least 2 components.\nModel fit with 2 components")
         ncomp = 2
     }                        
     
     o.nr <- seq(nrow(orig.data))
     n.nr <- seq(from = (nrow(orig.data)+1), 
                 to = nrow(newdata) + nrow(orig.data))
-    full.data <- as.data.frame(rbindlist(list(orig.data, newdata)))
+    full.data <- as.data.frame(rbindlist(list(orig.data, newdata), fill=TRUE))
     
+    # if any NA just fill with first class
+    # this is to allow for a dataset without classes assigned
+    na.check <- is.na(full.data$.classes)
+    if(any(na.check)){
+        full.data$.classes[na.check] <- full.data$.classes[1]
+    }
+    
+    # need a formal predict.plsDA function
     tmp <- plsDA(full.data[,-which(names(full.data) %in% c(".classes"))], 
                  full.data[,c(".classes")],
                  autosel= FALSE,

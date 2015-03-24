@@ -26,4 +26,7 @@ Charles Determan Jr
 Meinshausen N., Buhlmann P. (2010) \emph{Stability selection}.
 J.R. Statist. Soc. B. 72:4 417-473.
 }
+\seealso{
+\code{\link{CLA}}, \code{\link{EM}}, \code{\link{EE}}
+}
 

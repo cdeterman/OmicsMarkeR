@@ -17,6 +17,7 @@
 #' @seealso \code{"expand.grid"} for generating grids of specific 
 #' parameters desired.  However, NOTE that you must still convert 
 #' the generated grid to a list.
+#' @example /inst/examples/denovo.grid.R
 #' @export
 
 denovo.grid <- 
