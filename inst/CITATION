@@ -7,8 +7,7 @@ citEntry(entry = "Article",
   year         = "2015",
   volume       = "7",
   number       = "1",
-  doi          = "10.5539/ijb.v7n1p100"
-
+  doi          = "10.5539/ijb.v7n1p100",
   textVersion  =
   paste("Charles Determan Jr. (2015).",
         "Optimal Algorithm for Metabolomics Classification and Feature 
