@@ -1,0 +1,29 @@
+Package: OmicsMarkeR
+Title: Classification and Feature Selection for 'Omics' Datasets
+Description: Tools for classification and feature selection for 'omics'
+        level datasets.  It is a tool to provide multiple multivariate
+        classification and feature selection techniques complete with
+        multiple stability metrics and aggregation techniques.  It is
+        primarily designed for analysis of metabolomics datasets but
+        potentially extendable to proteomics and transcriptomics
+        applications.
+Date: 2015-03-13
+Version: 0.99.6
+Author: Charles E. Determan Jr. <cdetermanjr@gmail.com>
+Maintainer: Charles E. Determan Jr. <cdetermanjr@gmail.com>
+VignetteBuilder: knitr
+Depends: R (>= 3.2.0)
+Imports: plyr (>= 1.8), data.table (>= 1.9.4), caret (>= 6.0-37),
+        DiscriMiner (>= 0.1-29), e1071 (>= 1.6-1), randomForest (>=
+        4.6-10), gbm (>= 2.1), pamr (>= 1.54.1), glmnet (>= 1.9-5),
+        caTools (>= 1.14), foreach (>= 1.4.1), permute (>= 0.7-0),
+        assertive (>= 0.1)
+Roxygen: list(wrap = FALSE)
+License: GPL-3
+LazyData: true
+URL: http://github.com/cdeterman/OmicsMarkeR
+BugReports: http://github.com/cdeterman/OmicsMarkeR/issues/new
+biocViews: Metabolomics, Classification, FeatureExtraction
+Repository: Bioconductor
+Suggests: testthat, BiocStyle, knitr
+NeedsCompilation: no

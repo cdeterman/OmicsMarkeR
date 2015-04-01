@@ -1,0 +1,17 @@
+citHeader("To cite OmicsMarkeR in publications use:")
+
+citEntry(entry = "Article",
+  title        = "Optimal Algorithm for Metabolomics Classification and Feature Selection varies by Dataset",
+  author       = personList(as.person("Charles Determan")),
+  journal      = "International Journal of Biology",
+  year         = "2015",
+  volume       = "7",
+  number       = "1",
+  doi          = "10.5539/ijb.v7n1p100",
+  textVersion  =
+  paste("Charles Determan Jr. (2015).",
+        "Optimal Algorithm for Metabolomics Classification and Feature 
+Selection varies by Dataset",
+        "International Journal of Biology, 7(1).",
+        "URL http://dx.doi.org/10.5539/ijb.v7n1p100.")
+)

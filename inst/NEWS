@@ -1,0 +1,18 @@
+OmicsMarkeR News
+
+Initial release Version 0.99.3
+
+    FEATURES IN PROGRESS:
+
+    * Access to fitted models (averaged or all bootstrapped results?)
+
+    * Easy graphics access (scores/loadings plots, variable 
+      importance plots, etc.)
+
+    * Summary graphics (across models)
+
+    * Database searching (HMDB, MMCD, Metlin, LipidMaps, etc.)
+
+    * Additional algorithms (neural nets, bayesian, etc.)
+
+    * Additional ensemble methods (bayesian, boosting, etc.)
