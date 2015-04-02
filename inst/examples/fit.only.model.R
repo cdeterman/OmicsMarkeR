@@ -11,12 +11,7 @@ dat.discr <- create.discr.matrix(
 vars <- dat.discr[,1:(ncol(dat.discr)-1)]
 groups <- as.factor(dat.discr[,ncol(dat.discr)])
 
-fits <- fs.stability(vars, 
-                     groups, 
-                     method = c("plsda", "rf"), 
-                     f = 10, 
-                     k = 3, 
-                     k.folds = 10, 
-                     verbose = FALSE)
-
-feature.table(fits, "plsda")
+fit <- fit.only.model(X=vars, 
+                      Y=groups, 
+                      method="plsda", 
+                      p = 0.9)

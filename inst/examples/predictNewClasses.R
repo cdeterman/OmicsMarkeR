@@ -19,4 +19,15 @@ fits <- fs.stability(vars,
                      k.folds = 10, 
                      verbose = FALSE)
 
-feature.table(fits, "plsda")
+newdata <- create.discr.matrix(
+    create.corr.matrix(
+        create.random.matrix(nvar = 50, 
+                             nsamp = 100, 
+                             st.dev = 1, 
+                             perturb = 0.2)),
+    D = 10
+)$discr.mat
+
+# see what the PLSDA predicts for the new data
+# NOTE, newdata does not require a .classes column
+predictNewClasses(fits, "plsda", dat.discr, newdata)

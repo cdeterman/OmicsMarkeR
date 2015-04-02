@@ -19,4 +19,6 @@ fits <- fs.stability(vars,
                      k.folds = 10, 
                      verbose = FALSE)
 
-feature.table(fits, "plsda")
+# permute variables/features
+perm.features(fits, vars, groups, "rf",
+              sig.level = .05, nperm = 10)

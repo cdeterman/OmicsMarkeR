@@ -18,5 +18,3 @@ fits <- fs.stability(vars,
                      k = 3, 
                      k.folds = 10, 
                      verbose = FALSE)
-
-feature.table(fits, "plsda")

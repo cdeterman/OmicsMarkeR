@@ -88,6 +88,16 @@
 #' @references Saeys Y., Abeel T., et. al. (2008) \emph{Machine Learning and 
 #' Knowledge Discovery in Databases}. 313-325. 
 #' http://link.springer.com/chapter/10.1007/978-3-540-87481-2_21
+#' @examples
+#' \dontrun{
+#' fits <- fs.ensembl.stability(vars, 
+#' groups, 
+#' method = c("plsda", "rf"), 
+#' f = 10,
+#' k = 3, 
+#' k.folds = 10, 
+#' verbose = FALSE)
+#' }
 #' @import DiscriMiner
 #' @import randomForest
 #' @import plyr

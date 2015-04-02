@@ -129,6 +129,17 @@ stability metrics of features selected thereby providing an important
 metric for biomarker investigations, namely whether the important
 variables can be identified if the models are refit on 'different' data.
 }
+\examples{
+\dontrun{
+fits <- fs.ensembl.stability(vars,
+groups,
+method = c("plsda", "rf"),
+f = 10,
+k = 3,
+k.folds = 10,
+verbose = FALSE)
+}
+}
 \author{
 Charles Determan Jr
 }

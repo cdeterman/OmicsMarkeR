@@ -9,6 +9,7 @@
 #' @return label A vector of the names for each possible parameter
 #' @return seq A logical indicator if the parameter is sequential in the 
 #' model (i.e. if model is able to fit all 'lower' parameters simultaneously)
+#' @example inst/examples/params.R
 #' @export
 
 params <- function(method = NULL)

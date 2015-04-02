@@ -44,6 +44,7 @@
 #'  \item{group.levels: The specific levels of the groups}
 #'  \item{number.observations.group: Number of observations in each group}}
 #' @author Charles Determan Jr
+#' @example inst/examples/fit.only.model.R
 #' @import DiscriMiner
 #' @import randomForest
 #' @import plyr

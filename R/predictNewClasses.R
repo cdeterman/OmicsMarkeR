@@ -9,6 +9,7 @@
 #' @param newdata The testing data to predict group membership
 #' @param param Optional alternate parameters being fit to the model
 #' @return Returns a list of predicted group membership
+#' @example inst/examples/predictNewClasses.R
 #' @import DiscriMiner
 #' @import randomForest
 # ' @import caret

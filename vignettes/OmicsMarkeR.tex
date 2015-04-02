@@ -57,9 +57,6 @@
 \usepackage{alltt}
 
 
-
-
-
 \RequirePackage{C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/Bioconductor}
 
 \AtBeginDocument{\bibliographystyle{C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/unsrturl}}
@@ -97,7 +94,7 @@ Install \Biocpkg{OmicsMarkeR} using
 \newpage
 \maketitle
 \section{Basic Classification Example}
-\pkg{OmicsMarkeR} has a few simplified functions that attempt to streamline 
+\Biocpkg{OmicsMarkeR} has a few simplified functions that attempt to streamline 
 the classification and feature selection process including the addition of 
 stability metrics. We will first generate a synthetic dataset.  This includes 
 three functions that can be used to create multivariate datasets that can 
@@ -152,6 +149,53 @@ to fit the model.  This is provided for the users information.}
                     \hlkwc{k.folds} \hlstd{=} \hlnum{10}\hlstd{,}
                     \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# randomForest 4.6-10\\\#\# Type rfNews() to see new features/changes/bug fixes.}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'gbm' was built under R version 3.1.3}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: survival}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'survival' was built under R version 3.1.3}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: lattice}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'lattice' was built under R version 3.1.3}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: splines\\\#\# Loading required package: parallel\\\#\# Loaded gbm 2.1.1\\\#\# Loading required package: cluster\\\#\# Loading required package: Matrix\\\#\# Loaded glmnet 1.9-8}}\begin{verbatim}
+## [1] "Model Tuning Complete"
+## 
+## Aggregating results
+## Selecting tuning parameters
+\end{verbatim}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[i], tuneValue = as.data.frame(bestTune[[i]]), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}\begin{verbatim}
+## [1] "plsda complete"
+## 
+## Aggregating results
+## Selecting tuning parameters
+\end{verbatim}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[i], tuneValue = as.data.frame(bestTune[[i]]), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}\begin{verbatim}
+## [1] "rf complete"
+## 
+## Aggregating results
+## Selecting tuning parameters
+\end{verbatim}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[d], tuneValue = tuned.methods\$bestTune[[d]], : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData.new[[d]], method = method[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]\$bestTune))), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[d], tuneValue = tuned.methods\$bestTune[[d]], : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData.new[[d]], method = method[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]\$bestTune))), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}\begin{verbatim}
+## Calculating Model Performance Statistics
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
     
@@ -164,8 +208,33 @@ Robustness-Performance Trade-off value (RPT) is provided with the results.
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{performance.metrics}\hlstd{(fits)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Model Performance Statistics
+##                        plsda         rf
+## Accuracy          0.88333333 0.93333333
+## Kappa             0.76666667 0.86666667
+## ROC.AUC           0.92000000 0.96000000
+## Sensitivity       0.86666667 0.93333333
+## Specificity       0.90000000 0.93333333
+## Pos Pred Value    0.90303030 0.93333333
+## Neg Pred Value    0.87777778 0.93333333
+## Accuracy SD       0.07637626 0.11547005
+## Kappa SD          0.15275252 0.23094011
+## ROC.AUC SD        0.07549834 0.06928203
+## Sensitivity SD    0.11547005 0.11547005
+## Specificity SD    0.10000000 0.11547005
+## Pos Pred Value SD 0.10013765 0.11547005
+## Neg Pred Value SD 0.10715168 0.11547005
+\end{verbatim}
+\begin{alltt}
 \hlstd{fits}\hlopt{$}\hlstd{RPT}
 \end{alltt}
+\begin{verbatim}
+##     plsda        rf 
+## 0.7933472 0.3017964
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 
@@ -179,6 +248,22 @@ identified) and frequency (percent identified in all runs).
 \begin{alltt}
 \hlkwd{feature.table}\hlstd{(fits,} \hlstr{"plsda"}\hlstd{)}
 \end{alltt}
+\begin{verbatim}
+##    features consistency frequency
+## 1        V1           3         1
+## 2       V11           3         1
+## 3       V14           3         1
+## 4       V21           3         1
+## 5       V23           3         1
+## 6       V26           3         1
+## 7       V28           3         1
+## 8       V37           3         1
+## 9       V16           2     0.667
+## 10       V2           1     0.333
+## 11      V47           1     0.333
+## 12      V41           1     0.333
+## 13      V44           1     0.333
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 
@@ -275,6 +360,14 @@ variables with their new respective ranks.
 
 \hlkwd{aggregation}\hlstd{(ranks,} \hlstr{"CLA"}\hlstd{)}
 \end{alltt}
+\begin{verbatim}
+##  V45   V7  V50  V18  V15  V20  V44  V29  V35   V6  V38  V31  V43  V11  V42  V28  V33  V10 
+##  1.0  2.0  3.0  4.0  5.0  6.5  6.5  8.5  8.5 10.0 11.0 12.5 12.5 14.0 15.0 16.0 17.0 18.5 
+##  V22  V46  V17   V1  V23  V27  V48  V21  V47  V49  V13  V41  V26  V40  V19  V34   V5  V14 
+## 18.5 20.0 21.0 23.5 23.5 23.5 23.5 26.5 26.5 28.0 29.5 29.5 31.0 32.0 33.5 33.5 35.0 36.5 
+##  V39  V16   V4  V12  V36  V30   V2   V8   V3  V25  V32  V37   V9  V24 
+## 36.5 38.0 39.0 40.5 40.5 42.0 43.5 43.5 45.5 45.5 47.0 48.0 49.0 50.0
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 
@@ -580,26 +673,26 @@ with \Rcode{stopCluster(cl)}.
 ## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] parallel  splines   stats     graphics  grDevices utils     datasets  methods  
+## [9] base     
 ## 
 ## other attached packages:
-## [1] OmicsMarkeR_0.99.2 knitr_1.9         
+##  [1] caTools_1.17.1      glmnet_1.9-8        Matrix_1.1-5        pamr_1.55          
+##  [5] cluster_2.0.1       gbm_2.1.1           lattice_0.20-30     survival_2.38-1    
+##  [9] e1071_1.6-4         randomForest_4.6-10 DiscriMiner_0.1-29  plyr_1.8.1         
+## [13] foreach_1.4.2       OmicsMarkeR_0.99.3  knitr_1.9          
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] assertive_0.1-8     BiocStyle_1.4.1     bitops_1.0-6        BradleyTerry2_1.0-5
-##  [5] brglm_0.5-9         car_2.0-24          caret_6.0-41        caTools_1.17.1     
-##  [9] chron_2.3-45        class_7.3-11        cluster_2.0.1       codetools_0.2-10   
-## [13] colorspace_1.2-4    data.table_1.9.4    digest_0.6.8        DiscriMiner_0.1-29 
-## [17] e1071_1.6-4         evaluate_0.5.5      foreach_1.4.2       formatR_1.0        
-## [21] gbm_2.1             ggplot2_1.0.0       glmnet_1.9-8        grid_3.1.2         
-## [25] gtable_0.1.2        gtools_3.4.1        highr_0.4           iterators_1.0.7    
-## [29] lattice_0.20-29     lme4_1.1-7          MASS_7.3-37         Matrix_1.1-5       
-## [33] mgcv_1.8-4          minqa_1.2.4         munsell_0.4.2       nlme_3.1-119       
-## [37] nloptr_1.0.4        nnet_7.3-8          pamr_1.55           parallel_3.1.2     
-## [41] pbkrtest_0.4-2      permute_0.8-3       plyr_1.8.1          proto_0.3-10       
-## [45] quantreg_5.11       randomForest_4.6-10 Rcpp_0.11.4         reshape2_1.4.1     
-## [49] scales_0.2.4        SparseM_1.6         splines_3.1.2       stringr_0.6.2      
-## [53] survival_2.37-7     tools_3.1.2
+##  [1] assertive_0.2-4     BiocStyle_1.4.1     bitops_1.0-6        BradleyTerry2_1.0-6
+##  [5] brglm_0.5-9         car_2.0-25          caret_6.0-41        chron_2.3-45       
+##  [9] class_7.3-12        codetools_0.2-11    colorspace_1.2-6    compiler_3.1.2     
+## [13] data.table_1.9.4    digest_0.6.8        evaluate_0.5.5      formatR_1.0        
+## [17] ggplot2_1.0.1       grid_3.1.2          gtable_0.1.2        gtools_3.4.1       
+## [21] highr_0.4           iterators_1.0.7     lme4_1.1-7          MASS_7.3-40        
+## [25] mgcv_1.8-5          minqa_1.2.4         munsell_0.4.2       nlme_3.1-120       
+## [29] nloptr_1.0.4        nnet_7.3-9          pbkrtest_0.4-2      permute_0.8-3      
+## [33] proto_0.3-10        quantreg_5.11       Rcpp_0.11.5         reshape2_1.4.1     
+## [37] scales_0.2.4        SparseM_1.6         stringr_0.6.2       tools_3.1.2
 \end{verbatim}
 \end{kframe}
 \end{knitrout}

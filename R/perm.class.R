@@ -31,6 +31,7 @@ globalVariables(c('p', 'fold'))
 #' @references Guo Y., et. al. (2010) \emph{Sample size and statistical power 
 #' considerations in high-dimensionality data settings: a comparative study 
 #' of classification algorithms}. BMC Bioinformatics 11:447.
+#' @example inst/examples/perm.class.R
 #' @import DiscriMiner
 #' @import randomForest
 #' @import e1071

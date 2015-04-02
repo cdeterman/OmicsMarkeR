@@ -13,7 +13,7 @@
 #'  \item{consistency}{Number of iterations feature was identified}
 #'  \item{frequency}{Frequency of iterations the feature was identified}
 #' @author Charles Determan Jr
-#' @example /inst/examples/feature.table.R
+#' @example inst/examples/feature.table.R
 #' @export
 
 

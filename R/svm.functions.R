@@ -19,7 +19,7 @@
 #' Classification using Support Vector Machines}. Machine Learning 46 389-422. 
 #' 
 #' @seealso \code{\link{svmrfeFeatureRankingForMulticlass}}
-#' @example /inst/examples/svm.functions.R
+#' @example inst/examples/svmrfeFeatureRanking.R 
 #' @import e1071
 #' @export
 
@@ -122,7 +122,7 @@ svm.weights<-function(model){
 #' @references Guyon I. et. al. (2010) \emph{Gene Selection for Cancer 
 #' Classification using Support Vector Machines}. Machine Learning 46 389-422. 
 #' @seealso \code{\link{svmrfeFeatureRanking}}
-#' @example /inst/examples/svm.functions.R
+#' @example inst/examples/svmrfeFeatureRankingForMulticlass.R
 #' @export
 
 svmrfeFeatureRankingForMulticlass = function(x,y,c, perc.rem = 10){

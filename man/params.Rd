@@ -25,4 +25,7 @@ model (i.e. if model is able to fit all 'lower' parameters simultaneously)
 Provides a list of the models with their respective parameters
 and properties.
 }
+\examples{
+params("plsda")
+}
 

@@ -8,11 +8,6 @@
 \documentclass[12pt]{article}
 
 
-<<knitr, echo=FALSE, results="hide">>=
-library("knitr")
-@
-
-
 <<style, eval=TRUE, echo=FALSE, results="asis">>=
 BiocStyle::latex()
 @
@@ -46,7 +41,7 @@ biocLite("OmicsMarkeR")
 \newpage
 \maketitle
 \section{Basic Classification Example}
-\pkg{OmicsMarkeR} has a few simplified functions that attempt to streamline 
+\Biocpkg{OmicsMarkeR} has a few simplified functions that attempt to streamline 
 the classification and feature selection process including the addition of 
 stability metrics. We will first generate a synthetic dataset.  This includes 
 three functions that can be used to create multivariate datasets that can 
@@ -57,7 +52,7 @@ function induces correlations to the datasets.  The
 \Rfunction{create.discr.matrix} function induces variables to be discriminate 
 between groups.  The number of groups can be specified with \Rcode{num.groups}. 
 
-<<>>=
+<<datagen>>=
 library("OmicsMarkeR")
 set.seed(123)
 dat.discr <- create.discr.matrix(
@@ -84,7 +79,7 @@ in this vignette.  This is intentional as the PLSDA runs with this simple
 dataset often only need a single component but you need to indicate 2
 to fit the model.  This is provided for the users information.}
 
-<<eval=FALSE>>=
+<<fs.stability>>=
 vars <- dat.discr[,1:(ncol(dat.discr)-1)]
 groups <- dat.discr[,ncol(dat.discr)]
 fits <- fs.stability(vars, 
@@ -101,7 +96,7 @@ If I would like to see the performance metrics, I can simply use the
 data.frame of confusion matrix and ROC statistics.  Additionally, the 
 Robustness-Performance Trade-off value (RPT) is provided with the results.
 
-<<eval=FALSE>>=
+<<performance>>=
 performance.metrics(fits)
 fits$RPT
 @
@@ -111,7 +106,7 @@ most important, this is accomplished by \Rfunction{feature.table}.  This
 function returns a simple table reporting the consistency (i.e. how many times
 identified) and frequency (percent identified in all runs).
 
-<<eval=FALSE>>=
+<<feature.table>>=
 feature.table(fits, "plsda")
 @
 
@@ -123,7 +118,7 @@ evaluate the tuned model's performance or if the user is applying the model
 in a production type setting where you are systematically using this model
 on new data that comes in.
 
-<<eval=FALSE>>=
+<<predictClasses, eval=FALSE>>=
 
 # create some 'new' data
 newdata <- create.discr.matrix(
@@ -169,7 +164,7 @@ naturally defines the number of bagging iterations and the
 \Robject{aggregation.metric} is a string defining the aggregation method.  These
 arguments have common defaults predefined so the call can be:
 
-<<eval=FALSE>>=
+<<ensemble, eval=FALSE>>=
 fits <- fs.ensembl.stability(vars, 
                             groups, 
                             method = c("plsda", "rf"), 
@@ -192,7 +187,7 @@ methods, the variables must have been ranked and the rownames assigned as the
 variable names.  The function then will return that aggregated list of 
 variables with their new respective ranks.
 
-<<eval=FALSE>>=
+<<aggregation>>=
 # test data
 ranks <- replicate(5, sample(seq(50), 50))
 row.names(ranks) <- paste0("V", seq(50))
@@ -216,7 +211,7 @@ respectively.  However, let's say I want to be more fine tuned with my
 random forest model.  You can create a customized grid using 
 \Rfunction{denovo.grid}.
 
-<<eval=FALSE>>=
+<<grid, eval=FALSE>>=
 plsda <- denovo.grid(vars, "plsda", 3)
 rf <- denovo.grid(vars, "rf", 5)
 
@@ -255,7 +250,7 @@ defined within this package.  These functions are very simple to use.  To
 demonstrate, let's create some sample data consisting of our \textbf{Metabolite
 Population}.
 
-<<>>=
+<<metabs>>=
 metabs <- paste("Metabolite", seq(20), sep="_")
 @
 
@@ -263,7 +258,7 @@ Now, let's say you have run you different special model twice on different
 samples of a dataset.  You complete your feature selection and get two lists
 of Metabolites.  Here I am just randomly sampling.
 
-<<>>=
+<<samples>>=
 set.seed(13)
 run1 <- sample(metabs, 10)
 run2 <- sample(metabs, 10)
@@ -280,7 +275,7 @@ The relevant citations are provided in each function's documenation.
 
 The general use for most of the functions is:
 
-<<>>=
+<<jaccard>>=
 jaccard(run1, run2)
 @
 
@@ -292,7 +287,7 @@ variables it would be far more indicative of significance if you see the same
 small subset again and again as opposed to a small set seeing the same 
 variables.
 
-<<>>=
+<<kuncheva>>=
 # In this case, 20 original variables
 kuncheva(run1, run2, 20)
 @
@@ -309,7 +304,7 @@ pairwise function exists to allow a rapid comparison between all sets.
 This \Rfunction{pairwise.stability} is very similar to the individual 
 stability functions in practice.  Let's take an example consisting of 5 runs.
 
-<<>>=
+<<repeat.metabs>>=
 set.seed(21)
 # matrix of Metabolites identified (e.g. 5 trials)
 features <- replicate(5, sample(metabs, 10))
@@ -322,7 +317,7 @@ is when applying Kuncheva's Index where the \Robject{nc} parameter again must
 be set (which can be ignored otherwise).  This will return all list containing 
 the upper triangular matrix of stability values and an overall average.
 
-<<>>=
+<<pairwise.stability>>=
 pairwise.stability(features, "sorensen")
 @
 
@@ -341,7 +336,7 @@ Please note that currently only \Rclass{list} objects are accepted by
 \textbf{Note} - here I am only randomly sampling but in practice the each model
 would have been trained on the same dataset. 
 
-<<>>=
+<<model.stability>>=
 set.seed(999)
 plsda <- 
     replicate(5, paste("Metabolite", sample(metabs, 10), sep="_"))
@@ -368,7 +363,7 @@ distinguishing the groups.  Once again, groups can be permuted, the model
 refit to the data and the importance of the variables evaluated.  This is
 accomplished with \Rfunction{perm.features}.
 
-<<eval=FALSE>>=
+<<permutations, eval=FALSE>>=
 # permuate class
 perm.class(fits, vars, groups, "rf", k.folds=5,
            metric="Accuracy", nperm=10)
@@ -392,7 +387,7 @@ between operating systems so here are two examples.
 
 For Unix OS, you probably will use \CRANpkg{doMC}
 
-<<eval=FALSE>>=
+<<doMC, eval=FALSE>>=
 library(doMC)
 
 n <- detectCores()
@@ -401,7 +396,7 @@ registerDoMC(n)
 
 For a Windows OS, you likely with use the \CRANpkg{doSNOW}
 
-<<eval=FALSE>>=
+<<SNOW, eval=FALSE>>=
 library(parallel)
 library(doSNOW)
 
@@ -419,7 +414,7 @@ registerDoSNOW(cl)
 with \Rcode{stopCluster(cl)}.
 
 \newpage
-<<>>=
+<<sessionInfo>>=
 sessionInfo()
 @
 

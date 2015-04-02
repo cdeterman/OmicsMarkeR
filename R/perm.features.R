@@ -31,6 +31,7 @@ globalVariables('p')
 #' @references Wongravee K., et. al. (2009) \emph{Monte-Carlo methods 
 #' for determining optimal number of significant variables.  Application to 
 #' mouse urinary profiles}. Metabolomics 5:387-406.
+#' @example inst/examples/perm.features.R
 #' @import DiscriMiner
 #' @import randomForest
 #' @import e1071

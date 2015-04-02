@@ -7,12 +7,12 @@ Description: Tools for classification and feature selection for 'omics' level
     metabolomics datasets but potentially extendable to proteomics and
     transcriptomics applications.
 Date: 2015-03-13
-Version: 0.99.2
+Version: 0.99.6
 Author: Charles E. Determan Jr. <cdetermanjr@gmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@gmail.com>
 VignetteBuilder: knitr
 Depends: 
-    R (>= 3.1.2)
+    R (>= 3.2.0)
 Imports: 
     plyr (>= 1.8),
     data.table (>= 1.9.4),

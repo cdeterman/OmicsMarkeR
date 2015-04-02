@@ -19,4 +19,5 @@ fits <- fs.stability(vars,
                      k.folds = 10, 
                      verbose = FALSE)
 
-feature.table(fits, "plsda")
+perm.class(fits, vars, groups, "rf", k.folds=5,
+           metric="Accuracy", nperm=10)

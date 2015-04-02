@@ -45,6 +45,32 @@ Applies Monte Carlo permutations to user specified models.
 The user can either use the results from \code{fs.stability} or provide
 specified model parameters.
 }
+\examples{
+dat.discr <- create.discr.matrix(
+    create.corr.matrix(
+        create.random.matrix(nvar = 50, 
+                             nsamp = 100, 
+                             st.dev = 1, 
+                             perturb = 0.2)),
+    D = 10
+)$discr.mat
+
+
+vars <- dat.discr[,1:(ncol(dat.discr)-1)]
+groups <- as.factor(dat.discr[,ncol(dat.discr)])
+
+fits <- fs.stability(vars, 
+                     groups, 
+                     method = c("plsda", "rf"), 
+                     f = 10, 
+                     k = 3, 
+                     k.folds = 10, 
+                     verbose = FALSE)
+
+# permute variables/features
+perm.features(fits, vars, groups, "rf",
+              sig.level = .05, nperm = 10)
+}
 \author{
 Charles Determan Jr.
 }

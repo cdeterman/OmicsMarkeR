@@ -19,4 +19,4 @@ fits <- fs.stability(vars,
                      k.folds = 10, 
                      verbose = FALSE)
 
-feature.table(fits, "plsda")
+performance.metrics(fits)

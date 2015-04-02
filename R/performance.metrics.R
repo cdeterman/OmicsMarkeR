@@ -8,6 +8,7 @@
 #' @param digits How many digits to round values
 #' @return Dataframe of performance statistics by model
 #' @author Charles E. Determan Jr.
+#' @example inst/examples/performance.metrics.R
 #' @export
 
 performance.metrics <- function(fit.model,   # fs.stability object
