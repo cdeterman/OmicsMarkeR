@@ -8,9 +8,9 @@ before_install:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
 
-bioc_packages: BiocStyle
-
 install:
+  - ./travis-tool.sh install_bioc BiocStyle
+  - ./travis-tool.sh install_bioc_deps
   - ./travis-tool.sh install_deps
 
 script: ./travis-tool.sh run_tests
