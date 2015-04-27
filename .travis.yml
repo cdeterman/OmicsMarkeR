@@ -3,13 +3,14 @@ language: r
 sudo: required
 
 install:
-    - ./travis-tool.sh install_deps
+  - ./travis-tool.sh install_deps
+
 script: ./travis-tool.sh run_tests
 
 after_failure:
-    - ./travis-tool.sh dump_logs
+  - ./travis-tool.sh dump_logs
 
 notifications:
-    email:
-        on_success: change
-        on_failure: change
+  email:
+    on_success: change
+    on_failure: change
