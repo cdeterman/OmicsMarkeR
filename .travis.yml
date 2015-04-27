@@ -1,5 +1,7 @@
 language: r
 
+sudo: required
+
 install:
     - ./travis-tool.sh install_deps
 script: ./travis-tool.sh run_tests
