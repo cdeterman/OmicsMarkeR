@@ -1,5 +1,6 @@
 language: r
 bioc_required: true
+r_packages: XML
 
 sudo: required
 
