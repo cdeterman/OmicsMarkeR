@@ -1,6 +1,6 @@
 # `"OmicsMarkeR"`
 
-[![Travis-CI Build Status](https://travis-ci.org/cdeterman/OmicsMarkeR.png?branch=master)](https://travis-ci.org/cdeterman/OmicsMarkeR) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/cdeterman/OmicsMarkeR?branch=master)](https://ci.appveyor.com/project/cdeterman/OmicsMarkeR)[![Coverage Status](https://coveralls.io/repos/cdeterman/OmicsMarkeR/badge.svg)](https://coveralls.io/r/cdeterman/OmicsMarkeR)
+[![Travis-CI Build Status](https://travis-ci.org/cdeterman/OmicsMarkeR.png?branch=master)](https://travis-ci.org/cdeterman/OmicsMarkeR) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/cdeterman/OmicsMarkeR?branch=master)](https://ci.appveyor.com/project/cdeterman/OmicsMarkeR)[![Coverage Status](https://img.shields.io/coveralls/cdeterman/OmicsMarkeR.svg)](https://coveralls.io/r/cdeterman/OmicsMarkeR?branch=master)
 
 `OmicsMarkeR` is an R package that provides functions for classification and 
 feature selection of 'omics' level datasets.
