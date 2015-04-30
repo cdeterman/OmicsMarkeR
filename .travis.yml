@@ -8,7 +8,6 @@ r_binary_packages:
   - plyr
   - data.table
   - caret
-  - DiscriMiner
   - e1071
   - randomForest
   - gbm
@@ -17,6 +16,9 @@ r_binary_packages:
   - caTools
   - foreach
   - permute
+
+r_packages:
+  - DiscriMiner
   - assertive
 
 bioc_packages:
