@@ -1,25 +1,29 @@
 language: r
-bioc_required: true
-r_packages: XML
-
 sudo: required
+warnings_are_errors: true
+bioc_required: true
 
-before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
+r_binary_packages:
+  - XML
+  - plyr
+  - data.table
+  - caret
+  - DiscriMiner
+  - e1071
+  - randomForest
+  - gbm
+  - pamr
+  - glmnet
+  - caTools
+  - foreach
+  - permute
+  - assertive
 
-install:
-  - ./travis-tool.sh install_bioc BiocStyle
-  - ./travis-tool.sh install_bioc_deps
-  - ./travis-tool.sh install_deps
-  - ./travis-tool.sh github_package jimhester/covr
+bioc_packages:
+  - BiocStyle
 
-script: ./travis-tool.sh run_tests
-
-
-on_failure:
-  - ./travis-tool.sh dump_logs
+r_github_packages:
+  - jimhester/covr
 
 after_success:
   - Rscript -e 'library(covr);coveralls()'
