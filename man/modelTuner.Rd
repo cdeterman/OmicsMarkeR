@@ -5,7 +5,7 @@
 \title{Model Tuner}
 \usage{
 modelTuner(trainData, guide, method, inTrain, outTrain, lev,
-  savePredictions = FALSE, allowParallel = FALSE, verbose = FALSE,
+  savePredictions = FALSE, allowParallel = FALSE, verbose = "none",
   theDots = NULL)
 }
 \arguments{
@@ -28,7 +28,8 @@ prediction data.  Default \code{savePredictions = FALSE}}
 \item{allowParallel}{Logical argument dictating if parallel processing
 is allowed via foreach package}
 
-\item{verbose}{Logical argument dictating if should print progress}
+\item{verbose}{Character argument specifying how much output progress
+to print.  Options are 'none', 'minimal' or 'full'.}
 
 \item{theDots}{List of additional arguments provided in the initial
 classification and features selection function}

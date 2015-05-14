@@ -5,11 +5,10 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 
-
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- as.factor(dat.discr[,ncol(dat.discr)])
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 
 fits <- fs.stability(vars, 
                      groups, 
@@ -17,6 +16,6 @@ fits <- fs.stability(vars,
                      f = 10, 
                      k = 3, 
                      k.folds = 10, 
-                     verbose = FALSE)
+                     verbose = 'none')
 
 feature.table(fits, "plsda")

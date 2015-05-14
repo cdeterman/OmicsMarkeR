@@ -7,9 +7,9 @@
 pof(x, y)
 }
 \arguments{
-\item{x}{vector of feature names}
+\item{x}{Character vector of feature names}
 
-\item{y}{vector of feature names}
+\item{y}{Character vector of feature names}
 }
 \value{
 Returns the percent of overlapping features for the two vectors.

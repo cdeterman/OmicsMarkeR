@@ -12,6 +12,7 @@
 #' @param bestTune List of parameters that have been optimized for the each 
 #' respective model
 #' @param grp.levs Vector of group levels
+#' @param stability.metric A character object specifying the stability metric
 #' @return Returns a dataframe consisting of each feature selection runs 
 #' evaluated Accuracy, Kappa, ROC.AUC, Sensitivity, Specificity, Positive 
 #' Predictive Value, and Negative Predictive Value.
@@ -27,7 +28,8 @@ prediction.metrics <-
              outTrain,
              features,
              bestTune,
-             grp.levs)
+             grp.levs,
+             stability.metric)
     {
         raw.data.vars <- raw.data[,!colnames(raw.data) %in% c(".classes")]
         raw.data.grps <- raw.data[,colnames(raw.data) %in% c(".classes")]
@@ -54,7 +56,9 @@ prediction.metrics <-
                        FUN = function(x){
                            c(rep(x, 
                                  length(bestTune)/length(method)))
-                       }))
+                       }
+                )
+            )
         bestTune <- bestTune[match(method.names,names(bestTune))]
         finalModel <- finalModel[match(method.names, names(finalModel))]    
         
@@ -64,14 +68,9 @@ prediction.metrics <-
             for(f in seq(length(finalModel))){
                 features[[f]] <- colnames(raw.data.vars)
             }
-        }else{
-            if(length(method) > 1){
-                features <- unlist(features, recursive = FALSE)
-                names(features) <- rep(method, 
-                                       length(finalModel)/length(method))
-                features <- features[match(method.names, names(features))] 
-            }
         }
+        
+        features <- features[match(method.names, names(features))]
         
         predicted <- vector("list", length(finalModel))
         names(predicted) <- names(finalModel)
@@ -80,32 +79,22 @@ prediction.metrics <-
             new.dat <- 
                 switch(names(finalModel[e]),
                        svm = {
-                           if(!is.data.frame(features[[e]])){
-                               if(!is.character(features[[e]])){
-                                   features[[e]] <- 
-                                       rownames(as.data.frame(features[[e]]))
-                               }
-                           }
-                           raw.data.vars[outTrain.list[[e]],
-                                         (names(raw.data.vars) 
-                                          %in% features[[e]]), 
-                                         drop = FALSE]},
-                       
-                       glmnet= {                          
-                           if(class(c(features[[e]])) == "list" | 
-                                  is.null(names(features[[e]]))){
-                               features.ch <- 
-                                   unlist(
-                                       lapply(features[[e]], as.character), 
-                                       use.names = FALSE
-                                   )
-                               raw.data.vars[outTrain.list[[e]],
-                                             (names(raw.data.vars) 
-                                              %in% features.ch), 
+                           if(stability.metric %in% c("spearman", "canberra")){
+                               raw.data.vars[outTrain.list[[e]],, 
                                              drop = FALSE]
                            }else{
-                               features[[e]] <- 
-                                   rownames(as.data.frame(features[[e]]))
+                               raw.data.vars[outTrain.list[[e]],
+                                             (names(raw.data.vars) 
+                                              %in% features[[e]]), 
+                                             drop = FALSE]
+                           }
+                           },
+                       
+                       glmnet= {
+                           if(stability.metric %in% c("spearman", "canberra")){
+                               raw.data.vars[outTrain.list[[e]],, 
+                                             drop = FALSE]
+                           }else{
                                raw.data.vars[outTrain.list[[e]],
                                              (names(raw.data.vars) 
                                               %in% features[[e]]), 
@@ -114,21 +103,13 @@ prediction.metrics <-
                        },
                        
                        pam = {
-                           if(!is.null(names(features[[e]]))){
-                               features[[e]] <- 
-                                   rownames(as.data.frame(features[[e]]))
+                           if(stability.metric %in% c("spearman", "canberra")){
+                               raw.data.vars[outTrain.list[[e]],, 
+                                             drop = FALSE]
+                           }else{
                                raw.data.vars[outTrain.list[[e]],
                                              (names(raw.data.vars) 
                                               %in% features[[e]]), 
-                                             drop = FALSE]
-                           }else{
-                               features.ch <- 
-                                   unlist(
-                                       lapply(features[[e]], as.character), 
-                                       use.names = FALSE)
-                               raw.data.vars[outTrain.list[[e]],
-                                             (names(raw.data.vars)
-                                              %in% features.ch), 
                                              drop = FALSE]
                            }
                        },
@@ -136,7 +117,7 @@ prediction.metrics <-
                        plsda =, gbm =, rf = {raw.data.vars[outTrain.list[[e]],
                                                            ,drop = FALSE]},
                 )
-            #final.features
+            
             predicted[[e]] <- predicting(method = names(finalModel)[e],
                                          modelFit = finalModel[[e]],
                                          orig.data = raw.data,

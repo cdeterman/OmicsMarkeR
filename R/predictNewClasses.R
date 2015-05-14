@@ -12,7 +12,6 @@
 #' @example inst/examples/predictNewClasses.R
 #' @import DiscriMiner
 #' @import randomForest
-# ' @import caret
 #' @import e1071
 #' @import gbm
 #' @import pamr
@@ -64,14 +63,17 @@ plsda =
     # check for number of components provided.  This is 
     # important following selection of the best model
     ncomp <- tVal
-    if(ncomp == 1){
-        ncomp = 2
+    if(ncomp$.ncomp == 1){
+        ncomp = data.frame(.ncomp = 2)
     }                        
     
     o.nr <- seq(nrow(orig.data))
     n.nr <- seq(from = (nrow(orig.data)+1), 
                 to = nrow(newdata) + nrow(orig.data))
-    full.data <- as.data.frame(rbindlist(list(orig.data, newdata), fill=TRUE))
+    full.data <- as.data.frame(
+        rbindlist(
+            list(orig.data, as.data.frame(newdata)), 
+            fill=TRUE))
     
     # if any NA just fill with first class
     # this is to allow for a dataset without classes assigned
@@ -87,11 +89,11 @@ plsda =
                  learn = o.nr,
                  test = n.nr,
                  validation = "learntest",
-                 comps = ncomp,
+                 comps = ncomp$.ncomp,
                  cv ="none",
                  retain.models = TRUE)$classification
     
-    if(tVal < 2){
+    if(ncomp$.ncomp >= 2){
         out <- lapply(tmp, as.character)[[1]]
     }else{
         out <- lapply(tmp, as.character)

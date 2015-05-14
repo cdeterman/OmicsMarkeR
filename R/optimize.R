@@ -19,7 +19,8 @@
 #' (Area Under the Curve - Receiver Operator Curve)
 #' @param allowParallel Logical argument dictating if parallel processing 
 #' is allowed via foreach package
-#' @param verbose Logical argument if should output progress
+#' @param verbose Character argument specifying how much output progress 
+#' to print. Options are 'none', 'minimal' or 'full'.
 #' @param theDots List of additional arguments provided in the initial 
 #' classification and features selection function
 #' @return Basically a list with the following elements:
@@ -60,7 +61,7 @@ optimize.model <- function(
     metric = "Accuracy",
     #savePerformanceMetrics = NULL,
     allowParallel = FALSE,
-    verbose = FALSE,
+    verbose = 'none',
     theDots = NULL)
 {
     classLevels <- levels(as.factor(trainGroup))
@@ -187,8 +188,10 @@ optimize.model <- function(
     # all possible parameter names
     paramNames <- levels(tune.guide[[1]]$model$parameter)
     
-    cat("\nAggregating results\n")
-    flush.console()
+    if(verbose == 'minimal' | verbose == 'full'){
+        cat("\nAggregating results\n")
+        flush.console()    
+    }
     
     perfCols <- sapply(performance, names)
     perfCols <- lapply(perfCols, 
@@ -208,8 +211,10 @@ optimize.model <- function(
         performance[[i]] <- byComplexity2(performance[[i]], method[i])
     }
     
-    cat("Selecting tuning parameters\n")
-    flush.console()
+    if(verbose == 'minimal' | verbose == 'full'){
+        cat("Selecting tuning parameters\n")
+        flush.console()
+    }
     
     ## Select the "optimal" tuning parameter.
     bestIter <- vector("list", length(performance))
@@ -264,7 +269,7 @@ optimize.model <- function(
         performance[[m]] <- performance[[m]][do.call("order", orderList),]
     }
     
-    if(verbose)
+    if(verbose == "full")
     {
         for (i in seq(along=method)){
             cat("Fitting",

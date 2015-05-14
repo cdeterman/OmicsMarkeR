@@ -127,10 +127,8 @@ create.corr.matrix <-
              max.block.size = 5
     )
     {
-        if(any(!sapply(U, is.numeric))){
-            stop("Error: matrix components must all be numeric.  
-                 Check to make sure no factors are in matrix.")
-        }
+        assert_is_matrix(U)
+        assert_is_numeric(U)
         
         nvar <- ncol(U)
         nsamp <- nrow(U)
@@ -284,7 +282,7 @@ create.discr.matrix <-
                 splt <- split(as.data.frame(Z), 
                               rep(1:num.groups, each = nrow(Z)/num.groups))
             }, warning = function(war){
-                cat("Warning: Uneven distribution of groups")
+                warning("Uneven distribution of groups")
                 splt <- suppressWarnings(
                     split(as.data.frame(Z), 
                           rep(1:num.groups, each = nrow(Z)/num.groups)
@@ -360,11 +358,13 @@ create.discr.matrix <-
         
         ## Create a noise matrix to perturb distributions again
         W <- noise.matrix(S, k)
-        Y <- as.data.frame(S + W)
-        Y$.classes <- as.factor(classes)
-        Y[1:nc] <- lapply(Y[1:nc], 
-                          FUN = function(x) as.numeric(as.character(x)))
-        out <- list(discr.mat = Y, features = xNames)
+        Y <- as.matrix(S + W)
+#         Y$.classes <- as.factor(classes)
+#         Y[1:nc] <- lapply(Y[1:nc], 
+#                           FUN = function(x) as.numeric(as.character(x)))
+        out <- list(discr.mat = Y, 
+                    classes = as.factor(classes),
+                    features = xNames)
         out
         }
 

@@ -26,6 +26,15 @@ denovo.grid <-
              res
     )
     {
+        assert_is_data.frame(data)
+        assert_is_character(method)
+        assert_is_numeric(res)
+        
+        if(!".classes" %in% colnames(data)){
+            stop("Creating a tuning grid requires a '.classes' column
+             representing the class/group labels.")
+        }
+        
         # number of columns - 1
         nc <- dim(data)[2] - 1
         

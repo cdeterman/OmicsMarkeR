@@ -7,9 +7,9 @@
 kuncheva(x, y, num.features)
 }
 \arguments{
-\item{x}{vector of feature names}
+\item{x}{Character vector of feature names}
 
-\item{y}{vector of feature names}
+\item{y}{Character vector of feature names}
 
 \item{num.features}{total number of features in the original dataset}
 }
@@ -22,6 +22,10 @@ sets are identical.
 Calculates Kuncheva's index between two vectors of features.
 In brief, the closer to 1 the more similar the vectors.  The two vectors
 must have the same cardinality (i.e. same length).
+}
+\note{
+The returned Kuncheva Index has been scaled from its original [-1,1]
+range to [0,1] in order to make it compatible with RPT.
 }
 \examples{
 # Kuncheva demo

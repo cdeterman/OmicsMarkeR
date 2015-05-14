@@ -17,7 +17,8 @@ globalVariables(c('algo', 'parms', 'iter'))
 #' prediction data.  Default \code{savePredictions = FALSE}
 #' @param allowParallel Logical argument dictating if parallel processing is 
 #' allowed via foreach package
-#' @param verbose Logical argument dictating if should print progress
+#' @param verbose Character argument specifying how much output progress 
+#' to print.  Options are 'none', 'minimal' or 'full'.
 #' @param theDots List of additional arguments provided in the initial 
 #' classification and features selection function
 #' @return Returns list of fitted models
@@ -42,7 +43,7 @@ modelTuner_loo <- function(trainData,
                            lev,
                            savePredictions = FALSE,
                            allowParallel = FALSE,
-                           verbose = FALSE,
+                           verbose = 'none',
                            theDots = NULL
 )
 {
@@ -96,7 +97,7 @@ modelTuner_loo <- function(trainData,
     colnames(printed) <- gsub("^\\.", "", colnames(printed))
     
     # library(caret)
-    if(verbose) progress(printed[parms,,drop = FALSE],
+    if(verbose == 'full') progress(printed[parms,,drop = FALSE],
                          names(inTrain), iter)
     
     #if(testing) cat("pre-model\n")
@@ -162,7 +163,7 @@ modelTuner_loo <- function(trainData,
     predicted$sampleIndex <- names(inTrain)[iter]
     
     # Print Progress
-    if(verbose) progress(printed[parms,,drop=FALSE],
+    if(verbose == 'full') progress(printed[parms,,drop=FALSE],
                          names(inTrain), iter, FALSE)
     list(tunes=predicted)
 }

@@ -17,21 +17,25 @@
 #' @export
 
 
-feature.table <- function(features, method = NULL){
-    if(is.null(method)){
-        stop("\n Error: must specify which algorithm to extract")}else{
-            feats <- as.data.frame(
-                lapply(features$features[method],'[[', "features"))
-            k <- ncol(feats)
-            table.dat <- sort(table(unlist(feats)), decreasing = TRUE)
-            out <- as.matrix(table.dat)
-            out <- cbind(
-                as.character(rownames(out)), 
-                as.numeric(out[,1]), 
-                round(as.numeric(out[,1])/k, 3)
-            )
-            colnames(out) <- c("features", "consistency", "frequency")
-            out <- data.frame(out)
-            out
-        }
+feature.table <- function(features, method){
+    assert_is_list(features)
+    assert_is_character(method)
+        
+    if(!method %in% features$methods){
+        stop("Method was not used on fitted data")
+    }
+    
+    feats <- as.data.frame(
+        lapply(features$features[method],'[[', "features"))
+    k <- ncol(feats)
+    table.dat <- sort(table(unlist(feats)), decreasing = TRUE)
+    out <- as.matrix(table.dat)
+    out <- cbind(
+        as.character(rownames(out)), 
+        as.numeric(out[,1]), 
+        round(as.numeric(out[,1])/k, 3)
+    )
+    colnames(out) <- c("features", "consistency", "frequency")
+    out <- data.frame(out)
+    out
 }

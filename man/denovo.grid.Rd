@@ -37,12 +37,12 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
+df <- data.frame(dat.discr$discr.mat, .classes = dat.discr$classes)
 
 # create tuning grid
-denovo.grid(vars, "gbm", 3)
+denovo.grid(df, "gbm", 3)
 }
 \author{
 Charles Determan Jr

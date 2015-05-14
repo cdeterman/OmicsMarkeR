@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.8.26)  1 APR 2015 07:12
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.8.26)  14 MAY 2015 08:57
 entering extended mode
 **OmicsMarkeR.tex
 (C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.tex
@@ -84,11 +84,11 @@ Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\alltt.sty"
 Package: alltt 1997/06/16 v2.0g defines alltt environment
 )
-(C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/Bioco
+(C:/Users/cdeterman/Documents/R/R-3.2.0/library/BiocStyle/resources/latex/Bioco
 nductor.sty
 
-LaTeX Warning: You have requested package `C:/Users/cdeterman/Documents/R/R-3.1
-.2/library/BiocStyle/resources/latex/Bioconductor',
+LaTeX Warning: You have requested package `C:/Users/cdeterman/Documents/R/R-3.2
+.0/library/BiocStyle/resources/latex/Bioconductor',
                but the package provides `Bioconductor'.
 
 Package: Bioconductor 2013/07/01 Bioconductor vignette style
@@ -369,154 +369,146 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package color Info: Redefining color shadecolor on input line 109.
 Package color Info: Redefining color shadecolor on input line 140.
 
-Overfull \hbox (129.36632pt too wide) in paragraph at lines 174--174
+Overfull \hbox (129.36632pt too wide) in paragraph at lines 156--157
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[i],
  tuneValue = as.data.frame(bestTune[[i]]),
  []
 
 
-Overfull \hbox (129.36632pt too wide) in paragraph at lines 182--182
+Overfull \hbox (129.36632pt too wide) in paragraph at lines 158--159
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[i],
  tuneValue = as.data.frame(bestTune[[i]]),
  []
 
 
-Overfull \hbox (123.19131pt too wide) in paragraph at lines 190--191
+Overfull \hbox (123.19131pt too wide) in paragraph at lines 160--161
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[d],
  tuneValue = tuned.methods$bestTune[[d]],
  []
 
 
-Overfull \hbox (345.49142pt too wide) in paragraph at lines 192--193
+Overfull \hbox (345.49142pt too wide) in paragraph at lines 162--163
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData.new[[d]], method = m
 ethod[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]$bestTune))),
  []
 
 
-Overfull \hbox (123.19131pt too wide) in paragraph at lines 194--195
+Overfull \hbox (123.19131pt too wide) in paragraph at lines 164--165
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[d],
  tuneValue = tuned.methods$bestTune[[d]],
  []
 
 
-Overfull \hbox (345.49142pt too wide) in paragraph at lines 196--196
+Overfull \hbox (345.49142pt too wide) in paragraph at lines 166--166
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData.new[[d]], method = m
 ethod[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]$bestTune))),
  []
 
-[2] [3]
-Package color Info: Redefining color shadecolor on input line 208.
-Package color Info: Redefining color shadecolor on input line 247.
- [4]
-Package color Info: Redefining color shadecolor on input line 279.
- [5]
-Package color Info: Redefining color shadecolor on input line 328.
+[2]
+Package color Info: Redefining color shadecolor on input line 175.
+
+Underfull \vbox (badness 10000) detected at line 203
+ []
+
+[3]
+Package color Info: Redefining color shadecolor on input line 212.
+Package color Info: Redefining color shadecolor on input line 244.
+ [4] [5]
+Package color Info: Redefining color shadecolor on input line 304.
  [6]
-Package color Info: Redefining color shadecolor on input line 355.
-
-Overfull \hbox (67.61629pt too wide) in paragraph at lines 370--370
-[]\OT1/cmtt/m/n/12 ##  V45   V7  V50  V18  V15  V20  V44  V29  V35   V6  V38  V
-31  V43  V11  V42  V28  V33  V10[] 
- []
-
-
-Overfull \hbox (67.61629pt too wide) in paragraph at lines 370--370
-[]\OT1/cmtt/m/n/12 ##  1.0  2.0  3.0  4.0  5.0  6.5  6.5  8.5  8.5 10.0 11.0 12
-.5 12.5 14.0 15.0 16.0 17.0 18.5[] 
- []
-
-
-Overfull \hbox (67.61629pt too wide) in paragraph at lines 370--370
-[]\OT1/cmtt/m/n/12 ##  V22  V46  V17   V1  V23  V27  V48  V21  V47  V49  V13  V
-41  V26  V40  V19  V34   V5  V14[] 
- []
-
-
-Overfull \hbox (67.61629pt too wide) in paragraph at lines 370--370
-[]\OT1/cmtt/m/n/12 ## 18.5 20.0 21.0 23.5 23.5 23.5 23.5 26.5 26.5 28.0 29.5 29
-.5 31.0 32.0 33.5 33.5 35.0 36.5[] 
- []
-
-[7]
-Package color Info: Redefining color shadecolor on input line 391.
+Package color Info: Redefining color shadecolor on input line 331.
+ [7]
+Package color Info: Redefining color shadecolor on input line 368.
  [8]
-Package color Info: Redefining color shadecolor on input line 433.
-Package color Info: Redefining color shadecolor on input line 445.
+Package color Info: Redefining color shadecolor on input line 411.
+Package color Info: Redefining color shadecolor on input line 423.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 460.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 438.
 
 
-Package color Info: Redefining color shadecolor on input line 466.
-Package color Info: Redefining color shadecolor on input line 485.
+Package color Info: Redefining color shadecolor on input line 444.
+Package color Info: Redefining color shadecolor on input line 463.
 [9]
-Package color Info: Redefining color shadecolor on input line 509.
-Package color Info: Redefining color shadecolor on input line 526.
+Package color Info: Redefining color shadecolor on input line 487.
+Package color Info: Redefining color shadecolor on input line 504.
  [10]
-Package color Info: Redefining color shadecolor on input line 560.
+Package color Info: Redefining color shadecolor on input line 538.
  [11]
-Package color Info: Redefining color shadecolor on input line 599.
+Package color Info: Redefining color shadecolor on input line 577.
  [12]
-Overfull \hbox (5.51231pt too wide) in paragraph at lines 616--623
+Overfull \hbox (5.51231pt too wide) in paragraph at lines 594--601
 \OT1/cmss/m/n/12 com-put-ing. These in-clude \OT1/cmtt/m/n/12 fs.stability\OT1/
 cmss/m/n/12 , \OT1/cmtt/m/n/12 fs.ensembl.stability\OT1/cmss/m/n/12 , \OT1/cmtt
 /m/n/12 perm.class\OT1/cmss/m/n/12 , and \OT1/cmtt/m/n/12 perm.features
  []
 
-Package color Info: Redefining color shadecolor on input line 627.
-Package color Info: Redefining color shadecolor on input line 640.
+Package color Info: Redefining color shadecolor on input line 605.
+Package color Info: Redefining color shadecolor on input line 618.
 [13]
-Package color Info: Redefining color shadecolor on input line 662.
+Package color Info: Redefining color shadecolor on input line 640.
 
-Overfull \hbox (18.21626pt too wide) in paragraph at lines 696--696
+Overfull \hbox (18.21626pt too wide) in paragraph at lines 675--675
 []\OT1/cmtt/m/n/12 ## [1] parallel  splines   stats     graphics  grDevices uti
 ls     datasets  methods[] 
  []
 
 
-Overfull \hbox (12.04126pt too wide) in paragraph at lines 696--696
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
 []\OT1/cmtt/m/n/12 ##  [5] cluster_2.0.1       gbm_2.1.1           lattice_0.20
--30     survival_2.38-1[] 
+-31     survival_2.38-1[] 
  []
 
 
-Overfull \hbox (36.74127pt too wide) in paragraph at lines 696--696
-[]\OT1/cmtt/m/n/12 ##  [1] assertive_0.2-4     BiocStyle_1.4.1     bitops_1.0-6
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
+[]\OT1/cmtt/m/n/12 ##  [5] highr_0.5           bitops_1.0-6        class_7.3-12
+        iterators_1.0.7[] 
+ []
+
+
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
+[]\OT1/cmtt/m/n/12 ##  [9] tools_3.2.0         digest_0.6.8        lme4_1.1-7  
+        assertive_0.2-4[] 
+ []
+
+
+Overfull \hbox (36.74127pt too wide) in paragraph at lines 675--675
+[]\OT1/cmtt/m/n/12 ## [17] SparseM_1.6         brglm_0.5-9         proto_0.3-10
         BradleyTerry2_1.0-6[] 
  []
 
 
-Overfull \hbox (5.86626pt too wide) in paragraph at lines 696--696
-[]\OT1/cmtt/m/n/12 ##  [9] class_7.3-12        codetools_0.2-11    colorspace_1
-.2-6    compiler_3.1.2[] 
+Overfull \hbox (18.21626pt too wide) in paragraph at lines 675--675
+[]\OT1/cmtt/m/n/12 ## [29] reshape2_1.4.1      ggplot2_1.0.1       scales_0.2.4
+        codetools_0.2-11[] 
  []
 
 
-Overfull \hbox (5.86626pt too wide) in paragraph at lines 696--696
-[]\OT1/cmtt/m/n/12 ## [33] proto_0.3-10        quantreg_5.11       Rcpp_0.11.5 
-        reshape2_1.4.1[] 
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
+[]\OT1/cmtt/m/n/12 ## [33] MASS_7.3-40         pbkrtest_0.4-2      permute_0.8-
+3       BiocStyle_1.6.0[] 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 700.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 679.
 [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 700.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 679.
 
 (C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 700.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 700.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 679.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 679.
 Package rerunfilecheck Info: File `OmicsMarkeR.out' has not changed.
 (rerunfilecheck)             Checksum: 4CA98545A33322DD4422493CB896E37C;783.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 700.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 679.
  ) 
 Here is how much of TeX's memory you used:
  6319 strings out of 493921
  95205 string characters out of 3144864
- 192183 words of memory out of 3000000
+ 190183 words of memory out of 3000000
  9538 multiletter control sequences out of 15000+200000
  8618 words of font info for 31 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 36i,11n,45p,428b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,11n,45p,461b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmitt10.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><
 C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:
@@ -527,7 +519,7 @@ ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi17.pfb><C:/Pro
 gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Progr
 am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program 
 Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on OmicsMarkeR.pdf (14 pages, 153570 bytes).
+Output written on OmicsMarkeR.pdf (14 pages, 153372 bytes).
 PDF statistics:
  180 PDF objects out of 1000 (max. 8388607)
  27 named destinations out of 1000 (max. 500000)

@@ -47,7 +47,6 @@
 #' @example inst/examples/fit.only.model.R
 #' @import DiscriMiner
 #' @import randomForest
-#' @import plyr
 #' @import e1071
 #' @import gbm
 #' @import pamr
@@ -66,7 +65,7 @@ fit.only.model <-
              resolution = if(optimize) 3 else NULL,
              metric = "Accuracy",
              allowParallel = FALSE,
-             verbose = FALSE,
+             verbose = 'none',
              ...
     )
 {    
@@ -77,13 +76,14 @@ fit.only.model <-
         #bhattacharyya.dist
         ## Relative Entropy
         
-        verify_data <- verify(x = X, y = Y, method = method, f = NULL, 
-                              stability.metric = NULL, model.features = NULL, 
-                              na.rm = FALSE, no.fs = TRUE)
+        assert_is_character(verbose)
         
-        X <- verify_data$X
-        Y <- verify_data$Y
-        method <- verify_data$method
+        verify(x = X, y = Y, method = method, na.rm = FALSE)
+        
+        if (is.null(colnames(X))){
+            colnames(X) = paste(rep("X",ncol(X)),seq_len(ncol(X)), sep='') 
+        }
+        if (is.null(rownames(X))) rownames(X) = 1:nrow(X)
         
         raw.data <- as.data.frame(X)
         raw.data$.classes <- Y
@@ -168,7 +168,8 @@ fit.only.model <-
                 outTrain = outTrain,
                 features = NULL,
                 bestTune = if(optimize) best.tunes else args.seq$parameters,
-                grp.levs = grp.levs)
+                grp.levs = grp.levs,
+                stability.metric = NULL)
         
         ### Extract Performance Metrics
         if(optimize == TRUE){

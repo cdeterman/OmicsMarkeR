@@ -12,8 +12,8 @@
 #' @export
 
 spearman <- function(x,y){
-    x <- as.vector(as.numeric(as.character(x)))
-    y <- as.vector(as.numeric(as.character(y)))
+    assert_is_numeric(x)
+    assert_is_numeric(y)
     if(length(x) != length(y)){
         stop("\n Error: feature lengths must be same for Spearman Correlation")
     }
@@ -30,6 +30,8 @@ spearman <- function(x,y){
 #' @param x numeric vector of ranks
 #' @param y numeric vector of ranks with compatible length to x
 #' @return Returns the canberra distance for the two vectors
+#' @note The \code{\link{canberra_stability}} function is used
+#' internally to return the canberra metric.
 #' @author Charles E. Determan Jr.
 #' @references Jurman G., Merler S., Barla A., Paoli S., Galea A., & 
 #' Furlanello C. (2008) \emph{Algebraic stability indicators for ranked lists 
@@ -41,13 +43,48 @@ spearman <- function(x,y){
 #' @export
 
 canberra <- function(x,y){
-    x <- as.vector(as.numeric(as.character(x)))
-    y <- as.vector(as.numeric(as.character(y)))
+    assert_is_numeric(x)
+    assert_is_numeric(y)
     if(length(x) != length(y)){
-        stop("\n Error: feature lengths must be same for Spearman Correlation")
+        stop("\n Error: feature lengths must be same for Canberra Distance")
     }
     out <- sum(abs(x-y)/(x+y))
     out
+}
+
+expected_canberra <- function(p, k=p){
+    out <- (((k+1)*(2*p - k)*log(4))/p) - ((2*k*p + 3*p - k - k^2)/p)
+    
+    #out <- (log(4) - 1)*p + log(4) - 2
+    return(out)
+}
+
+
+#' @title Canberra Stability
+#' @description Calculates canberra stability between two ranked lists.  In 
+#' brief, the raw canberra distance is scaled to a [0,1] distribution by the
+#' maximum canberra metric.  Lastly, this value is subtracted from 1 to provide 
+#' the same interpretation as the other stability metrics whereby 1 is 
+#' identical and 0 is no stability.
+#' @param x numeric vector of ranks
+#' @param y numeric vector of ranks with compatible length to x
+#' @return Returns the canberra stability for the two vectors
+#' @author Charles E. Determan Jr.
+#' @references Jurman G., Merler S., Barla A., Paoli S., Galea A., & 
+#' Furlanello C. (2008) \emph{Algebraic stability indicators for ranked lists 
+#' in molecular profiling}. Bioinformatics 24(2): 258-264.
+#' 
+#' He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for biomarker 
+#' discovery}. Computational Biology and Chemistry 34 215-225.
+#' @example inst/examples/canberra.R
+#' @export
+canberra_stability <- function(x,y){
+    d <- sum(abs(x-y)/(x+y))
+    # scale to [0,1] range
+    # (x - xmin)/(xmax - xmin)
+    d_max <- canberra(seq(length(x)), rev(seq(length(x))))
+    out <- 1 - (d - 0)/(d_max - 0)
+    return(out)
 }
 
 #' @title Jaccard Index
@@ -76,6 +113,9 @@ canberra <- function(x,y){
 #' @example inst/examples/jaccard.R
 #' @export
 jaccard <- function(x,y){
+    assert_is_character(x)
+    assert_is_character(y)
+    
     x <- as.vector(x)
     y <- as.vector(y)
     index <- length(intersect(x,y))/length(union(x, y))
@@ -111,8 +151,8 @@ jaccard <- function(x,y){
 #' @export
 
 sorensen <- function(x,y){
-    x <- as.vector(x)
-    y <- as.vector(y)
+    assert_is_character(x)
+    assert_is_character(y)
     index <- 
         2*(length(intersect(x,y)))/(2*(length(intersect(x,y)))+
                                         length(setdiff(x,y))+
@@ -126,8 +166,8 @@ sorensen <- function(x,y){
 #' may have an arbitrary cardinality (i.e. don't need same length).  Very 
 #' similar to the Jaccard Index \code{\link{jaccard}} but Ochiai is a 
 #' geometric means of the ratio.  
-#' @param x vector of feature names
-#' @param y vector of feature names
+#' @param x Character vector of feature names
+#' @param y Character vector of feature names
 #' @return Returns the Ochiai Index for the two vectors. It takes values 
 #' in [0,1], with 0 meaning no overlap between two sets and 1 meaning two 
 #' sets are identical.
@@ -150,9 +190,9 @@ sorensen <- function(x,y){
 #' @export
 
 ochiai <- function(x,y){
-    x <- as.vector(x)
-    y <- as.vector(y)
-    index <- 2*(length(intersect(x,y)))/(sqrt(length(x)*length(y)))
+    assert_is_character(x)
+    assert_is_character(y)
+    index <- length(intersect(x,y))/(sqrt(length(x)*length(y)))
     return(index)
 }
 
@@ -161,8 +201,8 @@ ochiai <- function(x,y){
 #' of features.  In brief, the closer to 1 the more similar the vectors.  
 #' The two vectors may have an arbitrary cardinality (i.e. don't need 
 #' same length).
-#' @param x vector of feature names
-#' @param y vector of feature names
+#' @param x Character vector of feature names
+#' @param y Character vector of feature names
 #' @return Returns the percent of overlapping features for the two vectors. 
 #' It takes values in [0,1], with 0 meaning no overlap between two sets and 1 
 #' meaning two sets are identical.
@@ -180,8 +220,8 @@ ochiai <- function(x,y){
 #' @export
 
 pof <- function(x,y){
-    x <- as.vector(x)
-    y <- as.vector(y)
+    assert_is_character(x)
+    assert_is_character(y)
     index <- length(intersect(x,y))/length(x)
     return(index)
 }
@@ -190,12 +230,14 @@ pof <- function(x,y){
 #' @description Calculates Kuncheva's index between two vectors of features.  
 #' In brief, the closer to 1 the more similar the vectors.  The two vectors 
 #' must have the same cardinality (i.e. same length).
-#' @param x vector of feature names
-#' @param y vector of feature names
+#' @param x Character vector of feature names
+#' @param y Character vector of feature names
 #' @param num.features total number of features in the original dataset
 #' @return Returns the Kuncheva Index for the two vectors. It takes values 
 #' in [0,1], with 0 meaning no overlap between two sets and 1 meaning two 
 #' sets are identical.
+#' @note The returned Kuncheva Index has been scaled from its original [-1,1]
+#' range to [0,1] in order to make it compatible with RPT.
 #' @author Charles E. Determan Jr.
 #' @references Kuncheva L. (2007) \emph{A stability index for feature 
 #' selection}. Proceedings of the 25th IASTED International Multi-Conference: 
@@ -221,8 +263,8 @@ kuncheva <- function(x,
     
     assert_is_not_null(num.features)
     
-    x <- as.vector(x)
-    y <- as.vector(y)
+    assert_is_character(x)
+    assert_is_character(y)
     if(length(x) != length(y)){
         stop("\n Error: Kuncheva requires same number of features in subset.
              \nYou must specifiy number of features to be selected")    
@@ -234,6 +276,10 @@ kuncheva <- function(x,
     
     index <- (r - ((k^2)/d))/(k - ((k^2)/d))
     
+    # scale to [0,1] range
+    # (x - xmin)/(xmax - xmin)
+    index <- (index - -1)/(1 - -1)
+    # scale index to 0,1 range
     return(index)
     }
 
@@ -265,9 +311,12 @@ pairwise.stability <-
              nc
     )
     {
+        assert_is_matrix(features)
+        assert_is_character(stability.metric)
         
         if(stability.metric == "kuncheva"){
             assert_is_not_null(c(nc))
+            assert_is_numeric(nc)
         }
         
         k <- ncol(features)
@@ -283,7 +332,7 @@ pairwise.stability <-
                     ochiai = {ochiai(features[,i], features[,j])},
                     pof = {pof(features[,i], features[,j])},
                     spearman = {spearman(features[,i], features[,j])},
-                    canberra = {canberra(features[,i], features[,j])}
+                    canberra = {canberra_stability(features[,i], features[,j])}
                 )
             }
         }
@@ -325,6 +374,7 @@ pairwise.stability <-
 #' biomarker discovery}. Computational Biology and Chemistry 34 215-225.
 #' @seealso \code{\link{pairwise.stability}}
 #' @example inst/examples/pairwise.model.stability.R
+#' @import plyr
 #' @export
 
 pairwise.model.stability <- 

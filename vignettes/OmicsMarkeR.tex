@@ -57,9 +57,9 @@
 \usepackage{alltt}
 
 
-\RequirePackage{C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/Bioconductor}
+\RequirePackage{C:/Users/cdeterman/Documents/R/R-3.2.0/library/BiocStyle/resources/latex/Bioconductor}
 
-\AtBeginDocument{\bibliographystyle{C:/Users/cdeterman/Documents/R/R-3.1.2/library/BiocStyle/resources/latex/unsrturl}}
+\AtBeginDocument{\bibliographystyle{C:/Users/cdeterman/Documents/R/R-3.2.0/library/BiocStyle/resources/latex/unsrturl}}
 
 
 
@@ -117,7 +117,7 @@ between groups.  The number of groups can be specified with \Rcode{num.groups}.
                              \hlkwc{st.dev} \hlstd{=} \hlnum{1}\hlstd{,}
                              \hlkwc{perturb} \hlstd{=} \hlnum{0.2}\hlstd{)),}
     \hlkwc{D} \hlstd{=} \hlnum{10}
-\hlstd{)}\hlopt{$}\hlstd{discr.mat}
+\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -139,53 +139,23 @@ to fit the model.  This is provided for the users information.}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{vars} \hlkwb{<-} \hlstd{dat.discr[,}\hlnum{1}\hlopt{:}\hlstd{(}\hlkwd{ncol}\hlstd{(dat.discr)}\hlopt{-}\hlnum{1}\hlstd{)]}
-\hlstd{groups} \hlkwb{<-} \hlstd{dat.discr[,}\hlkwd{ncol}\hlstd{(dat.discr)]}
+\hlstd{vars} \hlkwb{<-} \hlstd{dat.discr}\hlopt{$}\hlstd{discr.mat}
+\hlstd{groups} \hlkwb{<-} \hlstd{dat.discr}\hlopt{$}\hlstd{classes}
 \hlstd{fits} \hlkwb{<-} \hlkwd{fs.stability}\hlstd{(vars,}
                     \hlstd{groups,}
                     \hlkwc{method} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"plsda"}\hlstd{,} \hlstr{"rf"}\hlstd{),}
                     \hlkwc{f} \hlstd{=} \hlnum{10}\hlstd{,}
                     \hlkwc{k} \hlstd{=} \hlnum{3}\hlstd{,}
                     \hlkwc{k.folds} \hlstd{=} \hlnum{10}\hlstd{,}
-                    \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+                    \hlkwc{verbose} \hlstd{=} \hlstr{'none'}\hlstd{)}
 \end{alltt}
 
 
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# randomForest 4.6-10\\\#\# Type rfNews() to see new features/changes/bug fixes.}}
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# randomForest 4.6-10\\\#\# Type rfNews() to see new features/changes/bug fixes.\\\#\# Loading required package: survival\\\#\# Loading required package: lattice\\\#\# Loading required package: splines\\\#\# Loading required package: parallel\\\#\# Loaded gbm 2.1.1\\\#\# Loading required package: cluster\\\#\# Loading required package: Matrix\\\#\# Loaded glmnet 2.0-2}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'gbm' was built under R version 3.1.3}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[i], tuneValue = as.data.frame(bestTune[[i]]), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
 
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: survival}}
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'survival' was built under R version 3.1.3}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: lattice}}
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'lattice' was built under R version 3.1.3}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: splines\\\#\# Loading required package: parallel\\\#\# Loaded gbm 2.1.1\\\#\# Loading required package: cluster\\\#\# Loading required package: Matrix\\\#\# Loaded glmnet 1.9-8}}\begin{verbatim}
-## [1] "Model Tuning Complete"
-## 
-## Aggregating results
-## Selecting tuning parameters
-\end{verbatim}
-
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[i], tuneValue = as.data.frame(bestTune[[i]]), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}\begin{verbatim}
-## [1] "plsda complete"
-## 
-## Aggregating results
-## Selecting tuning parameters
-\end{verbatim}
-
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[i], tuneValue = as.data.frame(bestTune[[i]]), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}\begin{verbatim}
-## [1] "rf complete"
-## 
-## Aggregating results
-## Selecting tuning parameters
-\end{verbatim}
-
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[i], tuneValue = as.data.frame(bestTune[[i]]), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
 
 {\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[d], tuneValue = tuned.methods\$bestTune[[d]], : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
 
@@ -193,10 +163,7 @@ to fit the model.  This is provided for the users information.}
 
 {\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[d], tuneValue = tuned.methods\$bestTune[[d]], : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData.new[[d]], method = method[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]\$bestTune))), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}\begin{verbatim}
-## Calculating Model Performance Statistics
-\end{verbatim}
-\end{kframe}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData.new[[d]], method = method[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]\$bestTune))), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}\end{kframe}
 \end{knitrout}
     
 If I would like to see the performance metrics, I can simply use the 
@@ -210,8 +177,6 @@ Robustness-Performance Trade-off value (RPT) is provided with the results.
 \hlkwd{performance.metrics}\hlstd{(fits)}
 \end{alltt}
 \begin{verbatim}
-## 
-## Model Performance Statistics
 ##                        plsda         rf
 ## Accuracy          0.88333333 0.93333333
 ## Kappa             0.76666667 0.86666667
@@ -288,12 +253,23 @@ on new data that comes in.
     \hlkwc{D} \hlstd{=} \hlnum{10}
 \hlstd{)}\hlopt{$}\hlstd{discr.mat}
 
+\hlcom{# original data combined to a data.frame}
+\hlstd{orig.df} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(vars, groups)}
+
 \hlcom{# see what the PLSDA predicts for the new data}
 \hlcom{# NOTE, newdata does not require a .classes column}
-\hlkwd{predictNewClasses}\hlstd{(fits,} \hlstr{"plsda"}\hlstd{, dat.discr, newdata)}
+\hlkwd{predictNewClasses}\hlstd{(fits,} \hlstr{"plsda"}\hlstd{, orig.df, newdata)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
+
+\textbf{Note} - This function is not as efficient as I would like at present.
+Currently it requires the original dataset to refit the model from the 
+parameters retained from \Rfunction{fs.stability}.  I intend to provide the
+option to retain fitted models so a user can simply pull them without a need
+to refit.  However, I am concerned about the potential size of objects (e.g. 
+random forest, gbm, etc.).  Thoughts and contributions are welcome.
+
 
 \newpage
 \maketitle
@@ -333,7 +309,7 @@ arguments have common defaults predefined so the call can be:
                             \hlkwc{f} \hlstd{=} \hlnum{10}\hlstd{,}
                             \hlkwc{k} \hlstd{=} \hlnum{3}\hlstd{,}
                             \hlkwc{k.folds} \hlstd{=} \hlnum{10}\hlstd{,}
-                            \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+                            \hlkwc{verbose} \hlstd{=} \hlstr{'none'}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -346,7 +322,7 @@ for summary statistics.
 
 If the user wishes to apply an aggregation method manually utilizing results
 from an alternative analysis, this can also be done.  This package provides
-a the wrapper \Rfunction{aggregation} to appply this analysis.  For these 
+a the wrapper \Rfunction{aggregation} to apply this analysis.  For these 
 methods, the variables must have been ranked and the rownames assigned as the
 variable names.  The function then will return that aggregated list of 
 variables with their new respective ranks.
@@ -358,15 +334,16 @@ variables with their new respective ranks.
 \hlstd{ranks} \hlkwb{<-} \hlkwd{replicate}\hlstd{(}\hlnum{5}\hlstd{,} \hlkwd{sample}\hlstd{(}\hlkwd{seq}\hlstd{(}\hlnum{50}\hlstd{),} \hlnum{50}\hlstd{))}
 \hlkwd{row.names}\hlstd{(ranks)} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"V"}\hlstd{,} \hlkwd{seq}\hlstd{(}\hlnum{50}\hlstd{))}
 
-\hlkwd{aggregation}\hlstd{(ranks,} \hlstr{"CLA"}\hlstd{)}
+\hlkwd{head}\hlstd{(}\hlkwd{aggregation}\hlstd{(ranks,} \hlstr{"CLA"}\hlstd{))}
 \end{alltt}
 \begin{verbatim}
-##  V45   V7  V50  V18  V15  V20  V44  V29  V35   V6  V38  V31  V43  V11  V42  V28  V33  V10 
-##  1.0  2.0  3.0  4.0  5.0  6.5  6.5  8.5  8.5 10.0 11.0 12.5 12.5 14.0 15.0 16.0 17.0 18.5 
-##  V22  V46  V17   V1  V23  V27  V48  V21  V47  V49  V13  V41  V26  V40  V19  V34   V5  V14 
-## 18.5 20.0 21.0 23.5 23.5 23.5 23.5 26.5 26.5 28.0 29.5 29.5 31.0 32.0 33.5 33.5 35.0 36.5 
-##  V39  V16   V4  V12  V36  V30   V2   V8   V3  V25  V32  V37   V9  V24 
-## 36.5 38.0 39.0 40.5 40.5 42.0 43.5 43.5 45.5 45.5 47.0 48.0 49.0 50.0
+##     [,1]
+## V45  1.0
+## V7   2.0
+## V50  3.0
+## V18  4.0
+## V15  5.0
+## V20  6.5
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -390,8 +367,9 @@ random forest model.  You can create a customized grid using
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{plsda} \hlkwb{<-} \hlkwd{denovo.grid}\hlstd{(vars,} \hlstr{"plsda"}\hlstd{,} \hlnum{3}\hlstd{)}
-\hlstd{rf} \hlkwb{<-} \hlkwd{denovo.grid}\hlstd{(vars,} \hlstr{"rf"}\hlstd{,} \hlnum{5}\hlstd{)}
+\hlcom{# requires data.frame of variables and classes}
+\hlstd{plsda} \hlkwb{<-} \hlkwd{denovo.grid}\hlstd{(orig.df,} \hlstr{"plsda"}\hlstd{,} \hlnum{3}\hlstd{)}
+\hlstd{rf} \hlkwb{<-} \hlkwd{denovo.grid}\hlstd{(orig.df,} \hlstr{"rf"}\hlstd{,} \hlnum{5}\hlstd{)}
 
 \hlcom{# create grid list}
 \hlcom{# Make sure to assign appropriate model names}
@@ -404,7 +382,7 @@ random forest model.  You can create a customized grid using
                     \hlkwc{f} \hlstd{=} \hlnum{10}\hlstd{,}
                     \hlkwc{k} \hlstd{=} \hlnum{3}\hlstd{,}
                     \hlkwc{k.folds} \hlstd{=} \hlnum{10}\hlstd{,}
-                    \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+                    \hlkwc{verbose} \hlstd{=} \hlstr{'none'}\hlstd{,}
                     \hlkwc{grid} \hlstd{= grid)}
 \end{alltt}
 \end{kframe}
@@ -488,7 +466,7 @@ variables.
 \hlkwd{kuncheva}\hlstd{(run1, run2,} \hlnum{20}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
-## [1] -0.2
+## [1] 0.4
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -573,10 +551,10 @@ would have been trained on the same dataset.
 \begin{verbatim}
 ## $comparisons
 ##             Resample.1 Resample.2 Resample.3 Resample.4 Resample.5
-## plsda.vs.rf       -0.4       -0.6          0       -0.4          0
+## plsda.vs.rf        0.3        0.2        0.5        0.3        0.5
 ## 
 ## $overall
-## [1] -0.28
+## [1] 0.36
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -664,8 +642,9 @@ with \Rcode{stopCluster(cl)}.
 \hlkwd{sessionInfo}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## R version 3.1.2 (2014-10-31)
+## R version 3.2.0 (2015-04-16)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 7 x64 (build 7601) Service Pack 1
 ## 
 ## locale:
 ## [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
@@ -677,22 +656,22 @@ with \Rcode{stopCluster(cl)}.
 ## [9] base     
 ## 
 ## other attached packages:
-##  [1] caTools_1.17.1      glmnet_1.9-8        Matrix_1.1-5        pamr_1.55          
-##  [5] cluster_2.0.1       gbm_2.1.1           lattice_0.20-30     survival_2.38-1    
-##  [9] e1071_1.6-4         randomForest_4.6-10 DiscriMiner_0.1-29  plyr_1.8.1         
-## [13] foreach_1.4.2       OmicsMarkeR_0.99.3  knitr_1.9          
+##  [1] caTools_1.17.1      glmnet_2.0-2        Matrix_1.2-0        pamr_1.55          
+##  [5] cluster_2.0.1       gbm_2.1.1           lattice_0.20-31     survival_2.38-1    
+##  [9] e1071_1.6-4         randomForest_4.6-10 DiscriMiner_0.1-29  plyr_1.8.2         
+## [13] foreach_1.4.2       OmicsMarkeR_1.2.0   knitr_1.10         
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] assertive_0.2-4     BiocStyle_1.4.1     bitops_1.0-6        BradleyTerry2_1.0-6
-##  [5] brglm_0.5-9         car_2.0-25          caret_6.0-41        chron_2.3-45       
-##  [9] class_7.3-12        codetools_0.2-11    colorspace_1.2-6    compiler_3.1.2     
-## [13] data.table_1.9.4    digest_0.6.8        evaluate_0.5.5      formatR_1.0        
-## [17] ggplot2_1.0.1       grid_3.1.2          gtable_0.1.2        gtools_3.4.1       
-## [21] highr_0.4           iterators_1.0.7     lme4_1.1-7          MASS_7.3-40        
-## [25] mgcv_1.8-5          minqa_1.2.4         munsell_0.4.2       nlme_3.1-120       
-## [29] nloptr_1.0.4        nnet_7.3-9          pbkrtest_0.4-2      permute_0.8-3      
-## [33] proto_0.3-10        quantreg_5.11       Rcpp_0.11.5         reshape2_1.4.1     
-## [37] scales_0.2.4        SparseM_1.6         stringr_0.6.2       tools_3.1.2
+##  [1] Rcpp_0.11.5         compiler_3.2.0      nloptr_1.0.4        formatR_1.2        
+##  [5] highr_0.5           bitops_1.0-6        class_7.3-12        iterators_1.0.7    
+##  [9] tools_3.2.0         digest_0.6.8        lme4_1.1-7          assertive_0.2-4    
+## [13] evaluate_0.7        gtable_0.1.2        nlme_3.1-120        mgcv_1.8-6         
+## [17] SparseM_1.6         brglm_0.5-9         proto_0.3-10        BradleyTerry2_1.0-6
+## [21] stringr_0.6.2       gtools_3.4.2        nnet_7.3-9          grid_3.2.0         
+## [25] caret_6.0-41        data.table_1.9.4    minqa_1.2.4         car_2.0-25         
+## [29] reshape2_1.4.1      ggplot2_1.0.1       scales_0.2.4        codetools_0.2-11   
+## [33] MASS_7.3-40         pbkrtest_0.4-2      permute_0.8-3       BiocStyle_1.6.0    
+## [37] colorspace_1.2-6    quantreg_5.11       munsell_0.4.2       chron_2.3-45
 \end{verbatim}
 \end{kframe}
 \end{knitrout}

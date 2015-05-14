@@ -10,7 +10,7 @@ fs.ensembl.stability(X, Y, method, k = 10, p = 0.9,
   optimize.resample = FALSE, tuning.grid = NULL, k.folds = if (optimize)
   10 else NULL, repeats = if (k.folds == "LOO") NULL else if (optimize) 3 else
   NULL, resolution = if (optimize) 3 else NULL, metric = "Accuracy",
-  model.features = FALSE, allowParallel = FALSE, verbose = FALSE, ...)
+  model.features = FALSE, allowParallel = FALSE, verbose = "none", ...)
 }
 \arguments{
 \item{X}{A matrix containing numeric values of each feature}
@@ -79,7 +79,8 @@ selected to be determined by the individual model runs.  Default
 \item{allowParallel}{Logical argument dictating if parallel processing is
 allowed via foreach package. Default \code{allowParallel = FALSE}}
 
-\item{verbose}{Logical argument if should output progress}
+\item{verbose}{Character argument specifying how much output progress
+to print.  Options are 'none', 'minimal' or 'full'.}
 
 \item{...}{Extra arguments that the user would like to apply to the models}
 }
@@ -137,7 +138,7 @@ method = c("plsda", "rf"),
 f = 10,
 k = 3,
 k.folds = 10,
-verbose = FALSE)
+verbose = 'none')
 }
 }
 \author{

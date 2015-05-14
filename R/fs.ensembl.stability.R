@@ -54,7 +54,8 @@
 #' \code{"model.features = FALSE"}
 #' @param allowParallel Logical argument dictating if parallel processing is 
 #' allowed via foreach package. Default \code{allowParallel = FALSE}
-#' @param verbose Logical argument if should output progress
+#' @param verbose Character argument specifying how much output progress 
+#' to print.  Options are 'none', 'minimal' or 'full'.
 #' @param ... Extra arguments that the user would like to apply to the models
 #' 
 #' @return \item{Methods}{Vector of models fit to data}
@@ -96,7 +97,7 @@
 #' f = 10,
 #' k = 3, 
 #' k.folds = 10, 
-#' verbose = FALSE)
+#' verbose = 'none')
 #' }
 #' @import DiscriMiner
 #' @import randomForest
@@ -127,27 +128,29 @@ fs.ensembl.stability <-
              metric = "Accuracy",
              model.features = FALSE,
              allowParallel = FALSE,
-             verbose = FALSE,
+             verbose = 'none',
              ...
     )
 {
         theDots <- list(...)
         
-        verify_data <- verify(x = X, y = Y, method = method, 
-                              f = f, stability.metric = stability.metric,
-                              model.features = model.features, na.rm = FALSE,
-                              no.fs = FALSE)
+        verify(x = X, y = Y, method = method, na.rm = FALSE)
+        
+        f <- verify_fs(f = as.integer(f), 
+                       stability.metric = stability.metric, 
+                       model.features = model.features,
+                       no.fs=FALSE)
+        
+        if (is.null(colnames(X))){
+            colnames(X) = paste(rep("X",ncol(X)),seq_len(ncol(X)), sep='') 
+        }
+        if (is.null(rownames(X))) rownames(X) = 1:nrow(X)
         
         if(model.features == TRUE){
             stop("Error... Model derived features cannot be used for 
                  ensemble because all features are ranked and then subset.
                  \nSet model.features = FALSE")
         }
-        
-        X <- verify_data$X
-        Y <- verify_data$Y
-        method <- verify_data$method
-        f <- verify_data$f
         
         raw.data <- as.data.frame(X)
         raw.data$.classes <- Y
@@ -162,6 +165,7 @@ fs.ensembl.stability <-
         # how many obs in each group
         num.obs.group <- as.vector(table(Y))
         
+        xNames <- colnames(X)
         
         # Create empty list for features identified by each chosen algorithm
         features <- vector("list", k)
@@ -221,7 +225,7 @@ fs.ensembl.stability <-
                 lapply(features[[i]], 
                        FUN = function(x){
                            trainData[,colnames(trainData) 
-                                     %in% c(as.vector(names(x)), ".classes")]
+                                     %in% c(as.vector(rownames(x)), ".classes")]
                        })
             
             if(optimize == TRUE){
@@ -353,7 +357,19 @@ fs.ensembl.stability <-
             } # end of non-optimized loop
         } # end stability loop
         
-        final.features <- features
+#         print(features)
+#         print(str(features))
+        
+        if(stability.metric %in% c("spearman", "canberra")){
+            final.features <- lapply(unlist(features, recursive=FALSE), 
+                                     function(x) as.numeric(as.vector(unlist(x[xNames,]))))
+        }else{
+            final.features <- lapply(unlist(features, recursive=FALSE), 
+                                     function(x) as.vector(rownames(x)))
+        }
+        
+        names(final.features) <- 
+            rep(method, length(finalModel.new)/length(method))
         
         ### Performance Metrics of Reduced Models
         final.metrics <- prediction.metrics(finalModel = finalModel.new,
@@ -363,7 +379,8 @@ fs.ensembl.stability <-
                                             outTrain = outTrain,
                                             bestTune = new.best.tunes,
                                             features = final.features,
-                                            grp.levs = grp.levs)
+                                            grp.levs = grp.levs,
+                                            stability.metric = stability.metric)
         
         
         ### Extract Performance Metrics
@@ -498,17 +515,21 @@ fs.ensembl.stability <-
             if(stability.metric 
                %in% c("jaccard", "kuncheva", "pof", "ochiai", "sorenson")){
                 results.stability[[c]] <- 
-                    as.data.frame(sapply(features, 
-                                         FUN = function(x) names(x[[c]])))  
+                    do.call("cbind", 
+                            final.features[which(
+                                names(final.features) == method[c]
+                            )]
+                    )
             }else{
-                tmp <- lapply(features, FUN = function(x) x[[c]])
-                myMat <- matrix(NA, nrow = nc, ncol = k,
-                                dimnames = list(colnames(X)))
-                for (z in seq_along(tmp)) {
-                    myMat[names(tmp[[z]]), z] <- tmp[[z]]
-                }
-                colnames(myMat) <- paste("Resample", seq(k), sep = ".")
-                results.stability[[c]] <- myMat
+                results.stability[[c]] <- 
+                    final.features[which(
+                        names(final.features) == method[c]
+                    )]
+                
+                results.stability[[c]] <- 
+                    sapply(results.stability[[c]], 
+                           setNames, 
+                           colnames(X))
             }
         }
         
@@ -518,7 +539,7 @@ fs.ensembl.stability <-
                             pairwise.stability, 
                             stability.metric = stability.metric, 
                             nc= nc)
-        
+
         # stability across algorithms 
         # (i.e. 'function perturbation' ensemble analysis)
         if(length(method) > 1){
@@ -534,6 +555,7 @@ fs.ensembl.stability <-
         rpt.stab <- lapply(stability, FUN = function(x) x$overall)
         rpt.perf <- lapply(performance, 
                            FUN = function(x) as.data.frame(x)$Accuracy)
+
         rpt <- 
             mapply(rpt.stab, 
                    FUN = function(x,y) RPT(stability = x, performance = y), 

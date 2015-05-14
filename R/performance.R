@@ -53,7 +53,15 @@ performance.stats <- function(pred, obs)
                  "Specificity", "Pos Pred Value", "Neg Pred Value",
                  "Table")]
     
-    if(any(is.nan(out))) out[is.nan(out)] <- NA
+    # correct negative predictive NaN to 0
+#     out[which(is.nan(out["Neg Pred Value"]))] <- 0
+# #     print(out)
+# #     print(which(is.na(out["Pos Pred Value"])))
+#     out[which(is.nan(out["Pos Pred Value"]))] <- 0
+#     print(out["Pos Pred Value"])
+#     print()
+#     if(any(is.nan(out))){ stop("NaN FOUND!!!")}
+    if(any(is.nan(out))) out[is.nan(out)] <- 0
     out
 }
 

@@ -23,6 +23,8 @@ globalVariables('p')
 #' @param allowParallel Logical argument dictating if parallel processing 
 #' is allowed via foreach package.
 #' Default \code{allowParallel = FALSE}
+#' @param verbose Logical argument whether output printed automatically
+#' in 'pretty' format.
 #' @param ... Extra arguments that the user would like to apply to the models
 #' @return \item{sig.level}{User-specified significance level}
 #' @return \item{num.sig.features}{Number of significant features}
@@ -51,8 +53,27 @@ perm.features <-
         sig.level = .05, 
         nperm = 10, 
         allowParallel = FALSE, 
+        verbose = TRUE,
         ...)
     {
+        
+        assert_is_matrix(X)
+        assert_is_numeric(X)
+        assert_is_factor(Y)
+        assert_is_character(method)
+        assert_is_in_closed_range(sig.level, 0, 1)
+        assert_is_numeric(nperm)
+        # currently limiting to no more than 100,000 permutations
+        assert_is_in_closed_range(nperm, 0, 100000)
+        
+        assert_is_logical(allowParallel)
+        assert_is_logical(verbose)
+        
+        if(!method %in% modelList()$methods){
+            stop("Method not recognized.  Check for method
+                 code in 'modelList()'")
+        }
+        
         `%op%` <- if(allowParallel){
             `%dopar%` 
         }else{
@@ -82,12 +103,11 @@ perm.features <-
         }
         
         ## Factor the class labels
-        data$.classes <- factor(as.character(data$.classes), 
-                                levels = obsLevels)
+        levels(data$.classes) <- obsLevels
+        
         xNames <- names(data)[!(names(data) %in% ".classes")]
         
         trainX <- data[,!(names(data) %in% ".classes"), drop = FALSE]
-        trainY <- data[,".classes"]
         
         if(method == "gbm" & length(obsLevels) == 2) {
             numClasses <- ifelse(data$.classes == obsLevels[1], 1, 0)
@@ -110,7 +130,7 @@ perm.features <-
         }
         
         args <- data.frame(do.call("cbind", args))
-        orig.groups <- trainY
+        orig.groups <- Y
         
         # extract new values of variables
         N <- nrow(trainX)
@@ -119,7 +139,7 @@ perm.features <-
         perms <- append(list(seq(N)), perms)
         
         scores <- foreach(p = seq.int(nperm+1),
-                          .packages = c("OmicsMarkeR", "permute", "foreach", 
+                          .packages = c("OmicsMarkeR", "foreach", 
                                         "randomForest", "e1071", "DiscriMiner",
                                         "gbm","pamr","glmnet"),
                           .verbose = FALSE,
@@ -291,12 +311,7 @@ perm.features <-
                        },         
                        
                        glmnet ={
-                           numLev <- if(is.character(trainY) | 
-                                            is.factor(trainY)){
-                               length(levels(trainY))
-                           }else{
-                               NA
-                           } 
+                           numLev <- nlevels(trainY)
                            
                            glmnet.args <- c("offset", "nlambda", "weights", 
                                             "standardize","intecept", 
@@ -393,65 +408,68 @@ perm.features <-
     features
 }
 
-# extract p-value (one-tailed)
-var.scores <- lapply(scores, "[")  
-
-# check for var.scores structure
-# mainly for randomforest bug which returns data.frame object
-# must be named numeric vector
-var.scores <- lapply(var.scores, function(x) {
-    if(is.vector(x)){
-        x
-    }else{
-        xNames <- row.names(x)
-        x <- as.numeric(x)
-        names(x) <- xNames
-        x
-    }
-})
-
-
-miss <- lapply(var.scores, FUN = function(x) which(!xNames %in% names(x)))
-for(i in 1:(nperm+1)){
-    if(length(miss[[i]]) >= 1){
-        zero <- rep(0, length(miss[[i]]))
-        names(zero) <- xNames[miss[[i]]]
-        var.scores[[i]] <- c(var.scores[[i]], zero)
-    } 
-}
-
-var.scores <- sapply(var.scores, FUN = function(x) x[sort(names(x))])
-perm.p.val <- 
-    apply(var.scores, 
-          1, 
-          FUN = function(x){
-              sprintf("%.3f", 
-                      round(sum(x[2:(nperm+1)] >= x[1])/nperm, 
-                            digits = 3)
-              )}
-    )
-
-# return number of significant features and features themselves
-num.features <- sum(perm.p.val <= sig.level)
-features <- names(which(perm.p.val <= sig.level))
-p.vals <- perm.p.val[which(perm.p.val <= sig.level)]
-
-cat("\nFeature Permutation Results\n")
-cat(rep("-",30), sep="")
-cat("\n\n")
-cat(paste(num.features, "features were significant at significance level", 
-          sig.level, sep = " "))
-cat("\nIdentified features:\n")
-print(data.frame(features = features, p.val = p.vals))
-sig.features <- data.frame(features = features, p.val = p.vals)
-all.features <- data.frame(features = names(perm.p.val), 
-                           p.val = c(perm.p.val))
-
-perm.results = list(sig.level = sig.level,
-                    num.sig.features = num.features,
-                    sig.features = sig.features,
-                    all.features = all.features
-)
-
-return(perm.results)
+        # extract p-value (one-tailed)
+        var.scores <- lapply(scores, "[")  
+        
+        # check for var.scores structure
+        # mainly for randomforest bug which returns data.frame object
+        # must be named numeric vector
+        var.scores <- lapply(var.scores, function(x) {
+            if(is.vector(x)){
+                x
+            }else{
+                xNames <- row.names(x)
+                x <- as.numeric(x)
+                names(x) <- xNames
+                x
+            }
+        })
+        
+        
+        miss <- lapply(var.scores, FUN = function(x) which(!xNames %in% names(x)))
+        for(i in 1:(nperm+1)){
+            if(length(miss[[i]]) >= 1){
+                zero <- rep(0, length(miss[[i]]))
+                names(zero) <- xNames[miss[[i]]]
+                var.scores[[i]] <- c(var.scores[[i]], zero)
+            } 
         }
+        
+        var.scores <- sapply(var.scores, FUN = function(x) x[sort(names(x))])
+        perm.p.val <- 
+            apply(var.scores, 
+                  1, 
+                  FUN = function(x){
+                      sprintf("%.3f", 
+                              round(sum(x[2:(nperm+1)] >= x[1])/nperm, 
+                                    digits = 3)
+                      )}
+            )
+        
+        # return number of significant features and features themselves
+        num.features <- sum(perm.p.val <= sig.level)
+        features <- names(which(perm.p.val <= sig.level))
+        p.vals <- perm.p.val[which(perm.p.val <= sig.level)]
+        
+        if(verbose){
+            cat("\nFeature Permutation Results\n")
+            cat(rep("-",30), sep="")
+            cat("\n\n")
+            cat(paste(num.features, "features were significant at significance level", 
+                      sig.level, sep = " "))
+            cat("\nIdentified features:\n")
+            print(data.frame(features = features, p.val = p.vals))
+        }
+
+        sig.features <- data.frame(features = features, p.val = p.vals)
+        all.features <- data.frame(features = names(perm.p.val), 
+                                   p.val = c(perm.p.val))
+        
+        perm.results = list(sig.level = sig.level,
+                            num.sig.features = num.features,
+                            sig.features = sig.features,
+                            all.features = all.features
+        )
+        
+        return(perm.results)
+    }

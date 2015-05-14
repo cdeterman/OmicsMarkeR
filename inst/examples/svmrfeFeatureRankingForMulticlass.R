@@ -6,11 +6,10 @@ dat.discr <- create.discr.matrix(
                              perturb = 0.2)),
     D = 10,
     num.groups=4
-)$discr.mat
+)
 
-
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- as.factor(dat.discr[,ncol(dat.discr)])
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 
 # multiclass
 svmrfeFeatureRankingForMulticlass(x = vars,

@@ -5,7 +5,7 @@
 \title{Prediction Metric Calculations}
 \usage{
 prediction.metrics(finalModel, method, raw.data, inTrain, outTrain, features,
-  bestTune, grp.levs)
+  bestTune, grp.levs, stability.metric)
 }
 \arguments{
 \item{finalModel}{List of fitted models}
@@ -24,6 +24,8 @@ prediction.metrics(finalModel, method, raw.data, inTrain, outTrain, features,
 respective model}
 
 \item{grp.levs}{Vector of group levels}
+
+\item{stability.metric}{A character object specifying the stability metric}
 }
 \value{
 Returns a dataframe consisting of each feature selection runs
