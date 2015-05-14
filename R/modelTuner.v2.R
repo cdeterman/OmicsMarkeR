@@ -17,7 +17,8 @@ globalVariables(c('algo', 'parms', 'iter'))
 #' prediction data.  Default \code{savePredictions = FALSE}
 #' @param allowParallel Logical argument dictating if parallel processing 
 #' is allowed via foreach package
-#' @param verbose Logical argument dictating if should print progress
+#' @param verbose Character argument specifying how much output progress 
+#' to print.  Options are 'none', 'minimal' or 'full'.
 #' @param theDots List of additional arguments provided in the initial 
 #' classification and features selection function
 #' @return Returns list of fitted models
@@ -43,7 +44,7 @@ modelTuner <-
            lev,
            savePredictions = FALSE,
            allowParallel = FALSE,
-           verbose = FALSE,
+           verbose = 'none',
            theDots = NULL
 )
 {
@@ -117,7 +118,7 @@ modelTuner <-
     colnames(printed) <- gsub("^\\.", "", colnames(printed))
     
     # show progress through interations
-    if(verbose) progress(printed[parms,,drop = FALSE],
+    if(verbose == 'full') progress(printed[parms,,drop = FALSE],
                          names(inTrain), iter)
     #index <- inTrain[[iter]]
     outIndex <- outTrain[[iter]]
@@ -244,7 +245,7 @@ modelTuner <-
     perf.metrics$sampleIndex <- names(inTrain)[iter]
     
     # Print progress
-    if(verbose) caret::progress(printed[parms,,drop = FALSE],
+    if(verbose == 'full') caret::progress(printed[parms,,drop = FALSE],
                                 names(inTrain), iter, FALSE)
     list(tunes=perf.metrics)
 }
@@ -285,7 +286,9 @@ if(length(method) > 1){
               y$model$parameter,
               MeanSD, exclude = y$model$parameter), y = guide, SIMPLIFY =FALSE)
     
-    print("Model Tuning Complete")
+    if(verbose == 'minimal' | verbose == 'full'){
+        print("Model Tuning Complete")
+    }
     
     out <- vector("list", length(method))
     names(out) <- method
@@ -296,6 +299,8 @@ if(length(method) > 1){
         tmp.list <- unlist(tmp.list, recursive = FALSE)
         ## plyr:::rbind.fill - binds list of dataframes together
         tunes <- rbind.fill(tmp.list[names(tmp.list) == "tunes"])
+        
+        #print(tunes)
         
         ## remove '.' from each name
         names(tunes) <- gsub("^\\.", "", names(tunes))  
@@ -315,7 +320,9 @@ if(length(method) > 1){
                          guide[[1]]$model$parameter,
                          MeanSD, exclude = guide[[1]]$model$parameter)
         
-        print(paste(method, "complete"))
+        if(verbose == 'minimal' | verbose == 'full'){
+            print(paste(method, "complete"))
+        }
         
         out <- list(performance = metrics, tunes = tunes)
     }

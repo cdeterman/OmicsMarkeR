@@ -46,7 +46,6 @@
 #' @author Charles Determan Jr
 #' @import DiscriMiner
 #' @import randomForest
-#' @import plyr
 #' @import e1071
 #' @import gbm
 #' @import pamr
@@ -318,8 +317,6 @@ bagging.wrapper <- function(X,
         rownames(x) <- var.names
         return(x)
     })
-    
-    print(features.num)
     
     # Generate summary lists of each algorithm
     agg <- lapply(features.num, 

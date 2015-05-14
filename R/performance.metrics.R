@@ -13,12 +13,12 @@
 
 performance.metrics <- function(fit.model,   # fs.stability object
                                 digits = max(3, getOption("digits") - 3))
-{
-    cat("\nModel Performance Statistics\n\n") 
-    
+{    
     # need to set class of performance statistics in fs.stability object
     # instead, probably be easiest to simply use the fs.stability results and 
     # draw performance with generic performance.metrics function
+    
+    assert_is_numeric(digits)
     
     perf <- fit.model$performance
     fit.models <- fit.model$methods
@@ -30,6 +30,7 @@ performance.metrics <- function(fit.model,   # fs.stability object
         out <-
             mapply(perf, 
                    FUN = function(x,y) x[,!colnames(x) %in% y], y = mult.param)
+        out <- as.data.frame(out)
         out
     }else{
         perf <- do.call(rbind, perf)

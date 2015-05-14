@@ -24,10 +24,6 @@ predicting <- function(method, modelFit, orig.data,
 {
     if(any(colnames(newdata) == ".classes")) newdata$.classes <- NULL
     
-    coerceChar <- function(x){
-        as.data.frame(lapply(x, as.character), stringsAsFactors = FALSE)
-    }  
-    
     predictedValue <- 
         switch(method,                           
                plsda =
@@ -159,10 +155,14 @@ pam =
 
 glmnet =
 {  
+#     print("new data input")
+#     print(head(newdata))
     if(!is.matrix(newdata)) newdata <- as.matrix(newdata)
     
     if(!is.null(param))
     {
+        #print(param)
+#         print(head(newdata))
         out <- predict(modelFit, newdata, 
                        s = param$.lambda, type = "class")
         out <- as.list(as.data.frame(out, stringsAsFactors = FALSE))

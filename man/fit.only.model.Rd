@@ -7,7 +7,7 @@
 fit.only.model(X, Y, method, p = 0.9, optimize = TRUE, tuning.grid = NULL,
   k.folds = if (optimize) 10 else NULL, repeats = if (optimize) 3 else NULL,
   resolution = if (optimize) 3 else NULL, metric = "Accuracy",
-  allowParallel = FALSE, verbose = FALSE, ...)
+  allowParallel = FALSE, verbose = "none", ...)
 }
 \arguments{
 \item{X}{A scaled matrix or dataframe containing numeric values of
@@ -80,11 +80,10 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 
-
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- as.factor(dat.discr[,ncol(dat.discr)])
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 
 fit <- fit.only.model(X=vars, 
                       Y=groups, 

@@ -5,7 +5,8 @@
 \title{Monte Carlo Permutation of Model Performance}
 \usage{
 perm.class(fs.model = NULL, X, Y, method, k.folds = 5,
-  metric = "Accuracy", nperm = 10, allowParallel = FALSE, ...)
+  metric = "Accuracy", nperm = 10, allowParallel = FALSE,
+  create.plot = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{fs.model}{Object containing results from \code{fs.stability}}
@@ -34,6 +35,12 @@ are \code{"Accuracy"}, \code{"Kappa"}, and \code{"ROC.AUC"}.}
 \item{allowParallel}{Logical argument dictating if parallel processing
 is allowed via foreach package.  Default \code{allowParallel = FALSE}}
 
+\item{create.plot}{Logical argument whether to create a distribution
+plot of permuation results.}
+
+\item{verbose}{Logical argument whether output printed automatically
+in 'pretty' format.  Default \code{create.plot = FALSE}}
+
 \item{...}{Extra arguments that the user would like to apply to the models}
 }
 \value{
@@ -52,11 +59,10 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 
-
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- as.factor(dat.discr[,ncol(dat.discr)])
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 
 fits <- fs.stability(vars, 
                      groups, 
@@ -64,7 +70,7 @@ fits <- fs.stability(vars,
                      f = 10, 
                      k = 3, 
                      k.folds = 10, 
-                     verbose = FALSE)
+                     verbose = 'none')
 
 perm.class(fits, vars, groups, "rf", k.folds=5,
            metric="Accuracy", nperm=10)

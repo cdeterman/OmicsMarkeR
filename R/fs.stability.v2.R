@@ -17,8 +17,7 @@
 #'  and \code{"pam"} (Prediction Analysis of Microarrays)
 #' @param k Number of bootstrapped interations
 #' @param p Percent of data to by 'trained'
-#' @param f Number of features desired.  Default is top 10% 
-#' \code{"f = ceiling(ncol(X)/10)"}.
+#' @param f Number of features desired. 
 #' If rank correlation is desired, set \code{"f = NULL"}
 #' @param stability.metric string indicating the type of stability metric.
 #' Avialable options are \code{"jaccard"} (Jaccard Index/Tanimoto Distance),
@@ -50,7 +49,8 @@
 #' Default \code{"model.features = FALSE"}
 #' @param allowParallel Logical argument dictating if parallel processing 
 #' is allowed via foreach package. Default \code{allowParallel = FALSE}
-#' @param verbose Logical argument if should output progress
+#' @param verbose Character argument specifying how much output progress 
+#' to print. Options are 'none', 'minimal' or 'full'.
 #' @param ... Extra arguments that the user would like to apply to the models
 #'
 #' @return \item{Methods}{Vector of models fit to data}
@@ -101,7 +101,7 @@ fs.stability <-
              method,
              k = 10,
              p = 0.9,
-             f = ceiling(ncol(X)/10),
+             f = NULL,
              stability.metric = "jaccard",
              optimize = TRUE,
              optimize.resample = FALSE,
@@ -112,7 +112,7 @@ fs.stability <-
              metric = "Accuracy",
              model.features = FALSE,
              allowParallel = FALSE,
-             verbose = FALSE,
+             verbose = 'none',
              ...
     )
 {    
@@ -123,16 +123,21 @@ fs.stability <-
         #bhattacharyya.dist
         ## Relative Entropy
         
-        verify_data <- verify(x = X, y = Y, method = method, f = f, 
-                              stability.metric = stability.metric, 
-                              model.features = model.features, 
-                              na.rm = FALSE, no.fs=FALSE)
+        assert_is_character(verbose)
         
-        X <- verify_data$X
-        Y <- verify_data$Y
-        method <- verify_data$method
-        f <- verify_data$f
+        verify(x = X, y = Y, method = method, na.rm = FALSE)
         
+        f <- verify_fs(f = f, 
+                       stability.metric = stability.metric, 
+                       model.features = model.features,
+                       no.fs=FALSE)
+        
+        if (is.null(colnames(X))){
+            colnames(X) = paste(rep("X",ncol(X)),seq_len(ncol(X)), sep='') 
+        }
+        if (is.null(rownames(X))) rownames(X) = 1:nrow(X)
+        
+        # convert to data.frame to use $ operator
         raw.data <- as.data.frame(X)
         raw.data$.classes <- Y
         
@@ -253,7 +258,7 @@ fs.stability <-
                     }
                     
                     ### Re-fitting models to reduced features
-                    if(verbose){
+                    if(verbose == 'full'){
                         cat(paste("Refitting model iteration", i, 
                                   "with selected features\n", sep = " "))
                     }
@@ -301,7 +306,7 @@ fs.stability <-
                     }
                     
                     
-                    if(i == 1){
+                    if(i == 1){                        
                         finalModel.new <- 
                             sapply(tunedModel.new, 
                                    FUN = function(x) x$finalModels)
@@ -310,7 +315,7 @@ fs.stability <-
                                    FUN = function(x) x$bestTune)
                         names(new.best.tunes) <- method
                         final.features[[i]] <- 
-                            sapply(features, 
+                            lapply(features, 
                                    FUN = function(x) x$features.selected)
                         names(final.features[[i]]) <- method
                     }else{
@@ -324,7 +329,7 @@ fs.stability <-
                         finalModel.new <- c(finalModel.new, tmp.model)
                         new.best.tunes <- append(new.best.tunes, tmp.tunes)
                         final.features[[i]] <- 
-                            sapply(features, 
+                            lapply(features, 
                                    FUN = function(x) x$features.selected)
                         names(final.features[[i]]) <- method
                     }  
@@ -406,13 +411,17 @@ fs.stability <-
                             comp.catch = tuned.methods$comp.catch)
                         
                         if(stability.metric %in% c("spearman", "canberra")){
+                            features[[j]]$features.selected <- 
+                                data.frame(features[[j]]$features.selected)
+                            colnames(features[[j]]$features.selected) <-
+                                method[j]
                             rownames(features[[j]]$features.selected) <- 
                                 colnames(X)
                         }
                     }
                     
                     ### Re-fitting models to reduced features
-                    if(verbose){
+                    if(verbose == 'full'){
                         cat(paste("Refitting model iteration", i, 
                                   "with selected features\n", sep = " "))
                     }
@@ -508,14 +517,16 @@ fs.stability <-
                             sapply(tunedModel.new, 
                                    FUN = function(x) x$bestTune)
                         final.features[[i]] <- 
-                            sapply(features, 
-                                   FUN = function(x) x$features.selected)
+                            lapply(features, function(x) x$features.selected)
+#                             sapply(features, 
+#                                    FUN = function(x) x$features.selected)
                     }else{
                         tmp.model <- lapply(tmp, FUN = function(x) x)
                         finalModel.new <- c(finalModel.new, tmp.model)
                         final.features[[i]] <- 
-                            sapply(features, 
-                                   FUN = function(x) x$features.selected)
+                            lapply(features, function(x) x$features.selected)
+#                             sapply(features, 
+#                                    FUN = function(x) x$features.selected)
                     }  
                     
                 } # end of single optimized loop
@@ -600,7 +611,7 @@ fs.stability <-
                 }
                 
                 ### Re-fitting models to reduced features
-                if(verbose){
+                if(verbose == 'full'){
                     cat(paste("Iteration ", i, 
                               " Refitting models with selected features\n", 
                               sep = ""))
@@ -656,8 +667,21 @@ fs.stability <-
         
         
         ### Performance Metrics of Reduced Models
-        cat("Calculating Model Performance Statistics\n")    
-        
+        if(verbose == 'minimal' | verbose == 'full'){
+            cat("Calculating Model Performance Statistics\n")  
+        }  
+
+        if(stability.metric %in% c("spearman", "canberra")){
+            final.features <- lapply(unlist(final.features, recursive=FALSE), 
+                                     function(x) as.numeric(as.vector(unlist(x))))
+        }else{
+            final.features <- lapply(unlist(final.features, recursive=FALSE), 
+                                     function(x) as.vector(unlist(x)))
+        }
+
+        names(final.features) <- 
+            rep(method, length(finalModel.new)/length(method))
+
         final.metrics <-
             prediction.metrics(finalModel = finalModel.new,
                                method = method,
@@ -667,7 +691,8 @@ fs.stability <-
                                features = final.features,
                                bestTune = if(optimize){new.best.tunes}else{
                                    args.seq$parameters},
-                               grp.levs = grp.levs)
+                               grp.levs = grp.levs,
+                               stability.metric = stability.metric)
         
         ### Extract Performance Metrics
         if(optimize == TRUE){
@@ -783,44 +808,64 @@ fs.stability <-
                 rownames(performance[[h]]) <- 1
             }
         }
-        
+              
+
         # need to split features into length(method) dataframes 
-        # for pairwise.stability    
+        # for pairwise.stability  
         results.stability <- vector("list", length(method))
         names(results.stability) <- method
         if(!model.features){
             if(length(method) == 1){
-                results.stability[[1]] <- 
-                    as.data.frame(
-                        sapply(
-                            final.features, function(x) x)
-                    )
-                if(is.null(f)){
-                    rownames(results.stability[[c]]) <- colnames(X)
+                if(stability.metric %in% c("spearman", "canberra")){
+                    results.stability[[1]] <- 
+                        final.features[which(
+                            names(final.features) == method[1]
+                        )]
+
+                    results.stability[[1]] <- 
+                        sapply(results.stability[[1]], 
+                               setNames, 
+                               colnames(X))
+                    
+                }else{
+                    results.stability[[1]] <- 
+                        do.call("cbind", final.features)
                 }
             }else{
-                for(c in seq(along = method)){
-                    results.stability[[c]] <- 
-                        as.data.frame(
-                            sapply(
-                                final.features, FUN = function(x) x[[c]])
-                        )
-                    if(is.null(f)){
-                        rownames(results.stability[[c]]) <- colnames(X)
+                if(stability.metric %in% c("spearman", "canberra")){
+                    for(c in seq(along = method)){
+                        results.stability[[c]] <- 
+                            final.features[which(
+                                        names(final.features) == method[c]
+                                    )]
+                        
+                        results.stability[[c]] <- 
+                            sapply(results.stability[[c]], 
+                                   setNames, 
+                                   colnames(X))
+                    }
+                }else{
+                    for(c in seq(along = method)){
+                        results.stability[[c]] <- 
+                            do.call("cbind", 
+                                    final.features[which(
+                                        names(final.features) == method[c]
+                                    )]
+                            )
                     }
                 }
             }
         }else{
             for(c in seq(along = method)){
-                tmp <- lapply(
-                    final.features, 
-                    FUN = function(x) as.data.frame(t(data.frame(x[[c]])))
+                tmp <- do.call(cbind.fill, 
+                               final.features[which(
+                                   names(final.features) == method[c]
+                               )]
                 )
-                results.stability[[c]] <- t(rbind.fill(tmp))
-                rownames(results.stability[[c]]) <- NULL
+                results.stability[[c]] <- tmp
             }      
         }
-        
+
         # Calculate All Pairwise Stability Measurements for 
         # each algorithm's set of features
         stability <- lapply(results.stability, 

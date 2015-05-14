@@ -6,7 +6,7 @@
 \usage{
 optimize.model(trainVars, trainGroup, method, k.folds = 10, repeats = 3,
   res = 3, grid = NULL, metric = "Accuracy", allowParallel = FALSE,
-  verbose = FALSE, theDots = NULL)
+  verbose = "none", theDots = NULL)
 }
 \arguments{
 \item{trainVars}{Data used to fit the model}
@@ -35,7 +35,8 @@ are \code{"Accuracy"} (Predication Accuracy), \code{"Kappa"}
 \item{allowParallel}{Logical argument dictating if parallel processing
 is allowed via foreach package}
 
-\item{verbose}{Logical argument if should output progress}
+\item{verbose}{Character argument specifying how much output progress
+to print. Options are 'none', 'minimal' or 'full'.}
 
 \item{theDots}{List of additional arguments provided in the initial
 classification and features selection function}

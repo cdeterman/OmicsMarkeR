@@ -4,13 +4,13 @@
 \alias{fs.stability}
 \title{Classification & Feature Selection}
 \usage{
-fs.stability(X, Y, method, k = 10, p = 0.9, f = ceiling(ncol(X)/10),
+fs.stability(X, Y, method, k = 10, p = 0.9, f = NULL,
   stability.metric = "jaccard", optimize = TRUE,
   optimize.resample = FALSE, tuning.grid = NULL, k.folds = if (optimize)
   10 else NULL, repeats = if (k.folds == "LOO") NULL else if (optimize) 3 else
   NULL, resolution = if (is.null(tuning.grid) && optimize) 3 else NULL,
   metric = "Accuracy", model.features = FALSE, allowParallel = FALSE,
-  verbose = FALSE, ...)
+  verbose = "none", ...)
 }
 \arguments{
 \item{X}{A scaled matrix or dataframe containing numeric values of
@@ -29,8 +29,7 @@ Discriminant Analysis), \code{"rf"} (Random Forest), \code{"gbm"}
 
 \item{p}{Percent of data to by 'trained'}
 
-\item{f}{Number of features desired.  Default is top 10%
-\code{"f = ceiling(ncol(X)/10)"}.
+\item{f}{Number of features desired.
 If rank correlation is desired, set \code{"f = NULL"}}
 
 \item{stability.metric}{string indicating the type of stability metric.
@@ -73,7 +72,8 @@ Default \code{"model.features = FALSE"}}
 \item{allowParallel}{Logical argument dictating if parallel processing
 is allowed via foreach package. Default \code{allowParallel = FALSE}}
 
-\item{verbose}{Logical argument if should output progress}
+\item{verbose}{Character argument specifying how much output progress
+to print. Options are 'none', 'minimal' or 'full'.}
 
 \item{...}{Extra arguments that the user would like to apply to the models}
 }
@@ -131,11 +131,10 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 
-
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- as.factor(dat.discr[,ncol(dat.discr)])
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 
 fits <- fs.stability(vars, 
                      groups, 
@@ -143,7 +142,7 @@ fits <- fs.stability(vars,
                      f = 10, 
                      k = 3, 
                      k.folds = 10, 
-                     verbose = FALSE)
+                     verbose = 'none')
 }
 \author{
 Charles Determan Jr

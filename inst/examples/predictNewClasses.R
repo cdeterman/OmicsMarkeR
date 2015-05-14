@@ -5,11 +5,10 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 
-
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- as.factor(dat.discr[,ncol(dat.discr)])
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 
 fits <- fs.stability(vars, 
                      groups, 
@@ -17,7 +16,7 @@ fits <- fs.stability(vars,
                      f = 10, 
                      k = 3, 
                      k.folds = 10, 
-                     verbose = FALSE)
+                     verbose = 'none')
 
 newdata <- create.discr.matrix(
     create.corr.matrix(
@@ -28,6 +27,8 @@ newdata <- create.discr.matrix(
     D = 10
 )$discr.mat
 
+orig.df <- data.frame(vars, groups)
+
 # see what the PLSDA predicts for the new data
 # NOTE, newdata does not require a .classes column
-predictNewClasses(fits, "plsda", dat.discr, newdata)
+predictNewClasses(fits, "plsda", orig.df, newdata)

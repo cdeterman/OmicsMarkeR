@@ -22,6 +22,9 @@
 # ' @export
 
 CLA <- function(efs, f){
+    
+    assert_is_matrix(efs)
+    
     # sum ranks over all bootstraps (i.e. colsums)
     agg <- rank(rowSums(efs))
     if(!is.null(f)){
@@ -30,7 +33,7 @@ CLA <- function(efs, f){
         agg <- sort(agg)
     }
     ## return features with ranks
-    agg
+    as.matrix(agg)
 }
 
 #' @title Ensemble Mean Aggregation
@@ -48,6 +51,8 @@ CLA <- function(efs, f){
 # ' @export
 
 EM <- function(efs, f){
+    assert_is_matrix(efs)
+    
     # average rank over the bootstraps
     agg <- rank(rowMeans(efs, na.rm = FALSE))
     
@@ -59,7 +64,7 @@ EM <- function(efs, f){
     }
     
     ## return features with ranks
-    agg
+    as.matrix(agg)
 }
 
 #' @title Ensemble Stability Aggregation
@@ -76,6 +81,8 @@ EM <- function(efs, f){
 # ' @export
 
 ES <- function(efs, f){
+    assert_is_matrix(efs)
+    
     # measures percentage of bootstrap samples for which the gene ranks 
     # in the top 's'
     # i.e. f(r) = 1 if r <= s, otherwise = 0
@@ -91,7 +98,7 @@ ES <- function(efs, f){
         agg <- sort(agg)
     }
     
-    agg
+    as.matrix(agg)
 }
 
 #' @title Ensemble Exponential Aggregation
@@ -110,18 +117,16 @@ ES <- function(efs, f){
 # ' @export
 
 EE <- function(efs, f){
+    assert_is_matrix(efs)
+    assert_is_numeric(f)
+    
     # average an exponentially decreasing function of the rank
     # f(r) = exp(-r/s)
     # return list of 's' features with highest scores
     
-    if(is.null(f)){
-        stop("Error: Cannot use Exponential Aggregation without 'f' 
-             defined for number of features desired")
-    }
-    
     agg <- rank(-rowMeans(exp(-efs/f)))
     agg <- head(sort(agg), f)
-    agg
+    as.matrix(agg)
     }
 
 #' @title Feature Aggregation
@@ -155,8 +160,7 @@ aggregation <- function(efs,
                         f = NULL
 )
 {
-    # make sure a dataframe
-    efs <- as.data.frame(efs)
+    assert_is_matrix(efs)
     
     agg <- switch(metric,
                   CLA = {CLA(efs, f)},

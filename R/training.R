@@ -194,7 +194,19 @@ pam =
     
     if(length(theDots) > 0) modArgs <- c(modArgs, theDots)
     
-    do.call("pamr.train", modArgs)
+    # feeble attempt to suppress the annoying cat output from
+    # pamr.  Currently still does not work.
+    if(Sys.info()['sysname'] == "Windows"){
+        sink("NUL")
+        out <- do.call("pamr.train", modArgs)
+        sink(NULL)
+        out
+    }else{
+        sink("/dev/null")
+        out <- do.call("pamr.train", modArgs)
+        sink(NULL)
+        out
+    }
 }, 
 
 glmnet =

@@ -62,7 +62,7 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 @
     
 To avoid confusion in the coding, one can isolate the variables and classes 
@@ -80,15 +80,15 @@ dataset often only need a single component but you need to indicate 2
 to fit the model.  This is provided for the users information.}
 
 <<fs.stability>>=
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- dat.discr[,ncol(dat.discr)]
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 fits <- fs.stability(vars, 
                     groups, 
                     method = c("plsda", "rf"), 
                     f = 10, 
                     k = 3, 
                     k.folds = 10, 
-                    verbose = FALSE)
+                    verbose = 'none')
 @
     
 If I would like to see the performance metrics, I can simply use the 
@@ -130,10 +130,21 @@ newdata <- create.discr.matrix(
     D = 10
 )$discr.mat
 
+# original data combined to a data.frame
+orig.df <- data.frame(vars, groups)
+
 # see what the PLSDA predicts for the new data
 # NOTE, newdata does not require a .classes column
-predictNewClasses(fits, "plsda", dat.discr, newdata)
+predictNewClasses(fits, "plsda", orig.df, newdata)
 @
+
+\textbf{Note} - This function is not as efficient as I would like at present.
+Currently it requires the original dataset to refit the model from the 
+parameters retained from \Rfunction{fs.stability}.  I intend to provide the
+option to retain fitted models so a user can simply pull them without a need
+to refit.  However, I am concerned about the potential size of objects (e.g. 
+random forest, gbm, etc.).  Thoughts and contributions are welcome.
+
 
 \newpage
 \maketitle
@@ -171,7 +182,7 @@ fits <- fs.ensembl.stability(vars,
                             f = 10, 
                             k = 3, 
                             k.folds = 10, 
-                            verbose = FALSE)
+                            verbose = 'none')
 @
 
 As in Section 1, the \Rfunction{performance.metrics} function can be applied
@@ -182,7 +193,7 @@ for summary statistics.
 
 If the user wishes to apply an aggregation method manually utilizing results
 from an alternative analysis, this can also be done.  This package provides
-a the wrapper \Rfunction{aggregation} to appply this analysis.  For these 
+a the wrapper \Rfunction{aggregation} to apply this analysis.  For these 
 methods, the variables must have been ranked and the rownames assigned as the
 variable names.  The function then will return that aggregated list of 
 variables with their new respective ranks.
@@ -192,7 +203,7 @@ variables with their new respective ranks.
 ranks <- replicate(5, sample(seq(50), 50))
 row.names(ranks) <- paste0("V", seq(50))
 
-aggregation(ranks, "CLA")
+head(aggregation(ranks, "CLA"))
 @
 
 This is used internally in \Rfunction{fs.ensembl.stability} to optimize which
@@ -212,8 +223,9 @@ random forest model.  You can create a customized grid using
 \Rfunction{denovo.grid}.
 
 <<grid, eval=FALSE>>=
-plsda <- denovo.grid(vars, "plsda", 3)
-rf <- denovo.grid(vars, "rf", 5)
+# requires data.frame of variables and classes
+plsda <- denovo.grid(orig.df, "plsda", 3)
+rf <- denovo.grid(orig.df, "rf", 5)
 
 # create grid list
 # Make sure to assign appropriate model names
@@ -226,7 +238,7 @@ fits <- fs.stability(vars,
                     f = 10, 
                     k = 3, 
                     k.folds = 10, 
-                    verbose = FALSE,
+                    verbose = 'none',
                     grid = grid)
 
 @

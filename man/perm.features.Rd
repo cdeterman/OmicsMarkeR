@@ -5,7 +5,7 @@
 \title{Feature Selection via Monte Carlo Permutation}
 \usage{
 perm.features(fs.model = NULL, X, Y, method, sig.level = 0.05, nperm = 10,
-  allowParallel = FALSE, ...)
+  allowParallel = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{fs.model}{Object containing results from \code{fs.stability}}
@@ -31,6 +31,9 @@ default \code{sig.level = .05}}
 is allowed via foreach package.
 Default \code{allowParallel = FALSE}}
 
+\item{verbose}{Logical argument whether output printed automatically
+in 'pretty' format.}
+
 \item{...}{Extra arguments that the user would like to apply to the models}
 }
 \value{
@@ -53,11 +56,10 @@ dat.discr <- create.discr.matrix(
                              st.dev = 1, 
                              perturb = 0.2)),
     D = 10
-)$discr.mat
+)
 
-
-vars <- dat.discr[,1:(ncol(dat.discr)-1)]
-groups <- as.factor(dat.discr[,ncol(dat.discr)])
+vars <- dat.discr$discr.mat
+groups <- dat.discr$classes
 
 fits <- fs.stability(vars, 
                      groups, 
@@ -65,7 +67,7 @@ fits <- fs.stability(vars,
                      f = 10, 
                      k = 3, 
                      k.folds = 10, 
-                     verbose = FALSE)
+                     verbose = 'none')
 
 # permute variables/features
 perm.features(fits, vars, groups, "rf",
