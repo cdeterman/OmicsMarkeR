@@ -4,18 +4,18 @@
 \section{Version 1.1.0}{
     \itemize{
         \item Changes:
-            \itemize{
-                \item the \code{modelList} has been added to provide the user
-                a list of currently implemented methods.
-                \item The 'verbose' argument in fs.stability, 
-                fs.ensembl.stability, & fit.only.model has been changed
-                to a character option indicating the extent of verbose output.
-                \item Canberra stability has been added as the previous
-                implementation was not compatible with RPT. See 
-                \code{?canberra.stability} for more details.
-                \item Many more tests have been implemented to make the
-                package more stable.
-            }
+        \itemize{
+            \item the \code{modelList} has been added to provide the user
+            a list of currently implemented methods.
+            \item The 'verbose' argument in fs.stability, 
+            fs.ensembl.stability, & fit.only.model has been changed
+            to a character option indicating the extent of verbose output.
+            \item Canberra stability has been added as the previous
+            implementation was not compatible with RPT. See 
+            \code{?canberra.stability} for more details.
+            \item Many more tests have been implemented to make the
+            package more stable.
+        }
     }
 }
 

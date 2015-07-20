@@ -301,7 +301,6 @@ kuncheva <- function(x,
 #' @author Charles Determan Jr
 #' @references He. Z. & Weichuan Y. (2010) \emph{Stable feature selection for 
 #' biomarker discovery}. Computational Biology and Chemistry 34 215-225.
-#' @import assertive
 #' @example inst/examples/pairwise.stability.R
 #' @export
 
