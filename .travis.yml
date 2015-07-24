@@ -19,6 +19,7 @@ r_binary_packages:
 
 r_packages:
   - DiscriMiner
+  - assertive.base
   - assertive
 
 bioc_packages:
