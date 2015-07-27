@@ -151,7 +151,29 @@ to fit the model.  This is provided for the users information.}
 \end{alltt}
 
 
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# randomForest 4.6-10\\\#\# Type rfNews() to see new features/changes/bug fixes.\\\#\# Loading required package: survival\\\#\# Loading required package: lattice\\\#\# Loading required package: splines\\\#\# Loading required package: parallel\\\#\# Loaded gbm 2.1.1\\\#\# Loading required package: cluster\\\#\# Loading required package: Matrix\\\#\# Loaded glmnet 2.0-2}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'plyr' was built under R version 3.2.1}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# randomForest 4.6-10\\\#\# Type rfNews() to see new features/changes/bug fixes.}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'e1071' was built under R version 3.2.1}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: survival}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'survival' was built under R version 3.2.1}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: lattice}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'lattice' was built under R version 3.2.1}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: splines\\\#\# Loading required package: parallel\\\#\# Loaded gbm 2.1.1\\\#\# Loading required package: cluster}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'cluster' was built under R version 3.2.1}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: Matrix}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'Matrix' was built under R version 3.2.1}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loaded glmnet 2.0-2}}
 
 {\ttfamily\noindent\color{warningcolor}{\#\# Warning in training(data = trainData, method = method[i], tuneValue = as.data.frame(bestTune[[i]]), : PLSDA model contained only 1 component. \\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  PLSDA requires at least 2 components.\\\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\\#\# Model fit with 2 components}}
 
@@ -656,22 +678,23 @@ with \Rcode{stopCluster(cl)}.
 ## [9] base     
 ## 
 ## other attached packages:
-##  [1] caTools_1.17.1      glmnet_2.0-2        Matrix_1.2-0        pamr_1.55          
-##  [5] cluster_2.0.1       gbm_2.1.1           lattice_0.20-31     survival_2.38-1    
-##  [9] e1071_1.6-4         randomForest_4.6-10 DiscriMiner_0.1-29  plyr_1.8.2         
-## [13] foreach_1.4.2       OmicsMarkeR_1.2.0   knitr_1.10         
+##  [1] caTools_1.17.1      glmnet_2.0-2        Matrix_1.2-2        pamr_1.55          
+##  [5] cluster_2.0.3       gbm_2.1.1           lattice_0.20-33     survival_2.38-3    
+##  [9] e1071_1.6-6         randomForest_4.6-10 DiscriMiner_0.1-29  plyr_1.8.3         
+## [13] foreach_1.4.2       OmicsMarkeR_1.1.1   knitr_1.10.5       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.11.5         compiler_3.2.0      nloptr_1.0.4        formatR_1.2        
-##  [5] highr_0.5           bitops_1.0-6        class_7.3-12        iterators_1.0.7    
-##  [9] tools_3.2.0         digest_0.6.8        lme4_1.1-7          assertive_0.2-4    
-## [13] evaluate_0.7        gtable_0.1.2        nlme_3.1-120        mgcv_1.8-6         
-## [17] SparseM_1.6         brglm_0.5-9         proto_0.3-10        BradleyTerry2_1.0-6
-## [21] stringr_0.6.2       gtools_3.4.2        nnet_7.3-9          grid_3.2.0         
-## [25] caret_6.0-41        data.table_1.9.4    minqa_1.2.4         car_2.0-25         
-## [29] reshape2_1.4.1      ggplot2_1.0.1       scales_0.2.4        codetools_0.2-11   
-## [33] MASS_7.3-40         pbkrtest_0.4-2      permute_0.8-3       BiocStyle_1.6.0    
-## [37] colorspace_1.2-6    quantreg_5.11       munsell_0.4.2       chron_2.3-45
+##  [1] Rcpp_0.11.6          compiler_3.2.0       nloptr_1.0.4         formatR_1.2         
+##  [5] highr_0.5            bitops_1.0-6         class_7.3-13         iterators_1.0.7     
+##  [9] tools_3.2.0          lme4_1.1-8           digest_0.6.8         assertive_0.3-0     
+## [13] evaluate_0.7         assertive.base_0.0-1 gtable_0.1.2         nlme_3.1-121        
+## [17] mgcv_1.8-7           SparseM_1.6          brglm_0.5-9          proto_0.3-10        
+## [21] BradleyTerry2_1.0-6  stringr_1.0.0        gtools_3.5.0         stats4_3.2.0        
+## [25] nnet_7.3-10          grid_3.2.0           caret_6.0-52         data.table_1.9.4    
+## [29] minqa_1.2.4          car_2.0-25           reshape2_1.4.1       ggplot2_1.0.1       
+## [33] magrittr_1.5         scales_0.2.5         codetools_0.2-14     MASS_7.3-43         
+## [37] pbkrtest_0.4-2       permute_0.8-4        BiocStyle_1.6.0      colorspace_1.2-6    
+## [41] quantreg_5.11        stringi_0.5-5        munsell_0.4.2        chron_2.3-47
 \end{verbatim}
 \end{kframe}
 \end{knitrout}

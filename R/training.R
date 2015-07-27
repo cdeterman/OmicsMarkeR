@@ -173,7 +173,6 @@ svm =
                trainY,
                cost = as.numeric(tuneValue$.C), 
                cachesize=500,
-               scale= FALSE, 
                type="C-classification", 
                kernel="linear")                         
     out

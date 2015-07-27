@@ -6,8 +6,8 @@ Description: Tools for classification and feature selection for 'omics' level
     and aggregation techniques.  It is primarily designed for analysis of
     metabolomics datasets but potentially extendable to proteomics and
     transcriptomics applications.
-Date: 2015-03-13
-Version: 1.1.1
+Date: 2015-07-27
+Version: 1.1.2
 Author: Charles E. Determan Jr. <cdetermanjr@gmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@gmail.com>
 VignetteBuilder: knitr
@@ -34,6 +34,6 @@ LazyData: true
 URL: http://github.com/cdeterman/OmicsMarkeR
 BugReports: http://github.com/cdeterman/OmicsMarkeR/issues/new
 biocViews: Metabolomics, Classification, FeatureExtraction
-Packaged: 2015-03-13 14:30:19 UTC
+Packaged: 2015-07-27 08:27:19 UTC
 Repository: Bioconductor
 Suggests: testthat, BiocStyle, knitr
