@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.8.26)  14 MAY 2015 08:57
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.8.26)  27 JUL 2015 08:30
 entering extended mode
 **OmicsMarkeR.tex
 (C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.tex
@@ -369,137 +369,169 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package color Info: Redefining color shadecolor on input line 109.
 Package color Info: Redefining color shadecolor on input line 140.
 
-Overfull \hbox (129.36632pt too wide) in paragraph at lines 156--157
+Overfull \hbox (129.36632pt too wide) in paragraph at lines 178--179
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[i],
  tuneValue = as.data.frame(bestTune[[i]]),
  []
 
 
-Overfull \hbox (129.36632pt too wide) in paragraph at lines 158--159
+Overfull \hbox (129.36632pt too wide) in paragraph at lines 180--181
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[i],
  tuneValue = as.data.frame(bestTune[[i]]),
  []
 
 
-Overfull \hbox (123.19131pt too wide) in paragraph at lines 160--161
+Overfull \hbox (123.19131pt too wide) in paragraph at lines 182--183
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[d],
  tuneValue = tuned.methods$bestTune[[d]],
  []
 
 
-Overfull \hbox (345.49142pt too wide) in paragraph at lines 162--163
+Overfull \hbox (345.49142pt too wide) in paragraph at lines 184--185
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData.new[[d]], method = m
 ethod[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]$bestTune))),
  []
 
 
-Overfull \hbox (123.19131pt too wide) in paragraph at lines 164--165
+Overfull \hbox (123.19131pt too wide) in paragraph at lines 186--187
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData, method = method[d],
  tuneValue = tuned.methods$bestTune[[d]],
  []
 
 
-Overfull \hbox (345.49142pt too wide) in paragraph at lines 166--166
+Overfull \hbox (345.49142pt too wide) in paragraph at lines 188--188
 []\OT1/cmtt/m/n/12 ## Warning in training(data = trainData.new[[d]], method = m
 ethod[d], tuneValue = as.data.frame(t(unlist(tunedModel.new[[d]]$bestTune))),
  []
 
-[2]
-Package color Info: Redefining color shadecolor on input line 175.
-
-Underfull \vbox (badness 10000) detected at line 203
- []
-
-[3]
-Package color Info: Redefining color shadecolor on input line 212.
-Package color Info: Redefining color shadecolor on input line 244.
- [4] [5]
-Package color Info: Redefining color shadecolor on input line 304.
+[2] [3]
+Package color Info: Redefining color shadecolor on input line 197.
+Package color Info: Redefining color shadecolor on input line 234.
+ [4]
+Package color Info: Redefining color shadecolor on input line 266.
+ [5]
+Package color Info: Redefining color shadecolor on input line 326.
  [6]
-Package color Info: Redefining color shadecolor on input line 331.
+Package color Info: Redefining color shadecolor on input line 353.
  [7]
-Package color Info: Redefining color shadecolor on input line 368.
+Package color Info: Redefining color shadecolor on input line 390.
  [8]
-Package color Info: Redefining color shadecolor on input line 411.
-Package color Info: Redefining color shadecolor on input line 423.
+Package color Info: Redefining color shadecolor on input line 433.
+Package color Info: Redefining color shadecolor on input line 445.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 438.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 460.
 
 
-Package color Info: Redefining color shadecolor on input line 444.
-Package color Info: Redefining color shadecolor on input line 463.
+Package color Info: Redefining color shadecolor on input line 466.
+Package color Info: Redefining color shadecolor on input line 485.
 [9]
-Package color Info: Redefining color shadecolor on input line 487.
-Package color Info: Redefining color shadecolor on input line 504.
+Package color Info: Redefining color shadecolor on input line 509.
+Package color Info: Redefining color shadecolor on input line 526.
  [10]
-Package color Info: Redefining color shadecolor on input line 538.
+Package color Info: Redefining color shadecolor on input line 560.
  [11]
-Package color Info: Redefining color shadecolor on input line 577.
+Package color Info: Redefining color shadecolor on input line 599.
  [12]
-Overfull \hbox (5.51231pt too wide) in paragraph at lines 594--601
+Overfull \hbox (5.51231pt too wide) in paragraph at lines 616--623
 \OT1/cmss/m/n/12 com-put-ing. These in-clude \OT1/cmtt/m/n/12 fs.stability\OT1/
 cmss/m/n/12 , \OT1/cmtt/m/n/12 fs.ensembl.stability\OT1/cmss/m/n/12 , \OT1/cmtt
 /m/n/12 perm.class\OT1/cmss/m/n/12 , and \OT1/cmtt/m/n/12 perm.features
  []
 
-Package color Info: Redefining color shadecolor on input line 605.
-Package color Info: Redefining color shadecolor on input line 618.
-[13]
+Package color Info: Redefining color shadecolor on input line 627.
 Package color Info: Redefining color shadecolor on input line 640.
+[13]
+Package color Info: Redefining color shadecolor on input line 662.
 
-Overfull \hbox (18.21626pt too wide) in paragraph at lines 675--675
+Overfull \hbox (18.21626pt too wide) in paragraph at lines 698--698
 []\OT1/cmtt/m/n/12 ## [1] parallel  splines   stats     graphics  grDevices uti
 ls     datasets  methods[] 
  []
 
 
-Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
-[]\OT1/cmtt/m/n/12 ##  [5] cluster_2.0.1       gbm_2.1.1           lattice_0.20
--31     survival_2.38-1[] 
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ##  [5] cluster_2.0.3       gbm_2.1.1           lattice_0.20
+-33     survival_2.38-3[] 
  []
 
 
-Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
-[]\OT1/cmtt/m/n/12 ##  [5] highr_0.5           bitops_1.0-6        class_7.3-12
-        iterators_1.0.7[] 
+Overfull \hbox (5.86626pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ##  [1] Rcpp_0.11.6          compiler_3.2.0       nloptr_1.0
+.4         formatR_1.2[] 
  []
 
 
-Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
-[]\OT1/cmtt/m/n/12 ##  [9] tools_3.2.0         digest_0.6.8        lme4_1.1-7  
-        assertive_0.2-4[] 
+Overfull \hbox (30.56627pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ##  [5] highr_0.5            bitops_1.0-6         class_7.3-
+13         iterators_1.0.7[] 
  []
 
 
-Overfull \hbox (36.74127pt too wide) in paragraph at lines 675--675
-[]\OT1/cmtt/m/n/12 ## [17] SparseM_1.6         brglm_0.5-9         proto_0.3-10
-        BradleyTerry2_1.0-6[] 
+Overfull \hbox (30.56627pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ##  [9] tools_3.2.0          lme4_1.1-8           digest_0.6
+.8         assertive_0.3-0[] 
  []
 
 
-Overfull \hbox (18.21626pt too wide) in paragraph at lines 675--675
-[]\OT1/cmtt/m/n/12 ## [29] reshape2_1.4.1      ggplot2_1.0.1       scales_0.2.4
-        codetools_0.2-11[] 
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [13] evaluate_0.7         assertive.base_0.0-1 gtable_0.1
+.2         nlme_3.1-121[] 
  []
 
 
-Overfull \hbox (12.04126pt too wide) in paragraph at lines 675--675
-[]\OT1/cmtt/m/n/12 ## [33] MASS_7.3-40         pbkrtest_0.4-2      permute_0.8-
-3       BiocStyle_1.6.0[] 
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [17] mgcv_1.8-7           SparseM_1.6          brglm_0.5-
+9          proto_0.3-10[] 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 679.
+
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [21] BradleyTerry2_1.0-6  stringr_1.0.0        gtools_3.5
+.0         stats4_3.2.0[] 
+ []
+
+
+Overfull \hbox (36.74127pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [25] nnet_7.3-10          grid_3.2.0           caret_6.0-
+52         data.table_1.9.4[] 
+ []
+
+
+Overfull \hbox (18.21626pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [29] minqa_1.2.4          car_2.0-25           reshape2_1
+.4.1       ggplot2_1.0.1[] 
+ []
+
+
+Overfull \hbox (5.86626pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [33] magrittr_1.5         scales_0.2.5         codetools_
+0.2-14     MASS_7.3-43[] 
+ []
+
+
+Overfull \hbox (36.74127pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [37] pbkrtest_0.4-2       permute_0.8-4        BiocStyle_
+1.6.0      colorspace_1.2-6[] 
+ []
+
+
+Overfull \hbox (12.04126pt too wide) in paragraph at lines 698--698
+[]\OT1/cmtt/m/n/12 ## [41] quantreg_5.11        stringi_0.5-5        munsell_0.
+4.2        chron_2.3-47[] 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 702.
 [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 679.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 702.
 
 (C:\Users\cdeterman\Documents\R_projects\OmicsMarkeR\vignettes\OmicsMarkeR.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 679.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 679.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 702.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 702.
 Package rerunfilecheck Info: File `OmicsMarkeR.out' has not changed.
 (rerunfilecheck)             Checksum: 4CA98545A33322DD4422493CB896E37C;783.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 679.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 702.
  ) 
 Here is how much of TeX's memory you used:
  6319 strings out of 493921
@@ -508,7 +540,7 @@ Here is how much of TeX's memory you used:
  9538 multiletter control sequences out of 15000+200000
  8618 words of font info for 31 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 36i,11n,45p,461b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,11n,45p,424b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmitt10.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><
 C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:
@@ -519,7 +551,7 @@ ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi17.pfb><C:/Pro
 gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Progr
 am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program 
 Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on OmicsMarkeR.pdf (14 pages, 153372 bytes).
+Output written on OmicsMarkeR.pdf (14 pages, 153895 bytes).
 PDF statistics:
  180 PDF objects out of 1000 (max. 8388607)
  27 named destinations out of 1000 (max. 500000)
