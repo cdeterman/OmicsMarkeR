@@ -118,7 +118,7 @@ modelTuner <-
     colnames(printed) <- gsub("^\\.", "", colnames(printed))
     
     # show progress through interations
-    if(verbose == 'full') progress(printed[parms,,drop = FALSE],
+    if(verbose == 'full') caret::progress(printed[parms,,drop = FALSE],
                          names(inTrain), iter)
     #index <- inTrain[[iter]]
     outIndex <- outTrain[[iter]]
