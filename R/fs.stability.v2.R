@@ -470,10 +470,12 @@ fs.stability <-
                             # mtry for rf otherwise may be higher
                             # than number of variables
                             if(method[m] == "rf" & is.null(tuning.grid)){
-                                grid$rf$.mtry <- floor(
-                                    seq(1, 
-                                        to=ncol(trainData.new[[m]])-1, 
-                                        length=resolution)
+                                grid$rf <- data.frame(.mtry = 
+                                    floor(
+                                        seq(1, 
+                                            to=ncol(trainData.new[[m]])-1, 
+                                            length=resolution)
+                                    )
                                 )
                             }
                             
