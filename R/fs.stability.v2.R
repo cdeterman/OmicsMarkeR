@@ -695,7 +695,7 @@ fs.stability <-
                                    args.seq$parameters},
                                grp.levs = grp.levs,
                                stability.metric = stability.metric)
-        
+
         ### Extract Performance Metrics
         if(optimize == TRUE){
             if(optimize.resample == TRUE){        
@@ -810,7 +810,6 @@ fs.stability <-
                 rownames(performance[[h]]) <- 1
             }
         }
-              
 
         # need to split features into length(method) dataframes 
         # for pairwise.stability  
@@ -870,10 +869,16 @@ fs.stability <-
 
         # Calculate All Pairwise Stability Measurements for 
         # each algorithm's set of features
-        stability <- lapply(results.stability, 
-                            pairwise.stability, 
-                            stability.metric = stability.metric, 
-                            nc= nc)    
+        if(any(unlist(lapply(results.stability, ncol)) == 1)){
+            warning("No replicates were run, stability will be set to NULL.
+                    If stability not desired, see 'fit.only.model'")
+            stability <- NULL
+        }else{
+            stability <- lapply(results.stability, 
+                                pairwise.stability, 
+                                stability.metric = stability.metric, 
+                                nc= nc) 
+        }
         
         # stability across algorithms 
         # (i.e. 'function perturbation' ensemble analysis)
@@ -887,14 +892,19 @@ fs.stability <-
         }
         
         # harmonic mean of stability and performance
-        rpt.stab <- lapply(stability, FUN = function(x) x$overall)
-        rpt.perf <- lapply(performance, 
-                           FUN = function(x) as.data.frame(x)$Accuracy)
-        rpt <- 
-            mapply(rpt.stab, 
-                   FUN = function(x,y){
-                       RPT(stability = x, performance = y)
-                   }, y = rpt.perf)
+        if(!is.null(stability)){
+            rpt.stab <- lapply(stability, FUN = function(x) x$overall)
+            rpt.perf <- lapply(performance, 
+                               FUN = function(x) as.data.frame(x)$Accuracy)
+            rpt <- 
+                mapply(rpt.stab, 
+                       FUN = function(x,y){
+                           RPT(stability = x, performance = y)
+                       }, y = rpt.perf)
+        }else{
+            rpt <- NULL
+        }
+       
         
         # add stability metrics to features selected
         for(i in seq(along = method)){

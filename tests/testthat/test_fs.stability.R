@@ -161,6 +161,16 @@ test_that("Inputs are correct", {
                               verbose='none'),
                  info = "Non-rank stability method requires
                  either model.features=TRUE or 'f' to be set")
+    
+    expect_warning(fs.stability(X = vars,
+                              Y = groups,
+                              method = c("plsda"),
+                              f = 10,
+                              k = 1,
+                              k.folds = 3,
+                              verbose='none'),
+                 info = "No replicates were run, stability will be set to NULL.
+                    If stability not desired, see 'fit.only.model'")
 })
 
 test_that("Outputs are correct", {
