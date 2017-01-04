@@ -26,7 +26,7 @@ Imports:
     caTools (>= 1.14),
     foreach (>= 1.4.1),
     permute (>= 0.7-0),
-    assertive (>= 0.3-0),
+    assertive (>= 0.3-5),
     assertive.base (>= 0.0-1)
 Roxygen: list(wrap = FALSE)
 License: GPL-3
