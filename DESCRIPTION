@@ -6,7 +6,7 @@ Description: Tools for classification and feature selection for 'omics' level
     and aggregation techniques.  It is primarily designed for analysis of
     metabolomics datasets but potentially extendable to proteomics and
     transcriptomics applications.
-Date: 2015-07-27
+Date: 2017-01-05
 Version: 1.7.1
 Author: Charles E. Determan Jr. <cdetermanjr@gmail.com>
 Maintainer: Charles E. Determan Jr. <cdetermanjr@gmail.com>
