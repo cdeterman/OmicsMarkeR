@@ -37,3 +37,4 @@ biocViews: Metabolomics, Classification, FeatureExtraction
 Packaged: 2015-07-27 08:27:19 UTC
 Repository: Bioconductor
 Suggests: testthat, BiocStyle, knitr
+
