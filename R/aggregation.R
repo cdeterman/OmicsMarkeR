@@ -2,6 +2,9 @@
 ### Aggregation Methods ###
 ###########################
 
+
+#' @import utils
+
 ## Notation
 # s = selected number of top ranking features
 # r = feature rank

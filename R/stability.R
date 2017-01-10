@@ -289,6 +289,8 @@ kuncheva <- function(x,
 #' approach.
 #' @param features A matrix of selected features
 #' @param stability.metric string indicating the type of stability metric.
+#' @param nc Optional argument to be used with 'kuncheva' stability.  Refers
+#' to the number of variables in original data.
 #' Available options are \code{"jaccard"} (Jaccard Index/Tanimoto Distance),
 #'  \code{"sorensen"} (Dice-Sorensen's Index), \code{"ochiai"} (Ochiai's Index),
 #'  \code{"pof"} (Percent of Overlapping Features), \code{"kuncheva"} 

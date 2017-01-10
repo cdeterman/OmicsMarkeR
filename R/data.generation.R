@@ -2,6 +2,7 @@
 ### Simulated Metabolomics Data ###
 ###################################
 
+#' @import stats
 plus_minus <- function(beta){
     inv <-rbinom(beta,1,0.5)
     inv <-ifelse(inv==0,-1,1)
