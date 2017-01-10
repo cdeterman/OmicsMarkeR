@@ -1,5 +1,6 @@
 # Performance Permutation
 
+#' @import graphics
 # declare global variables (i.e. the foreach iterators)
 globalVariables(c('p', 'fold'))
 
@@ -210,7 +211,7 @@ perm.class <-
     {
       #stop("prediction results failed")
       stop(paste("prediction results failed on", 
-                 method, outIndex, sep = " "))
+                 method, " fold: ", fold, sep = " "))
     }
     
     # what should it do if createModel fails???
